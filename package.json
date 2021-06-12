@@ -1,0 +1,44 @@
+{
+  "name": "sidecar",
+  "version": "0.0.1",
+  "description": "Sidecar is for hook/call in-process functions with TypeScript annotations.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo test",
+    "lint:es": "eslint --ignore-pattern tests/fixtures/ '{bin,examples,scripts,src,tests}/**/*.ts'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huan/sidecar.git"
+  },
+  "keywords": [
+    "frida",
+    "hook"
+  ],
+  "author": "Huan <zixia@zixia.net>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/huan/sidecar/issues"
+  },
+  "homepage": "https://github.com/huan/sidecar#readme",
+  "devDependencies": {
+    "@chatie/eslint-config": "^0.12.4",
+    "@chatie/git-scripts": "^0.6.2",
+    "@chatie/semver": "^0.4.7",
+    "@chatie/tsconfig": "^0.16.2",
+    "pkg-jq": "^0.2.11",
+    "tstest": "^0.4.10"
+  },
+  "git": {
+    "scripts": {
+      "pre-push": "npx git-scripts-pre-push"
+    }
+  },
+  "publishConfig": {
+    "tag": "next"
+  }
+}
