@@ -1,8 +1,8 @@
-# Sidecar
+# Sidecar [![NPM](https://github.com/huan/sidecar/actions/workflows/npm.yml/badge.svg)](https://github.com/huan/sidecar/actions/workflows/npm.yml)
 
 Sidecar is a runtime hooking tool for intercepting function calls by TypeScript annotation with ease, powered by Frida.RE.
 
-![Frida Sidecar](docs/images/sidecar.png)
+![Frida Sidecar](docs/images/sidecar.webp)
 
 > Image source: [1920s Raleigh Box Sidecar Outfit](https://oldbike.wordpress.com/1920s-raleigh-box-sidecar-outfit/) & [ShellterProject](https://www.shellterproject.com/)
 
@@ -49,9 +49,28 @@ class ProcessSideCar {
 // tbw
 ```
 
-## See also
+## Related project: FFI Adapter
 
 I have another NPM module named [ffi-adapter](https://github.com/huan/ffi-adapter), which is a Foreign Function Interface Adapter Powered by Decorator & TypeScript.
+
+```ts
+import {
+  LIBRARY,
+  API,
+  RETURN,
+}             from 'ffi-adapter'
+
+@LIBRARY('./libfactorial')
+export class LibFactorial {
+  @API() factorial (n: number): number { return RETURN(n) }
+}
+
+const lib = new LibFactorial()
+console.log('factorial(5) =', lib.factorial(5))
+// Output: factorial(5) = 120
+```
+
+See examples at <https://github.com/huan/ffi-adapter/tree/master/tests/fixtures/library>
 
 ## Resources
 
