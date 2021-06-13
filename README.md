@@ -14,10 +14,16 @@ Sidecar is a runtime hooking tool for intercepting function calls by TypeScript 
 >  
 > &mdash; SOURCE: [Sidecar Design Pattern in your Microservices Ecosystem, Samir Behara, July 23, 2018](https://samirbehara.com/2018/07/23/sidecar-design-pattern-in-your-microservices-ecosystem/)
 
-## Introduction
+## What is a "Hooking" Patern?
 
 > Hook: by intercepting function calls or messages or events passed between software components.  
 > &mdash; SOURCE: [Hooking, Wikipedia](https://en.wikipedia.org/wiki/Hooking)
+
+## Requirements
+
+### Mac
+
+1. Disable [System Integrity Protection](https://support.apple.com/en-us/HT204899)
 
 ## Install
 
@@ -32,6 +38,8 @@ import {
   Sidecar,
   HookCall,
   Hook,
+  OnEnter,
+  OnLeave,
   Replace
 }                       from 'sidecar'
 
@@ -94,6 +102,8 @@ See examples at <https://github.com/huan/ffi-adapter/tree/master/tests/fixtures/
 1. [Awesome Frida](https://github.com/dweinstein/awesome-frida)
 1. [How to call methods in Frida Gadget (JavaScript API iOS)](https://github.com/frida/frida/issues/567)
 1. [Frida调用栈符号恢复](http://4ch12dy.site/2019/07/02/xia0CallStackSymbols/xia0CallStackSymbols/)
+1. [Cross-platform reversing with Frida, Oleavr, NoConName December 2015](https://frida.re/slides/ncn-2015-cross-platform-reversing-with-frida.pdf)
+1. [Frida: JavaScript API](https://frida.re/docs/javascript-api/)
 
 ### Assembler
 
