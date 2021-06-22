@@ -1,5 +1,5 @@
-
 const rules = {
+  'no-console': false,
 }
 
 module.exports = {

@@ -104,6 +104,18 @@ See examples at <https://github.com/huan/ffi-adapter/tree/master/tests/fixtures/
 1. [Frida调用栈符号恢复](http://4ch12dy.site/2019/07/02/xia0CallStackSymbols/xia0CallStackSymbols/)
 1. [Cross-platform reversing with Frida, Oleavr, NoConName December 2015](https://frida.re/slides/ncn-2015-cross-platform-reversing-with-frida.pdf)
 1. [Frida: JavaScript API](https://frida.re/docs/javascript-api/)
+1. [Calling native functions with Frida, @poxyran](https://poxyran.github.io/poxyblog/src/pages/02-11-2019-calling-native-functions-with-frida.html)
+1. [Shellcoding an Arm64 In-Memory Reverse TCP Shell with Frida, Versprite](https://versprite.com/blog/application-security/frida-engage-part-two-shellcoding-an-arm64-in-memory-reverse-tcp-shell-with-frida/)
+1. [Anatomy of a code tracer, Ole André Vadla Ravnås, Oct 24, 2014](https://medium.com/@oleavr/anatomy-of-a-code-tracer-b081aadb0df8)
+1. [frida-boot 👢
+a binary instrumentation workshop, using Frida, for beginners, @leonjza](http://lib.21h.io/library/5UT97EFH/download/FNGRSN2C/3c5bde85-2f1b-4eee-9a98-c2d959d732ee.pdf)
+1. [frida javascript api手册](https://www.cnblogs.com/Eeyhan/p/13414629.html)
+1. [Frida 12.7 Released - CModule](https://frida.re/news/2019/09/18/frida-12-7-released/)
+1. [Getting Started with Frida: Hooking a Function and Replacing its Arguments](https://blog.fadyothman.com/getting-started-with-frida-hooking-main-and-playing-with-its-arguments/)
+
+### Unicode
+
+1. [字符编码笔记：ASCII，Unicode 和 UTF-8, 阮一峰，2007年10月28日](http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html)
 
 ### Assembler
 
@@ -118,6 +130,7 @@ See examples at <https://github.com/huan/ffi-adapter/tree/master/tests/fixtures/
 
 ### Objective C
 
+- [Learn Object-C Cheatsheet](http://cocoadevcentral.com/d/learn_objectivec/)
 - [Objective-C // Runtime Method Injection](http://labs.distriqt.com/post/846)
 
 ## History
