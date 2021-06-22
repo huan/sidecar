@@ -139,7 +139,7 @@ a binary instrumentation workshop, using Frida, for beginners, @leonjza](http://
 
 ### 0.0.1 (Jun 13, 2021)
 
-Init version.
+Repo created.
 
 ## Author
 
@@ -151,4 +151,4 @@ Init version.
 
 - Docs released under Creative Commons
 - Code released under the Apache-2.0 License
-- Code & Docs © 2018 Huan LI \<zixia@zixia.net\>
+- Code & Docs © 2021 Huan LI \<zixia@zixia.net\>
