@@ -104,4 +104,4 @@ dist
 .tern-port
 
 package-lock.json
-examples/messaging
+messaging

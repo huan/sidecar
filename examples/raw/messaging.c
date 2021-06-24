@@ -4,8 +4,8 @@
 char buf[100] = {0};
 int counter = 0;
 
-char* message () {
-  sprintf(buf, "message#%d", counter);
+char* message (const char* type) {
+  sprintf(buf, "Messaging: %s message#%d", type, counter);
   return buf;
 }
 
@@ -21,13 +21,13 @@ int main() {
   printf("mo() is at %p\n", mo);
   printf("mt() is at %p\n", mt);
 
-  mo("Sidecar demo started.");
+  mo("Messaging demo started.");
 
   while(++counter) {
-    mt(message());
+    mt(message("Receive"));
 
     if (counter % 3 == 0) {
-      mo(message());
+      mo(message("Send"));
     }
 
     sleep(3);

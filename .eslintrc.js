@@ -2,9 +2,13 @@ const rules = {
   'no-console': ['error', { allow: ['log', 'warn', 'error'] }],
 }
 const globals = {
-  ptr: 'readonly',
-  NativeFunction: 'readonly',
-  rpc: 'readonly',
+  Interceptor: true,
+  Memory: true,
+  NativeFunction: true,
+  ptr: true,
+  rpc: true,
+  send: true,
+  recv: true,
 }
 
 module.exports = {
