@@ -11,6 +11,11 @@ import {
   API,
   RETURN,
 }                   from '../src/mod'
+
 test('test', async (t) => {
+  void path
+  void Sidecar
+  void API
+  void RETURN
   t.skip('tbw')
 })
