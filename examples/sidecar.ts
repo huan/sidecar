@@ -1,46 +1,56 @@
-import frida from 'frida'
+/**
+ * Sidecar example agent
+ *
+ * Huan <zixia@zixia.net>, June 24, 2021
+ *  https://github.com/huan/sidecar
+ */
+import * as frida from 'frida'
 
-const AGENT_SOURCE =
-`
-var MO_ADDR = ptr(0x102d2bddc)
-var MT_ADDR = ptr(0x102d2be10)
+import fs from 'fs'
+import ts from 'typescript'
 
-var mo = new NativeFunction(
-  MO_ADDR,
-  'void',
-  ['pointer'],
-)
-
-Interceptor.attach(
-  MT_ADDR,
-  {
-    onEnter: args => {
-      console.log('recv:', args[0].readUtf8String())
-    }
-  }
-)
-
-console.info('faint')
-function init () {
-  console.info('init')
+function clean (
+  session: frida.Session,
+  script: frida.Script,
+): void {
+  script.unload().catch(console.error)
+  session.detach().catch(console.error)
 }
 
-export {
-  init,
-  mo,
+async function getAgentSource (): Promise<string> {
+  const agentTypeScriptSource = (
+    await fs.promises.readFile(
+      require.resolve('./sidecar-agent.ts')
+    )
+  ).toString()
+  const agentSource = ts.transpile(agentTypeScriptSource)
+  return agentSource
 }
-`
 async function main () {
-  // const pid	=	frida.spawn(['/bin/ls'])
-  const session	=	frida.attach('a.out')
-  const script	=	session.create_script(AGENT_SOURCE)
-  await script.load();
+  // const pid = frida.spawn(['/bin/ls'])
+  const session = await frida.attach('messaging')
 
-  script.exports.init()
-  frida.resume(pid)
+  const agentSource = await getAgentSource()
+  const script = await session.createScript(agentSource)
 
-  script.rpc.sendMessage('test')
+  process.on('SIGINT',  () => clean(session, script))
+  process.on('SIGTERM', () => clean(session, script))
+
+  await script.load()
+
+  try {
+    await script.exports.init()
+  } catch (e) {
+    console.error(e)
+  }
+  // frida.resume(pid)
+
+  try {
+    await script.exports.mo('test')
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 main()
-.catch(console.error)
+  .catch(console.error)
