@@ -1,1 +1,5 @@
-export * from '../../src/frida'
+export * from 'frida'
+export {
+  ScriptMessageHandler,
+  ScriptDestroyedHandler,
+}                           from 'frida/dist/script'
