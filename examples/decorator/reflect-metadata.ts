@@ -4,18 +4,15 @@
  */
 import 'reflect-metadata'
 
-function logType (target : any, key : string) {
+function decorateProperty (target : any, key : string) {
+  console.log('decorateProperty')
   const t = Reflect.getMetadata('design:type', target, key)
   console.log(`${key} type: ${t.name}`)
   console.log('t:', t)
 }
 
-// ///////////////////
-
-class Foo {}
-interface InterfaceFoo {}
-
-function logParamTypes (target : any, key : string) {
+function decorateMethod (target : any, key : string) {
+  console.log('decorateMethod')
   const types = Reflect.getMetadata('design:paramtypes', target, key)
   const s = types.map((a: any) => a.name).join()
   console.log(`${key} param types: ${s}`)
@@ -26,30 +23,53 @@ function logParamTypes (target : any, key : string) {
   console.log(`${key} return type: ${r.name}`)
 }
 
+function decorateParam (
+  target: Object,
+  propertyKey: string | symbol,
+  parameterIndex: number,
+) {
+  console.log('decorateParam')
+  void target
+  void propertyKey
+  void parameterIndex
+}
+
+function decorateClass <
+  T extends {
+    new (...args: any[]): {},
+  }
+> (
+  constructor:T,
+) {
+  void constructor
+  console.log('decorateClass')
+}
+
+@decorateClass
 class Demo {
 
-  @logType // apply property decorator
+  @decorateProperty // apply property decorator
   public attr1: Demo
 
   constructor () {
     this.attr1 = {} as any
   }
 
-  @logParamTypes // apply parameter decorator
+  @decorateMethod // apply parameter decorator
   doSomething (
-    param1 : string,
-    param2 : number,
-    param3 : Foo,
-    param4 : { test : string },
-    param5 : InterfaceFoo,
-    param6 : Function,
-    param7 : (a : number) => void,
+    @decorateParam param1 : string,
+      param2 : number,
+      // param3 : Foo,
+      param4 : { test : string },
+      // param5 : InterfaceFoo,
+      param6 : Function,
+      param7 : (a : number) => void,
   ) : number {
     void param1
     void param2
-    void param3
+    // void param3
     void param4
-    void param5
+    // void param5
     void param6
     void param7
     return 1
