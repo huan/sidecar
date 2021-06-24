@@ -3,6 +3,7 @@ import { Hook }     from './decorators/hook'
 import { Param }    from './decorators/param'
 import { Ret }      from './decorators/ret'
 import { Sidecar }  from './decorators/sidecar'
+import { SidecarEmitter } from './sidecar-emitter'
 
 export {
   Call,
@@ -10,4 +11,5 @@ export {
   Param,
   Ret,
   Sidecar,
+  SidecarEmitter,
 }
