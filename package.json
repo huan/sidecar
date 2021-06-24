@@ -35,7 +35,7 @@
     "@chatie/semver": "^0.4.7",
     "@chatie/tsconfig": "^0.16.2",
     "@types/frida-gum": "^16.5.0",
-    "@types/node": "^13.1.7",
+    "@types/node": "^15.12.4",
     "frida-compile": "^9.5.2",
     "pkg-jq": "^0.2.11",
     "tstest": "^0.4.10",
