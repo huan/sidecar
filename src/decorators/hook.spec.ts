@@ -1,6 +1,4 @@
 #!/usr/bin/env ts-node
-/* eslint-disable padded-blocks */
-
 import { test }  from 'tstest'
 import { FridaTarget } from '../frida'
 
