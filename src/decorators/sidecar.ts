@@ -3,7 +3,6 @@ import path from 'path'
 import {
   log,
 }                   from '../config'
-import { AgentMother }  from '../agent-mother'
 
 import { FridaTarget } from '../frida'
 
@@ -14,8 +13,14 @@ interface SidecarOptions {
   initAgent: string,
 }
 
+/**
+ * number: PID
+ * string: File name
+ */
+type SidecarTarget = number | string
+
 function Sidecar (
-  target?: FridaTarget,
+  target?: SidecarTarget,
   options?: SidecarOptions,
 ) {
   log.verbose('Sidecar', '(%s%s)',
