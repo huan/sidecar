@@ -1,17 +1,30 @@
+/**
+ * Data Type:
+ *  https://en.wikipedia.org/wiki/Data_type
+ *
+ * TypeScript Decorators: Parameter Decorators
+ *  https://blog.wizardsoftheweb.pro/typescript-decorators-parameter-decorators/
+ */
 import {
   NativeType,
   PointerType,
 }               from '../frida'
 
-const Param = (
+/**
+ *
+ * @param nativeType
+ * @param pointerTypeList
+ * @returns
+ */
+const Type = (
   nativeType: NativeType,
-  ...pointerChain: (undefined | PointerType)[]
+  ...pointerTypeList: (undefined | PointerType)[]
 ) => (
   target: Object,
   propertyKey: string | symbol,
   parameterIndex: number,
 ) => {
-  console.log(nativeType, pointerChain)
+  console.log(nativeType, pointerTypeList)
   const types = Reflect.getMetadata('design:paramtypes', target, key)
   const s = types.map((a: any) => a.name).join()
   console.log(`${key} param types: ${s}`)
@@ -22,4 +35,4 @@ const Param = (
   console.log(`${key} return type: ${r.name}`)
 }
 
-export { Param }
+export { Type }

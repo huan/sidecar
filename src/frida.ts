@@ -20,7 +20,7 @@ export {
  *    - lib: 'open'
  *    - ObjC: '- connection:didReceiveData:'
  */
-export type TargetType =  number
+export type FridaTarget = number
                         | string
 
 /**

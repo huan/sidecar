@@ -2,15 +2,10 @@ import {
   log,
 }                         from '../config'
 
-import {
-  AgentFather,
-}               from '../agent-father'
-import { TargetType } from '../frida'
-
-const agentFather = AgentFather.instance()
+import { FridaTarget } from '../frida'
 
 function Hook (
-  target: TargetType,
+  target: FridaTarget,
 ) {
   return (
     target : any,

@@ -1,6 +1,12 @@
 /**
  * Huan(202106) see:
  *  http://blog.wolksoftware.com/decorators-metadata-reflection-in-typescript-from-novice-to-expert-part-4
+ *
+ * TypeScript Decorators Examples
+ *  https://gist.github.com/remojansen/16c661a7afd68e22ac6e
+ *
+ * TypeScript Decorators: Parameter Decorators
+ *  https://blog.wotw.pro/typescript-decorators-parameter-decorators/
  */
 import 'reflect-metadata'
 
@@ -78,3 +84,20 @@ class Demo {
 }
 
 void Demo
+void decoratorFactory
+
+function decoratorFactory (this: any, ...args : any[]) {
+  switch (args.length) {
+    case 1:
+      return decorateClass.apply(this, args)
+    case 2:
+      return decorateProperty.apply(this, args)
+    case 3:
+      if (typeof args[2] === 'number') {
+        return decorateParam.apply(this, args)
+      }
+      return decorateMethod.apply(this, args)
+    default:
+      throw new Error()
+  }
+}

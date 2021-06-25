@@ -12,28 +12,21 @@ import {
 }                   from '../src/mod'
 
 @Sidecar('messaging', {
-  init: 'console.log("Sidecar inited")',
+  initFridaAgentSource: 'console.log("Sidecar inited")',
 })
 class MessagingSidecar extends SidecarEmitter {
 
-  constructor () {
-    super()
-  }
-
-  @Call(
-    0x1234,
-    'pointer',
-    'Utf8String',
-  )
+  @Call(0x1234)
+  @Type(['pointer', 'Utf8String'])
   mo (
-    @Param('pointer', 'Utf8String') content: string,
-    @Param('pointer', 'Int') count: number,
+    @Param(['pointer', 'Utf8String']) content: string,
+    @Param(['pointer', 'Int']) count: number,
   ): string {
     return Ret(content, count)
   }
 
   @Hook(0x5678) mt (
-    @Param('pointer', 'Utf8String') message: string,
+    @Data('pointer', 'Utf8String') message: string,
   ) {
     return Ret(message)
   }
