@@ -30,16 +30,7 @@ function Sidecar (
       : ''
   )
 
-  const agentMother = AgentMother.instance()
-
-  /**
-   * Freeze the current library settings,
-   * and save the libIndex for finalizing.
-   */
-  const agentId = agentMother.getCurrentAgentId()
-  agentMother.graduateCurrentAgent()
-
-  return getClassDecorator(agentId, target, options)
+  return getClassDecorator(target, options)
 }
 
 function getClassDecorator (
