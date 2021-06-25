@@ -10,29 +10,46 @@ import {
   PointerType,
 }               from '../frida'
 
+import {
+  getMethodRetType,
+  TypeMethodRet,
+}                     from './type-method-ret'
+import {
+  getParameterType,
+  TypeParameter,
+}                     from './type-parameter'
+
 /**
- *
- * @param nativeType
- * @param pointerTypeList
- * @returns
+ * Huan(202106)L
+ *  `Type` supports both decorating `method` and `parameters`.
  */
 const Type = (
   nativeType: NativeType,
-  ...pointerTypeList: (undefined | PointerType)[]
+  ...pointerTypeList: PointerType[]
 ) => (
-  target: Object,
-  propertyKey: string | symbol,
-  parameterIndex: number,
+  target            : Object,
+  propertyKey       : string | symbol,
+  indexOrDescriptor : number | PropertyDescriptor,
 ) => {
-  console.log(nativeType, pointerTypeList)
-  const types = Reflect.getMetadata('design:paramtypes', target, key)
-  const s = types.map((a: any) => a.name).join()
-  console.log(`${key} param types: ${s}`)
-  // const s2 = types.map((a: any) => a).join()
-  // console.log(`${key} param types2: ${s2}`)
+  let TypeDecorator: Function
+  if (typeof indexOrDescriptor === 'number') {
+    TypeDecorator = TypeParameter
+  } else {
+    TypeDecorator = TypeMethodRet
+  }
 
-  const r = Reflect.getMetadata('design:returntype', target, key)
-  console.log(`${key} return type: ${r.name}`)
+  return TypeDecorator(
+    nativeType,
+    ...pointerTypeList,
+  )(
+    target,
+    propertyKey,
+    indexOrDescriptor,
+  )
 }
 
-export { Type }
+export {
+  getMethodRetType,
+  getParameterType,
+  Type,
+}
