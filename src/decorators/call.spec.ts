@@ -1,6 +1,9 @@
 #!/usr/bin/env ts-node
 import { test }  from 'tstest'
-import { FridaTarget } from '../frida'
+import {
+  FridaTarget,
+  LabelTarget,
+}               from '../frida'
 
 import {
   Call,
@@ -45,4 +48,23 @@ test('getCallTarget()', async t => {
   )
 
   t.deepEqual(data, TARGET, 'should get Call target data')
+})
+
+test('getCallTarget() with label', async t => {
+  const TARGET: LabelTarget = { label: 'label1' }
+
+  class Test {
+
+    @Call(TARGET) method () {}
+
+  }
+
+  const instance = new Test()
+
+  const data = getCallTarget(
+    instance,
+    'method',
+  )
+
+  t.deepEqual(data, TARGET, 'should get Call target data by')
 })

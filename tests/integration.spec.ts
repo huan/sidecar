@@ -7,14 +7,14 @@ import {
   Hook,
   Ret,
   Sidecar,
-  SidecarEmitter,
+  SidecarBody,
   Type,
 }                   from '../src/mod'
 
 @Sidecar('messaging', {
   initAgent: 'console.log("Sidecar inited")',
 })
-class MessagingSidecar extends SidecarEmitter {
+class MessagingSidecar extends SidecarBody {
 
   @Call(0x1234)
   @Type('pointer', 'Utf8String')

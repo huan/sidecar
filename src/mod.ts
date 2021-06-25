@@ -1,15 +1,16 @@
 import { Call }     from './decorators/call'
 import { Hook }     from './decorators/hook'
-import { Ret }      from './decorators/ret'
 import { Sidecar }  from './decorators/sidecar'
-import { SidecarEmitter } from './sidecar-emitter'
-import { Type }    from './decorators/type'
+import { Type }     from './decorators/type'
+
+import { Ret }          from './ret'
+import { SidecarBody }  from './sidecar-body'
 
 export {
   Call,
   Hook,
   Ret,
   Sidecar,
-  SidecarEmitter,
+  SidecarBody,
   Type,
 }

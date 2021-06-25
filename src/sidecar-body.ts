@@ -12,7 +12,10 @@ interface SidecarEvents {
 type SidecarEmitterType = new () => TypedEventEmitter<
   SidecarEvents
 >
-
 const SidecarEmitter = EventEmitter as SidecarEmitterType
 
-export { SidecarEmitter }
+class SidecarBody extends SidecarEmitter {
+
+}
+
+export { SidecarBody }
