@@ -1,12 +1,12 @@
 import { EventEmitter } from 'stream'
 import TypedEventEmitter  from 'typed-emitter'
 
-import { HookPayload } from './schema'
+import { HookEventPayload } from './schema'
 
-export type HookListener = (payload: HookPayload) => void
+export type HookEventListener = (payload: HookEventPayload) => void
 
 interface SidecarEvents {
-  hook: HookListener
+  hook: HookEventListener
 }
 
 type SidecarEmitterType = new () => TypedEventEmitter<

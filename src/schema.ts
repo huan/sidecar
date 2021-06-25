@@ -1,4 +1,4 @@
-export interface HookPayload {
+export interface HookEventPayload {
   method: string,
   args: {
     [k: string]: null | string | number
