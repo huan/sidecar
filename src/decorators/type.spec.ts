@@ -1,5 +1,5 @@
 #!/usr/bin/env ts-node
-import test  from 'tstest'
+import { test }  from 'tstest'
 
 import {
   Type,

@@ -3,30 +3,31 @@
 import { test }  from 'tstest'
 
 import {
-  Sidecar,
-  SidecarEmitter,
   Call,
   Hook,
   Ret,
-  Param,
+  Sidecar,
+  SidecarEmitter,
+  Type,
 }                   from '../src/mod'
 
 @Sidecar('messaging', {
-  initFridaAgentSource: 'console.log("Sidecar inited")',
+  initAgent: 'console.log("Sidecar inited")',
 })
 class MessagingSidecar extends SidecarEmitter {
 
   @Call(0x1234)
-  @Type(['pointer', 'Utf8String'])
+  @Type('pointer', 'Utf8String')
   mo (
-    @Param(['pointer', 'Utf8String']) content: string,
-    @Param(['pointer', 'Int']) count: number,
+    @Type('pointer', 'Utf8String')  content:  string,
+    @Type('pointer', 'Int')         count:    number,
   ): string {
     return Ret(content, count)
   }
 
-  @Hook(0x5678) mt (
-    @Data('pointer', 'Utf8String') message: string,
+  @Hook({ label: 'label1' })
+  mt (
+    @Type('pointer', 'Utf8String') message: string,
   ) {
     return Ret(message)
   }

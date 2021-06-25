@@ -1,7 +1,5 @@
 #!/usr/bin/env ts-node
-/* eslint-disable padded-blocks */
-
-import test  from 'tstest'
+import { test }  from 'tstest'
 
 import {
   getMethodRetType,
