@@ -4,7 +4,7 @@
 import test  from 'tstest'
 
 import {
-  getParameterNames,
+  getParameterName,
   Name,
   PARAMETER_NAME_SYMBOL,
 }                         from './name'
@@ -52,7 +52,7 @@ test('getParameterName', async t => {
   }
 
   const instance = new Test()
-  const nameList = [0, 1].map(i => getParameterNames(
+  const nameList = [0, 1].map(i => getParameterName(
     instance,
     'method',
     i,

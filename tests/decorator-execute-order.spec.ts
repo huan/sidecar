@@ -8,8 +8,6 @@
  */
 import { test } from 'tstest'
 
-import 'reflect-metadata'
-
 test('decorator execute order', async t => {
   const orderList = [] as string[]
 

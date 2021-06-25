@@ -15,7 +15,7 @@ const PARAMETER_NAME_SYMBOL = Symbol('parameterName')
 /**
  * Credit: https://blog.wotw.pro/typescript-decorators-parameter-decorators/
  */
-function setParameterNames (
+function updateParameterName (
   target         : Object,
   propertyKey    : string | symbol,
   parameterIndex : number,
@@ -38,7 +38,7 @@ function setParameterNames (
   )
 }
 
-function getParameterNames (
+function getParameterName (
   target         : Object,
   propertyKey    : string | symbol,
   parameterIndex : number,
@@ -66,7 +66,7 @@ const Name = (parameterName: string) => (
     parameterIndex,
   )
 
-  setParameterNames(
+  updateParameterName(
     target,
     propertyKey,
     parameterIndex,
@@ -75,7 +75,7 @@ const Name = (parameterName: string) => (
 }
 
 export {
-  getParameterNames,
+  getParameterName,
   Name,
   PARAMETER_NAME_SYMBOL,
 }
