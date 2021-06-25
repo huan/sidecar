@@ -1,31 +1,64 @@
 import {
   log,
-}                         from './config'
+}                         from '../config'
 
-import {
-  TargetType,
-  NativeType,
-  PointerType,
-}               from '../frida'
+import { FridaTarget } from '../frida'
 
-// interface CallOptions {
-//   retType: NativeType,
-//   argTypes: NativeType[],
-//   abi: NativeABI,
-// }
+const CALL_TARGET_SYMBOL = Symbol('Call')
 
-function Call (
-  target: TargetType,
-  nativeType: NativeType,
-  ...pointerTypeChain: (undefined | PointerType)[]
-) {
-  return (
-    target : any,
-    key : string,
-    descriptor: PropertyDescriptor,
-  ): PropertyDescriptor => {
-    return {} as any
-  }
+function updateCallTarget (
+  target      : Object,
+  propertyKey : string | symbol,
+  fridaTarget : FridaTarget,
+): void {
+  // Update the parameter names
+  Reflect.defineMetadata(
+    CALL_TARGET_SYMBOL,
+    fridaTarget,
+    target,
+    propertyKey,
+  )
 }
 
-export { Call }
+function getCallTarget (
+  target         : Object,
+  propertyKey    : string | symbol,
+): undefined | FridaTarget {
+  // Pull the array of parameter names
+  const fridaTarget = Reflect.getMetadata(
+    CALL_TARGET_SYMBOL,
+    target,
+    propertyKey,
+  )
+  return fridaTarget
+}
+
+const Call = (
+  fridaTarget: FridaTarget,
+) => (
+  target      : Object,
+  propertyKey : string | symbol,
+  descriptor  : PropertyDescriptor,
+): PropertyDescriptor => {
+  log.verbose('Sidecar',
+    'Call(%s) => (%s, %s)',
+    fridaTarget,
+    target.constructor.name,
+    propertyKey,
+  )
+
+  updateCallTarget(
+    target,
+    propertyKey,
+    fridaTarget,
+  )
+
+  // Huan(202106) TODO: add a replaced function to show a error message when be called.
+  return descriptor
+}
+
+export {
+  Call,
+  getCallTarget,
+  CALL_TARGET_SYMBOL,
+}
