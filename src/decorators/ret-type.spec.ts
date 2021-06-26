@@ -2,18 +2,18 @@
 import { test }  from 'tstest'
 
 import {
-  getMethodRetType,
-  TypeMethodRet,
-  METHOD_RET_TYPE_SYMBOL,
-}                         from './type-method-ret'
+  getRetType,
+  RetType,
+  RET_TYPE_SYMBOL,
+}                         from './ret-type'
 
-test('@TypeMethodRet with metadata', async t => {
+test('RetType with metadata', async t => {
   const NATIVE_TYPE       = 'pointer'
   const POINTER_TYPE_LIST = ['Pointer', 'Utf8String'] as const
 
   class Test {
 
-    @TypeMethodRet(
+    @RetType(
       NATIVE_TYPE,
       ...POINTER_TYPE_LIST,
     )
@@ -23,7 +23,7 @@ test('@TypeMethodRet with metadata', async t => {
 
   const instance = new Test()
   const data = Reflect.getMetadata(
-    METHOD_RET_TYPE_SYMBOL,
+    RET_TYPE_SYMBOL,
     instance,
     'method',
   )
@@ -36,13 +36,13 @@ test('@TypeMethodRet with metadata', async t => {
   t.deepEqual(data, EXPECTED_DATA, 'should get the method ret type data')
 })
 
-test('getMethodRetType()', async t => {
+test('getRetType()', async t => {
   const NATIVE_TYPE       = 'pointer'
   const POINTER_TYPE_LIST = ['Pointer', 'Utf8String'] as const
 
   class Test {
 
-    @TypeMethodRet(
+    @RetType(
       NATIVE_TYPE,
       ...POINTER_TYPE_LIST,
     )
@@ -51,7 +51,7 @@ test('getMethodRetType()', async t => {
   }
 
   const instance = new Test()
-  const typeList = getMethodRetType(
+  const typeList = getRetType(
     instance,
     'method',
   )
