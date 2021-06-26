@@ -8,7 +8,8 @@ import {
   Ret,
   Sidecar,
   SidecarBody,
-  Type,
+  RetType,
+  ParamType,
 }                   from '../src/mod'
 
 @Sidecar('messaging', {
@@ -17,17 +18,19 @@ import {
 class MessagingSidecar extends SidecarBody {
 
   @Call(0x1234)
-  @Type('pointer', 'Utf8String')
+  @RetType('pointer', 'Utf8String')
   mo (
-    @Type('pointer', 'Utf8String')  content:  string,
-    @Type('pointer', 'Int')         count:    number,
+    @ParamType('pointer', 'Utf8String')  content:  string,
+    @ParamType('pointer', 'Int')         count:    number,
   ): string {
     return Ret(content, count)
   }
 
+  @Call({ label: 'label1' })
+  @RetType('int')
   @Hook({ label: 'label1' })
   mt (
-    @Type('pointer', 'Utf8String') message: string,
+    @ParamType('pointer', 'Utf8String') message: string,
   ) {
     return Ret(message)
   }

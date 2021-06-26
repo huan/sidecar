@@ -52,7 +52,7 @@ function getParamType (
   return parameterTypeList[parameterIndex]
 }
 
-const TypeParameter = (
+const ParamType = (
   nativeType         : NativeType,
   ...pointerTypeList : PointerType[]
 ) => (
@@ -80,5 +80,5 @@ const TypeParameter = (
 export {
   getParamType,
   PARAM_TYPE_SYMBOL,
-  TypeParameter,
+  ParamType,
 }
