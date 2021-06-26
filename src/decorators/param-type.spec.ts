@@ -2,12 +2,12 @@
 import { test }  from 'tstest'
 
 import {
-  getParameterType,
+  getParamType,
   TypeParameter,
-  PARAMETER_TYPE_SYMBOL,
-}                         from './type-parameter'
+  PARAM_TYPE_SYMBOL,
+}                         from './param-type'
 
-test('@TypeParameter with metadata', async t => {
+test('ParamType with metadata', async t => {
   const NATIVE_TYPE       = 'pointer'
   const POINTER_TYPE_LIST = ['Pointer', 'Utf8String'] as const
 
@@ -28,7 +28,7 @@ test('@TypeParameter with metadata', async t => {
 
   const instance = new Test()
   const data = Reflect.getMetadata(
-    PARAMETER_TYPE_SYMBOL,
+    PARAM_TYPE_SYMBOL,
     instance,
     'method',
   )
@@ -41,7 +41,7 @@ test('@TypeParameter with metadata', async t => {
   t.deepEqual(data, EXPECTED_DATA, 'should get the parameter type data')
 })
 
-test('getParameterType', async t => {
+test('getParamType', async t => {
   const NATIVE_TYPE       = 'pointer'
   const POINTER_TYPE_LIST = ['Pointer', 'Utf8String'] as const
 
@@ -61,7 +61,7 @@ test('getParameterType', async t => {
   }
 
   const instance = new Test()
-  const typeList = [0, 1].map(i => getParameterType(
+  const typeList = [0, 1].map(i => getParamType(
     instance,
     'method',
     i,

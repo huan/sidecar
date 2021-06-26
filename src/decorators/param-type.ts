@@ -13,9 +13,9 @@ import {
   log,
 }               from '../config'
 
-const PARAMETER_TYPE_SYMBOL = Symbol('parameterType')
+const PARAM_TYPE_SYMBOL = Symbol('parameterType')
 
-function updateParameterType (
+function updateParamType (
   target         : Object,
   propertyKey    : string | symbol,
   parameterIndex : number,
@@ -23,7 +23,7 @@ function updateParameterType (
 ): void {
   // Pull the array of parameter names
   const parameterTypeList = Reflect.getOwnMetadata(
-    PARAMETER_TYPE_SYMBOL,
+    PARAM_TYPE_SYMBOL,
     target,
     propertyKey,
   ) || []
@@ -31,21 +31,21 @@ function updateParameterType (
   parameterTypeList[parameterIndex] = typeList
   // Update the parameter names
   Reflect.defineMetadata(
-    PARAMETER_TYPE_SYMBOL,
+    PARAM_TYPE_SYMBOL,
     parameterTypeList,
     target,
     propertyKey,
   )
 }
 
-function getParameterType (
+function getParamType (
   target         : Object,
   propertyKey    : string | symbol,
   parameterIndex : number,
 ): (NativeType | PointerType)[] {
   // Pull the array of parameter names
   const parameterTypeList = Reflect.getMetadata(
-    PARAMETER_TYPE_SYMBOL,
+    PARAM_TYPE_SYMBOL,
     target,
     propertyKey,
   ) || []
@@ -61,7 +61,7 @@ const TypeParameter = (
   parameterIndex : number,
 ) => {
   log.verbose('Sidecar',
-    'Type<Parameter>(%s, %s) => (%s, %s, %s)',
+    'ParamType(%s, %s) => (%s, %s, %s)',
     nativeType,
     pointerTypeList.join(','),
     target.constructor.name,
@@ -69,7 +69,7 @@ const TypeParameter = (
     parameterIndex,
   )
 
-  updateParameterType(
+  updateParamType(
     target,
     propertyKey,
     parameterIndex,
@@ -78,7 +78,7 @@ const TypeParameter = (
 }
 
 export {
-  getParameterType,
-  PARAMETER_TYPE_SYMBOL,
+  getParamType,
+  PARAM_TYPE_SYMBOL,
   TypeParameter,
 }
