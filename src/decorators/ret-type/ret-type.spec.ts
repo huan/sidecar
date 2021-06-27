@@ -2,10 +2,14 @@
 import { test }  from 'tstest'
 
 import {
-  getRetType,
   RetType,
+}                     from './ret-type'
+import {
+  getRetType,
+}                     from './metadata-ret-type'
+import {
   RET_TYPE_SYMBOL,
-}                         from './ret-type'
+}                     from './constants'
 
 test('RetType with metadata', async t => {
   const NATIVE_TYPE       = 'pointer'
