@@ -7,7 +7,7 @@ import {
   LabelTarget,
 }                 from '../../frida'
 
-import { updateCallTarget } from './metadata-call-target'
+import { updateMetadataCallTarget } from './metadata-call-target'
 
 const Call = (
   fridaTarget: FridaTarget | LabelTarget,
@@ -23,7 +23,7 @@ const Call = (
     propertyKey,
   )
 
-  updateCallTarget(
+  updateMetadataCallTarget(
     target,
     propertyKey,
     fridaTarget,

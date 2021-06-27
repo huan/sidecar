@@ -3,9 +3,9 @@ import { test }  from 'tstest'
 import { NativeType, PointerType } from '../../frida'
 
 import {
-  getParamType,
-  updateParamType,
-}                         from './metadata-param-type'
+  getMetadataParamType,
+  updateMetadataParamType,
+}                           from './metadata-param-type'
 
 test('update & get parame type metadata', async t => {
   const PROPERTY_KEY = 'key'
@@ -14,14 +14,14 @@ test('update & get parame type metadata', async t => {
   }
   const VALUE = ['pointer', 'Utf8String'] as [NativeType, ...PointerType[]]
 
-  updateParamType(
+  updateMetadataParamType(
     TARGET,
     PROPERTY_KEY,
     0,
     VALUE,
   )
 
-  const data = getParamType(
+  const data = getMetadataParamType(
     TARGET,
     PROPERTY_KEY,
     0,

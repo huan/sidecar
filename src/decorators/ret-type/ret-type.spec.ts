@@ -5,7 +5,7 @@ import {
   RetType,
 }                     from './ret-type'
 import {
-  getRetType,
+  getMetadataRetType,
 }                     from './metadata-ret-type'
 import {
   RET_TYPE_SYMBOL,
@@ -55,7 +55,7 @@ test('getRetType()', async t => {
   }
 
   const instance = new Test()
-  const typeList = getRetType(
+  const typeList = getMetadataRetType(
     instance,
     'method',
   )

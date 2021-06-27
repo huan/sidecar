@@ -7,9 +7,9 @@ import {
 }               from '../../config'
 
 import {
-  updateRetType,
-}                 from './metadata-ret-type'
-import { guardRetType } from './guard-ret-type'
+  updateMetadataRetType,
+}                         from './metadata-ret-type'
+import { guardRetType }   from './guard-ret-type'
 
 const RetType = (
   nativeType         : NativeType,
@@ -33,7 +33,7 @@ const RetType = (
     nativeType,
   )
 
-  updateRetType(
+  updateMetadataRetType(
     target,
     propertyKey,
     [nativeType, ...pointerTypeList],

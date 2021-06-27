@@ -5,7 +5,7 @@ import {
 
 import { PARAM_TYPE_SYMBOL } from './constants'
 
-function updateParamType (
+function updateMetadataParamType (
   target         : Object,
   propertyKey    : string | symbol,
   parameterIndex : number,
@@ -28,7 +28,7 @@ function updateParamType (
   )
 }
 
-function getParamType (
+function getMetadataParamType (
   target         : Object,
   propertyKey    : string | symbol,
   parameterIndex : number,
@@ -43,6 +43,6 @@ function getParamType (
 }
 
 export {
-  getParamType,
-  updateParamType,
+  getMetadataParamType,
+  updateMetadataParamType,
 }

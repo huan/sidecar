@@ -5,7 +5,7 @@ import {
   ParamType,
 }                         from './param-type'
 import {
-  getParamType,
+  getMetadataParamType,
 }                         from './metadata-param-type'
 import {
   PARAM_TYPE_SYMBOL,
@@ -65,7 +65,7 @@ test('getParamType', async t => {
   }
 
   const instance = new Test()
-  const typeList = [0, 1].map(i => getParamType(
+  const typeList = [0, 1].map(i => getMetadataParamType(
     instance,
     'method',
     i,

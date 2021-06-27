@@ -7,9 +7,9 @@ import {
 
 import {
   Call,
-}                             from './call'
-import { getCallTarget }      from './metadata-call-target'
-import { CALL_TARGET_SYMBOL } from './constants'
+}                                   from './call'
+import { getMetadataCallTarget }    from './metadata-call-target'
+import { CALL_TARGET_SYMBOL }       from './constants'
 
 test('Call with metadata', async t => {
   const TARGET: FridaTarget = 0x42
@@ -42,7 +42,7 @@ test('getCallTarget()', async t => {
 
   const instance = new Test()
 
-  const data = getCallTarget(
+  const data = getMetadataCallTarget(
     instance,
     'method',
   )
@@ -61,7 +61,7 @@ test('getCallTarget() with label', async t => {
 
   const instance = new Test()
 
-  const data = getCallTarget(
+  const data = getMetadataCallTarget(
     instance,
     'method',
   )

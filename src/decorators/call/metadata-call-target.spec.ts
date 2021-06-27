@@ -2,9 +2,9 @@
 import { test }  from 'tstest'
 
 import {
-  getCallTarget,
-  updateCallTarget,
-}                         from './metadata-call-target'
+  getMetadataCallTarget,
+  updateMetadataCallTarget,
+}                           from './metadata-call-target'
 
 test('update & get call target metadata', async t => {
   const PROPERTY_KEY = 'key'
@@ -13,13 +13,13 @@ test('update & get call target metadata', async t => {
   }
   const CALL_TARGET = 0x42
 
-  updateCallTarget(
+  updateMetadataCallTarget(
     TARGET,
     PROPERTY_KEY,
     CALL_TARGET,
   )
 
-  const data = getCallTarget(
+  const data = getMetadataCallTarget(
     TARGET,
     PROPERTY_KEY,
   )

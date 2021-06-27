@@ -8,7 +8,7 @@ import {
 
 import { RET_TYPE_SYMBOL } from './constants'
 
-function updateRetType (
+function updateMetadataRetType (
   target         : Object,
   propertyKey    : string | symbol,
   typeChain      : (NativeType | PointerType)[],
@@ -22,7 +22,7 @@ function updateRetType (
   )
 }
 
-function getRetType (
+function getMetadataRetType (
   target         : Object,
   propertyKey    : string | symbol,
 ): (NativeType | PointerType)[] {
@@ -40,6 +40,6 @@ function getRetType (
 }
 
 export {
-  getRetType,
-  updateRetType,
+  getMetadataRetType,
+  updateMetadataRetType,
 }

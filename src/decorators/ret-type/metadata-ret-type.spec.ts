@@ -6,8 +6,8 @@ import {
 }                 from '../../frida'
 
 import {
-  getRetType,
-  updateRetType,
+  getMetadataRetType,
+  updateMetadataRetType,
 }                 from './metadata-ret-type'
 
 test('update & get ret type metadata', async t => {
@@ -17,13 +17,13 @@ test('update & get ret type metadata', async t => {
   }
   const VALUE = ['pointer', 'Utf8String'] as [NativeType, ...PointerType[]]
 
-  updateRetType(
+  updateMetadataRetType(
     TARGET,
     PROPERTY_KEY,
     VALUE,
   )
 
-  const data = getRetType(
+  const data = getMetadataRetType(
     TARGET,
     PROPERTY_KEY,
   )

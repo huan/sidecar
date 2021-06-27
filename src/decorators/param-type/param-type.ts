@@ -13,8 +13,8 @@ import {
   log,
 }               from '../../config'
 
-import { updateParamType } from './metadata-param-type'
-import { guardParamType } from './guard-param-type'
+import { updateMetadataParamType }  from './metadata-param-type'
+import { guardParamType }           from './guard-param-type'
 
 const ParamType = (
   nativeType         : NativeType,
@@ -40,7 +40,7 @@ const ParamType = (
     nativeType,
   )
 
-  updateParamType(
+  updateMetadataParamType(
     target,
     propertyKey,
     parameterIndex,

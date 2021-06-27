@@ -5,7 +5,7 @@ import {
 
 import { CALL_TARGET_SYMBOL } from './constants'
 
-function updateCallTarget (
+function updateMetadataCallTarget (
   target      : Object,
   propertyKey : string | symbol,
   fridaTarget : FridaTarget | LabelTarget,
@@ -19,7 +19,7 @@ function updateCallTarget (
   )
 }
 
-function getCallTarget (
+function getMetadataCallTarget (
   target         : Object,
   propertyKey    : string | symbol,
 ): undefined | FridaTarget | LabelTarget {
@@ -33,6 +33,6 @@ function getCallTarget (
 }
 
 export {
-  updateCallTarget,
-  getCallTarget,
+  updateMetadataCallTarget,
+  getMetadataCallTarget,
 }
