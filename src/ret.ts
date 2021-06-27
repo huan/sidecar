@@ -1,13 +1,13 @@
 const RET_SYMBOL = Symbol('PLACE_HOLDER_FOR_RETURN')
 
-function Ret (...args: any[]): any {
+function Ret (...args: any[]): Promise<typeof RET_SYMBOL> {
   void args // nop. Just for making TypeScript happy
   /**
    * You can safely ignore the following return value: RET
    * Because it will be replaced by the docorator
    * with the real return value.
    */
-  return RET_SYMBOL
+  return Promise.resolve(RET_SYMBOL)
 }
 
 export {
