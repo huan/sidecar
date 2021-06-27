@@ -35,7 +35,7 @@ test('guard parame type', async t => {
         test,
         'method',
         0,
-        [nativeType],
+        nativeType,
       )
       t.pass('should not throw for nativeType: ' + nativeType)
     } else {
@@ -43,7 +43,7 @@ test('guard parame type', async t => {
         test,
         'method',
         0,
-        [nativeType],
+        nativeType,
       ), 'should throw for nativeType: ' + nativeType)
     }
   }

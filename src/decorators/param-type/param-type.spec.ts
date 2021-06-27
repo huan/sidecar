@@ -2,10 +2,14 @@
 import { test }  from 'tstest'
 
 import {
-  getParamType,
-  TypeParameter,
-  PARAM_TYPE_SYMBOL,
+  ParamType,
 }                         from './param-type'
+import {
+  getParamType,
+}                         from './metadata-param-type'
+import {
+  PARAM_TYPE_SYMBOL,
+}                         from './constants'
 
 test('ParamType with metadata', async t => {
   const NATIVE_TYPE       = 'pointer'
@@ -15,7 +19,7 @@ test('ParamType with metadata', async t => {
 
     method (
       n: number,
-      @TypeParameter(
+      @ParamType(
         NATIVE_TYPE,
         ...POINTER_TYPE_LIST,
       ) content: string,
@@ -49,7 +53,7 @@ test('getParamType', async t => {
 
     method (
       n: number,
-      @TypeParameter(
+      @ParamType(
         NATIVE_TYPE,
         ...POINTER_TYPE_LIST,
       ) content: string,
@@ -72,4 +76,31 @@ test('getParamType', async t => {
     ...POINTER_TYPE_LIST,
   ]]
   t.deepEqual(typeList, EXPECTED_NAME_LIST, 'should get decorated parameter type list')
+})
+
+test('guard parameter native types', async t => {
+  const NATIVE_TYPE       = 'pointer'
+  const POINTER_TYPE_LIST = ['Pointer', 'Utf8String'] as const
+
+  const getFixture = () => {
+    class Test {
+
+      method (
+        n: number,
+        @ParamType(
+          NATIVE_TYPE,
+          ...POINTER_TYPE_LIST,
+        ) content: number,
+      ) {
+        void n
+        void content
+      }
+
+    }
+
+    return Test
+  }
+
+  // getFixture()
+  t.throws(getFixture, 'should throw because the ParamType(pointer) is not match the design type `number`')
 })
