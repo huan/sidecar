@@ -1,8 +1,9 @@
 import {
   log,
-}                       from '../../config'
-import { RET_SYMBOL }   from '../../ret'
-import { SidecarBody }  from '../../sidecar-body'
+}                         from '../../config'
+import { RET_SYMBOL }     from '../../ret'
+import { SidecarBody }    from '../../sidecar-body'
+import { CALL_RET_ERROR } from './constants'
 
 function updateRpcDescriptor (
   target      : any,
@@ -24,7 +25,10 @@ function updateRpcDescriptor (
       throw new Error(`The ${target.constructor.name}.${propertyKey}(...) must be defined to return the Ret() value to make Sidecar @Call happy.`)
     }
     return result
-  }).catch(console.error)
+  }).catch((e: Error) => {
+    target[CALL_RET_ERROR] = e
+    console.error(e)
+  })
 
   async function proxyMethod (
     this: SidecarBody,

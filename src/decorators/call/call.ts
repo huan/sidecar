@@ -8,7 +8,7 @@ import {
 }                 from '../../frida'
 
 import { updateMetadataCallTarget } from './metadata-call-target'
-import { updateRpcDescriptor }      from './update-descriptor'
+import { updateRpcDescriptor }      from './update-rpc-descriptor'
 
 const Call = (
   fridaTarget: FridaTarget | LabelTarget,

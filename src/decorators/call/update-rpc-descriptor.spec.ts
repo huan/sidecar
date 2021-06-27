@@ -1,6 +1,11 @@
 #!/usr/bin/env ts-node
-import { test }  from 'tstest'
-import { Ret, RET_SYMBOL } from '../../ret'
+import { test }         from 'tstest'
+import { EventEmitter } from 'stream'
+import {
+  Ret,
+  RET_SYMBOL,
+}                         from '../../ret'
+import { CALL_RET_ERROR } from './constants'
 
 import {
   updateRpcDescriptor,
@@ -42,17 +47,16 @@ test('update & get call target metadata', async t => {
   Object.defineProperty(Test.prototype, 'method', rpcDescriptor)
   const ret = await test.method()
   t.equal(ret, AFTER_VALUE, 'should get a updated method return value')
+
+  await new Promise(setImmediate)
+  t.false((Test as any)[CALL_RET_ERROR], 'should not trigger error if the method returns "Ret()"')
 })
 
-/**
- * Huan(202106) FIXME:
- *  We can not catch this error because the function is sync
- */
-test.skip('method to be proxyed must retur "Ret()"', async t => {
+test('method to be proxyed must retur "Ret()"', async t => {
 
   const RET_VALUE = 42
 
-  class Test {
+  class Test extends EventEmitter {
 
     method () {
       return Promise.resolve(RET_VALUE)
@@ -64,12 +68,12 @@ test.skip('method to be proxyed must retur "Ret()"', async t => {
   const beforeValue = await descriptor?.value()
   t.equal(beforeValue, RET_VALUE, 'should get ret value from the descriptor')
 
-  const update = () => updateRpcDescriptor(
+  updateRpcDescriptor(
     Test,
     'method',
     descriptor!,
   )
+  await new Promise(setImmediate)
 
-  update()
-  t.throws(update, 'should throw if the method does not return "Ret()"')
+  t.true((Test as any)[CALL_RET_ERROR], 'should trigger error if the method does not return "Ret()"')
 })
