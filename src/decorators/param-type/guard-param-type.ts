@@ -36,7 +36,7 @@ function guardParamType (
 
   const nativeTypeList = toNativeTypeList(designParamType)
   if (!nativeTypeList.includes(nativeType)) {
-    throw new Error(`${target.constructor.name}.${String(propertyKey)}(#${parameterIndex}): ParamType(${nativeType}) does match the design type "${designParamType?.name}"`)
+    throw new Error(`The "${target.constructor.name}.${String(propertyKey)}(#${parameterIndex}) decorated by "@ParamType(${nativeType}, ...)" does match the design type "${designParamType?.name}"`)
   }
 }
 
