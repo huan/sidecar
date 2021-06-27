@@ -3,13 +3,13 @@ import { test }  from 'tstest'
 import {
   FridaTarget,
   LabelTarget,
-}               from '../frida'
+}               from '../../frida'
 
 import {
   Call,
-  getCallTarget,
-  CALL_TARGET_SYMBOL,
-}                         from './call'
+}                             from './call'
+import { getCallTarget }      from './metadata-call-target'
+import { CALL_TARGET_SYMBOL } from './constants'
 
 test('Call with metadata', async t => {
   const TARGET: FridaTarget = 0x42

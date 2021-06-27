@@ -4,7 +4,7 @@ import { NativeType } from './frida'
 
 import {
   isInstance,
-  toNativeType,
+  toNativeTypeList,
 }                 from './misc'
 
 test('isInstance()', async t => {
@@ -33,7 +33,7 @@ test('toNativeType()', async t => {
   ]
 
   for (const [designType, nativeType, shouldMatch] of DESIGN_NATIVE_PAIR_LIST) {
-    const nativeTypeList = toNativeType(designType)
+    const nativeTypeList = toNativeTypeList(designType)
     const isMatch = nativeTypeList.includes(nativeType as NativeType)
     t.equal(isMatch, shouldMatch, `should ${shouldMatch ? '' : 'not'} match the native type(${nativeType}) to design type(${designType?.name})`)
   }

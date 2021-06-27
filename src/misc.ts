@@ -33,7 +33,7 @@ const designTypeMap = new Map<ReflectDesignType, NativeType[]>()
   .set(Buffer, ['pointer'])
   .set(Boolean, ['bool'])
 
-function toNativeType (
+function toNativeTypeList (
   designType: ReflectDesignType,
 ): NativeType[] {
   if (!designTypeMap.has(designType)) {
@@ -76,6 +76,6 @@ function isInstance (target: any): boolean {
 }
 
 export {
-  toNativeType,
+  toNativeTypeList,
   isInstance,
 }

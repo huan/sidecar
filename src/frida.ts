@@ -88,4 +88,4 @@ export type PointerType = 'Pointer'
                         | 'Utf16String'
                         | 'AnsiString'
 
-// export type DataType = [NativeType, ...(undefined | PointerType)[]]
+// export type TypeList = [NativeType, ...PointerType[]]
