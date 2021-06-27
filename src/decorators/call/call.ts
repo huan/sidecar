@@ -8,12 +8,13 @@ import {
 }                 from '../../frida'
 
 import { updateMetadataCallTarget } from './metadata-call-target'
+import { updateRpcDescriptor }      from './update-descriptor'
 
 const Call = (
   fridaTarget: FridaTarget | LabelTarget,
 ) => (
   target      : Object,
-  propertyKey : string | symbol,
+  propertyKey : string,
   descriptor  : PropertyDescriptor,
 ): PropertyDescriptor => {
   log.verbose('Sidecar',
@@ -29,8 +30,13 @@ const Call = (
     fridaTarget,
   )
 
-  // Huan(202106) TODO: add a replaced function to show a error message when be called.
-  return descriptor
+  const rpcDescriptor = updateRpcDescriptor(
+    target,
+    propertyKey,
+    descriptor,
+  )
+
+  return rpcDescriptor
 }
 
 export { Call }
