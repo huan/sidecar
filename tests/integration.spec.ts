@@ -22,12 +22,10 @@ class MessagingSidecar extends SidecarBody {
   mo (
     @ParamType('pointer', 'Utf8String')  content:  string,
     @ParamType('pointer', 'Int')         count:    number,
-  ): string {
+  ): Promise<string> {
     return Ret(content, count)
   }
 
-  @Call({ label: 'label1' })
-  @RetType('int')
   @Hook({ label: 'label1' })
   mt (
     @ParamType('pointer', 'Utf8String') message: string,

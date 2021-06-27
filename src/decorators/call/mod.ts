@@ -1,7 +1,7 @@
 import { Call }                   from './call'
-import { getMetadataCallTarget }  from './metadata-call-target'
+import { getMetadataCall }  from './metadata-call'
 
 export {
   Call,
-  getMetadataCallTarget,
+  getMetadataCall,
 }

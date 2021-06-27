@@ -1,17 +1,17 @@
 import {
   log,
-}                         from '../config'
+}                         from '../../config'
 
 import {
   FridaTarget,
   LabelTarget,
-}                 from '../frida'
+}                 from '../../frida'
 
 const HOOK_TARGET_SYMBOL = Symbol('hookTarget')
 
-function updateHookTarget (
+function updateMetadataHook (
   target      : Object,
-  propertyKey : string | symbol,
+  propertyKey : string,
   fridaTarget : FridaTarget | LabelTarget,
 ): void {
   // Update the parameter names
@@ -23,9 +23,9 @@ function updateHookTarget (
   )
 }
 
-function getHookTarget (
-  target         : Object,
-  propertyKey    : string | symbol,
+function getMetadataHook (
+  target      : Object,
+  propertyKey : string,
 ): undefined | FridaTarget | LabelTarget {
   // Pull the array of parameter names
   const fridaTarget = Reflect.getMetadata(
@@ -40,7 +40,7 @@ const Hook = (
   fridaTarget: FridaTarget | LabelTarget,
 ) => (
   target      : Object,
-  propertyKey : string | symbol,
+  propertyKey : string,
   descriptor  : PropertyDescriptor,
 ): PropertyDescriptor => {
   log.verbose('Sidecar',
@@ -50,7 +50,7 @@ const Hook = (
     propertyKey,
   )
 
-  updateHookTarget(
+  updateMetadataHook(
     target,
     propertyKey,
     fridaTarget,
@@ -62,6 +62,6 @@ const Hook = (
 
 export {
   Hook,
-  getHookTarget,
+  getMetadataHook,
   HOOK_TARGET_SYMBOL,
 }

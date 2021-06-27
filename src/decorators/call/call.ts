@@ -7,8 +7,8 @@ import {
   LabelTarget,
 }                 from '../../frida'
 
-import { updateMetadataCallTarget } from './metadata-call-target'
-import { updateRpcDescriptor }      from './update-rpc-descriptor'
+import { updateMetadataCall }   from './metadata-call'
+import { updateRpcDescriptor }  from './update-rpc-descriptor'
 
 const Call = (
   fridaTarget: FridaTarget | LabelTarget,
@@ -24,7 +24,7 @@ const Call = (
     propertyKey,
   )
 
-  updateMetadataCallTarget(
+  updateMetadataCall(
     target,
     propertyKey,
     fridaTarget,

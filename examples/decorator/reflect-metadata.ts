@@ -31,7 +31,7 @@ function decorateMethod (target : any, key : string) {
 
 function decorateParam (
   target: Object,
-  propertyKey: string | symbol,
+  propertyKey: string,
   parameterIndex: number,
 ) {
   console.log('decorateParam')

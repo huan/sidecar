@@ -3,29 +3,29 @@ import {
   LabelTarget,
 }                       from '../../frida'
 
-import { CALL_TARGET_SYMBOL } from './constants'
+import { CALL_SYMBOL } from './constants'
 
-function updateMetadataCallTarget (
+function updateMetadataCall (
   target      : Object,
-  propertyKey : string | symbol,
+  propertyKey : string,
   fridaTarget : FridaTarget | LabelTarget,
 ): void {
   // Update the parameter names
   Reflect.defineMetadata(
-    CALL_TARGET_SYMBOL,
+    CALL_SYMBOL,
     fridaTarget,
     target,
     propertyKey,
   )
 }
 
-function getMetadataCallTarget (
-  target         : Object,
-  propertyKey    : string | symbol,
+function getMetadataCall (
+  target      : Object,
+  propertyKey : string,
 ): undefined | FridaTarget | LabelTarget {
   // Pull the array of parameter names
   const fridaTarget = Reflect.getMetadata(
-    CALL_TARGET_SYMBOL,
+    CALL_SYMBOL,
     target,
     propertyKey,
   )
@@ -33,6 +33,6 @@ function getMetadataCallTarget (
 }
 
 export {
-  updateMetadataCallTarget,
-  getMetadataCallTarget,
+  updateMetadataCall,
+  getMetadataCall,
 }

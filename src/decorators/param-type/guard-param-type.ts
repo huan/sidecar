@@ -17,7 +17,7 @@ import {
  */
 function guardParamType (
   target         : Object,
-  propertyKey    : string | symbol,
+  propertyKey    : string,
   parameterIndex : number,
   nativeType     : NativeType,
 ): void {

@@ -8,8 +8,8 @@ import {
 import {
   Call,
 }                                   from './call'
-import { getMetadataCallTarget }    from './metadata-call-target'
-import { CALL_TARGET_SYMBOL }       from './constants'
+import { getMetadataCall }    from './metadata-call'
+import { CALL_SYMBOL }       from './constants'
 
 test('Call with metadata', async t => {
   const TARGET: FridaTarget = 0x42
@@ -22,7 +22,7 @@ test('Call with metadata', async t => {
 
   const instance = new Test()
   const data = Reflect.getMetadata(
-    CALL_TARGET_SYMBOL,
+    CALL_SYMBOL,
     instance,
     'method',
   )
@@ -42,7 +42,7 @@ test('getCallTarget()', async t => {
 
   const instance = new Test()
 
-  const data = getMetadataCallTarget(
+  const data = getMetadataCall(
     instance,
     'method',
   )
@@ -61,7 +61,7 @@ test('getCallTarget() with label', async t => {
 
   const instance = new Test()
 
-  const data = getMetadataCallTarget(
+  const data = getMetadataCall(
     instance,
     'method',
   )

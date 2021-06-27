@@ -9,9 +9,9 @@ import {
 import { RET_TYPE_SYMBOL } from './constants'
 
 function updateMetadataRetType (
-  target         : Object,
-  propertyKey    : string | symbol,
-  typeChain      : (NativeType | PointerType)[],
+  target      : Object,
+  propertyKey : string,
+  typeChain   : (NativeType | PointerType)[],
 ): void {
   // Update the parameter names
   Reflect.defineMetadata(
@@ -23,8 +23,8 @@ function updateMetadataRetType (
 }
 
 function getMetadataRetType (
-  target         : Object,
-  propertyKey    : string | symbol,
+  target      : Object,
+  propertyKey : string,
 ): (NativeType | PointerType)[] {
   // Pull the array of parameter names
   const methodTypeList = Reflect.getMetadata(

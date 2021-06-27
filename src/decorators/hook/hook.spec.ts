@@ -1,10 +1,10 @@
 #!/usr/bin/env ts-node
 import { test }  from 'tstest'
-import { FridaTarget } from '../frida'
+import { FridaTarget } from '../../frida'
 
 import {
   Hook,
-  getHookTarget,
+  getMetadataHook,
   HOOK_TARGET_SYMBOL,
 }                         from './hook'
 
@@ -39,7 +39,7 @@ test('getHookTarget()', async t => {
 
   const instance = new Test()
 
-  const data = getHookTarget(
+  const data = getMetadataHook(
     instance,
     'method',
   )

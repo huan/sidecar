@@ -5,7 +5,7 @@ import { SidecarBody }  from './sidecar-body'
  * Decorators
  */
 import { Call }       from './decorators/call/mod'
-import { Hook }       from './decorators/hook'
+import { Hook }       from './decorators/hook/mod'
 import { ParamType }  from './decorators/param-type/mod'
 import { RetType }    from './decorators/ret-type/mod'
 import { Sidecar }    from './decorators/sidecar'

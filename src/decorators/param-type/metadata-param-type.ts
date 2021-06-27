@@ -7,7 +7,7 @@ import { PARAM_TYPE_SYMBOL } from './constants'
 
 function updateMetadataParamType (
   target         : Object,
-  propertyKey    : string | symbol,
+  propertyKey    : string,
   parameterIndex : number,
   typeChain      : [NativeType, ...PointerType[]],
 ): void {
@@ -30,7 +30,7 @@ function updateMetadataParamType (
 
 function getMetadataParamType (
   target         : Object,
-  propertyKey    : string | symbol,
+  propertyKey    : string,
   parameterIndex : number,
 ): [NativeType, ...PointerType[]] {
   // Pull the array of parameter names

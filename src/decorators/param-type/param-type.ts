@@ -21,7 +21,7 @@ const ParamType = (
   ...pointerTypeList : PointerType[]
 ) => (
   target         : Object,
-  propertyKey    : string | symbol,
+  propertyKey    : string,
   parameterIndex : number,
 ) => {
   log.verbose('Sidecar',

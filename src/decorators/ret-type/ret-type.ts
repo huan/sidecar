@@ -15,9 +15,9 @@ const RetType = (
   nativeType         : NativeType,
   ...pointerTypeList : PointerType[]
 ) => (
-  target         : Object,
-  propertyKey    : string | symbol,
-  _descriptor     : PropertyDescriptor,
+  target      : Object,
+  propertyKey : string,
+  _descriptor : PropertyDescriptor,
 ) => {
   log.verbose('Sidecar',
     'RetType(%s, %s) => (%s, %s)',

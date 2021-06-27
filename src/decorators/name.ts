@@ -17,7 +17,7 @@ const PARAMETER_NAME_SYMBOL = Symbol('parameterName')
  */
 function updateParameterName (
   target         : Object,
-  propertyKey    : string | symbol,
+  propertyKey    : string,
   parameterIndex : number,
   name           : string,
 ) {
@@ -40,7 +40,7 @@ function updateParameterName (
 
 function getParameterName (
   target         : Object,
-  propertyKey    : string | symbol,
+  propertyKey    : string,
   parameterIndex : number,
 ) {
   // Pull the array of parameter names
@@ -54,7 +54,7 @@ function getParameterName (
 
 const Name = (parameterName: string) => (
   target         : any,
-  propertyKey    : string | symbol,
+  propertyKey    : string,
   parameterIndex : number,
 ) => {
   // console.log('isInstance:', isInstance(target))

@@ -17,7 +17,7 @@ import {
  */
 function guardRetType (
   target      : Object,
-  propertyKey : string | symbol,
+  propertyKey : string,
   nativeType  : NativeType,
 ): void {
   const designRetType = Reflect.getMetadata('design:returntype', target, propertyKey) as ReflectDesignType
