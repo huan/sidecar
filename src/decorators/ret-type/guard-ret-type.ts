@@ -33,7 +33,7 @@ function guardRetType (
 
   const nativeTypeList = toNativeTypeList(designRetType)
   if (!nativeTypeList.includes(nativeType)) {
-    throw new Error(`${target.constructor.name}.${String(propertyKey)}: RetType(${nativeType} does match the design type ${designRetType}`)
+    throw new Error(`The ${target.constructor.name}.${String(propertyKey)}(...) decorated by "@RetType(${nativeType}, ...)" does match the design return type "${designRetType?.name}"`)
   }
 }
 

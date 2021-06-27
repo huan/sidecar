@@ -66,3 +66,27 @@ test('getRetType()', async t => {
   ]
   t.deepEqual(typeList, EXPECTED_NAME_LIST, 'should get decorated method ret type list')
 })
+
+test('guard ret native types', async t => {
+  const NATIVE_TYPE       = 'pointer'
+  const POINTER_TYPE_LIST = ['Pointer', 'Utf8String'] as const
+
+  const getFixture = () => {
+    class Test {
+
+      @RetType(
+        NATIVE_TYPE,
+        ...POINTER_TYPE_LIST,
+      )
+      method (): number {
+        return 42
+      }
+
+    }
+
+    return Test
+  }
+
+  getFixture()
+  t.throws(getFixture, 'should throw because the RetType(pointer) is not match the design type `number`')
+})
