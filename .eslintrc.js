@@ -1,6 +1,6 @@
 const rules = {
   'no-console': ['error', { allow: ['log', 'warn', 'error'] }],
-  'multiline-ternary': false,
+  'multiline-ternary': 0,
 }
 const globals = {
   Interceptor: true,
