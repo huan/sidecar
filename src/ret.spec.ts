@@ -7,6 +7,9 @@ import {
 }                         from './ret'
 
 test('Ret()', async t => {
-  const r = Ret()
+  const p = Ret()
+  t.equal(p.constructor.name, 'Promise', 'should get a promise from Ret()')
+
+  const r = await p
   t.equal(r, RET_SYMBOL, 'should return RET_SYMBOL by calling Ret()')
 })
