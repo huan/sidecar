@@ -14,10 +14,11 @@ import { CALL_SYMBOL }        from './constants'
 
 test('Call with metadata', async t => {
   const TARGET: FridaTarget = 0x42
+  const METHOD_NAME = 'testMethod'
 
   class Test {
 
-    @Call(TARGET) method () {}
+    @Call(TARGET) [METHOD_NAME] () { return Ret() }
 
   }
 
@@ -25,7 +26,7 @@ test('Call with metadata', async t => {
   const data = Reflect.getMetadata(
     CALL_SYMBOL,
     instance,
-    'method',
+    METHOD_NAME,
   )
 
   /* eslint-disable no-sparse-arrays */
@@ -34,10 +35,11 @@ test('Call with metadata', async t => {
 
 test('getCallTarget()', async t => {
   const TARGET: FridaTarget = 0x42
+  const METHOD_NAME = 'testMethod'
 
   class Test {
 
-    @Call(TARGET) testMethod () {}
+    @Call(TARGET) [METHOD_NAME] () { return Ret() }
 
   }
 
@@ -45,18 +47,19 @@ test('getCallTarget()', async t => {
 
   const data = getMetadataCall(
     instance,
-    'testMethod',
+    METHOD_NAME,
   )
 
   t.deepEqual(data, TARGET, 'should get Call target data')
 })
 
-test.only('getCallTarget() with label', async t => {
+test('getCallTarget() with label', async t => {
   const TARGET: LabelTarget = { label: 'label1' }
+  const METHOD_NAME = 'testMethod'
 
   class Test {
 
-    @Call(TARGET) testMethod () { return Ret() }
+    @Call(TARGET) [METHOD_NAME] () { return Ret() }
 
   }
 
@@ -64,7 +67,7 @@ test.only('getCallTarget() with label', async t => {
 
   const data = getMetadataCall(
     instance,
-    'testMethod',
+    METHOD_NAME,
   )
 
   t.deepEqual(data, TARGET, 'should get Call target data by')

@@ -16,19 +16,26 @@ function updateRpcDescriptor (
     propertyKey,
   )
 
-  descriptor.value().then((result: any) => {
-    /**
-     * FIXME: Huan(202006)
-     *  check Ret value and deal the error more gentle
-     */
-    if (result !== RET_SYMBOL) {
-      throw new Error(`The ${target.constructor.name}.${propertyKey}(...) must be defined to return the Ret() value to make Sidecar @Call happy.`)
-    }
-    return result
-  }).catch((e: Error) => {
-    target[CALL_RET_ERROR] = e
-    console.error(e)
-  })
+  // console.log('value:', descriptor.value)
+  const ret = descriptor.value()
+
+  if (!(ret instanceof Promise)) {
+    throw new Error(`The ${target.constructor.name}.${propertyKey}(...) must be defined to return the Ret() value to make Sidecar @Call happy.`)
+  } else {
+    ret.then((result: any) => {
+      /**
+       * FIXME: Huan(202006)
+       *  check Ret value and deal the error more gentle
+       */
+      if (result !== RET_SYMBOL) {
+        throw new Error(`The ${target.constructor.name}.${propertyKey}(...) must be defined to return the Ret() value to make Sidecar @Call happy.`)
+      }
+      return result
+    }).catch((e: Error) => {
+      target[CALL_RET_ERROR] = e
+      console.error(e)
+    })
+  }
 
   async function proxyMethod (
     this: SidecarBody,
