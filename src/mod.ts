@@ -8,7 +8,7 @@ import { Call }       from './decorators/call/mod'
 import { Hook }       from './decorators/hook/mod'
 import { ParamType }  from './decorators/param-type/mod'
 import { RetType }    from './decorators/ret-type/mod'
-import { Sidecar }    from './decorators/sidecar'
+import { Sidecar }    from './decorators/sidecar/mod'
 
 export {
   Call,

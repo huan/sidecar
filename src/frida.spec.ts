@@ -5,7 +5,7 @@ import { expectType } from 'tsd'
 
 import {
   ScriptMessageHandler,
-  TargetType,
+  FridaTarget,
   NativeType,
   PointerType,
 }                       from './frida'
@@ -27,7 +27,7 @@ test('NativeType typing', async t => {
 })
 
 test('TargetType typing', async t => {
-  const type: TargetType = '' as any
+  const type: FridaTarget = '' as any
   expectType<number | string>(type)
   t.pass('TargetType should be typing right')
 })

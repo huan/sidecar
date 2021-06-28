@@ -1,4 +1,3 @@
-import { timeStamp } from 'console'
 import { EventEmitter } from 'stream'
 import TypedEventEmitter  from 'typed-emitter'
 
