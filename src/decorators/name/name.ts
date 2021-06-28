@@ -8,7 +8,7 @@
  * TypeScript Decorators: Parameter Decorators
  *  https://blog.wotw.pro/typescript-decorators-parameter-decorators/
  */
-import { log } from '../config'
+import { log } from '../../config'
 
 const PARAMETER_NAME_SYMBOL = Symbol('parameterName')
 
@@ -52,26 +52,33 @@ function getParameterName (
   return parameterNameList[parameterIndex]
 }
 
-const Name = (parameterName: string) => (
-  target         : any,
-  propertyKey    : string,
-  parameterIndex : number,
-) => {
-  // console.log('isInstance:', isInstance(target))
+function Name (parameterName: string) {
   log.verbose('Sidecar',
-    'Name(%s) => (%s, %s, %s)',
+    '@Name(%s)',
     parameterName,
-    target.constructor.name,
-    propertyKey,
-    parameterIndex,
   )
 
-  updateParameterName(
-    target,
-    propertyKey,
-    parameterIndex,
-    parameterName,
-  )
+  return function nameParameterDecorator (
+    target         : Object,
+    propertyKey    : string,
+    parameterIndex : number,
+  ) {
+    log.verbose('Sidecar',
+      '@Name(%s) nameParameterDecorator(%s, %s, %s)',
+      parameterName,
+
+      target.constructor.name,
+      propertyKey,
+      parameterIndex,
+    )
+
+    updateParameterName(
+      target,
+      propertyKey,
+      parameterIndex,
+      parameterName,
+    )
+  }
 }
 
 export {
