@@ -24,7 +24,7 @@ function ParamType (
     '@ParamType(%s%s)',
     nativeType,
     pointerTypeList.length > 0
-      ? `, "[${pointerTypeList.join(',')}]"`
+      ? `, [${pointerTypeList.join(',')}]`
       : '',
   )
 
@@ -37,7 +37,7 @@ function ParamType (
       '@ParamType(%s%s) paramTypeDecorator (%s, %s, %s)',
       nativeType,
       pointerTypeList.length > 0
-        ? `, "[${pointerTypeList.join(',')}]"`
+        ? `, [${pointerTypeList.join(',')}]`
         : '',
 
       target.constructor.name,

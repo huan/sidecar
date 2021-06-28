@@ -25,7 +25,11 @@ function guardParamType (
   const designParamType = designParamTypeList[parameterIndex]
 
   log.verbose('Sidecar',
-    'guardParamType(%s.%s#%s) designType/nativeType: %s/%s',
+    'guardParamType(%s, %s, %s) %s.%s(args[%s]) designType/nativeType: %s/%s',
+    target.constructor.name,
+    propertyKey,
+    parameterIndex,
+
     target.constructor.name,
     propertyKey,
     parameterIndex,
@@ -36,7 +40,7 @@ function guardParamType (
 
   const nativeTypeList = toNativeTypeList(designParamType)
   if (!nativeTypeList.includes(nativeType)) {
-    throw new Error(`The "${target.constructor.name}.${String(propertyKey)}(#${parameterIndex}) decorated by "@ParamType(${nativeType}, ...)" does match the design type "${designParamType?.name}"`)
+    throw new Error(`The "${target.constructor.name}.${String(propertyKey)}(args[${parameterIndex}]) decorated by "@ParamType(${nativeType}, ...)" does match the design type "${designParamType?.name}"`)
   }
 }
 

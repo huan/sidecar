@@ -32,16 +32,17 @@ const designTypeMap = new Map<ReflectDesignType, NativeType[]>()
   ])
   .set(Buffer, ['pointer'])
   .set(Boolean, ['bool'])
+  .set(Promise, []) // empty array will permit `any`
 
 function toNativeTypeList (
   designType: ReflectDesignType,
 ): NativeType[] {
   if (!designTypeMap.has(designType)) {
-    throw new Error(`Unsupported designType: ${typeof designType} ${designType && designType.name} ${designType}`)
+    throw new Error(`Unsupported designType: ${(typeof designType)} ${(designType && designType.name)} ${designType}`)
   }
 
   const nativeTypeList = designTypeMap.get(designType)
-  if (!nativeTypeList || nativeTypeList.length <= 0) {
+  if (!nativeTypeList) {
     throw new Error('nativeType can not found from designTypeMap[' + designType + ']')
   }
 

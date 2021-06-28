@@ -40,9 +40,9 @@ function Hook (
   fridaTarget: FridaTarget | LabelTarget,
 ) {
   log.verbose('Sidecar', '@Hook(%s)',
-    typeof fridaTarget === 'object'
-      ? JSON.stringify(fridaTarget)
-      : fridaTarget,
+    typeof fridaTarget === 'object' ? JSON.stringify(fridaTarget)
+    : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
+    : fridaTarget,
   )
 
   return function hookMethodDecorator (
@@ -52,9 +52,9 @@ function Hook (
   ): PropertyDescriptor {
     log.verbose('Sidecar',
       '@Hook(%s) hookMethodDecorator(%s, %s, descriptor)',
-      typeof fridaTarget === 'object'
-        ? JSON.stringify(fridaTarget)
-        : fridaTarget,
+      typeof fridaTarget === 'object' ? JSON.stringify(fridaTarget)
+      : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
+      : fridaTarget,
 
       target.constructor.name,
       propertyKey,

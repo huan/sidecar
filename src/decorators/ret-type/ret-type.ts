@@ -18,7 +18,7 @@ function RetType (
   log.verbose('Sidecar', '@RetType(%s%s)',
     nativeType,
     pointerTypeList.length > 0
-      ? `, "[${pointerTypeList.join(',')}]"`
+      ? `, [${pointerTypeList.join(',')}]`
       : '',
   )
 
@@ -31,7 +31,7 @@ function RetType (
       '@RetType(%s%s) retTypeMethodDecorator(%s, %s, descriptor)',
       nativeType,
       pointerTypeList.length > 0
-        ? `, "[${pointerTypeList.join(',')}]"`
+        ? `, [${pointerTypeList.join(',')}]`
         : '',
 
       target.constructor.name,

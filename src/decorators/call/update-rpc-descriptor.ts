@@ -37,8 +37,12 @@ function updateRpcDescriptor (
     // // https://github.com/huan/clone-class/blob/master/src/instance-to-class.ts
     // const klass = (this.constructor.name as any as typeof SidecarBody)
 
+    // console.log('target:', target)
+    // console.log('target.name:', target.name)
+    // console.log('target.constructor.name:', target.constructor.name)
+
     log.verbose(
-      `${target.name}`,
+      `${target.constructor.name}`,
       `${propertyKey}(%s)`,
       args.join(', '),
     )

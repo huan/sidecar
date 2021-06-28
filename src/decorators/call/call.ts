@@ -14,9 +14,9 @@ function Call (
   fridaTarget: FridaTarget | LabelTarget,
 ) {
   log.verbose('Sidecar', '@Call(%s)',
-    typeof fridaTarget === 'object'
-      ? JSON.stringify(fridaTarget)
-      : fridaTarget,
+    typeof fridaTarget === 'object' ? JSON.stringify(fridaTarget)
+    : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
+    : fridaTarget,
   )
 
   return function callMethodDecorator (
@@ -26,9 +26,9 @@ function Call (
   ): PropertyDescriptor {
     log.verbose('Sidecar',
       '@Call(%s) callMethodDecorator(%s, %s, descriptor)',
-      typeof fridaTarget === 'object'
-        ? JSON.stringify(fridaTarget)
-        : fridaTarget,
+      typeof fridaTarget === 'object' ? JSON.stringify(fridaTarget)
+      : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
+      : fridaTarget,
 
       target.constructor.name,
       propertyKey,

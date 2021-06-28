@@ -8,6 +8,10 @@ import {
 
 test('guard parame type', async t => {
 
+  /**
+   * Huan(202106) decorator metadata is emitted only on decorated members
+   *  https://stackoverflow.com/questions/51493874/typescript-emits-no-decorator-metadata/51493888#51493888
+   */
   const d = (..._args: any[]) => {}
 
   class Test {

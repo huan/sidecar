@@ -12,30 +12,35 @@ import {
   ParamType,
 }                   from '../src/mod'
 
-@Sidecar('messaging', {
-  initAgent: 'console.log("Sidecar inited")',
-})
-class MessagingSidecar extends SidecarBody {
+function getFixture () {
+  @Sidecar('messaging', {
+    initAgent: 'console.log("Sidecar inited")',
+  })
+  class MessagingSidecar extends SidecarBody {
 
-  @Call(0x1234)
-  @RetType('pointer', 'Utf8String')
-  mo (
-    @ParamType('pointer', 'Utf8String')  content:  string,
-    @ParamType('pointer', 'Int')         count:    number,
-  ): Promise<string> {
-    return Ret(content, count)
+    @Call(0x1234)
+    @RetType('pointer', 'Utf8String')
+    mo (
+      @ParamType('pointer', 'Utf8String') content:  string,
+      @ParamType('int')                   count:    number,
+    ): Promise<string> {
+      return Ret(content, count)
+    }
+
+    @Hook({ label: 'label1' })
+    mt (
+      @ParamType('pointer', 'Utf8String') message: string,
+    ) {
+      return Ret(message)
+    }
+
   }
 
-  @Hook({ label: 'label1' })
-  mt (
-    @ParamType('pointer', 'Utf8String') message: string,
-  ) {
-    return Ret(message)
-  }
-
+  return MessagingSidecar
 }
 
-test('test', async (t) => {
+test('smoke testing', async (t) => {
+  const MessagingSidecar = getFixture()
   const sidecar = new MessagingSidecar()
 
   sidecar.on('hook', payload => {
@@ -43,8 +48,13 @@ test('test', async (t) => {
     console.log('args:', payload.args)
   })
 
-  const ret = await sidecar.mo('hello', 2)
-  console.log('ret:', ret)
+  const EXPECTED_RET_VALUE = 42
 
-  t.true(sidecar, 'tbw')
+  sidecar.script = {
+    exports: {
+      mo: () => Promise.resolve(EXPECTED_RET_VALUE),
+    }
+  } as any
+  const ret = await sidecar.mo('hello', 2)
+  t.equal(ret, EXPECTED_RET_VALUE, 'should get the proxyed method value from script')
 })
