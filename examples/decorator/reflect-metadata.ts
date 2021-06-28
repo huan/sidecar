@@ -17,7 +17,7 @@ function decorateProperty (target : any, key : string) {
   console.log('t:', t)
 }
 
-function decorateMethod (target : any, key : string) {
+function decorateMethod (target : any, key : string, _descriptor: PropertyDescriptor) {
   console.log('decorateMethod')
   const types = Reflect.getMetadata('design:paramtypes', target, key)
   const s = types.map((a: any) => a.name).join()
@@ -89,14 +89,14 @@ void decoratorFactory
 function decoratorFactory (this: any, ...args : any[]) {
   switch (args.length) {
     case 1:
-      return decorateClass.apply(this, args)
+      return decorateClass.call(this, args[0])
     case 2:
-      return decorateProperty.apply(this, args)
+      return decorateProperty.call(this, args[0], args[1])
     case 3:
       if (typeof args[2] === 'number') {
-        return decorateParam.apply(this, args)
+        return decorateParam.call(this, args[0], args[1], args[2])
       }
-      return decorateMethod.apply(this, args)
+      return decorateMethod.call(this, args[0], args[1], args[2])
     default:
       throw new Error()
   }
