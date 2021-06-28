@@ -11,33 +11,45 @@ import {
 }                         from './metadata-ret-type'
 import { guardRetType }   from './guard-ret-type'
 
-const RetType = (
+function RetType (
   nativeType         : NativeType,
   ...pointerTypeList : PointerType[]
-) => (
-  target      : Object,
-  propertyKey : string,
-  _descriptor : PropertyDescriptor,
-) => {
-  log.verbose('Sidecar',
-    'RetType(%s, %s) => (%s, %s)',
+) {
+  log.verbose('Sidecar', '@RetType(%s%s)',
     nativeType,
-    pointerTypeList.join(','),
-    target.constructor.name,
-    propertyKey,
+    pointerTypeList.length > 0
+      ? `, "[${pointerTypeList.join(',')}]"`
+      : '',
   )
 
-  guardRetType(
-    target,
-    propertyKey,
-    nativeType,
-  )
+  return function retTypeMethodDecorator (
+    target      : Object,
+    propertyKey : string,
+    _descriptor : PropertyDescriptor,
+  ) {
+    log.verbose('Sidecar',
+      '@RetType(%s%s) retTypeMethodDecorator(%s, %s, descriptor)',
+      nativeType,
+      pointerTypeList.length > 0
+        ? `, "[${pointerTypeList.join(',')}]"`
+        : '',
 
-  updateMetadataRetType(
-    target,
-    propertyKey,
-    [nativeType, ...pointerTypeList],
-  )
+      target.constructor.name,
+      propertyKey,
+    )
+
+    guardRetType(
+      target,
+      propertyKey,
+      nativeType,
+    )
+
+    updateMetadataRetType(
+      target,
+      propertyKey,
+      [nativeType, ...pointerTypeList],
+    )
+  }
 }
 
 export { RetType }

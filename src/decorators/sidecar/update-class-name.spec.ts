@@ -3,7 +3,7 @@ import { test }  from 'tstest'
 
 import { updateClassName } from './update-class-name'
 
-test('Instance singleton', async t => {
+test('updateClassName()', async t => {
 
   class Test {}
   const NAME = 'NewTest'

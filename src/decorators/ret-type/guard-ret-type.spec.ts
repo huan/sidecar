@@ -6,14 +6,15 @@ import {
   guardRetType,
 }                         from './guard-ret-type'
 
-test('guard parame type', async t => {
+test('guard ret type', async t => {
 
-  const d = (..._args: any[]) => {}
+  const triggerMetadata = (..._args: any[]) => {}
 
   class Test {
 
-    @d
-    method (): string {
+    // metadata will only be set when we have a decorator
+    @triggerMetadata
+    method (): string { // <--- `string` should be native type `pointer`
       return ''
     }
 
@@ -23,7 +24,7 @@ test('guard parame type', async t => {
 
   const EXPECTED_RESULTS: [
     NativeType,
-    boolean,
+    boolean,    // `true` if the native type is compatible, `false` otherwise
   ][] = [
     ['int', false],
     ['pointer', true],

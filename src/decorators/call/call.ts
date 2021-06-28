@@ -10,33 +10,44 @@ import {
 import { updateMetadataCall }   from './metadata-call'
 import { updateRpcDescriptor }  from './update-rpc-descriptor'
 
-const Call = (
+function Call (
   fridaTarget: FridaTarget | LabelTarget,
-) => (
-  target      : Object,
-  propertyKey : string,
-  descriptor  : PropertyDescriptor,
-): PropertyDescriptor => {
-  log.verbose('Sidecar',
-    'Call(%s) => (%s, %s)',
-    fridaTarget,
-    target.constructor.name,
-    propertyKey,
+) {
+  log.verbose('Sidecar', '@Call(%s)',
+    typeof fridaTarget === 'object'
+      ? JSON.stringify(fridaTarget)
+      : fridaTarget,
   )
 
-  updateMetadataCall(
-    target,
-    propertyKey,
-    fridaTarget,
-  )
+  return function callMethodDecorator (
+    target      : Object,
+    propertyKey : string,
+    descriptor  : PropertyDescriptor,
+  ): PropertyDescriptor {
+    log.verbose('Sidecar',
+      '@Call(%s) callMethodDecorator(%s, %s, descriptor)',
+      typeof fridaTarget === 'object'
+        ? JSON.stringify(fridaTarget)
+        : fridaTarget,
 
-  const rpcDescriptor = updateRpcDescriptor(
-    target,
-    propertyKey,
-    descriptor,
-  )
+      target.constructor.name,
+      propertyKey,
+    )
 
-  return rpcDescriptor
+    updateMetadataCall(
+      target,
+      propertyKey,
+      fridaTarget,
+    )
+
+    const rpcDescriptor = updateRpcDescriptor(
+      target,
+      propertyKey,
+      descriptor,
+    )
+
+    return rpcDescriptor
+  }
 }
 
 export { Call }

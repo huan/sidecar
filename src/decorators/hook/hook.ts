@@ -36,28 +36,39 @@ function getMetadataHook (
   return fridaTarget
 }
 
-const Hook = (
+function Hook (
   fridaTarget: FridaTarget | LabelTarget,
-) => (
-  target      : Object,
-  propertyKey : string,
-  descriptor  : PropertyDescriptor,
-): PropertyDescriptor => {
-  log.verbose('Sidecar',
-    'Hook(%s) => (%s, %s)',
-    fridaTarget,
-    target.constructor.name,
-    propertyKey,
+) {
+  log.verbose('Sidecar', '@Hook(%s)',
+    typeof fridaTarget === 'object'
+      ? JSON.stringify(fridaTarget)
+      : fridaTarget,
   )
 
-  updateMetadataHook(
-    target,
-    propertyKey,
-    fridaTarget,
-  )
+  return function hookMethodDecorator (
+    target      : Object,
+    propertyKey : string,
+    descriptor  : PropertyDescriptor,
+  ): PropertyDescriptor {
+    log.verbose('Sidecar',
+      '@Hook(%s) hookMethodDecorator(%s, %s, descriptor)',
+      typeof fridaTarget === 'object'
+        ? JSON.stringify(fridaTarget)
+        : fridaTarget,
 
-  // Huan(202106) TODO: add a replaced function to show a error message when be called.
-  return descriptor
+      target.constructor.name,
+      propertyKey,
+    )
+
+    updateMetadataHook(
+      target,
+      propertyKey,
+      fridaTarget,
+    )
+
+    // Huan(202106) TODO: add a replaced function to show a error message when be called.
+    return descriptor
+  }
 }
 
 export {
