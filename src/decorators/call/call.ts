@@ -15,8 +15,8 @@ function Call (
 ) {
   log.verbose('Sidecar', '@Call(%s)',
     typeof fridaTarget === 'object' ? JSON.stringify(fridaTarget)
-    : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
-    : fridaTarget,
+      : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
+        : fridaTarget,
   )
 
   return function callMethodDecorator (
@@ -27,8 +27,8 @@ function Call (
     log.verbose('Sidecar',
       '@Call(%s) callMethodDecorator(%s, %s, descriptor)',
       typeof fridaTarget === 'object' ? JSON.stringify(fridaTarget)
-      : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
-      : fridaTarget,
+        : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
+          : fridaTarget,
 
       target.constructor.name,
       propertyKey,

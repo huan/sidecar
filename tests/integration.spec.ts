@@ -53,7 +53,7 @@ test('smoke testing', async (t) => {
   sidecar.script = {
     exports: {
       mo: () => Promise.resolve(EXPECTED_RET_VALUE),
-    }
+    },
   } as any
   const ret = await sidecar.mo('hello', 2)
   t.equal(ret, EXPECTED_RET_VALUE, 'should get the proxyed method value from script')

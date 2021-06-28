@@ -41,8 +41,8 @@ function Hook (
 ) {
   log.verbose('Sidecar', '@Hook(%s)',
     typeof fridaTarget === 'object' ? JSON.stringify(fridaTarget)
-    : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
-    : fridaTarget,
+      : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
+        : fridaTarget,
   )
 
   return function hookMethodDecorator (
@@ -53,8 +53,8 @@ function Hook (
     log.verbose('Sidecar',
       '@Hook(%s) hookMethodDecorator(%s, %s, descriptor)',
       typeof fridaTarget === 'object' ? JSON.stringify(fridaTarget)
-      : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
-      : fridaTarget,
+        : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
+          : fridaTarget,
 
       target.constructor.name,
       propertyKey,
