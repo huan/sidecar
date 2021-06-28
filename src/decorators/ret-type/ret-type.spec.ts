@@ -21,7 +21,7 @@ test('RetType with metadata', async t => {
       NATIVE_TYPE,
       ...POINTER_TYPE_LIST,
     )
-    method () {}
+    method (): string { return '' }
 
   }
 
@@ -50,7 +50,7 @@ test('getRetType()', async t => {
       NATIVE_TYPE,
       ...POINTER_TYPE_LIST,
     )
-    method () {}
+    method (): string { return '' }
 
   }
 
@@ -69,16 +69,12 @@ test('getRetType()', async t => {
 
 test('guard ret native types', async t => {
   const NATIVE_TYPE       = 'pointer'
-  const POINTER_TYPE_LIST = ['Pointer', 'Utf8String'] as const
 
   const getFixture = () => {
     class Test {
 
-      @RetType(
-        NATIVE_TYPE,
-        ...POINTER_TYPE_LIST,
-      )
-      method (): number {
+      @RetType(NATIVE_TYPE)
+      testMethod (): number {
         return 42
       }
 
@@ -87,6 +83,5 @@ test('guard ret native types', async t => {
     return Test
   }
 
-  getFixture()
   t.throws(getFixture, 'should throw because the RetType(pointer) is not match the design type `number`')
 })

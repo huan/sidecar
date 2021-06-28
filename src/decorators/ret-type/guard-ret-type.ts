@@ -32,6 +32,8 @@ function guardRetType (
   )
 
   const nativeTypeList = toNativeTypeList(designRetType)
+  // console.log(nativeTypeList)
+
   /**
    * Huan(202106): why `nativeTypeList.length > 0`?
    *  nativeTypeList will be empty for the designType `Promise`
@@ -39,7 +41,7 @@ function guardRetType (
    *  so we will not be able to check them.
    */
   if (nativeTypeList.length > 0 && !nativeTypeList.includes(nativeType)) {
-    throw new Error(`The ${target.constructor.name}.${String(propertyKey)}(...) decorated by "@RetType(${nativeType}, ...)" does match the design return type "${designRetType?.name}"`)
+    throw new Error(`The ${target.constructor.name}.${String(propertyKey)}() decorated by "@RetType(${nativeType}, ...)" does match the design return type "${designRetType?.name ?? 'void'}"`)
   }
 }
 

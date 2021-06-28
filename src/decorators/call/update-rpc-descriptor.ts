@@ -11,8 +11,8 @@ function updateRpcDescriptor (
   descriptor  : PropertyDescriptor,
 ): PropertyDescriptor {
   log.verbose('Sidecar',
-    'updateRpcDescriptor(%s, %s)',
-    target.name,
+    'updateRpcDescriptor(%s, %s, descriptor)',
+    target.constructor.name,
     propertyKey,
   )
 
