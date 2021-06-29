@@ -11,7 +11,7 @@ test('nativeArgs()', async t => {
 
   const fixture = getSidecarViewFixture()
 
-  console.log(fixture.nativeFunctionList.length)
+  // console.log(fixture.nativeFunctionList.length)
   const result = fixture.nativeFunctionList.map(x => nativeArgs.call(x))
 
   const EXPECTED_RESULT = [
