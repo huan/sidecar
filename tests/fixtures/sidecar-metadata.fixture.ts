@@ -1,5 +1,8 @@
 import { SidecarMetadata } from '../../src/decorators/sidecar/sidecar-metadata'
 
+/**
+ * Sidecar Metada Fixtures
+ */
 const SIDECAR_METADATA: SidecarMetadata = {
   call: {
     anotherCall: 77,
@@ -47,4 +50,9 @@ const SIDECAR_METADATA: SidecarMetadata = {
   },
 }
 
-export { SIDECAR_METADATA }
+function getSidecarMetadataFixture (): SidecarMetadata {
+  // https://stackoverflow.com/a/12690181/1123955
+  return JSON.parse(JSON.stringify(SIDECAR_METADATA))
+}
+
+export { getSidecarMetadataFixture }

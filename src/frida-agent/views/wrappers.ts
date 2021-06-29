@@ -2,6 +2,9 @@ import { SidecarFunctionDescription } from './sidecar-view'
 
 function wrappedArgs (this: SidecarFunctionDescription) {
   const typeList = this.paramTypeList
+  if (!typeList) {
+    throw new Error('no .paramTypeList found in SidecarFunctionDescription!')
+  }
 
   const wrappedArgList = []
   for (const [idx, typeChain] of typeList.entries()) {
@@ -28,7 +31,7 @@ function wrappedArgs (this: SidecarFunctionDescription) {
 function wrappedRet (this: SidecarFunctionDescription) {
   const typeChain = this.retType
   if (!typeChain) {
-    throw new Error('no .retType found in AgrentFunction context!')
+    throw new Error('no .retType found in SidecarFunctionDescription context!')
   }
 
   const [nativeType, ...pointerTypeList] = typeChain

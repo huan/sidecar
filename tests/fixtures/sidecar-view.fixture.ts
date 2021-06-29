@@ -1,6 +1,7 @@
 import { SidecarView } from '../../src/frida-agent/views/sidecar-view'
+
 /**
- * Sidecar Metada & View Fixtures
+ * Sidecar View Fixtures
  */
 const SIDECAR_VIEW: SidecarView = {
   interceptorList: [
@@ -55,4 +56,9 @@ const SIDECAR_VIEW: SidecarView = {
   ],
 }
 
-export { SIDECAR_VIEW }
+function getSidecarViewFixture (): SidecarView {
+  // https://stackoverflow.com/a/12690181/1123955
+  return JSON.parse(JSON.stringify(SIDECAR_VIEW))
+}
+
+export { getSidecarViewFixture }
