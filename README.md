@@ -1,6 +1,6 @@
 # Sidecar [![NPM](https://github.com/huan/sidecar/actions/workflows/npm.yml/badge.svg)](https://github.com/huan/sidecar/actions/workflows/npm.yml)
 
-Sidecar is a runtime hooking tool for intercepting function calls by TypeScript annotation with ease, powered by Frida.RE.
+Sidecar is a runtime hooking tool for intercepting function calls by TypeScript annotation with ease, powered by [Frida.RE](https://frida.re/).
 
 ![Frida Sidecar](docs/images/sidecar.webp)
 
@@ -19,19 +19,15 @@ Sidecar is a runtime hooking tool for intercepting function calls by TypeScript 
 > Hook: by intercepting function calls or messages or events passed between software components.  
 > &mdash; SOURCE: [Hooking, Wikipedia](https://en.wikipedia.org/wiki/Hooking)
 
-## Requirements
+## Features
 
-### Mac
+1. Easy to use by TypeScript decorators/annotations
+    1. `@Call(memory_address)` for make a API for calling memory address from the binary
+    1. `@Hook(memory_address)` for emit arguments when a memory address is being called
+1. Portable on Windows, macOS, GNU/Linux, iOS, Android, and QNX, as well as X86, Arm, Thumb, Arm64, AArch64, and Mips.
+1. Powered by Frida.RE and can extended by agent script.
 
-1. Disable [System Integrity Protection](https://support.apple.com/en-us/HT204899)
-
-## Install
-
-```sh
-npm install sidecar
-```
-
-## Usage
+## Example
 
 ```ts
 import {
@@ -51,20 +47,55 @@ class MessagingSidecar extends SidecarBody {
   @RetType('pointer', 'Utf8String')
   testMethod (
     @ParamType('pointer', 'Utf8String') content: string,
-    @ParamType('int') n: number,
-  ): Promise<string> { return Ret(content, n) }
+    @ParamType('int')                   n: number,
+  ): Promise<string> {
+    return Ret(content, n)
+  }
 
   @Hook(0x17)
   hookMethod (
     @ParamType('int') n: number,
-  ) { return Ret(n) }
-
-  @Call({ label: 'label1' }) anotherCall () { return Ret() }
+  ) {
+    return Ret(n) 
+  }
 
 }
+
+async function main () {
+  const sidecar = new MessagingSidecar()
+
+  /**
+   * Make API Call
+   */
+  const ret = await sidecar.testMethod()
+  console.log('ret:', ret)
+  // print the function call return value from address 0x42 from messaging binary
+
+  /**
+   * Receive API Call
+   */
+  sidecar.on('hook', payload => {
+    console.log('hook event fired with payload:', payload)
+    // print the method name with arguments when the 0x17 address is being called
+  })
+}
+
+main().catch(console.error)
 ```
 
-## Example
+## Requirements
+
+### Mac
+
+1. Disable [System Integrity Protection](https://support.apple.com/en-us/HT204899)
+
+## Install
+
+```sh
+npm install sidecar
+```
+
+## Usage
 
 ```ts
 // tbw
