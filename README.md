@@ -105,6 +105,8 @@ npm install sidecar
 
 I have another NPM module named [ffi-adapter](https://github.com/huan/ffi-adapter), which is a Foreign Function Interface Adapter Powered by Decorator & TypeScript.
 
+FFi Adapter example:
+
 ```ts
 import {
   LIBRARY,
@@ -122,7 +124,7 @@ console.log('factorial(5) =', lib.factorial(5))
 // Output: factorial(5) = 120
 ```
 
-See examples at <https://github.com/huan/ffi-adapter/tree/master/tests/fixtures/library>
+Learn more about examples at <https://github.com/huan/ffi-adapter/tree/master/tests/fixtures/library>
 
 ## Resources
 
@@ -187,7 +189,7 @@ Repo created.
 
 ## Special thanks
 
-Thanks to Quinton Ashley [@quinton-ashley](https://github.com/quinton-ashley) who is the previous owner of NPM name `sidecar` and he transfer this beautify name to me for publishing this project after I requested via email. Appreciate it!
+Thanks to Quinton Ashley [@quinton-ashley](https://github.com/quinton-ashley) who is the previous owner of NPM name `sidecar` and he transfer this beautify name to me for publishing this project after I requested via email. Appreciate it! (Jun 29, 2021)
 
 ## Author
 
