@@ -25,7 +25,7 @@ Sidecar is a runtime hooking tool for intercepting function calls by TypeScript 
     1. `@Call(memory_address)` for make a API for calling memory address from the binary
     1. `@Hook(memory_address)` for emit arguments when a memory address is being called
 1. Portable on Windows, macOS, GNU/Linux, iOS, Android, and QNX, as well as X86, Arm, Thumb, Arm64, AArch64, and Mips.
-1. Powered by Frida.RE and can extended by agent script.
+1. Powered by Frida.RE and can extended by any agent script.
 
 ## Example
 
