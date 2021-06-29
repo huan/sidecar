@@ -1,6 +1,5 @@
 import {
-  NativeType,
-  PointerType,
+  TypeChain,
 }                 from '../../frida'
 
 import { PARAM_TYPE_SYMBOL } from './constants'
@@ -9,7 +8,7 @@ function updateMetadataParamType (
   target         : Object,
   propertyKey    : string,
   parameterIndex : number,
-  typeChain      : [NativeType, ...PointerType[]],
+  typeChain      : TypeChain,
 ): void {
   // Pull the array of parameter names
   const parameterTypeList = Reflect.getOwnMetadata(
@@ -31,15 +30,14 @@ function updateMetadataParamType (
 function getMetadataParamType (
   target         : Object,
   propertyKey    : string,
-  parameterIndex : number,
-): [NativeType, ...PointerType[]] {
+): undefined | TypeChain[] {
   // Pull the array of parameter names
   const parameterTypeList = Reflect.getMetadata(
     PARAM_TYPE_SYMBOL,
     target,
     propertyKey,
-  ) || []
-  return parameterTypeList[parameterIndex]
+  )
+  return parameterTypeList
 }
 
 export {

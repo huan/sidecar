@@ -42,6 +42,7 @@
     "@chatie/semver": "^0.4.7",
     "@chatie/tsconfig": "^0.16.2",
     "@types/frida-gum": "^16.5.0",
+    "@types/mustache": "^4.1.1",
     "@types/node": "^15.12.4",
     "frida-compile": "^9.5.2",
     "pkg-jq": "^0.2.11",
@@ -62,6 +63,7 @@
   },
   "dependencies": {
     "brolog": "^1.12.4",
-    "frida": "^14.2.18"
+    "frida": "^14.2.18",
+    "mustache": "^4.2.0"
   }
 }

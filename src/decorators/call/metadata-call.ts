@@ -1,4 +1,7 @@
 import {
+  log,
+}                 from '../../config'
+import {
   FridaTarget,
   LabelTarget,
 }                       from '../../frida'
@@ -10,6 +13,15 @@ function updateMetadataCall (
   propertyKey : string,
   fridaTarget : FridaTarget | LabelTarget,
 ): void {
+  log.verbose('Sidecar',
+    'updateMetadataCall(%s, %s, %s)',
+    target.constructor.name,
+    propertyKey,
+    typeof fridaTarget === 'object' ? JSON.stringify(fridaTarget)
+      : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
+        : fridaTarget,
+  )
+
   // Update the parameter names
   Reflect.defineMetadata(
     CALL_SYMBOL,

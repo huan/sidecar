@@ -35,6 +35,8 @@ export interface LabelTarget {
 export type FridaTarget = number
                         | string
 
+export type SidecarTarget = FridaTarget | LabelTarget
+
 /**
  * NativeFunction
  *  https://frida.re/docs/javascript-api/#nativefunction
@@ -88,4 +90,4 @@ export type PointerType = 'Pointer'
                         | 'Utf16String'
                         | 'AnsiString'
 
-// export type TypeList = [NativeType, ...PointerType[]]
+export type TypeChain = [NativeType, ...PointerType[]]

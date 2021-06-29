@@ -2,7 +2,7 @@ import {
   log,
 }                         from '../../config'
 import { RET_SYMBOL }     from '../../ret'
-import { SidecarBody }    from '../../sidecar-body'
+import { SidecarBody }    from '../../sidecar-body/mod'
 import { CALL_RET_ERROR } from './constants'
 
 function updateRpcDescriptor (

@@ -5,13 +5,18 @@ import {
   HookEventPayload,
 }                     from '../schema'
 
+export type AttachedEventListener = () => void
+export type DetachedEventListener = () => void
+export type InitedEventListener   = () => void
+
 export type HookEventListener = (payload: HookEventPayload) => void
-export type DestroyEventListener = () => void
 
 interface SidecarEvents {
-  destroy : DestroyEventListener
-  error   : Error
-  hook    : HookEventListener
+  attached : AttachedEventListener
+  detached : DetachedEventListener
+  error    : Error
+  hook     : HookEventListener
+  inited   : InitedEventListener
 }
 
 type SidecarEmitterType = new () => TypedEventEmitter<

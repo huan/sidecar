@@ -1,5 +1,9 @@
 import { Ret }          from './ret'
-import { SidecarBody }  from './sidecar-body'
+import {
+  SidecarBody,
+  attach,
+  detach,
+}                       from './sidecar-body/mod'
 
 /**
  * Decorators
@@ -11,11 +15,15 @@ import { RetType }    from './decorators/ret-type/mod'
 import { Sidecar }    from './decorators/sidecar/mod'
 
 export {
+  attach,
+  detach,
+
   Call,
   Hook,
   ParamType,
   Ret,
   RetType,
+
   Sidecar,
   SidecarBody,
 }

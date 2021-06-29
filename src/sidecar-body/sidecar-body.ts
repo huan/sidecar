@@ -14,19 +14,15 @@ import {
 }                     from '../schema'
 
 import {
-  DESTROY_SYMBOL,
-  START_SYMBOL,
-  STOP_SYMBOL,
+  ATTACH_SYMBOL,
+  DETACH_SYMBOL,
   INIT_SYMBOL,
 
   SCRIPT_DESTROYED_HANDLER_SYMBOL,
   SCRIPT_MESSAGRE_HANDLER_SYMBOL,
-  EMIT_PAYLOAD_HANDLER_SYMBOL,
 }                                   from './constants'
 
 import { SidecarEmitter } from './sidecar-emitter'
-
-// let singletonInstance: null | SidecarBody = null
 
 class SidecarBody extends SidecarEmitter {
 
@@ -36,7 +32,7 @@ class SidecarBody extends SidecarEmitter {
    *  2. create call `exports.rpc.*`
    *  3. create hook and emit events with `Intercepter` and `send`
    */
-  script?: frida.Script
+  script?:  frida.Script
   session?: frida.Session
 
   constructor () {
@@ -46,18 +42,6 @@ class SidecarBody extends SidecarEmitter {
       //   ? ''
       //   : 'again'
     )
-
-    // /**
-    //  * Enforce the class to be singleton.
-    //  *
-    //  * We enforce the SidecarBody and it's children classes
-    //  * can only be instanciated once, because ???
-    //  */
-    // if (singletonInstance) {
-    //   log.verbose('SidecarBody', 'constructor() singleton enforced')
-    //   return singletonInstance
-    // }
-    // singletonInstance = this
   }
 
   async [INIT_SYMBOL] () {
@@ -74,56 +58,57 @@ class SidecarBody extends SidecarEmitter {
 
     this.session = session
     this.script = script
+
+    this.emit('inited')
   }
 
-  async [START_SYMBOL] () {
-    log.verbose('MessagingSidecar', 'stop()')
+  async [ATTACH_SYMBOL] () {
+    log.verbose('SidecarBody', '[ATTACH_SYMBOL]()')
 
     if (!this.script) {
       throw new Error('stop() this.script is undefined!')
     }
 
     await this.script.exports.init()
+
+    this.emit('attached')
   }
 
-  async [STOP_SYMBOL] () {
-    log.verbose('MessagingSidecar', 'stop()')
+  async [DETACH_SYMBOL] () {
+    log.verbose('SidecarBody', '[DETACH_SYMBOL]()')
 
     if (this.script) {
       await this.script.unload()
       this.script = undefined
     } else {
-      throw new Error('stop() this.script is undefined!')
+      log.error('SidecarBody', '[DETACH_SYMBOL]() this.script is undefined!')
     }
+
     if (this.session) {
       await this.session.detach()
       this.session = undefined
     } else {
-      throw new Error('stop() this.session is undefined!')
-    }
-  }
-
-  async [DESTROY_SYMBOL] (): Promise<void> {
-    try {
-      await this.script?.unload()
-    } catch (e) {
-      this.emit('error', e)
+      log.error('SidecarBody', '[DETACH_SYMBOL]() this.session is undefined!')
     }
 
-    try {
-      await this.session?.detach()
-    } catch (e) {
-      this.emit('error', e)
-    }
-
-    this.emit('destroy')
+    this.emit('detached')
   }
 
   /**
    * ScriptDestroyedHandler
    */
   private [SCRIPT_DESTROYED_HANDLER_SYMBOL] () {
-    log.verbose('MessagingSidecar', 'scriptDestroyedHandler()')
+    log.verbose('SidecarBody', '[SCRIPT_DESTROYED_HANDLER_SYMBOL]()')
+
+    if (this.script || this.session) {
+      this[DETACH_SYMBOL]()
+        .catch(e => {
+          log.error('SidecarBody', '[SCRIPT_DESTROYED_HANDLER_SYMBOL]() rejection: %s\n%s',
+            e && e.message,
+            e && e.stack,
+          )
+        })
+    }
   }
 
   /**
@@ -133,47 +118,41 @@ class SidecarBody extends SidecarEmitter {
     message: frida.Message,
     data: null | Buffer,
   ) {
-    log.verbose('MessagingSidecar', 'scriptMessageHandler(%s, %s)', JSON.stringify(message), data)
+    log.verbose('SidecarBody', '[SCRIPT_MESSAGRE_HANDLER_SYMBOL](%s, %s)', JSON.stringify(message), data)
     switch (message.type) {
       case frida.MessageType.Send:
-        log.silly('MessagingSidecar',
-          'scriptMessagerHandler() MessageType.Send: %s',
+        log.silly('SidecarBody',
+          '[SCRIPT_MESSAGRE_HANDLER_SYMBOL]() MessageType.Send: %s',
           JSON.stringify(message.payload),
         )
-
-        this[EMIT_PAYLOAD_HANDLER_SYMBOL](
-          message.payload as HookEventPayload,
-          data,
-        )
+        {
+          const payload: HookEventPayload = {
+            ...message.payload,
+            data,
+          }
+          this.emit('hook', payload)
+        }
 
         break
       case frida.MessageType.Error:
-        log.silly('MessagingSidecar',
-          'scriptMessagerHandler() MessageType.Error: %s',
+        log.error('SidecarBody',
+          '[SCRIPT_MESSAGRE_HANDLER_SYMBOL]() MessageType.Error: %s',
           message.stack,
         )
+        {
+          const e = new Error(message.description)
+          e.stack = e.stack + '\n\n' + message.stack
+          this.emit('error', e)
+        }
         break
 
       default:
-        throw new Error('MessagingSidecar: scriptMessagerHandler() Error: unknown message type: ' + message)
+        throw new Error('MessagingSidecar: [SCRIPT_MESSAGRE_HANDLER_SYMBOL]() Error: unknown message type: ' + message)
     }
 
     if (data) {
-      log.silly('MessagingSidecar', 'scriptMessageHandler() data:', data)
+      log.silly('SidecarBody', '[SCRIPT_MESSAGRE_HANDLER_SYMBOL]() data:', data)
     }
-  }
-
-  private [EMIT_PAYLOAD_HANDLER_SYMBOL] (
-    payload : HookEventPayload,
-    data    : null | Buffer,
-  ): void {
-    log.verbose('MessagingSidecar',
-      'emitPayload(%s, %s)',
-      payload,
-      data,
-    )
-
-    this.emit('hook', payload)
   }
 
 }

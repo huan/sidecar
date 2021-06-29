@@ -11,7 +11,7 @@ import {
   TypeChain,
 }                   from '../../frida'
 
-export interface AgentFunction {
+export interface SidecarFunctionDescription {
   name          : string,
   paramTypeList : TypeChain[],
   retType?      : TypeChain,
@@ -19,8 +19,8 @@ export interface AgentFunction {
 }
 
 export interface SidecarView {
-  nativeFunctionList : AgentFunction[],
-  interceptorList    : AgentFunction[],
+  nativeFunctionList : SidecarFunctionDescription[],
+  interceptorList    : SidecarFunctionDescription[],
 }
 
 function sidecarView (
@@ -29,11 +29,11 @@ function sidecarView (
   log.verbose('Sidecar', 'sidecarView(metadata)')
   log.silly('Sidecar', 'sidecarView(%s)', JSON.stringify(metadata, null, 2))
 
-  const nativeFunctionList: AgentFunction[] = []
-  const interceptorList   : AgentFunction[] = []
+  const nativeFunctionList: SidecarFunctionDescription[] = []
+  const interceptorList   : SidecarFunctionDescription[] = []
 
   for (const [name, target] of Object.entries(metadata.call)) {
-    const agentFunction: AgentFunction = {
+    const agentFunction: SidecarFunctionDescription = {
       name,
       paramTypeList : metadata.paramType[name],
       retType       : metadata.retType[name],
@@ -43,7 +43,7 @@ function sidecarView (
   }
 
   for (const [name, target] of Object.entries(metadata.hook)) {
-    const agentFunction: AgentFunction = {
+    const agentFunction: SidecarFunctionDescription = {
       name,
       paramTypeList : metadata.paramType[name],
       retType       : metadata.retType[name],

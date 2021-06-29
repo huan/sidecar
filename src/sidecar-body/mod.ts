@@ -1,7 +1,11 @@
 import { SidecarBody }  from './sidecar-body'
-import { destroy }      from './destroy'
+import {
+  attach,
+  detach,
+}           from './operations'
 
 export {
-  destroy,
+  attach,
+  detach,
   SidecarBody,
 }

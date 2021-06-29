@@ -1,6 +1,5 @@
 import {
-  NativeType,
-  PointerType,
+  TypeChain,
 }                 from '../../frida'
 import {
   log,
@@ -9,10 +8,15 @@ import {
 import { RET_TYPE_SYMBOL } from './constants'
 
 function updateMetadataRetType (
-  target      : Object,
+  target      : any,
   propertyKey : string,
-  typeChain   : (NativeType | PointerType)[],
+  typeChain   : TypeChain,
 ): void {
+  log.verbose('Sidecar', 'updateMetadataRetType(%s, %s, %s)',
+    target.name,
+    propertyKey,
+    JSON.stringify(typeChain)
+  )
   // Update the parameter names
   Reflect.defineMetadata(
     RET_TYPE_SYMBOL,
@@ -25,18 +29,14 @@ function updateMetadataRetType (
 function getMetadataRetType (
   target      : Object,
   propertyKey : string,
-): (NativeType | PointerType)[] {
+): undefined | TypeChain {
   // Pull the array of parameter names
-  const methodTypeList = Reflect.getMetadata(
+  const retTypeChain = Reflect.getMetadata(
     RET_TYPE_SYMBOL,
     target,
     propertyKey,
   )
-  if (!Array.isArray(methodTypeList) || methodTypeList.length <= 0) {
-    log.error('Sidecar', 'getRetType() can not get metadata.')
-    log.error('Stack: %s', new Error().stack)
-  }
-  return methodTypeList
+  return retTypeChain
 }
 
 export {
