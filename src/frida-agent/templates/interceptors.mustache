@@ -10,7 +10,7 @@
 {{# interceptorList }}
 /**
  * Interceptor Target: {{ name }} / {{ target }}
- *  Parameters: {{ paramTypeList }}
+ *  Parameters: {{{ nativeParamTypes }}}
  */
 const {{ name }}_Interceptor_target = ptr({{ target }})
 
@@ -26,7 +26,7 @@ Interceptor.attach(
 
       send(hookPayload(
         '{{ name }}',
-        {{ wrappedReadArgs }}
+        {{ jsArgs }}
       ), null)
 
     },

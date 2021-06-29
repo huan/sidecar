@@ -11,6 +11,10 @@ const SIDECAR_VIEW: SidecarView = {
         [
           'int',
         ],
+        [
+          'pointer',
+          'Utf8String',
+        ],
       ],
       retType: undefined,
       target: 23,

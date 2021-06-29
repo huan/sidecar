@@ -27,6 +27,10 @@ const SIDECAR_METADATA: SidecarMetadata = {
       [
         'int',
       ],
+      [
+        'pointer',
+        'Utf8String',
+      ],
     ],
     testMethod: [
       [

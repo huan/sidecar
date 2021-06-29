@@ -9,7 +9,7 @@
 
 /**
  * Native Function: {{ name }} / {{ target }}
- *  Parameters: {{ parameterTypeList }}
+ *  Parameters: {{ nativeParamTypes }}
  *  Ret: {{ retType }}
  */
 // Huan(202106): which name is better: address, or target?
@@ -17,8 +17,8 @@ const {{ name }}_NativeFunction_address = ptr({{ target }})
 
 const {{ name }}_NativeFunction = new NativeFunction(
   {{ name }}_NativeFunction_address,
-  {{{ retNativeType }}},
-  [{{{ paramNativeTypeList }}}],
+  {{{ nativeRetType }}},
+  [{{{ nativeParamTypes }}}],
 )
 
 function {{ name }}_NativeFunction_wrapper (...args) {
@@ -26,7 +26,7 @@ function {{ name }}_NativeFunction_wrapper (...args) {
 
   {{{ declareNativeArgs }}}
 
-  const ret = {{ name }}_NativeFunction(...{{ wrappedNativeArgs }})
+  const ret = {{ name }}_NativeFunction(...{{ nativeArgs }})
   return {{ jsRet }}
 }
 
