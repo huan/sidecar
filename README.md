@@ -141,6 +141,10 @@ a binary instrumentation workshop, using Frida, for beginners, @leonjza](http://
 
 Repo created.
 
+## Special thanks
+
+Thanks to Quinton Ashley [@quinton-ashley](https://github.com/quinton-ashley) who is the previous owner of NPM name `sidecar` and he transfer this beautify name to me for publishing this project after I requested via email. Appreciate it!
+
 ## Author
 
 [Huan LI](https://github.com/huan) ([李卓桓](http://linkedin.com/in/zixia)), [Microsoft Regional Director](https://rd.microsoft.com/en-us/huan-li), zixia@zixia.net
