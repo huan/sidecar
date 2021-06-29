@@ -8,24 +8,14 @@ import {
   partialLookup,
 }                         from '../loaders/partial-lookup'
 
-test('()', async t => {
+import { FIXTURE } from '../views/sidecar-view.spec'
 
-  const rpcExportView = {
-    nativeFunctionList: [
-      {
-        name: 'testMethod',
-      },
-      {
-        name: 'anotherCall',
-      },
-    ],
-
-  }
+test('render rpc-exports()', async t => {
 
   const template = await partialLookup('rpc-exports.mustache')
 
   // console.log(template)
-  const code = Mustache.render(template, rpcExportView)
+  const code = Mustache.render(template, FIXTURE.view)
   // console.log(code)
 
   /**
@@ -43,4 +33,9 @@ test('()', async t => {
   vm.runInContext(code, context)
   t.true('testMethod' in context.rpc.exports, 'should export testMethod')
   t.true('anotherCall' in context.rpc.exports, 'should export anotherCall')
+
+  /**
+   * Do not export Hook/Interceptor methods
+   */
+  t.false('hookMethod' in context.rpc.exports, 'should not export hookMethod')
 })
