@@ -36,19 +36,32 @@ npm install sidecar
 ```ts
 import {
   Sidecar,
-  HookCall,
+  SidecarBody,
+  Call,
   Hook,
-  OnEnter,
-  OnLeave,
-  Replace
+  ParamType,
+  RetType,
+  Ret,
 }                       from 'sidecar'
 
-@Sidecar('factorial-daemon')
-class ProcessSideCar {
-  @Func(0x33444) reset (): void
-  @Hook 
-}
+@Sidecar('messaging')
+class MessagingSidecar extends SidecarBody {
 
+  @Call(0x42)
+  @RetType('pointer', 'Utf8String')
+  testMethod (
+    @ParamType('pointer', 'Utf8String') content: string,
+    @ParamType('int') n: number,
+  ): Promise<string> { return Ret(content, n) }
+
+  @Hook(0x17)
+  hookMethod (
+    @ParamType('int') n: number,
+  ) { return Ret(n) }
+
+  @Call({ label: 'label1' }) anotherCall () { return Ret() }
+
+}
 ```
 
 ## Example
