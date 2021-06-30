@@ -5,7 +5,7 @@ import Mustache from  'mustache'
 
 import {
   partialLookup,
-}                         from '../loaders/partial-lookup'
+}                         from '../partial-lookup'
 
 import { getSidecarViewFixture } from '../../../tests/fixtures/sidecar-view.fixture'
 

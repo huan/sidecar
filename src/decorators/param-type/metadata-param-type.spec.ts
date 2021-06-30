@@ -24,7 +24,6 @@ test('update & get parame type metadata', async t => {
   const data = getMetadataParamType(
     TARGET,
     PROPERTY_KEY,
-    0,
   )
 
   t.deepEqual(data, VALUE, 'should get the parameter type data the same as we set(update')

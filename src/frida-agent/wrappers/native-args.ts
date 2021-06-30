@@ -1,4 +1,4 @@
-import { SidecarFunctionDescription } from '../views/sidecar-view'
+import { SidecarFunctionDescription } from '../sidecar-view'
 import { nativeArgName } from './name-helpers'
 
 function nativeArgs (this: SidecarFunctionDescription) {

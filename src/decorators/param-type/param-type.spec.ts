@@ -65,11 +65,10 @@ test('getParamType', async t => {
   }
 
   const instance = new Test()
-  const typeList = [0, 1].map(i => getMetadataParamType(
+  const typeList = getMetadataParamType(
     instance,
     'method',
-    i,
-  ))
+  )
 
   const EXPECTED_NAME_LIST = [undefined, [
     NATIVE_TYPE,

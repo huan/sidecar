@@ -1,4 +1,4 @@
-import { SidecarFunctionDescription } from '../views/sidecar-view'
+import { SidecarFunctionDescription } from '../sidecar-view'
 
 function nativeParamTypes (this: SidecarFunctionDescription) {
   if (!this.paramTypeList) {

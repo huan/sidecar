@@ -63,6 +63,7 @@
   },
   "dependencies": {
     "brolog": "^1.12.4",
+    "cmd-ts": "^0.7.0",
     "frida": "^14.2.18",
     "mustache": "^4.2.0"
   }

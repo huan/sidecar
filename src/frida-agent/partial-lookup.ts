@@ -1,5 +1,4 @@
 /**
- * partial.js -> libs/
  * partial.mustache -> templates/
  */
 import fs from 'fs'
