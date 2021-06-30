@@ -1,4 +1,4 @@
-import { SidecarView } from '../../src/frida-agent/views/sidecar-view'
+import { SidecarView } from '../../src/frida-agent/sidecar-view'
 
 /**
  * Sidecar View Fixtures

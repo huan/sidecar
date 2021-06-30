@@ -11,7 +11,7 @@ test('declareNativeArgs()', async t => {
 
   const fixture = getSidecarViewFixture()
 
-  console.log(fixture.nativeFunctionList.length)
+  // console.log(fixture.nativeFunctionList.length)
   const result = fixture.nativeFunctionList.map(x => declareNativeArgs.call(x))
   // const result = declareNativeArgs.call(SIDECAR_VIEW.nativeFunctionList[0])
   // console.log('###', fixture.nativeFunctionList[0])

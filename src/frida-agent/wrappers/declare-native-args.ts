@@ -16,7 +16,7 @@ function declareNativeArgs (this: SidecarFunctionDescription) {
   const declareStatementList = []
   for (const [argIdx, paramTypeChain] of paramTypeList.entries()) {
     const [nativeType, ...pointerTypeList] = paramTypeChain
-    console.log(argIdx, nativeType, pointerTypeList)
+    // console.log(argIdx, nativeType, pointerTypeList)
 
     const statementChain = []
 

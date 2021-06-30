@@ -29,7 +29,12 @@ Sidecar is a runtime hooking tool for intercepting function calls by TypeScript 
 
 ## Example
 
+Talk is cheap, show me the code.
+
 ```ts
+/**
+ * I. Import Sidecar
+ */
 import {
   Sidecar,
   SidecarBody,
@@ -40,6 +45,9 @@ import {
   Ret,
 }                       from 'sidecar'
 
+/**
+ * II. Declare a Sidecar class with decorators
+ */
 @Sidecar('messaging')
 class MessagingSidecar extends SidecarBody {
 
@@ -61,18 +69,21 @@ class MessagingSidecar extends SidecarBody {
 
 }
 
+/**
+ * III. Use the Sidecar class as usual.
+ */
 async function main () {
   const sidecar = new MessagingSidecar()
 
   /**
-   * Make API Call
+   * 1. Make API call
    */
   const ret = await sidecar.testMethod()
   console.log('ret:', ret)
   // print the function call return value from address 0x42 from messaging binary
 
   /**
-   * Receive API Call
+   * 2. Receive hooked API call
    */
   sidecar.on('hook', payload => {
     console.log('hook event fired with payload:', payload)
@@ -81,6 +92,16 @@ async function main () {
 }
 
 main().catch(console.error)
+```
+
+Run the example by yourself with the following commands:
+
+```sh
+git clone git@github.com:huan/sidecar.git
+cd sidecar
+
+cd examples
+make
 ```
 
 ## Requirements

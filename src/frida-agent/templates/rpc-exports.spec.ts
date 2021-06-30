@@ -6,11 +6,13 @@ import Mustache from  'mustache'
 
 import {
   partialLookup,
-}                         from '../loaders/partial-lookup'
+}                         from '../partial-lookup'
 
-import { SIDECAR_VIEW } from '../../../tests/fixtures/sidecar-view.fixture'
+import { getSidecarViewFixture } from '../../../tests/fixtures/sidecar-view.fixture'
 
 test('render rpc-exports()', async t => {
+
+  const SIDECAR_VIEW = getSidecarViewFixture()
 
   const template = await partialLookup('rpc-exports.mustache')
 

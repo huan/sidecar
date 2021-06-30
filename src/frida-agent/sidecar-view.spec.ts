@@ -5,10 +5,13 @@ import {
   sidecarView,
 }                       from './sidecar-view'
 
-import { SIDECAR_METADATA } from '../../../tests/fixtures/sidecar-metadata.fixture'
-import { SIDECAR_VIEW }     from '../../../tests/fixtures/sidecar-view.fixture'
+import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture'
+import { getSidecarViewFixture }     from '../../tests/fixtures/sidecar-view.fixture'
 
 test('sidecarView()', async t => {
+
+  const SIDECAR_METADATA = getSidecarMetadataFixture()
+  const SIDECAR_VIEW = getSidecarViewFixture()
 
   const view = sidecarView(SIDECAR_METADATA)
   // console.log(JSON.stringify(view, null, 2))

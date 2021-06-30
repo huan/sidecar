@@ -1,15 +1,15 @@
 import {
   log,
-}             from '../../config'
+}             from '../config'
 
 import {
   SidecarMetadata,
-}                       from '../../decorators/mod'
+}                       from '../decorators/mod'
 
 import {
   SidecarTarget,
   TypeChain,
-}                   from '../../frida'
+}                   from '../frida'
 
 export interface SidecarFunctionDescription {
   name          : string,

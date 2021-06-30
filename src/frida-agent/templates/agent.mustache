@@ -1,0 +1,29 @@
+/*****************************************
+ * File: "templates/agent.mustache"
+ * --------------------------------
+ * Sidecar Frida Agent Mustache Template
+ *
+ * Huan <zixia@zixia.net>, June 24, 2021
+ *  https://github.com/huan/sidecar
+ *****************************************/
+
+{{> libs/payload.js}}
+
+{{> libs/log.js }}
+
+{{> native-functions.mustache }}
+
+{{> interceptors.mustache }}
+
+function init () {
+  log.verbose('SidecarAgent', 'init()')
+
+  {{{ initAgentCode }}}
+
+}
+
+rpc.exports = {
+  ...rpc.exports,
+}
+
+{{> rpc-exports.mustache }}

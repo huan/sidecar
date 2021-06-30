@@ -1,6 +1,8 @@
-/**
+/********************************************
+ * File: templates/lib/payload.js
+ *
  * To make sure the payload typing is right
- */
+ ********************************************/
 const hookPayload = (
   method, // string
   args,   // Arguments, Array

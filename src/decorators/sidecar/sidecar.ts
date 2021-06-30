@@ -1,14 +1,18 @@
 import {
   log,
-}                   from '../../config'
+}               from '../../config'
 
-import { updateClassName } from './update-class-name'
+import {
+  sidecarMetadata,
+}                           from './sidecar-metadata'
+
+import { updateClassName }  from './update-class-name'
 
 interface SidecarOptions {
   /**
    * Frida agent script source code
    */
-  initAgent: string,
+  initAgentSource: string,
 }
 
 /**
@@ -48,6 +52,9 @@ function Sidecar (
         : '',
       Klass.name,
     )
+
+    const metadata = sidecarMetadata(Klass)
+    void metadata
 
     // let instance: any = null
 

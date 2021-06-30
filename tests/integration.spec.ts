@@ -14,7 +14,7 @@ import {
 
 function getFixture () {
   @Sidecar('messaging', {
-    initAgent: 'console.log("Sidecar inited")',
+    initAgentSource: 'console.log("Sidecar inited")',
   })
   class MessagingSidecar extends SidecarBody {
 

@@ -1,3 +1,6 @@
+/*******************************
+ * File: templates/libs/log.js
+ *******************************/
 const log = function () {
   let level = 'verbose'
 
