@@ -70,7 +70,7 @@ test('getParamType', async t => {
     'method',
   )
 
-  const EXPECTED_NAME_LIST = [undefined, [
+  const EXPECTED_NAME_LIST = [, [
     NATIVE_TYPE,
     ...POINTER_TYPE_LIST,
   ]]

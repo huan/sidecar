@@ -2,6 +2,7 @@
 import { test }  from 'tstest'
 
 import { Ret } from '../../ret'
+import { SidecarBody } from '../../sidecar-body/sidecar-body'
 import { Call } from '../call/call'
 import { Hook } from '../hook/hook'
 import { ParamType } from '../param-type/param-type'
@@ -11,7 +12,7 @@ import { Sidecar } from './sidecar'
 
 test('@Sidecar() smoke testing', async t => {
 
-  @Sidecar('chatbox') class Test {}
+  @Sidecar('chatbox') class Test extends SidecarBody {}
 
   const test = new Test()
 
@@ -22,7 +23,7 @@ test('@Sidecar() smoke testing', async t => {
 test('@Sidecar() generateCallAgent()', async t => {
 
   @Sidecar('chatbox')
-  class Test {
+  class Test extends SidecarBody {
 
     @Call(0x42)
     @RetType('pointer', 'Utf8String')
@@ -36,7 +37,7 @@ test('@Sidecar() generateCallAgent()', async t => {
       @ParamType('int') n: number,
     ) { return Ret(n) }
 
-    @Call({ label: 'label1' }) anotherCall () { return Ret() }
+    // @Call({ label: 'label1' }) anotherCall () { return Ret() }
 
   }
 

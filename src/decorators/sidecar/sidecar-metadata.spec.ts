@@ -13,10 +13,11 @@ import {
 }                   from './sidecar-metadata'
 
 import { Sidecar } from './sidecar'
+import { SidecarBody } from '../../sidecar-body/mod'
 
 test('sidecarMetadata() empty class', async t => {
 
-  @Sidecar('chatbox') class Test {}
+  @Sidecar('chatbox') class Test extends SidecarBody {}
 
   const EXPECTED_DATA: SidecarMetadata = { call: {}, hook: {}, paramType: {}, retType: {} }
 

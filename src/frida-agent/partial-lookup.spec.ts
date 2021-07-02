@@ -9,8 +9,8 @@ import {
 
 test('partialLookup()', async t => {
   const EXPECTED_STR = fs.readFileSync(
-    require.resolve('../libs/log.js')
+    require.resolve('./templates/libs/log.js')
   ).toString()
-  const source = await partialLookup('log.js')
+  const source = await partialLookup('libs/log.js')
   t.equal(source, EXPECTED_STR, 'should get right partial file content')
 })

@@ -44,7 +44,7 @@ test('native-functions.mustache', async t => {
     },
     partialLookup,
   )
-  console.log(result)
+  // console.log(result)
 
   /**
    * Huan(202106): how could we test this script has been correctly generated?
