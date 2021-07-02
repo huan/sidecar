@@ -7,7 +7,7 @@ import {
   ReflectDesignType,
 }                           from './schema'
 
-const designTypeMap = new Map<ReflectDesignType, NativeType[]>()
+const designToNativeTypesTable = new Map<ReflectDesignType, NativeType[]>()
   .set(undefined, ['void'])
   .set(String, ['pointer'])
   .set(Number, [
@@ -37,11 +37,11 @@ const designTypeMap = new Map<ReflectDesignType, NativeType[]>()
 function toNativeTypeList (
   designType: ReflectDesignType,
 ): NativeType[] {
-  if (!designTypeMap.has(designType)) {
+  if (!designToNativeTypesTable.has(designType)) {
     throw new Error(`Unsupported designType: ${(typeof designType)} ${(designType && designType.name)} ${designType}`)
   }
 
-  const nativeTypeList = designTypeMap.get(designType)
+  const nativeTypeList = designToNativeTypesTable.get(designType)
   if (!nativeTypeList) {
     throw new Error('nativeType can not found from designTypeMap[' + designType + ']')
   }

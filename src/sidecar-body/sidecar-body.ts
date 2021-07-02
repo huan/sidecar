@@ -4,7 +4,6 @@
  * Huan <zixia@zixia.net>, June 24, 2021
  *  https://github.com/huan/sidecar
  */
-
 import {
   log,
 }                     from '../config'
@@ -24,6 +23,18 @@ import {
 
 import { SidecarEmitter } from './sidecar-emitter'
 
+export enum SpawnMode {
+  Default = 0,
+  Always  = 1,
+  Never   = 2,
+}
+
+export interface SidecarBodyOptions {
+  initAgentSource : string,
+  spawnMode       : SpawnMode,
+  targetProcess   : frida.TargetProcess,
+}
+
 class SidecarBody extends SidecarEmitter {
 
   /**
@@ -35,21 +46,80 @@ class SidecarBody extends SidecarEmitter {
   script?:  frida.Script
   session?: frida.Session
 
-  constructor () {
+  /**
+   * Constructor options:
+   */
+  initAgentSource : string
+  spawnMode       : SpawnMode
+  targetProcess   : frida.TargetProcess
+
+  constructor (
+    options?: SidecarBodyOptions,
+  ) {
     super()
-    log.verbose('SidecarBody', 'constructor()',
-      // singletonInstance === null
-      //   ? ''
-      //   : 'again'
+    log.verbose('SidecarBody', 'constructor(%s)',
+      options
+        ? `"${JSON.stringify(options)}`
+        : '',
     )
+
+    const Klass = this.constructor as any as {
+      initAgentSource : string,
+      targetProcess?  : frida.TargetProcess
+    }
+
+    this.initAgentSource = options?.initAgentSource || Klass.initAgentSource || ''
+    this.spawnMode       = options?.spawnMode       || SpawnMode.Default
+    this.targetProcess   = options?.targetProcess    || Klass.targetProcess || ''
+
+    if (!this.targetProcess) {
+      throw new Error('Sidecar must specify the "targetProcess" either by the "@Sidecar" decorator, or the "constructor()" function.')
+    }
   }
 
   async [INIT_SYMBOL] () {
-    log.verbose('SidecarBody', 'init()')
+    log.verbose('SidecarBody', '[INIT_SYMBOL]()')
 
-    const session     = await frida.attach('messaging')
-    const agentSource = 'await loadAgentSource()'
-    const script      = await session.createScript(agentSource)
+    let pid: number
+    let session : frida.Session
+
+    switch (this.spawnMode) {
+      /**
+       * Default: attach first, if failed, then try spawn.
+       */
+      case SpawnMode.Default:
+        try {
+          session = await frida.attach(this.targetProcess)
+        } catch (e) {
+          log.silly('SidecarBody',
+            '[INIT_SYMBOL]() SpawnMode.Default attach(%s) failed. trying spawn...',
+            this.targetProcess,
+          )
+          if (typeof this.targetProcess === 'number') {
+            throw new Error('Sidecar: can not spawn a number "targetProcess": ' + this.targetProcess)
+          }
+          pid = await frida.spawn(this.targetProcess)
+          session = await frida.attach(pid)
+        }
+        break
+
+      case SpawnMode.Always:
+        if (typeof this.targetProcess === 'number') {
+          throw new Error(`Sidecar: "targetProcess" must be program when using SpawnMode.Always. We got: ${this.spawnMode}`)
+        }
+        pid = await frida.spawn(this.targetProcess)
+        session = await frida.attach(pid)
+        break
+
+      case SpawnMode.Never:
+        session = await frida.attach(this.targetProcess)
+        break
+
+      default:
+        throw new Error('Sidecar: unknown SpawnMode: ' + this.spawnMode)
+    }
+
+    const script = await session.createScript(this.initAgentSource)
 
     script.message.connect(this[SCRIPT_MESSAGRE_HANDLER_SYMBOL].bind(this))
     script.destroyed.connect(this[SCRIPT_DESTROYED_HANDLER_SYMBOL].bind(this))
@@ -66,10 +136,14 @@ class SidecarBody extends SidecarEmitter {
     log.verbose('SidecarBody', '[ATTACH_SYMBOL]()')
 
     if (!this.script) {
-      throw new Error('stop() this.script is undefined!')
+      throw new Error('[ATTACH_SYMBOL]() this.script is undefined!')
     }
 
-    await this.script.exports.init()
+    if ('init' in this.script.exports) {
+      await this.script.exports.init()
+    } else {
+      log.warn('SidecarBody', '[ATTACH_SYMBOL]() "init" not found in "script.exports"')
+    }
 
     this.emit('attached')
   }

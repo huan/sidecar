@@ -31,6 +31,7 @@ test('init()', async t => {
     t.pass('init() successfully')
   } catch (e) {
     t.fail('Rejection:' + e && e.message)
+    console.error(e)
   }
 })
 test('attach()', async t => {
@@ -38,6 +39,14 @@ test('attach()', async t => {
   class SidecarTest extends SidecarBody {}
 
   const s = new SidecarTest()
+
+  s.script = {
+    unload: (..._: any[]) => { return {} as any },
+  } as any
+  s.session = {
+    detach: (..._: any[]) => { return {} as any },
+  } as any
+
   const future = new Promise<void>(resolve => s.on('attached', resolve))
 
   try {

@@ -1,21 +1,45 @@
-import * as frida from 'frida'
+import {
+  Sidecar,
+  SidecarBody,
+  Call,
+  Hook,
+  ParamType,
+  RetType,
+  Ret,
+}                 from '../src/mod'
 
-const INJECT_SOURCE = `
-  console.log('faint')
-  const init = () => console.log('init')
-  rpc.exports = {
-    init
+import {
+  targetAddress,
+  targetProgram,
+}                 from './targets'
+
+@Sidecar(targetProgram())
+class ChatboxSidecar extends SidecarBody {
+
+  @Call(targetAddress('mo'))
+  @RetType('void')
+  mo (
+    @ParamType('pointer', 'Utf8String') content: string,
+  ): Promise<string> {
+    return Ret(content)
   }
-`
+
+  @Hook(targetAddress('mt'))
+  mt (
+    @ParamType('pointer', 'Utf8String') content: string,
+  ) {
+    return Ret(content)
+  }
+
+}
+
 async function main () {
-  const pid = await frida.spawn(['/bin/ls'])
-  const session = await frida.attach(pid)
-  const script = await session.createScript(INJECT_SOURCE)
-  await script.load()
-  // eslint-disable-next-line no-console
-  // console.log(script.exports)
-  await script.exports.init()
-  await frida.resume(pid)
+  const sidecar = new ChatboxSidecar()
+  sidecar.on('hook', payload => {
+    console.log(payload)
+  })
+
+  setInterval(() => sidecar.mo('Hello from setInterval'), 3000)
 }
 
 main()

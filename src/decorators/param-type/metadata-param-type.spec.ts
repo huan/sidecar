@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 import { test }  from 'tstest'
-import { NativeType, PointerType } from '../../frida'
+import { TypeChain } from '../../frida'
 
 import {
   getMetadataParamType,
@@ -12,13 +12,13 @@ test('update & get parame type metadata', async t => {
   const TARGET = {
     [PROPERTY_KEY]: () => {},
   }
-  const VALUE = ['pointer', 'Utf8String'] as [NativeType, ...PointerType[]]
+  const VALUE = [['pointer', 'Utf8String']] as TypeChain[]
 
   updateMetadataParamType(
     TARGET,
     PROPERTY_KEY,
     0,
-    VALUE,
+    VALUE[0],
   )
 
   const data = getMetadataParamType(
@@ -26,5 +26,5 @@ test('update & get parame type metadata', async t => {
     PROPERTY_KEY,
   )
 
-  t.deepEqual(data, VALUE, 'should get the parameter type data the same as we set(update')
+  t.deepEqual(data, VALUE, 'should get the parameter type data the same as we set(update)')
 })
