@@ -5,6 +5,7 @@ import {
   SidecarTarget,
   TypeChain,
 }                   from '../../frida'
+import { SidecarBody } from '../../sidecar-body/sidecar-body'
 
 import { getMetadataCall }        from '../call/metadata-call'
 import { getMetadataHook }        from '../hook/hook'
@@ -25,12 +26,23 @@ function sidecarMetadata <T extends {
 ): SidecarMetadata {
   log.verbose('Sidecar', 'sidecarMetadata(%s)', klass.name)
 
+  let directChildClass = klass
+  if (Object.getPrototypeOf(directChildClass) !== SidecarBody) {
+    log.silly('Sidecar', 'sidecarMetadata() klass is not direct child of SidecarBody, unwraping...')
+
+    directChildClass = Object.getPrototypeOf(directChildClass)
+    if (Object.getPrototypeOf(directChildClass) !== SidecarBody) {
+      throw new Error('Sidecar: sidecarMetadata() klass must be child of SidecarBody!')
+    }
+    log.silly('Sidecar', 'sidecarMetadata() klass is direct child of SidecarBody now')
+  }
+
   const callMetadataMap:      SidecarMetadata['call']      = {}
   const hookMetadataMap:      SidecarMetadata['hook']      = {}
   const paramTypeMetadataMap: SidecarMetadata['paramType'] = {}
   const retTypeMetadataMap:   SidecarMetadata['retType']   = {}
 
-  const propertyList = Object.getOwnPropertyNames(klass.prototype)
+  const propertyList = Object.getOwnPropertyNames(directChildClass.prototype)
   for (const property of propertyList) {
 
     log.silly('Sidecar', 'sidecarMetadata() inspecting "%s.%s"...',

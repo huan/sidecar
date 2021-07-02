@@ -27,7 +27,7 @@ function sidecarView (
   metadata: SidecarMetadata,
 ): SidecarView {
   log.verbose('Sidecar', 'sidecarView(metadata)')
-  log.silly('Sidecar', 'sidecarView(%s)', JSON.stringify(metadata, null, 2))
+  log.silly('Sidecar', 'sidecarView(%s)', JSON.stringify(metadata))
 
   const nativeFunctionList: SidecarFunctionDescription[] = []
   const interceptorList   : SidecarFunctionDescription[] = []
