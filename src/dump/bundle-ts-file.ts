@@ -6,7 +6,7 @@ const options = {
   target                 : 'es6',   // https://github.com/TypeStrong/tsify#es2015-formerly-known-as-es6
 } as any
 
-const bundleTsFile = (file: string) => new Promise((resolve, reject) => {
+const bundleTsFile = (file: string) => new Promise<string>((resolve, reject) => {
   const stream = browserify()
     .add(file)
     .plugin(tsify, options)
