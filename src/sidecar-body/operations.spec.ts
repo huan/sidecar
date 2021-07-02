@@ -14,7 +14,9 @@ test('init()', async t => {
 
   class SidecarTest extends SidecarBody {}
 
-  const s = new SidecarTest()
+  const s = new SidecarTest({
+    targetProcess: '/bin/ls',
+  })
   const future = new Promise<void>(resolve => s.on('inited', resolve))
 
   try {
@@ -38,7 +40,9 @@ test('attach()', async t => {
 
   class SidecarTest extends SidecarBody {}
 
-  const s = new SidecarTest()
+  const s = new SidecarTest({
+    targetProcess: '/bin/ls',
+  })
 
   s.script = {
     unload: (..._: any[]) => { return {} as any },
@@ -70,7 +74,9 @@ test('detach()', async t => {
 
   class SidecarTest extends SidecarBody {}
 
-  const s = new SidecarTest()
+  const s = new SidecarTest({
+    targetProcess: 'ls',
+  })
   const future = new Promise<void>(resolve => s.on('detached', resolve))
 
   try {
@@ -84,7 +90,7 @@ test('detach()', async t => {
       }),
     ])
 
-    t.pass('destroy() successfully')
+    t.pass('detach() successfully')
   } catch (e) {
     t.fail('Rejection:' + e && e.message)
   }

@@ -30,9 +30,9 @@ export enum SpawnMode {
 }
 
 export interface SidecarBodyOptions {
-  initAgentSource : string,
-  spawnMode       : SpawnMode,
-  targetProcess   : frida.TargetProcess,
+  initAgentSource? : string,
+  spawnMode?       : SpawnMode,
+  targetProcess?   : frida.TargetProcess,
 }
 
 class SidecarBody extends SidecarEmitter {
@@ -73,12 +73,18 @@ class SidecarBody extends SidecarEmitter {
     this.targetProcess   = options?.targetProcess    || Klass.targetProcess || ''
 
     if (!this.targetProcess) {
-      throw new Error('Sidecar must specify the "targetProcess" either by the "@Sidecar" decorator, or the "constructor()" function.')
+      throw new Error([
+        'Sidecar must specify the "targetProcess"',
+        'either by the "@Sidecar" decorator,',
+        'or in the "constructor()" parameters.',
+      ].join(' '))
     }
   }
 
   async [INIT_SYMBOL] () {
     log.verbose('SidecarBody', '[INIT_SYMBOL]()')
+
+    const resumeCallbackList = []
 
     let pid: number
     let session : frida.Session
@@ -100,6 +106,8 @@ class SidecarBody extends SidecarEmitter {
           }
           pid = await frida.spawn(this.targetProcess)
           session = await frida.attach(pid)
+
+          resumeCallbackList.push(() => frida.resume(pid))
         }
         break
 
@@ -130,6 +138,17 @@ class SidecarBody extends SidecarEmitter {
     this.script = script
 
     this.emit('inited')
+
+    /**
+     * Delay resume after `emit inited`
+     */
+    while (true) {
+      const fn = resumeCallbackList.pop()
+      if (!fn) {
+        break
+      }
+      await fn()
+    }
   }
 
   async [ATTACH_SYMBOL] () {
@@ -139,7 +158,7 @@ class SidecarBody extends SidecarEmitter {
       throw new Error('[ATTACH_SYMBOL]() this.script is undefined!')
     }
 
-    if ('init' in this.script.exports) {
+    if (this.script.exports && 'init' in this.script.exports) {
       await this.script.exports.init()
     } else {
       log.warn('SidecarBody', '[ATTACH_SYMBOL]() "init" not found in "script.exports"')
@@ -152,17 +171,19 @@ class SidecarBody extends SidecarEmitter {
     log.verbose('SidecarBody', '[DETACH_SYMBOL]()')
 
     if (this.script) {
-      await this.script.unload()
+      const script = this.script
       this.script = undefined
+      await script.unload()
     } else {
-      log.error('SidecarBody', '[DETACH_SYMBOL]() this.script is undefined!')
+      log.warn('SidecarBody', '[DETACH_SYMBOL]() this.script is undefined!')
     }
 
     if (this.session) {
-      await this.session.detach()
+      const session = this.session
       this.session = undefined
+      await session.detach()
     } else {
-      log.error('SidecarBody', '[DETACH_SYMBOL]() this.session is undefined!')
+      log.warn('SidecarBody', '[DETACH_SYMBOL]() this.session is undefined!')
     }
 
     this.emit('detached')
@@ -174,8 +195,13 @@ class SidecarBody extends SidecarEmitter {
   private [SCRIPT_DESTROYED_HANDLER_SYMBOL] () {
     log.verbose('SidecarBody', '[SCRIPT_DESTROYED_HANDLER_SYMBOL]()')
 
-    if (this.script || this.session) {
-      this[DETACH_SYMBOL]()
+    this.script = undefined
+
+    if (this.session) {
+      const session = this.session
+      this.session = undefined
+
+      session.detach()
         .catch(e => {
           log.error('SidecarBody', '[SCRIPT_DESTROYED_HANDLER_SYMBOL]() rejection: %s\n%s',
             e && e.message,
