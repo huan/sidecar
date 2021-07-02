@@ -11,7 +11,7 @@ import { Sidecar } from './sidecar'
 
 test('@Sidecar() smoke testing', async t => {
 
-  @Sidecar() class Test {}
+  @Sidecar('chatbox') class Test {}
 
   const test = new Test()
 
@@ -21,7 +21,7 @@ test('@Sidecar() smoke testing', async t => {
 
 test('@Sidecar() generateCallAgent()', async t => {
 
-  @Sidecar()
+  @Sidecar('chatbox')
   class Test {
 
     @Call(0x42)

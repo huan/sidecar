@@ -13,9 +13,7 @@ import {
 }                   from '../src/mod'
 
 function getFixture () {
-  @Sidecar('messaging', {
-    initAgentSource: 'console.log("Sidecar inited")',
-  })
+  @Sidecar('messaging', 'console.log("Sidecar inited")')
   class MessagingSidecar extends SidecarBody {
 
     @Call(0x1234)

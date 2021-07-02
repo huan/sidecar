@@ -33,23 +33,25 @@ function sidecarView (
   const interceptorList   : SidecarFunctionDescription[] = []
 
   for (const [name, target] of Object.entries(metadata.call)) {
-    const agentFunction: SidecarFunctionDescription = {
+    const functionDescription: SidecarFunctionDescription = {
       name,
       paramTypeList : metadata.paramType[name],
       retType       : metadata.retType[name],
       target,
     }
-    nativeFunctionList.push(agentFunction)
+    nativeFunctionList.push(functionDescription)
   }
 
+  // console.log(metadata.hook)
   for (const [name, target] of Object.entries(metadata.hook)) {
-    const agentFunction: SidecarFunctionDescription = {
+    // console.log(name, 'retType:', metadata.retType[name])
+    const functionDescription: SidecarFunctionDescription = {
       name,
       paramTypeList : metadata.paramType[name],
       retType       : metadata.retType[name],
       target,
     }
-    interceptorList.push(agentFunction)
+    interceptorList.push(functionDescription)
   }
 
   return {

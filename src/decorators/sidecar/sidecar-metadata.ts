@@ -79,7 +79,7 @@ function sidecarMetadata <T extends {
     )
     if (paramTypeMetadata) {
       log.silly('Sidecar', 'sidecarMetadata() paramTypeMetadata: %s',
-        JSON.stringify(hookMetadata),
+        JSON.stringify(paramTypeMetadata),
       )
       paramTypeMetadataMap[property] = paramTypeMetadata
     }
@@ -102,12 +102,15 @@ function sidecarMetadata <T extends {
   log.silly('Sidebar', 'sidecarMetadata() callProperties: %s', JSON.stringify(callMetadataMap))
   log.silly('Sidebar', 'sidecarMetadata() hookProperties: %s', JSON.stringify(hookMetadataMap))
 
-  return {
+  const meta = {
     call      : callMetadataMap,
     hook      : hookMetadataMap,
     paramType : paramTypeMetadataMap,
     retType   : retTypeMetadataMap,
   }
+  // console.log('meta', JSON.stringify(meta, null, 2))
+
+  return meta
 }
 
 export { sidecarMetadata }

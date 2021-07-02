@@ -16,7 +16,7 @@ import { Sidecar } from './sidecar'
 
 test('sidecarMetadata() empty class', async t => {
 
-  @Sidecar() class Test {}
+  @Sidecar('chatbox') class Test {}
 
   const EXPECTED_DATA: SidecarMetadata = { call: {}, hook: {}, paramType: {}, retType: {} }
 
