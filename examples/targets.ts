@@ -19,6 +19,7 @@ function targetProgram () {
   }
   return path.join(
     __dirname,
+    'chatbox',
     chatboxNameList.join(''),
   )
 }

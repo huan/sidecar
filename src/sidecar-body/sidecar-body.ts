@@ -84,6 +84,12 @@ class SidecarBody extends SidecarEmitter {
   async [INIT_SYMBOL] () {
     log.verbose('SidecarBody', '[INIT_SYMBOL]()')
 
+    this.emit('inited')
+  }
+
+  async [ATTACH_SYMBOL] () {
+    log.verbose('SidecarBody', '[ATTACH_SYMBOL]()')
+
     const resumeCallbackList = []
 
     let pid: number
@@ -98,14 +104,30 @@ class SidecarBody extends SidecarEmitter {
           session = await frida.attach(this.targetProcess)
         } catch (e) {
           log.silly('SidecarBody',
-            '[INIT_SYMBOL]() SpawnMode.Default attach(%s) failed. trying spawn...',
+            '[ATTACH_SYMBOL]() SpawnMode.Default attach(%s) failed. trying spawn...',
             this.targetProcess,
           )
           if (typeof this.targetProcess === 'number') {
             throw new Error('Sidecar: can not spawn a number "targetProcess": ' + this.targetProcess)
           }
-          pid = await frida.spawn(this.targetProcess)
-          session = await frida.attach(pid)
+
+          try {
+            pid = await frida.spawn(this.targetProcess)
+            log.silly('SidecarBody',
+              '[ATTACH_SYMBOL]() spawn(%s) succeed: pid = %s',
+              this.targetProcess,
+              pid,
+            )
+            session = await frida.attach(pid)
+          } catch (e) {
+            log.error('SidecarBody',
+              '[ATTACH_SYMBOL]() spawn(%s) failed: %s\n%s',
+              e && e.message,
+              e && e.stack,
+            )
+            this.emit('error', e)
+            return
+          }
 
           resumeCallbackList.push(() => frida.resume(pid))
         }
@@ -134,13 +156,19 @@ class SidecarBody extends SidecarEmitter {
 
     await script.load()
 
+    if (script.exports && 'init' in script.exports) {
+      await script.exports.init()
+    } else {
+      log.warn('SidecarBody', '[ATTACH_SYMBOL]() "init" not found in "script.exports"')
+    }
+
     this.session = session
     this.script = script
 
-    this.emit('inited')
+    this.emit('attached')
 
     /**
-     * Delay resume after `emit inited`
+     * Delay resume after `emit`
      */
     while (true) {
       const fn = resumeCallbackList.pop()
@@ -149,22 +177,6 @@ class SidecarBody extends SidecarEmitter {
       }
       await fn()
     }
-  }
-
-  async [ATTACH_SYMBOL] () {
-    log.verbose('SidecarBody', '[ATTACH_SYMBOL]()')
-
-    if (!this.script) {
-      throw new Error('[ATTACH_SYMBOL]() this.script is undefined!')
-    }
-
-    if (this.script.exports && 'init' in this.script.exports) {
-      await this.script.exports.init()
-    } else {
-      log.warn('SidecarBody', '[ATTACH_SYMBOL]() "init" not found in "script.exports"')
-    }
-
-    this.emit('attached')
   }
 
   async [DETACH_SYMBOL] () {

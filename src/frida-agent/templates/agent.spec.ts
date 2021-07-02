@@ -35,7 +35,7 @@ test('native-functions.mustache', async t => {
   // console.log(view.nativeFunctionList)
   const template = await partialLookup('agent.mustache')
 
-  console.log(template)
+  // console.log(template)
   const result = Mustache.render(
     template,
     {
