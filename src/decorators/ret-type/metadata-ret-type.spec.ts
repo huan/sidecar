@@ -28,5 +28,5 @@ test('update & get ret type metadata', async t => {
     PROPERTY_KEY,
   )
 
-  t.deepEqual(data, VALUE, 'should get the ret type data the same as we set(update')
+  t.deepEqual(data, VALUE, 'should get the ret type data the same as we set(update)')
 })

@@ -27,14 +27,14 @@ function sidecarMetadata <T extends {
   log.verbose('Sidecar', 'sidecarMetadata(%s)', klass.name)
 
   let directChildClass = klass
-  if (Object.getPrototypeOf(directChildClass) !== SidecarBody) {
+  if (Object.getPrototypeOf(klass) !== SidecarBody) {
     log.silly('Sidecar', 'sidecarMetadata() klass is not direct child of SidecarBody, unwraping...')
 
-    directChildClass = Object.getPrototypeOf(directChildClass)
+    directChildClass = Object.getPrototypeOf(klass)
     if (Object.getPrototypeOf(directChildClass) !== SidecarBody) {
       throw new Error('Sidecar: sidecarMetadata() klass must be child of SidecarBody!')
     }
-    log.silly('Sidecar', 'sidecarMetadata() klass is direct child of SidecarBody now')
+    log.silly('Sidecar', 'sidecarMetadata() klass -> directChildClass is direct child of SidecarBody now')
   }
 
   const callMetadataMap:      SidecarMetadata['call']      = {}

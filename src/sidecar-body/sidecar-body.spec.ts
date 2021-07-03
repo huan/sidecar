@@ -19,3 +19,10 @@ test.skip('SidecarBody enforce singleton', async t => {
 
   t.equal(s1, s2, 'should be the same instance of SidecarBody')
 })
+
+test('Class intance constructor should be the Class Function', async t => {
+  class Test {}
+  const test = new Test()
+
+  t.true(test.constructor === Test, 'should be equal')
+})

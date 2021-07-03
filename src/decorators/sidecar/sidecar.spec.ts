@@ -7,21 +7,11 @@ import { Call } from '../call/call'
 import { Hook } from '../hook/hook'
 import { ParamType } from '../param-type/param-type'
 import { RetType } from '../ret-type/ret-type'
+import { getMetadataView } from './metadata-view'
 
 import { Sidecar } from './sidecar'
 
-test('@Sidecar() smoke testing', async t => {
-
-  @Sidecar('chatbox') class Test extends SidecarBody {}
-
-  const test = new Test()
-
-  t.equal(Test.name, 'Test', 'should have the original class name after @Sidecar decorated')
-  t.true(test, 'should instanciate decorated class successfully')
-})
-
-test('@Sidecar() generateCallAgent()', async t => {
-
+const getFixture = () => {
   @Sidecar('chatbox')
   class Test extends SidecarBody {
 
@@ -37,11 +27,64 @@ test('@Sidecar() generateCallAgent()', async t => {
       @ParamType('int') n: number,
     ) { return Ret(n) }
 
+    // Huan(202106) TODO: support { label }
     // @Call({ label: 'label1' }) anotherCall () { return Ret() }
 
   }
 
+  return Test
+}
+
+test('@Sidecar() smoke testing', async t => {
+
+  @Sidecar('chatbox') class Test extends SidecarBody {}
+
   const test = new Test()
 
-  t.true(test, 'should instanciate class successfully')
+  t.equal(Test.name, 'Test', 'should have the original class name after @Sidecar decorated')
+  t.true(test, 'should instanciate decorated class successfully')
+})
+
+test('@Sidecar() viewMetadata()', async t => {
+
+  const Test = getFixture()
+
+  const view = getMetadataView(Test)
+  const EXPECTED_VIEW = {
+    initAgentSource: undefined,
+    interceptorList: [
+      {
+        name: 'hookMethod',
+        paramTypeList: [
+          [
+            'int',
+          ],
+        ],
+        retType: undefined,
+        target: 23,
+      },
+    ],
+    nativeFunctionList: [
+      {
+        name: 'testMethod',
+        paramTypeList: [
+          [
+            'pointer',
+            'Utf8String',
+          ],
+          [
+            'int',
+          ],
+        ],
+        retType: [
+          'pointer',
+          'Utf8String',
+        ],
+        target: 66,
+      },
+    ],
+    targetProcess: 'chatbox',
+  }
+
+  t.deepEqual(view, EXPECTED_VIEW, 'should get view from metadata correct')
 })

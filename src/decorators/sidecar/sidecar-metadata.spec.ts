@@ -28,12 +28,8 @@ test('sidecarMetadata() empty class', async t => {
 
 test('sidecarMetadata smoke testing', async t => {
 
-  // @Sidecar()
-  /**
-   * Huan(202106): We remove @Sidecar at here for this unit testing
-   *  because we need the original class for getting metadata correctly.
-   */
-  class Test {
+  @Sidecar('test')
+  class Test extends SidecarBody {
 
     @Call(0x42)
     @RetType('pointer', 'Utf8String')

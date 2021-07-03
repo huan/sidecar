@@ -2,13 +2,18 @@ import { TargetProcess } from 'frida'
 import {
   log,
 }               from '../../config'
+
 import { SidecarBody } from '../../sidecar-body/sidecar-body'
+import { sidecarView } from '../../agent/sidecar-view'
 
 import {
   sidecarMetadata,
 }                           from './sidecar-metadata'
 
-import { updateClassName }  from './update-class-name'
+// import { updateClassName }  from './update-class-name'
+// import { SIDECAR_SYMBOL }   from './constants'
+
+import { updateMetadataView } from './metadata-view'
 
 function Sidecar (
   targetProcess    : TargetProcess,
@@ -45,29 +50,14 @@ function Sidecar (
       throw new Error('Sidecar: the class decorated by @Sidecar must extends from `SidecarBody`')
     }
 
-    const metadata = sidecarMetadata(Klass)
-    void metadata
+    const metadata  = sidecarMetadata(Klass)
+    const view      = sidecarView(metadata)
 
-    // let instance: any = null
-
-    class DecoratedClass extends Klass  {
-
-      static initAgentSource = initAgentSource
-      static targetProcess   = targetProcess
-
-      constructor (...args: any[]) {
-        super(...args)
-        log.verbose(`Sidecar(${this.constructor.name})`, 'constructor(%s)', args.join(','))
-      }
-
-    }
-
-    updateClassName(
-      DecoratedClass,
-      Klass.name,
-    )
-
-    return DecoratedClass
+    updateMetadataView(Klass, {
+      ...view,
+      initAgentSource,
+      targetProcess,
+    })
   }
 }
 
