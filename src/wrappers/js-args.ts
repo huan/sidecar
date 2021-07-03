@@ -16,10 +16,10 @@ function jsArgs (this: SidecarFunctionDescription) {
       argName(idx),
     ]
 
+    /**
+     * 1. native pointer
+     */
     if (nativeType === 'pointer') {
-      readChain.push(
-        '.readPointer()'
-      )
       for (const pointerType of pointerTypeList) {
         readChain.push(
           `.read${pointerType}()`

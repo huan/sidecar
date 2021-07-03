@@ -12,9 +12,9 @@
 {{> libs/log.js }}
 
 /**
- * Get base address for target {{ targetProcess }}
+ * Get base address for target {{{ targetProcess }}}
  */
-const sidecarModuleBaseAddress = Module.getBaseAddress({{ targetProcess }})
+const sidecarModuleBaseAddress = Module.getBaseAddress('{{{ moduleName }}}')
 
 {{> native-functions.mustache }}
 

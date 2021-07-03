@@ -1,18 +1,19 @@
 #!/usr/bin/env ts-node
 import { test }  from 'tstest'
 
-import { ChatboxSidecar }         from '../../examples/chatbox-sidecar'
-import { getSidecarViewFixture }  from '../../tests/fixtures/sidecar-view.fixture'
+import { ChatboxSidecar }   from '../../examples/chatbox-sidecar'
+import { getMetadataView }  from '../decorators/sidecar/metadata-view'
+
 // import { Call, RetType, Sidecar } from '../decorators/mod'
-import { sidecarMetadata } from '../decorators/sidecar/sidecar-metadata'
+// import { sidecarMetadata } from '../decorators/sidecar/sidecar-metadata'
 // import { Ret } from '../ret'
 // import { SidecarBody } from '../sidecar-body/sidecar-body'
 
 import {
   buildAgentSource,
 }                         from './build-agent-source'
-import { sidecarView } from './sidecar-view'
 import { wrapView } from '../wrappers/mod'
+import { getSidecarViewFixture } from '../../tests/fixtures/sidecar-view.fixture'
 
 test('buildAgentSource() from fixture', async t => {
   const view = getSidecarViewFixture()
@@ -25,15 +26,12 @@ test('buildAgentSource() from fixture', async t => {
   })
 
   // console.log(source)
-  t.true(source, 'ok')
+  t.true(source, 'ok (tbw)')
 })
 
 test('buildAgentSource() from example demo', async t => {
 
-  const meta = sidecarMetadata(ChatboxSidecar)
-  // console.log(JSON.stringify(meta, null, 2))
-
-  const rawView = sidecarView(meta)
+  const rawView = getMetadataView(ChatboxSidecar)!
   // console.log(JSON.stringify(view, null, 2))
 
   const view = wrapView(rawView)

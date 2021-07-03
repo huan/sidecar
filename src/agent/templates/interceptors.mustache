@@ -21,7 +21,7 @@ Interceptor.attach(
       log.verbose(
         'SidecarAgent',
         'Interceptor.attach(%s) onEnter()',
-        {{ hexAddress }},
+        Number({{ hexAddress }}).toString(16),
       )
 
       send(hookPayload(

@@ -58,6 +58,7 @@ const SIDECAR_VIEW: SidecarView = {
       target: 66,
     },
   ],
+  targetProcess: 'chatbox-linux-x64',
 }
 
 function getSidecarViewFixture (): SidecarView {

@@ -12,9 +12,9 @@ test('jsArgs()', async t => {
   const interceptorFunctionList = SIDECAR_VIEW.interceptorList
 
   const EXPECTED_ARGS_LIST = [
-    '[ args[0].readPointer().readInt(), args[1].readPointer().readPointer().readUtf8String() ]',
-    '[ args[0].readPointer().readUtf8String(), args[1] ]',
-    '[ args[0], args[1].readPointer().readUtf8String() ]',
+    '[ args[0].readInt(), args[1].readPointer().readUtf8String() ]',
+    '[ args[0].readUtf8String(), args[1] ]',
+    '[ args[0], args[1].readUtf8String() ]',
   ]
 
   const result = [
