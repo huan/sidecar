@@ -4,6 +4,8 @@
  * Huan <zixia@zixia.net>, June 24, 2021
  *  https://github.com/huan/sidecar
  */
+import path from 'path'
+
 import { buildAgentSource }   from '../agent/build-agent-source'
 import { getMetadataSidecar } from '../decorators/sidecar/metadata-sidecar'
 
@@ -88,15 +90,19 @@ class SidecarBody extends SidecarEmitter {
     /**
      * 1. initAgentSource
      */
-    if (!this.initAgentSource) {
-      log.silly('SidecarBody', '[INIT_SYMBOL]() setting this.initAgentSource from view (@Sidecar)')
+    if (this.initAgentSource) {
+      log.silly('SidecarBody', '[INIT_SYMBOL]() initAgentSource has been specified from constructor args')
+    } else {
+      log.silly('SidecarBody', '[INIT_SYMBOL]() load initAgentSource from metadata')
       this.initAgentSource = metadata.initAgentSource || ''
     }
 
     /**
      * 2. targetProcess
      */
-    if (!this.targetProcess) {
+    if (this.targetProcess) {
+      log.silly('SidecarBody', '[INIT_SYMBOL]() targetProgress has been specified from constructor args')
+    } else {
       if (!metadata.targetProcess) {
         throw new Error([
           'Sidecar must specify the "targetProcess"',
@@ -104,7 +110,7 @@ class SidecarBody extends SidecarEmitter {
           'or in the "constructor()" parameters.',
         ].join('\n'))
       }
-      log.silly('SidecarBody', '[INIT_SYMBOL]() setting this.targetProgress from view (@Sidecar)')
+      log.silly('SidecarBody', '[INIT_SYMBOL]() load targetProgress from metadata')
       this.targetProcess = metadata.targetProcess
     }
 
@@ -112,8 +118,8 @@ class SidecarBody extends SidecarEmitter {
      * 3. agentSource
      */
     this.agentSource = await buildAgentSource({
-      initAgentSource: this.initAgentSource,
-      metadata,
+      ...metadata,
+      initAgentSource: this.initAgentSource || metadata.initAgentSource,
     })
 
     this.emit('inited')
@@ -146,14 +152,18 @@ class SidecarBody extends SidecarEmitter {
        */
       case SpawnMode.Default:
         try {
-          session = await frida.attach(this.targetProcess)
+          const moduleName = typeof this.targetProcess === 'number'
+            ? this.targetProcess
+            : path.basename(this.targetProcess)
+          session = await frida.attach(moduleName)
         } catch (e) {
           log.silly('SidecarBody',
             '[ATTACH_SYMBOL]() SpawnMode.Default attach(%s) failed. trying spawn...',
             this.targetProcess,
           )
           if (typeof this.targetProcess === 'number') {
-            throw new Error('Sidecar: can not spawn a number "targetProcess": ' + this.targetProcess)
+            this.emit('error', e)
+            return
           }
 
           try {
