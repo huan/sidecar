@@ -1,6 +1,6 @@
-import { SidecarFunctionDescription } from '../agent/sidecar-view'
+import { SidecarMetadataFunctionDescription } from '../decorators/mod'
 
-function nativeRetType (this: SidecarFunctionDescription) {
+function nativeRetType (this: SidecarMetadataFunctionDescription) {
   // console.log('this.retType', this.retType)
   if (!this.retType || this.retType.length <= 0) {
     return "'void'"

@@ -7,29 +7,32 @@ import {
   partialLookup,
 }                         from '../partial-lookup'
 
-import { getSidecarViewFixture } from '../../../tests/fixtures/sidecar-view.fixture'
+import { ChatboxSidecar } from '../../../examples/chatbox-sidecar'
 
 import { wrapView } from '../../wrappers/mod'
+import { getMetadataSidecar } from '../../decorators/sidecar/metadata-sidecar'
 
-test('native-functions.mustache', async t => {
+test('agent.mustache', async t => {
 
-  const SIDECAR_VIEW = getSidecarViewFixture()
+  const view = getMetadataSidecar(ChatboxSidecar)
 
-  const view = wrapView(SIDECAR_VIEW)
+  // console.log(JSON.stringify(view, null, 2))
+  const wrappedView = wrapView(view!)
 
-  // console.log(view.nativeFunctionList)
+  // console.log(JSON.stringify(wrappedView, null, 2))
+  // console.log(Object.keys(wrappedView))
   const template = await partialLookup('agent.mustache')
 
   // console.log(template)
   const result = Mustache.render(
     template,
     {
-      ...view,
+      ...wrappedView,
       initAgentSource: 'console.log("hello")',
     },
     partialLookup,
   )
-  // console.log(result)
+  // console.log('result:', result)
 
   /**
    * Huan(202106): how could we test this script has been correctly generated?

@@ -1,7 +1,7 @@
-import { SidecarFunctionDescription } from '../agent/sidecar-view'
+import { SidecarMetadataFunctionDescription } from '../decorators/mod'
 
 function hexAddress (
-  this: SidecarFunctionDescription,
+  this: SidecarMetadataFunctionDescription,
 ) {
   const address = this.target
   return typeof address === 'number'

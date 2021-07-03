@@ -1,6 +1,6 @@
-import { SidecarFunctionDescription } from '../agent/sidecar-view'
+import { SidecarMetadataFunctionDescription } from '../decorators/mod'
 
-function nativeParamTypes (this: SidecarFunctionDescription) {
+function nativeParamTypes (this: SidecarMetadataFunctionDescription) {
   /**
    * There's no any parameters
    */

@@ -4,6 +4,9 @@
  * Huan <zixia@zixia.net>, June 24, 2021
  *  https://github.com/huan/sidecar
  */
+import { buildAgentSource }   from '../agent/build-agent-source'
+import { getMetadataSidecar } from '../decorators/sidecar/metadata-sidecar'
+
 import {
   log,
 }                     from '../config'
@@ -43,15 +46,16 @@ class SidecarBody extends SidecarEmitter {
    *  2. create call `exports.rpc.*`
    *  3. create hook and emit events with `Intercepter` and `send`
    */
-  script?:  frida.Script
-  session?: frida.Session
+  script?      : frida.Script
+  session?     : frida.Session
+  agentSource? : string
 
   /**
    * Constructor options:
    */
-  initAgentSource : string
-  spawnMode       : SpawnMode
-  targetProcess   : frida.TargetProcess
+  initAgentSource? : string
+  spawnMode        : SpawnMode
+  targetProcess?   : frida.TargetProcess
 
   constructor (
     options?: SidecarBodyOptions,
@@ -63,32 +67,73 @@ class SidecarBody extends SidecarEmitter {
         : '',
     )
 
-    const Klass = this.constructor as any as {
-      initAgentSource : string,
-      targetProcess?  : frida.TargetProcess
-    }
-
-    this.initAgentSource = options?.initAgentSource || Klass.initAgentSource || ''
-    this.spawnMode       = options?.spawnMode       || SpawnMode.Default
-    this.targetProcess   = options?.targetProcess    || Klass.targetProcess || ''
-
-    if (!this.targetProcess) {
-      throw new Error([
-        'Sidecar must specify the "targetProcess"',
-        'either by the "@Sidecar" decorator,',
-        'or in the "constructor()" parameters.',
-      ].join(' '))
-    }
+    this.initAgentSource  = options?.initAgentSource
+    this.spawnMode        = options?.spawnMode || SpawnMode.Default
+    this.targetProcess    = options?.targetProcess
   }
 
-  async [INIT_SYMBOL] () {
+  protected async [INIT_SYMBOL] () {
     log.verbose('SidecarBody', '[INIT_SYMBOL]()')
+
+    const Klass = this.constructor as any
+    const metadata  = getMetadataSidecar(Klass)
+
+    if (!metadata) {
+      throw new Error([
+        'Sidecar:',
+        'SidcarBody[INIT_SYMBOL]() getMetadataSidecar return undefined',
+      ].join('\n'))
+    }
+
+    /**
+     * 1. initAgentSource
+     */
+    if (!this.initAgentSource) {
+      log.silly('SidecarBody', '[INIT_SYMBOL]() setting this.initAgentSource from view (@Sidecar)')
+      this.initAgentSource = metadata.initAgentSource || ''
+    }
+
+    /**
+     * 2. targetProcess
+     */
+    if (!this.targetProcess) {
+      if (!metadata.targetProcess) {
+        throw new Error([
+          'Sidecar must specify the "targetProcess"',
+          'either by the "@Sidecar" decorator,',
+          'or in the "constructor()" parameters.',
+        ].join('\n'))
+      }
+      log.silly('SidecarBody', '[INIT_SYMBOL]() setting this.targetProgress from view (@Sidecar)')
+      this.targetProcess = metadata.targetProcess
+    }
+
+    /**
+     * 3. agentSource
+     */
+    this.agentSource = await buildAgentSource({
+      initAgentSource: this.initAgentSource,
+      metadata,
+    })
 
     this.emit('inited')
   }
 
   async [ATTACH_SYMBOL] () {
     log.verbose('SidecarBody', '[ATTACH_SYMBOL]()')
+
+    if (!this.agentSource) {
+      await this[INIT_SYMBOL]()
+    }
+
+    if (!(
+      this.agentSource && this.targetProcess
+    )) {
+      throw new Error([
+        'Sidecar:',
+        'agentSource or targetProcess not found.',
+      ].join('\n'))
+    }
 
     const resumeCallbackList = []
 
@@ -149,21 +194,24 @@ class SidecarBody extends SidecarEmitter {
         throw new Error('Sidecar: unknown SpawnMode: ' + this.spawnMode)
     }
 
-    const script = await session.createScript(this.initAgentSource)
+    const script = await session.createScript(this.agentSource)
 
     script.message.connect(this[SCRIPT_MESSAGRE_HANDLER_SYMBOL].bind(this))
     script.destroyed.connect(this[SCRIPT_DESTROYED_HANDLER_SYMBOL].bind(this))
 
     await script.load()
 
-    if (script.exports && 'init' in script.exports) {
+    if (script.exports && script.exports.init) {
+      // Huan(202106)
+      // FIXME: do we need to call init() here?
+      // It seems that frida will call init() automatically in CLI
       await script.exports.init()
     } else {
       log.warn('SidecarBody', '[ATTACH_SYMBOL]() "init" not found in "script.exports"')
     }
 
     this.session = session
-    this.script = script
+    this.script  = script
 
     this.emit('attached')
 
@@ -185,17 +233,35 @@ class SidecarBody extends SidecarEmitter {
     if (this.script) {
       const script = this.script
       this.script = undefined
-      await script.unload()
+      try {
+        await script.unload()
+      } catch (e) {
+        log.error('SidecarBody',
+          '[DETACH_SYMBOL]() script.unload() rejection: %s\n%s',
+          e && e.message,
+          e && e.stack,
+        )
+        this.emit('error', e)
+      }
     } else {
-      log.warn('SidecarBody', '[DETACH_SYMBOL]() this.script is undefined!')
+      log.silly('SidecarBody', '[DETACH_SYMBOL]() this.script is undefined')
     }
 
     if (this.session) {
       const session = this.session
       this.session = undefined
-      await session.detach()
+      try {
+        await session.detach()
+      } catch (e) {
+        log.error('SidecarBody',
+          '[DETACH_SYMBOL]() session.detach() rejection: %s\n%s',
+          e && e.message,
+          e && e.stack,
+        )
+        this.emit('error', e)
+      }
     } else {
-      log.warn('SidecarBody', '[DETACH_SYMBOL]() this.session is undefined!')
+      log.silly('SidecarBody', '[DETACH_SYMBOL]() this.session is undefined')
     }
 
     this.emit('detached')
@@ -204,23 +270,24 @@ class SidecarBody extends SidecarEmitter {
   /**
    * ScriptDestroyedHandler
    */
-  private [SCRIPT_DESTROYED_HANDLER_SYMBOL] () {
+  private async [SCRIPT_DESTROYED_HANDLER_SYMBOL] (): Promise<void> {
     log.verbose('SidecarBody', '[SCRIPT_DESTROYED_HANDLER_SYMBOL]()')
 
-    this.script = undefined
-
-    if (this.session) {
-      const session = this.session
-      this.session = undefined
-
-      session.detach()
-        .catch(e => {
-          log.error('SidecarBody', '[SCRIPT_DESTROYED_HANDLER_SYMBOL]() rejection: %s\n%s',
-            e && e.message,
-            e && e.stack,
-          )
-        })
+    /**
+     * Huan(202106): this function will be called
+     *  when we call `script.unload()` from `[DETATCH_SYMBOL]()`
+     *
+     *  If that, the `this.script` should has already be set to undefined
+     *  and we need not to call [DETATCH_SYMBOL]() again.
+     */
+    if (this.script) {
+      try {
+        await this[DETACH_SYMBOL]()
+      } catch (e) {
+        this.emit('error', e)
+      }
     }
+
   }
 
   /**

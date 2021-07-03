@@ -1,15 +1,15 @@
 #!/usr/bin/env ts-node
 import { test }  from 'tstest'
 
-import { getSidecarViewFixture } from '../../tests/fixtures/sidecar-view.fixture'
+import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture'
 
 import { jsArgs } from './js-args'
 
 test('jsArgs()', async t => {
-  const SIDECAR_VIEW = getSidecarViewFixture()
+  const SIDECAR_METADATA = getSidecarMetadataFixture()
 
-  const nativeFunctionList      = SIDECAR_VIEW.nativeFunctionList
-  const interceptorFunctionList = SIDECAR_VIEW.interceptorList
+  const nativeFunctionList      = SIDECAR_METADATA.nativeFunctionList
+  const interceptorFunctionList = SIDECAR_METADATA.interceptorList
 
   const EXPECTED_ARGS_LIST = [
     '[ args[0].readInt(), args[1].readPointer().readUtf8String() ]',

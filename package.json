@@ -11,6 +11,9 @@
     "doc": "docs",
     "test": "tests"
   },
+  "bin": {
+    "sidecar-dump": "dist/bin/sidecar-dump.js"
+  },
   "scripts": {
     "clean": "shx rm -fr dist/*",
     "dist": "npm run clean && tsc",

@@ -1,8 +1,8 @@
 import path from 'path'
-import { SidecarView } from '../agent/sidecar-view'
+import { SidecarMetadata } from '../decorators/mod'
 
 function moduleName (
-  this: SidecarView,
+  this: SidecarMetadata,
 ) {
   const targetProcess = this.targetProcess
   if (!targetProcess) {

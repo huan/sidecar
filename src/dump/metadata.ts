@@ -7,16 +7,15 @@ import {
 }                 from 'cmd-ts'
 import { File }   from 'cmd-ts/dist/cjs/batteries/fs'
 
-import { sidecarView } from '../frida-agent/sidecar-view'
-import { sidecarMetadata } from '../decorators/sidecar/sidecar-metadata'
+import { getMetadataSidecar } from '../decorators/sidecar/metadata-sidecar'
 
 // import { bundleTsFile } from './bundle-ts-file'
 
 /* eslint-disable sort-keys */
 
-const view = command({
-  name: 'view',
-  description: 'Dump sidecar view data',
+const metadata = command({
+  name: 'metadata',
+  description: 'Dump sidecar metadata',
   args: {
     file: positional({
       type        : File,
@@ -27,9 +26,8 @@ const view = command({
     // const source = await bundleTsFile(file)
     // console.log(source)
     const context = {
-      sidecarView,
-      sidecarMetadata,
-      view: undefined,
+      getMetadataSidecar,
+      metadata: undefined,
       exports: {},
       require,
       module,
@@ -38,22 +36,23 @@ const view = command({
       __dirname: path.dirname(require.resolve(file)),
     }
     vm.createContext(context) // Contextify the object
-    console.log(1)
-    vm.runInContext("require('ts-node/register')", context)
-    console.log(2, file)
+    // console.log(1)
+    // vm.runInContext("require('ts-node/register')", context)
+    // console.log(2, file)
     vm.runInContext(`const { ChatboxSidecar } = require('${file}')`, context)
-    console.log(3)
+    // console.log(3)
 
     // vm.runInContext(`const { Klass } = ${source}`, context)
 
-    vm.runInContext('view = sidecarMetadata(ChatboxSidecar)', context)
+    vm.runInContext('metadata = JSON.stringify(getMetadataSidecar(ChatboxSidecar), null, 2)', context)
     // vm.runInContext('view = sidecarView(sidecarMetadata(ChatboxSidecar))', context)
-    vm.runInContext('console.log("view:", view)', context)
-    vm.runInContext('console.log("######################")', context)
-    console.log(4)
+    // vm.runInContext('console.log("metadata:", metadata)', context)
+    // vm.runInContext('console.log("######################")', context)
+    // console.log(4)
 
-    console.log('out view:', context.view)
+    // console.log('Sidecar file: ', file)
+    console.log(context.metadata)
   },
 })
 
-export { view }
+export { metadata }

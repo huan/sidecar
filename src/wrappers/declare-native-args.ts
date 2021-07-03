@@ -1,4 +1,4 @@
-import { SidecarFunctionDescription } from '../agent/sidecar-view'
+import { SidecarMetadataFunctionDescription } from '../decorators/mod'
 
 import {
   argName,
@@ -6,7 +6,7 @@ import {
   nativeArgName,
 }                 from './name-helpers'
 
-function declareNativeArgs (this: SidecarFunctionDescription) {
+function declareNativeArgs (this: SidecarMetadataFunctionDescription) {
   const name          = this.name
   const paramTypeList = this.paramTypeList
 

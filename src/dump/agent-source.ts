@@ -15,9 +15,9 @@ import { File }   from 'cmd-ts/dist/cjs/batteries/fs'
 
 /* eslint-disable sort-keys */
 
-const meta = command({
-  name: 'metadata',
-  description: 'Sidecar dumping metadata',
+const agentSource = command({
+  name: 'agent-source',
+  description: 'Sidecar dumping agent source',
   args: {
     file: positional({ type: File, displayName: 'decorated class file' }),
     name: option({ type: string, long: 'name' }),
@@ -25,8 +25,8 @@ const meta = command({
 
   },
   handler: (args) => {
-    console.log('meta: ', args.file, args.name, args.age)
+    console.log('agentSource: ', args.file, args.name, args.age)
   },
 })
 
-export { meta }
+export { agentSource }

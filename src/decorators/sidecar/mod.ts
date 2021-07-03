@@ -1,7 +1,11 @@
 import { Sidecar }          from './sidecar'
-import { SidecarMetadata }  from './sidecar-metadata'
+import {
+  SidecarMetadata,
+  SidecarMetadataFunctionDescription,
+}                                       from './metadata-sidecar'
 
 export {
   Sidecar,
   SidecarMetadata,
+  SidecarMetadataFunctionDescription,
 }

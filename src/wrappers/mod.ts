@@ -1,4 +1,4 @@
-import { SidecarView } from '../agent/sidecar-view'
+import { SidecarMetadata } from '../decorators/sidecar/metadata-sidecar'
 
 import { declareNativeArgs } from './declare-native-args'
 import { hexAddress } from './hex-address'
@@ -9,8 +9,8 @@ import { nativeArgs } from './native-args'
 import { nativeParamTypes } from './native-param-types'
 import { nativeRetType } from './native-ret-type'
 
-const wrapView = (view: SidecarView) => ({
-  ...view,
+const wrapView = (metadata: SidecarMetadata) => ({
+  ...metadata,
   declareNativeArgs,
   hexAddress,
   jsArgs,

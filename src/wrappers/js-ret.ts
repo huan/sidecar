@@ -1,9 +1,9 @@
-import { SidecarFunctionDescription } from '../agent/sidecar-view'
+import { SidecarMetadataFunctionDescription } from '../decorators/mod'
 
-function jsRet (this: SidecarFunctionDescription) {
+function jsRet (this: SidecarMetadataFunctionDescription) {
   const typeChain = this.retType
   if (!typeChain) {
-    throw new Error('no .retType found in SidecarFunctionDescription context!')
+    throw new Error('no .retType found in SidecarMetadataFunctionDescription context!')
   }
 
   const [nativeType, ...pointerTypeList] = typeChain

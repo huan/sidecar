@@ -9,14 +9,14 @@ import {
   attach,
   detach,
 }                from './operations'
+import { Sidecar } from '../decorators/mod'
 
 test('init()', async t => {
 
+  @Sidecar('/bin/ls')
   class SidecarTest extends SidecarBody {}
 
-  const s = new SidecarTest({
-    targetProcess: '/bin/ls',
-  })
+  const s = new SidecarTest()
   const future = new Promise<void>(resolve => s.on('inited', resolve))
 
   try {
@@ -38,11 +38,10 @@ test('init()', async t => {
 })
 test('attach()', async t => {
 
+  @Sidecar('/bin/ls')
   class SidecarTest extends SidecarBody {}
 
-  const s = new SidecarTest({
-    targetProcess: '/bin/ls',
-  })
+  const s = new SidecarTest()
 
   s.script = {
     unload: (..._: any[]) => { return {} as any },
@@ -72,14 +71,16 @@ test('attach()', async t => {
 
 test('detach()', async t => {
 
+  @Sidecar('/bin/ls')
   class SidecarTest extends SidecarBody {}
 
-  const s = new SidecarTest({
-    targetProcess: 'ls',
-  })
+  const s = new SidecarTest()
   const future = new Promise<void>(resolve => s.on('detached', resolve))
 
   try {
+    await init(s)
+    await attach(s)
+
     await detach(s)
 
     await Promise.race([

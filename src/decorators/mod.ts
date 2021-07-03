@@ -6,7 +6,8 @@ import { RetType }    from './ret-type/mod'
 import {
   Sidecar,
   SidecarMetadata,
-}                   from './sidecar/mod'
+  SidecarMetadataFunctionDescription,
+}                                         from './sidecar/mod'
 
 export {
   Call,
@@ -16,4 +17,5 @@ export {
   RetType,
   Sidecar,
   SidecarMetadata,
+  SidecarMetadataFunctionDescription,
 }

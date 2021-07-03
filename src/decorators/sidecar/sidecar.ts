@@ -4,16 +4,12 @@ import {
 }               from '../../config'
 
 import { SidecarBody } from '../../sidecar-body/sidecar-body'
-import { sidecarView } from '../../agent/sidecar-view'
-
-import {
-  sidecarMetadata,
-}                           from './sidecar-metadata'
+import { buildSidecarMetadata } from './build-sidecar-metadata'
 
 // import { updateClassName }  from './update-class-name'
 // import { SIDECAR_SYMBOL }   from './constants'
 
-import { updateMetadataView } from './metadata-view'
+import { updateMetadataSidecar } from './metadata-sidecar'
 
 function Sidecar (
   targetProcess    : TargetProcess,
@@ -50,14 +46,11 @@ function Sidecar (
       throw new Error('Sidecar: the class decorated by @Sidecar must extends from `SidecarBody`')
     }
 
-    const metadata  = sidecarMetadata(Klass)
-    const view      = sidecarView(metadata)
-
-    updateMetadataView(Klass, {
-      ...view,
+    const meta = buildSidecarMetadata(Klass, {
       initAgentSource,
       targetProcess,
     })
+    updateMetadataSidecar(Klass, meta)
   }
 }
 

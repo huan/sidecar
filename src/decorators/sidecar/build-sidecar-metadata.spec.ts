@@ -2,14 +2,17 @@
 import { test }  from 'tstest'
 
 import { Ret } from '../../ret'
-import { SidecarBody } from '../../sidecar-body/sidecar-body'
 import { Call } from '../call/call'
 import { Hook } from '../hook/hook'
 import { ParamType } from '../param-type/param-type'
 import { RetType } from '../ret-type/ret-type'
-import { getMetadataSidecar } from './metadata-sidecar'
+
+import {
+  buildSidecarMetadata,
+}                         from './build-sidecar-metadata'
 
 import { Sidecar } from './sidecar'
+import { SidecarBody } from '../../sidecar-body/mod'
 
 const getFixture = () => {
   @Sidecar('chatbox')
@@ -35,21 +38,13 @@ const getFixture = () => {
   return Test
 }
 
-test('@Sidecar() smoke testing', async t => {
-
-  @Sidecar('chatbox') class Test extends SidecarBody {}
-
-  const test = new Test()
-
-  t.equal(Test.name, 'Test', 'should have the original class name after @Sidecar decorated')
-  t.true(test, 'should instanciate decorated class successfully')
-})
-
-test('@Sidecar() viewMetadata()', async t => {
+test('@Sidecar() buildSidecarMetadata()', async t => {
 
   const Test = getFixture()
 
-  const metadata = getMetadataSidecar(Test)
+  const meta = buildSidecarMetadata(Test, {
+    targetProcess: 'chatbox',
+  })
   const EXPECTED_DATA = {
     initAgentSource: undefined,
     interceptorList: [
@@ -86,5 +81,5 @@ test('@Sidecar() viewMetadata()', async t => {
     targetProcess: 'chatbox',
   }
 
-  t.deepEqual(metadata, EXPECTED_DATA, 'should get view from metadata correct')
+  t.deepEqual(meta, EXPECTED_DATA, 'should get metadata correct')
 })

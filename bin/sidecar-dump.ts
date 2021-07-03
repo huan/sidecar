@@ -18,8 +18,8 @@ import {
 import { VERSION } from '../src/version'
 
 import {
-  view,
-  meta,
+  metadata,
+  agentSource,
 }         from '../src/dump/mod'
 
 // import { sidecarMetadata } from '../src/decorators/sidecar/sidecar-metadata'
@@ -31,8 +31,8 @@ const sidecarDump = subcommands({
   description: 'Sidecar dumping utility',
   version: VERSION,
   cmds: {
-    view,
-    meta,
+    metadata,
+    agentSource,
   },
 })
 

@@ -1,57 +1,64 @@
-import { SidecarMetadata } from '../../src/decorators/sidecar/sidecar-metadata'
+import { SidecarMetadata } from '../../src/decorators/mod'
 
 /**
- * Sidecar Metada Fixtures
+ * Sidecar View Fixtures
  */
 const SIDECAR_METADATA: SidecarMetadata = {
-  call: {
-    anotherCall: 77,
-    testMethod: 66,
-  },
-  hook: {
-    hookMethod: 23,
-  },
-  paramType: {
-    anotherCall: [
-      [
+  interceptorList: [
+    {
+      name: 'hookMethod',
+      paramTypeList: [
+        [
+          'int',
+        ],
+        [
+          'pointer',
+          'Utf8String',
+        ],
+      ],
+      retType: undefined,
+      target: 23,
+    },
+  ],
+  nativeFunctionList: [
+    {
+      name: 'anotherCall',
+      paramTypeList: [
+        [
+          'pointer',
+          'Int',
+        ],
+        [
+          'pointer',
+          'Pointer',
+          'Utf8String',
+        ],
+      ],
+      retType: [
         'pointer',
         'Int',
       ],
-      [
-        'pointer',
-        'Pointer',
-        'Utf8String',
+      target: 77,
+    },
+    {
+      name: 'testMethod',
+      paramTypeList: [
+        [
+          'pointer',
+          'Utf8String',
+        ],
+        [
+          'int',
+        ],
       ],
-    ],
-    hookMethod: [
-      [
-        'int',
-      ],
-      [
-        'pointer',
-        'Utf8String',
-      ],
-    ],
-    testMethod: [
-      [
+      retType: [
         'pointer',
         'Utf8String',
       ],
-      [
-        'int',
-      ],
-    ],
-  },
-  retType: {
-    anotherCall: [
-      'pointer',
-      'Int',
-    ],
-    testMethod: [
-      'pointer',
-      'Utf8String',
-    ],
-  },
+      target: 66,
+    },
+  ],
+  targetProcess: 'chatbox-linux-x64',
 }
 
 function getSidecarMetadataFixture (): SidecarMetadata {

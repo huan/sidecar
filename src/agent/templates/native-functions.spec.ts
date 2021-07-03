@@ -7,13 +7,13 @@ import {
   partialLookup,
 }                         from '../partial-lookup'
 
-import { getSidecarViewFixture } from '../../../tests/fixtures/sidecar-view.fixture'
+import { getSidecarMetadataFixture } from '../../../tests/fixtures/sidecar-metadata.fixture'
 
 import { wrapView } from '../../wrappers/mod'
 
 test('native-functions.mustache', async t => {
 
-  const SIDECAR_VIEW = getSidecarViewFixture()
+  const SIDECAR_VIEW = getSidecarMetadataFixture()
 
   const view = wrapView(SIDECAR_VIEW)
 

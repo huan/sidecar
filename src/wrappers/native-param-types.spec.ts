@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
 import { test }  from 'tstest'
 
-import { getSidecarViewFixture } from '../../tests/fixtures/sidecar-view.fixture'
+import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture'
 
 import {
   nativeParamTypes,
@@ -9,7 +9,7 @@ import {
 
 test('nativeParamTypes()', async t => {
 
-  const fixture = getSidecarViewFixture()
+  const fixture = getSidecarMetadataFixture()
 
   // console.log(JSON.stringify(fixture.nativeFunctionList, null, 2))
   const result = fixture.nativeFunctionList.map(x => nativeParamTypes.call(x))

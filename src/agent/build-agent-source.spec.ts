@@ -2,7 +2,7 @@
 import { test }  from 'tstest'
 
 import { ChatboxSidecar }   from '../../examples/chatbox-sidecar'
-import { getMetadataView }  from '../decorators/sidecar/metadata-view'
+import { getMetadataSidecar }  from '../decorators/sidecar/metadata-sidecar'
 
 // import { Call, RetType, Sidecar } from '../decorators/mod'
 // import { sidecarMetadata } from '../decorators/sidecar/sidecar-metadata'
@@ -13,16 +13,16 @@ import {
   buildAgentSource,
 }                         from './build-agent-source'
 import { wrapView } from '../wrappers/mod'
-import { getSidecarViewFixture } from '../../tests/fixtures/sidecar-view.fixture'
+import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture'
 
 test('buildAgentSource() from fixture', async t => {
-  const view = getSidecarViewFixture()
+  const view = getSidecarMetadataFixture()
 
   const initAgentSource = 'console.log(42)'
 
   const source = await buildAgentSource({
     initAgentSource,
-    view,
+    metadata: view,
   })
 
   // console.log(source)
@@ -31,7 +31,7 @@ test('buildAgentSource() from fixture', async t => {
 
 test('buildAgentSource() from example demo', async t => {
 
-  const rawView = getMetadataView(ChatboxSidecar)!
+  const rawView = getMetadataSidecar(ChatboxSidecar)!
   // console.log(JSON.stringify(view, null, 2))
 
   const view = wrapView(rawView)
@@ -40,9 +40,9 @@ test('buildAgentSource() from example demo', async t => {
 
   const source = await buildAgentSource({
     initAgentSource,
-    view,
+    metadata: view,
   })
 
-  console.log(source)
+  // console.log(source)
   t.true(source, 'ok')
 })

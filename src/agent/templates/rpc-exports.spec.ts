@@ -8,11 +8,11 @@ import {
   partialLookup,
 }                         from '../partial-lookup'
 
-import { getSidecarViewFixture } from '../../../tests/fixtures/sidecar-view.fixture'
+import { getSidecarMetadataFixture } from '../../../tests/fixtures/sidecar-metadata.fixture'
 
 test('render rpc-exports()', async t => {
 
-  const SIDECAR_VIEW = getSidecarViewFixture()
+  const SIDECAR_VIEW = getSidecarMetadataFixture()
 
   const template = await partialLookup('rpc-exports.mustache')
 

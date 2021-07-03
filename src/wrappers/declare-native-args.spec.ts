@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
 import { test }  from 'tstest'
 
-import { getSidecarViewFixture } from '../../tests/fixtures/sidecar-view.fixture'
+import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture'
 
 import {
   declareNativeArgs,
@@ -9,7 +9,7 @@ import {
 
 test('declareNativeArgs()', async t => {
 
-  const fixture = getSidecarViewFixture()
+  const fixture = getSidecarMetadataFixture()
 
   // console.log(fixture.nativeFunctionList.length)
   const result = fixture.nativeFunctionList.map(x => declareNativeArgs.call(x))

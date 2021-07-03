@@ -1,11 +1,11 @@
 #!/usr/bin/env ts-node
 import { test }  from 'tstest'
 
-import { getSidecarViewFixture } from '../../tests/fixtures/sidecar-view.fixture'
+import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture'
 import { jsRet } from './js-ret'
 
 test('jsRet()', async t => {
-  const SIDECAR_VIEW = getSidecarViewFixture()
+  const SIDECAR_VIEW = getSidecarMetadataFixture()
 
   const nativeFunctionList = SIDECAR_VIEW.nativeFunctionList
 

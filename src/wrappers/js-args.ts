@@ -1,10 +1,10 @@
-import { SidecarFunctionDescription } from '../agent/sidecar-view'
+import { SidecarMetadataFunctionDescription } from '../decorators/mod'
 import { argName } from './name-helpers'
 
-function jsArgs (this: SidecarFunctionDescription) {
+function jsArgs (this: SidecarMetadataFunctionDescription) {
   const typeList = this.paramTypeList
   if (!typeList) {
-    throw new Error('no .paramTypeList found in SidecarFunctionDescription!')
+    throw new Error('no .paramTypeList found in SidecarMetadataFunctionDescription!')
   }
 
   const wrappedArgList = []

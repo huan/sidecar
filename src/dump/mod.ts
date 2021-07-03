@@ -1,7 +1,7 @@
-import { view } from './view'
-import { meta } from './meta'
+import { metadata } from './metadata'
+import { agentSource } from './agent-source'
 
 export {
-  view,
-  meta,
+  metadata,
+  agentSource,
 }
