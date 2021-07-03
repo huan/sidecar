@@ -17,7 +17,9 @@ async function main () {
   /**
    * Call sidecar.mo(...) periodly
    */
-  const timer = setInterval(() => sidecar.mo('Hello from Sidecar setInterval'), 5 * 1000)
+  const timer = setInterval(async () => {
+    await sidecar.mo('Hello from timer interval')
+  }, 5 * 1000)
 
   /**
    * detach after 10 seconds.
@@ -25,7 +27,7 @@ async function main () {
   setTimeout(async () => {
     clearInterval(timer)
     await detach(sidecar)
-  }, 10 * 1000)
+  }, 11 * 1000)
 
 }
 

@@ -43,10 +43,11 @@ function declareNativeArgs (this: SidecarMetadataFunctionDescription) {
     statementChain.push(
       '',
       `// pointer type for arg[${argIdx}] -> ${pointerTypeList.join(' -> ')}`,
-      `const ${nativeArgName(name, argIdx)} = Memory.alloc(Process.pointerSize)`,
+      // FIXME: Huan(202106) how to get the size? (1024)
+      `const ${nativeArgName(name, argIdx)} = Memory.alloc(1024 /*Process.pointerSize*/)`,
     )
-
     let lastVarName: string = nativeArgName(name, argIdx)
+
     for (const [typeIdx, pointerType] of pointerTypeList.entries()) {
       if (pointerType === 'Pointer') {
 
