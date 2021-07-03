@@ -1,8 +1,11 @@
-import { SidecarFunctionDescription } from '../sidecar-view'
+import { SidecarFunctionDescription } from '../agent/sidecar-view'
 
 function nativeParamTypes (this: SidecarFunctionDescription) {
+  /**
+   * There's no any parameters
+   */
   if (!this.paramTypeList) {
-    throw new Error('.paramTypeList not found in SidecarFunctionDescription!')
+    return ''
   }
   return this.paramTypeList
     .map(paramType => `'${paramType[0]}'`)

@@ -1,3 +1,4 @@
+import { TargetProcess } from 'frida/dist/device'
 import {
   log,
 }             from '../config'
@@ -21,6 +22,8 @@ export interface SidecarFunctionDescription {
 export interface SidecarView {
   nativeFunctionList : SidecarFunctionDescription[],
   interceptorList    : SidecarFunctionDescription[],
+  initAgentSource?   : string,
+  targetProcess?     : TargetProcess,
 }
 
 function sidecarView (

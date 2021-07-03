@@ -2,15 +2,37 @@
  * File: templates/libs/log.js
  *******************************/
 const log = function () {
-  let level = 'verbose'
+  const levelTable = {
+    info    : 0,
+    verbose : 1,
+    silly   : 2,
+  }
+  let logLevel = levelTable.info
+
+  function verbose (prefix, message, ...args) {
+    if (logLevel >= levelTable.verbose) {
+      send(logPayload(
+        buildMessage(prefix, message, ...args)
+      ))
+    }
+  }
+
+  function silly (prefix, message, ...args) {
+    if (logLevel >= levelTable.silly) {
+      send(logPayload(
+        buildMessage(prefix, message, ...args)
+      ))
+    }
+  }
+
+  function setLevel (newLevel) {
+    logLevel = newLevel
+  }
 
   return {
-    verbose: function (prefix, message, ...args) {
-      console.log(buildMessage(prefix, message, ...args))
-    },
-    silly: function(prefix, message, ...args) {
-      console.log(buildMessage(prefix, message, ...args))
-    },
+    setLevel,
+    verbose,
+    silly,
   }
 
   function buildMessage (prefix, message, ...args) {

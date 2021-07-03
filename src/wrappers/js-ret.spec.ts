@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
 import { test }  from 'tstest'
 
-import { getSidecarViewFixture } from '../../../tests/fixtures/sidecar-view.fixture'
+import { getSidecarViewFixture } from '../../tests/fixtures/sidecar-view.fixture'
 import { jsRet } from './js-ret'
 
 test('jsRet()', async t => {

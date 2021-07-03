@@ -1,11 +1,15 @@
-import { SidecarFunctionDescription } from '../sidecar-view'
+import { SidecarFunctionDescription } from '../agent/sidecar-view'
 import { nativeArgName } from './name-helpers'
 
 function nativeArgs (this: SidecarFunctionDescription) {
   const name = this.name
   const paramTypeList = this.paramTypeList
+
+  /**
+   * There's no any parameters needed
+   */
   if (!Array.isArray(paramTypeList)) {
-    throw new Error('Can not found .paramTypeList in SidecarFunctionDescription!')
+    return '[]'
   }
 
   const nativeArgNameList = []

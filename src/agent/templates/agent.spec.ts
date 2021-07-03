@@ -9,34 +9,27 @@ import {
 
 import { getSidecarViewFixture } from '../../../tests/fixtures/sidecar-view.fixture'
 
-import {
-  jsArgs,
-  jsRet,
-  declareNativeArgs,
-  nativeRetType,
-  nativeParamTypes,
-  nativeArgs,
-}                       from '../wrappers/mod'
+import { wrapView } from '../../wrappers/mod'
 
 test('native-functions.mustache', async t => {
 
   const SIDECAR_VIEW = getSidecarViewFixture()
 
-  const view = {
-    ...SIDECAR_VIEW,
-    declareNativeArgs,
-    jsArgs,
-    jsRet,
-    nativeArgs,
-    nativeParamTypes,
-    nativeRetType,
-  }
+  const view = wrapView(SIDECAR_VIEW)
 
   // console.log(view.nativeFunctionList)
-  const template = await partialLookup('native-functions.mustache')
+  const template = await partialLookup('agent.mustache')
 
   // console.log(template)
-  const result = Mustache.render(template, view)
+  const result = Mustache.render(
+    template,
+    {
+      ...view,
+      initAgentSource: 'console.log("hello")',
+    },
+    partialLookup,
+  )
+  // console.log(result)
 
   /**
    * Huan(202106): how could we test this script has been correctly generated?

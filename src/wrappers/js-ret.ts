@@ -1,4 +1,4 @@
-import { SidecarFunctionDescription } from '../sidecar-view'
+import { SidecarFunctionDescription } from '../agent/sidecar-view'
 
 function jsRet (this: SidecarFunctionDescription) {
   const typeChain = this.retType

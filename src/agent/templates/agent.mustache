@@ -11,18 +11,35 @@
 
 {{> libs/log.js }}
 
+/**
+ * Get base address for target {{ targetProcess }}
+ */
+const sidecarModuleBaseAddress = Module.getBaseAddress({{ targetProcess }})
+
 {{> native-functions.mustache }}
 
 {{> interceptors.mustache }}
 
+/********************
+ * RPC Exports Init *
+ ********************/
 function init () {
   log.verbose('SidecarAgent', 'init()')
 
+  /**
+   * initAgentSource
+   */
   {{{ initAgentSource }}}
 
+  /**
+   * Huan(202106) return 42 to let caller to make sure that
+   *  this function has been runned successfully.
+   */
+  return 42
 }
 
 rpc.exports = {
+  init,
   ...rpc.exports,
 }
 

@@ -1,4 +1,4 @@
-import { SidecarFunctionDescription } from '../sidecar-view'
+import { SidecarFunctionDescription } from '../agent/sidecar-view'
 import { argName } from './name-helpers'
 
 function jsArgs (this: SidecarFunctionDescription) {

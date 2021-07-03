@@ -9,12 +9,12 @@
 {{# nativeFunctionList }}
 
 /**
- * Native Function: {{ name }} / {{ target }}
+ * Native Function: {{ name }} / {{ hexAaddress }}
  *  Parameters: {{{ nativeParamTypes }}}
  *  Ret: {{ retType }}
  */
 // Huan(202106): which name is better: address, or target?
-const {{ name }}_NativeFunction_address = ptr({{ target }})
+const {{ name }}_NativeFunction_address = sidecarModuleBaseAddress.add({{ hexAddress }})
 
 const {{ name }}_NativeFunction = new NativeFunction(
   {{ name }}_NativeFunction_address,
