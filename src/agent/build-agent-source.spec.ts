@@ -12,18 +12,12 @@ import { getMetadataSidecar }  from '../decorators/sidecar/metadata-sidecar'
 import {
   buildAgentSource,
 }                         from './build-agent-source'
-import { wrapView } from '../wrappers/mod'
 import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture'
 
 test('buildAgentSource() from fixture', async t => {
-  const view = getSidecarMetadataFixture()
+  const metadata = getSidecarMetadataFixture()
 
-  const initAgentSource = 'console.log(42)'
-
-  const source = await buildAgentSource({
-    initAgentSource,
-    metadata: view,
-  })
+  const source = await buildAgentSource(metadata)
 
   // console.log(source)
   t.true(source, 'ok (tbw)')
@@ -31,17 +25,10 @@ test('buildAgentSource() from fixture', async t => {
 
 test('buildAgentSource() from example demo', async t => {
 
-  const rawView = getMetadataSidecar(ChatboxSidecar)!
+  const metadata = getMetadataSidecar(ChatboxSidecar)!
   // console.log(JSON.stringify(view, null, 2))
 
-  const view = wrapView(rawView)
-
-  const initAgentSource = 'console.log(42)'
-
-  const source = await buildAgentSource({
-    initAgentSource,
-    metadata: view,
-  })
+  const source = await buildAgentSource(metadata)
 
   // console.log(source)
   t.true(source, 'ok')

@@ -9,17 +9,12 @@ import { wrapView } from '../wrappers/mod'
 
 const AGENT_MUSTACHE = 'agent.mustache'
 
-interface BuildAgentSourceOptions {
-  initAgentSource : string,
-  metadata        : SidecarMetadata,
-}
-
-async function buildAgentSource (options: BuildAgentSourceOptions) {
+async function buildAgentSource (metadata: SidecarMetadata) {
   log.verbose('Sidecar', 'buildAgentSource()')
-  log.silly('Sidecar', 'buildAgentSource(%s)', JSON.stringify(options))
+  log.silly('Sidecar', 'buildAgentSource(%s)', JSON.stringify(metadata))
 
   const agentMustache = partialLookup(AGENT_MUSTACHE)
-  const view = wrapView(options.metadata)
+  const view = wrapView(metadata)
 
   const source = await Mustache.render(
     agentMustache,
