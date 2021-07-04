@@ -13,9 +13,9 @@ import { wrapView } from '../../wrappers/mod'
 
 test('native-functions.mustache', async t => {
 
-  const SIDECAR_VIEW = getSidecarMetadataFixture()
+  const SIDECAR_METADATA = getSidecarMetadataFixture()
 
-  const view = wrapView(SIDECAR_VIEW)
+  const view = wrapView(SIDECAR_METADATA)
 
   // console.log(view.nativeFunctionList)
   const template = await partialLookup('native-functions.mustache')
