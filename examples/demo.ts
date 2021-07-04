@@ -1,21 +1,34 @@
-import * as frida from 'frida'
+import {
+  attach,
+  detach,
+}           from '../src/mod'
 
-const INJECT_SOURCE = `
-  console.log('faint')
-  const init = () => console.log('init')
-  rpc.exports = {
-    init
-  }
-`
+import { ChatboxSidecar } from './chatbox-sidecar'
+
 async function main () {
-  const pid = await frida.spawn(['/bin/ls'])
-  const session = await frida.attach(pid)
-  const script = await session.createScript(INJECT_SOURCE)
-  await script.load()
-  // eslint-disable-next-line no-console
-  // console.log(script.exports)
-  await script.exports.init()
-  await frida.resume(pid)
+  const sidecar = new ChatboxSidecar()
+  await attach(sidecar)
+
+  sidecar.on('hook', payload => {
+    console.log(payload)
+  })
+  await sidecar.mo('Hello from Sidecar')
+
+  /**
+   * Call sidecar.mo(...) periodly
+   */
+  const timer = setInterval(async () => {
+    await sidecar.mo('Hello from timer interval')
+  }, 5 * 1000)
+
+  /**
+   * detach after 10 seconds.
+   */
+  setTimeout(async () => {
+    clearInterval(timer)
+    await detach(sidecar)
+  }, 11 * 1000)
+
 }
 
 main()

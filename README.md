@@ -1,6 +1,6 @@
 # Sidecar [![NPM](https://github.com/huan/sidecar/actions/workflows/npm.yml/badge.svg)](https://github.com/huan/sidecar/actions/workflows/npm.yml)
 
-Sidecar is a runtime hooking tool for intercepting function calls by TypeScript annotation with ease, powered by Frida.RE.
+Sidecar is a runtime hooking tool for intercepting function calls by TypeScript annotation with ease, powered by [Frida.RE](https://frida.re/).
 
 ![Frida Sidecar](docs/images/sidecar.webp)
 
@@ -19,6 +19,91 @@ Sidecar is a runtime hooking tool for intercepting function calls by TypeScript 
 > Hook: by intercepting function calls or messages or events passed between software components.  
 > &mdash; SOURCE: [Hooking, Wikipedia](https://en.wikipedia.org/wiki/Hooking)
 
+## Features
+
+1. Easy to use by TypeScript decorators/annotations
+    1. `@Call(memory_address)` for make a API for calling memory address from the binary
+    1. `@Hook(memory_address)` for emit arguments when a memory address is being called
+1. Portable on Windows, macOS, GNU/Linux, iOS, Android, and QNX, as well as X86, Arm, Thumb, Arm64, AArch64, and Mips.
+1. Powered by Frida.RE and can extended by any agent script.
+
+## Example
+
+Talk is cheap, show me the code.
+
+```ts
+/**
+ * I. Import Sidecar
+ */
+import {
+  Sidecar,
+  SidecarBody,
+  Call,
+  Hook,
+  ParamType,
+  RetType,
+  Ret,
+}                       from 'sidecar'
+
+/**
+ * II. Declare a Sidecar class with decorators
+ */
+@Sidecar('messaging')
+class MessagingSidecar extends SidecarBody {
+
+  @Call(0x42)
+  @RetType('pointer', 'Utf8String')
+  testMethod (
+    @ParamType('pointer', 'Utf8String') content: string,
+    @ParamType('int')                   n: number,
+  ): Promise<string> {
+    return Ret(content, n)
+  }
+
+  @Hook(0x17)
+  hookMethod (
+    @ParamType('int') n: number,
+  ) {
+    return Ret(n) 
+  }
+
+}
+
+/**
+ * III. Use the Sidecar class as usual.
+ */
+async function main () {
+  const sidecar = new MessagingSidecar()
+
+  /**
+   * 1. Make API call
+   */
+  const ret = await sidecar.testMethod()
+  console.log('ret:', ret)
+  // print the function call return value from address 0x42 from messaging binary
+
+  /**
+   * 2. Receive hooked API call
+   */
+  sidecar.on('hook', payload => {
+    console.log('hook event fired with payload:', payload)
+    // print the method name with arguments when the 0x17 address is being called
+  })
+}
+
+main().catch(console.error)
+```
+
+Run the example by yourself with the following commands:
+
+```sh
+git clone git@github.com:huan/sidecar.git
+cd sidecar
+
+cd examples
+make
+```
+
 ## Requirements
 
 ### Mac
@@ -34,32 +119,14 @@ npm install sidecar
 ## Usage
 
 ```ts
-import {
-  Sidecar,
-  HookCall,
-  Hook,
-  OnEnter,
-  OnLeave,
-  Replace
-}                       from 'sidecar'
-
-@Sidecar('factorial-daemon')
-class ProcessSideCar {
-  @Func(0x33444) reset (): void
-  @Hook 
-}
-
-```
-
-## Example
-
-```ts
 // tbw
 ```
 
 ## Related project: FFI Adapter
 
 I have another NPM module named [ffi-adapter](https://github.com/huan/ffi-adapter), which is a Foreign Function Interface Adapter Powered by Decorator & TypeScript.
+
+FFi Adapter example:
 
 ```ts
 import {
@@ -78,7 +145,7 @@ console.log('factorial(5) =', lib.factorial(5))
 // Output: factorial(5) = 120
 ```
 
-See examples at <https://github.com/huan/ffi-adapter/tree/master/tests/fixtures/library>
+Learn more about examples at <https://github.com/huan/ffi-adapter/tree/master/tests/fixtures/library>
 
 ## Resources
 
@@ -140,6 +207,10 @@ a binary instrumentation workshop, using Frida, for beginners, @leonjza](http://
 ### 0.0.1 (Jun 13, 2021)
 
 Repo created.
+
+## Special thanks
+
+Thanks to Quinton Ashley [@quinton-ashley](https://github.com/quinton-ashley) who is the previous owner of NPM name `sidecar` and he transfer this beautify name to me for publishing this project after I requested via email. Appreciate it! (Jun 29, 2021)
 
 ## Author
 

@@ -1,0 +1,46 @@
+/*****************************************
+ * File: "templates/agent.mustache"
+ * --------------------------------
+ * Sidecar Frida Agent Mustache Template
+ *
+ * Huan <zixia@zixia.net>, June 24, 2021
+ *  https://github.com/huan/sidecar
+ *****************************************/
+
+{{> libs/payload.js}}
+
+{{> libs/log.js }}
+
+/**
+ * Get base address for target {{{ targetProcess }}}
+ */
+const sidecarModuleBaseAddress = Module.getBaseAddress('{{{ moduleName }}}')
+
+{{> native-functions.mustache }}
+
+{{> interceptors.mustache }}
+
+/********************
+ * RPC Exports Init *
+ ********************/
+function init () {
+  log.verbose('SidecarAgent', 'init()')
+
+  /**
+   * initAgentSource
+   */
+  {{{ initAgentSource }}}
+
+  /**
+   * Huan(202106) return 42 to let caller to make sure that
+   *  this function has been runned successfully.
+   */
+  return 42
+}
+
+rpc.exports = {
+  init,
+  ...rpc.exports,
+}
+
+{{> rpc-exports.mustache }}

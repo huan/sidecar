@@ -6,7 +6,7 @@
  */
 import { log } from 'brolog'
 
-import * as frida from '../../src/frida'
+import * as frida from '../../../src/frida'
 
 import { clean }                  from './clean'
 import { loadAgentSource }        from './load-agent-source'
