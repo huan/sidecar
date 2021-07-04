@@ -25,9 +25,15 @@ export {
  *  https://docs.microsoft.com/en-us/cpp/assembler/inline/jumping-to-labels-in-inline-assembly
  *
  */
+export type FunctionTargetType =  'address' // memory address
+                                | 'agent'   // frida agent ptr variable name
+                                | 'java'    // TODO:
+                                | 'module'  // TODO:
+                                | 'name'    // library function name
+                                | 'objc'    // TODO:
 export interface FunctionTargetWrapper {
-  type: 'agent' | 'objc' | 'java' | 'module'
-  target: string
+  type   : FunctionTargetType
+  target : string
 }
 
 /**
@@ -45,6 +51,23 @@ export type FunctionTargetLink =  number
 
 export type FunctionTarget =  FunctionTargetLink
                             | FunctionTargetWrapper
+
+function normalizeFunctionTarget (
+  functionTarget: FunctionTarget,
+): FunctionTargetWrapper {
+  if (typeof functionTarget === 'number') {
+    return {
+      target : '0x' + Number(functionTarget).toString(16),
+      type   : 'address',
+    }
+  } else if (typeof functionTarget === 'string') {
+    return {
+      target : functionTarget,
+      type   : 'name',
+    }
+  }
+  return functionTarget
+}
 
 /**
  * NativeFunction
@@ -100,3 +123,7 @@ export type PointerType = 'Pointer'
                         | 'AnsiString'
 
 export type TypeChain = [NativeType, ...PointerType[]]
+
+export {
+  normalizeFunctionTarget,
+}

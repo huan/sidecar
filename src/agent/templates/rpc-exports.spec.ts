@@ -9,15 +9,17 @@ import {
 }                         from '../partial-lookup'
 
 import { getSidecarMetadataFixture } from '../../../tests/fixtures/sidecar-metadata.fixture'
+import { wrapView } from '../../wrappers/mod'
 
 test('render rpc-exports()', async t => {
 
-  const SIDECAR_VIEW = getSidecarMetadataFixture()
+  const SIDECAR_METADATA = getSidecarMetadataFixture()
+  const view = wrapView(SIDECAR_METADATA)
 
   const template = await partialLookup('rpc-exports.mustache')
 
   // console.log(template)
-  const code = Mustache.render(template, SIDECAR_VIEW)
+  const code = Mustache.render(template, view)
   // console.log(code)
 
   /**

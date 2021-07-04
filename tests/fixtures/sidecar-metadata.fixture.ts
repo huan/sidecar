@@ -6,59 +6,68 @@ import { SidecarMetadata } from '../../src/decorators/mod'
 const SIDECAR_METADATA: SidecarMetadata = {
   interceptorList: [
     {
-      name: 'hookMethod',
-      paramTypeList: [
-        [
-          'int',
+      address: {
+        name: 'hookMethod',
+        paramTypeList: [
+          [
+            'int',
+          ],
+          [
+            'pointer',
+            'Utf8String',
+          ],
         ],
-        [
-          'pointer',
-          'Utf8String',
-        ],
-      ],
-      retType: undefined,
-      target: 23,
+        retType: undefined,
+        target: '0x17',
+        type: 'address',
+      },
     },
   ],
   nativeFunctionList: [
     {
-      name: 'anotherCall',
-      paramTypeList: [
-        [
+      address: {
+        name: 'anotherCall',
+        paramTypeList: [
+          [
+            'pointer',
+            'Int',
+          ],
+          [
+            'pointer',
+            'Pointer',
+            'Utf8String',
+          ],
+        ],
+        retType: [
           'pointer',
           'Int',
         ],
-        [
-          'pointer',
-          'Pointer',
-          'Utf8String',
-        ],
-      ],
-      retType: [
-        'pointer',
-        'Int',
-      ],
-      target: 77,
+        target: '0x4d',
+        type: 'address',
+      },
     },
     {
-      name: 'testMethod',
-      paramTypeList: [
-        [
+      address: {
+        name: 'testMethod',
+        paramTypeList: [
+          [
+            'pointer',
+            'Utf8String',
+          ],
+          [
+            'int',
+          ],
+        ],
+        retType: [
           'pointer',
           'Utf8String',
         ],
-        [
-          'int',
-        ],
-      ],
-      retType: [
-        'pointer',
-        'Utf8String',
-      ],
-      target: 66,
+        target: '0x42',
+        type: 'address',
+      },
     },
   ],
-  targetProcess: 'chatbox-linux-x64',
+  targetProcess: 'chatbox-linux',
 }
 
 function getSidecarMetadataFixture (): SidecarMetadata {

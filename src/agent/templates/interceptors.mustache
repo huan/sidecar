@@ -8,28 +8,25 @@
  *  https://github.com/huan/sidecar
  *********************************************************/
 {{# interceptorList }}
-/**
- * Interceptor Target: {{ name }} / {{ hexAddress }}
- *  Parameters: {{{ nativeParamTypes }}}
- */
-const {{ name }}_Interceptor_target = sidecarModuleBaseAddress.add({{ hexAddress }})
 
-Interceptor.attach(
-  {{ name }}_Interceptor_target,
-  {
-    onEnter: args => {
-      log.verbose(
-        'SidecarAgent',
-        'Interceptor.attach(%s) onEnter()',
-        Number({{ hexAddress }}).toString(16),
-      )
+  {{# name }}
+    {{> interceptors-name.mustache }}
+  {{/ name }}
 
-      send(hookPayload(
-        '{{ name }}',
-        {{ jsArgs }}
-      ), null)
+  {{# address }}
+    {{> interceptors-address.mustache }}
+  {{/ address}}
 
-    },
-  }
-)
+  {{# agent }}
+    {{> interceptors-agent.mustache }}
+  {{/ agent}}
+
+  {{# objc }}
+    {{> interceptors-objc.mustache }}
+  {{/ objc}}
+
+  {{# java }}
+    {{> interceptors-java.mustache }}
+  {{/ java}}
+
 {{/ interceptorList}}

@@ -54,33 +54,39 @@ test('@Sidecar() viewMetadata()', async t => {
     initAgentSource: undefined,
     interceptorList: [
       {
-        name: 'hookMethod',
-        paramTypeList: [
-          [
-            'int',
+        address: {
+          name: 'hookMethod',
+          paramTypeList: [
+            [
+              'int',
+            ],
           ],
-        ],
-        retType: undefined,
-        target: 23,
+          retType: undefined,
+          target: '0x17',
+          type: 'address',
+        },
       },
     ],
     nativeFunctionList: [
       {
-        name: 'testMethod',
-        paramTypeList: [
-          [
+        address: {
+          name: 'testMethod',
+          paramTypeList: [
+            [
+              'pointer',
+              'Utf8String',
+            ],
+            [
+              'int',
+            ],
+          ],
+          retType: [
             'pointer',
             'Utf8String',
           ],
-          [
-            'int',
-          ],
-        ],
-        retType: [
-          'pointer',
-          'Utf8String',
-        ],
-        target: 66,
+          target: '0x42',
+          type: 'address',
+        },
       },
     ],
     targetProcess: 'chatbox',

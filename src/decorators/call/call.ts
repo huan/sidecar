@@ -14,7 +14,7 @@ function Call (
 ) {
   log.verbose('Sidecar', '@Call(%s)',
     typeof functionTarget === 'object' ? JSON.stringify(functionTarget)
-      : typeof functionTarget === 'number' ? functionTarget.toString(16)
+      : typeof functionTarget === 'number' ? '0x' + functionTarget.toString(16)
         : functionTarget,
   )
 
@@ -26,7 +26,7 @@ function Call (
     log.verbose('Sidecar',
       '@Call(%s) callMethodDecorator(%s, %s, descriptor)',
       typeof functionTarget === 'object' ? JSON.stringify(functionTarget)
-        : typeof functionTarget === 'number' ? functionTarget.toString(16)
+        : typeof functionTarget === 'number' ? '0x' + functionTarget.toString(16)
           : functionTarget,
 
       target.constructor.name,
