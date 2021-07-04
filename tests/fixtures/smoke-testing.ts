@@ -54,6 +54,8 @@ async function main () {
     throw new Error('VERSION not set!')
   }
   const sidecar = new ChatboxSidecar()
+  sidecar.on('hook', payload => console.log(payload))
+
   return 0
 }
 
