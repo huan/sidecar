@@ -22,7 +22,7 @@
     "pack": "npm pack",
     "start": "ts-node examples/demo.ts",
     "test": "npm run lint && npm run test:unit",
-    "test:unit": "blue-tape -r ts-node/register \"src/**/*.spec.ts\" \"tests/**/*.spec.ts\"",
+    "test:unit": "cross-env BROLOG_LEVEL=silly blue-tape -r ts-node/register \"src/**/*.spec.ts\" \"tests/**/*.spec.ts\"",
     "test:pack": "bash -x scripts/npm-pack-testing.sh",
     "lint:es": "eslint --ignore-pattern fixtures/ \"src/**/*.ts\" \"tests/**/*.ts\""
   },
@@ -68,6 +68,7 @@
   "dependencies": {
     "brolog": "^1.12.4",
     "cmd-ts": "^0.7.0",
+    "cross-env": "^7.0.3",
     "frida": "^14.2.18",
     "mustache": "^4.2.0"
   }
