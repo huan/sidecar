@@ -62,7 +62,7 @@ Learn more from the example directory: <https://github.com/huan/sidecar/blob/mai
 ## Install
 
 ```sh
-npm install sidecar
+npm install frida-sidecar
 ```
 
 ## Usage
