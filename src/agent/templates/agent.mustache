@@ -11,9 +11,14 @@
 
 {{> libs/log.js }}
 
-/**
+/*******************
+ * initAgentSource *
+ *******************/
+{{{ initAgentSource }}}
+
+/****************************************************
  * Get base address for target {{{ targetProcess }}}
- */
+ ****************************************************/
 const sidecarModuleBaseAddress = Module.getBaseAddress('{{{ moduleName }}}')
 
 {{> native-functions.mustache }}
@@ -25,11 +30,6 @@ const sidecarModuleBaseAddress = Module.getBaseAddress('{{{ moduleName }}}')
  ********************/
 function init () {
   log.verbose('SidecarAgent', 'init()')
-
-  /**
-   * initAgentSource
-   */
-  {{{ initAgentSource }}}
 
   /**
    * Huan(202106) return 42 to let caller to make sure that

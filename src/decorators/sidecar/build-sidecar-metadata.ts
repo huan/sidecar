@@ -3,7 +3,7 @@ import {
   log,
 }                   from '../../config'
 import {
-  SidecarTarget,
+  FunctionTarget,
   TypeChain,
 }                   from '../../frida'
 
@@ -15,7 +15,7 @@ import { getMetadataRetType }     from '../ret-type/metadata-ret-type'
 import {
   SidecarMetadata,
   SidecarMetadataFunctionDescription,
-}                               from './metadata-sidecar'
+}                                       from './metadata-sidecar'
 
 interface BuildSidecarMetadataOptions {
   initAgentSource? : string,
@@ -76,8 +76,8 @@ function buildSidecarMetadata <T extends {
 }
 
 interface SidecarConfig {
-  call             : { [k: string]: SidecarTarget }
-  hook             : { [k: string]: SidecarTarget }
+  call             : { [k: string]: FunctionTarget }
+  hook             : { [k: string]: FunctionTarget }
   paramType        : { [k: string]: TypeChain[]  }
   retType          : { [k: string]: TypeChain    }
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 import { test }  from 'tstest'
-import { FridaTarget } from '../../frida'
+import { FunctionTarget } from '../../frida'
 
 import {
   Hook,
@@ -9,7 +9,7 @@ import {
 }                         from './hook'
 
 test('Hook with metadata', async t => {
-  const TARGET: FridaTarget = 0x42
+  const TARGET: FunctionTarget = 0x42
 
   class Test {
 
@@ -29,7 +29,7 @@ test('Hook with metadata', async t => {
 })
 
 test('getHookTarget()', async t => {
-  const TARGET: FridaTarget = 0x42
+  const TARGET: FunctionTarget = 0x42
 
   class Test {
 

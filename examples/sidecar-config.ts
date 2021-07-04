@@ -18,7 +18,7 @@
  */
 import path from 'path'
 
-import { FridaTarget } from '../src/frida'
+import { FunctionTarget } from '../src/frida'
 
 /**
  * See: https://github.com/frida/frida-node/blob/master/test/data/index.ts
@@ -44,7 +44,7 @@ function targetProgram () {
 interface TargetAddressConfig {
   [platform: string]: {
     [arch: string]: {
-      [call: string]: FridaTarget,
+      [call: string]: FunctionTarget,
     }
   }
 }

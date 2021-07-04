@@ -42,7 +42,10 @@ function getFixture () {
       return Ret(content, count)
     }
 
-    @Hook({ label: 'label1' })
+    @Hook({
+      target : 'label1',
+      type   : 'agent',
+    })
     mt (
       @ParamType('pointer', 'Utf8String') message: string,
     ) {

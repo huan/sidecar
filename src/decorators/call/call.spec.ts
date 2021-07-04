@@ -1,10 +1,11 @@
 #!/usr/bin/env ts-node
-import { test }   from 'tstest'
+import { test } from 'tstest'
+
 import {
-  FridaTarget,
-  LabelTarget,
-}                 from '../../frida'
-import { Ret }    from '../../ret'
+  FunctionTargetLink,
+  FunctionTargetWrapper,
+}                         from '../../frida'
+import { Ret }            from '../../ret'
 
 import {
   Call,
@@ -13,7 +14,7 @@ import { getMetadataCall }    from './metadata-call'
 import { CALL_SYMBOL }        from './constants'
 
 test('Call with metadata', async t => {
-  const TARGET: FridaTarget = 0x42
+  const TARGET: FunctionTargetLink = 0x42
   const METHOD_NAME = 'testMethod'
 
   class Test {
@@ -34,7 +35,7 @@ test('Call with metadata', async t => {
 })
 
 test('getCallTarget()', async t => {
-  const TARGET: FridaTarget = 0x42
+  const TARGET: FunctionTargetLink = 0x42
   const METHOD_NAME = 'testMethod'
 
   class Test {
@@ -54,7 +55,10 @@ test('getCallTarget()', async t => {
 })
 
 test('getCallTarget() with label', async t => {
-  const TARGET: LabelTarget = { label: 'label1' }
+  const TARGET: FunctionTargetWrapper = {
+    target : 'test',
+    type   : 'agent',
+  }
   const METHOD_NAME = 'testMethod'
 
   class Test {

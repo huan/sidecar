@@ -2,7 +2,7 @@ import {
   log,
 }               from '../../config'
 import {
-  SidecarTarget,
+  FunctionTarget,
   TypeChain,
   TargetProcess,
 }                     from '../../frida'
@@ -13,7 +13,7 @@ export interface SidecarMetadataFunctionDescription {
   name          : string,
   paramTypeList : TypeChain[],
   retType?      : TypeChain,
-  target        : SidecarTarget,
+  target        : FunctionTarget,
 }
 
 export interface SidecarMetadata {
