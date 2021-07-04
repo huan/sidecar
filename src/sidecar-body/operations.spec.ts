@@ -15,7 +15,7 @@ import { Sidecar } from '../decorators/mod'
 const targetProgram = () =>
   process.platform        === 'linux'   ? '/bin/ls'
     : process.platform    === 'darwin'  ? '/bin/ls'
-      : process.platform  === 'win32'   ? 'c:\\Widnows\\notepad.exe'
+      : process.platform  === 'win32'   ? 'c:\\Windows\\notepad.exe'
         : 'targteProgram(): Unknown process.platform:' + process.platform
 
 test('init()', async t => {
