@@ -28,6 +28,10 @@ import {
 
 import { SidecarEmitter } from './sidecar-emitter'
 
+/**
+ * Frida: Spawning vs. attaching
+ * https://summit-labs.frida.ninja/frida-tool-reference/frida
+ */
 export enum SpawnMode {
   Default = 0,
   Always  = 1,
