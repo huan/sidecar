@@ -67,9 +67,8 @@ test('attach()', async t => {
   } catch (e) {
     t.fail('Rejection:' + e && e.message)
   } finally {
-      try { detach(s) }
-      catch (e) { throw e }
-    }
+    await detach(s)
+  }
 })
 
 test('detach()', async t => {
