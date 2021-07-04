@@ -141,6 +141,10 @@ class SidecarBody extends SidecarEmitter {
       ].join('\n'))
     }
 
+    const moduleName = typeof this.targetProcess === 'number'
+      ? this.targetProcess
+      : path.basename(this.targetProcess)
+
     const resumeCallbackList = []
 
     let pid: number
@@ -152,14 +156,11 @@ class SidecarBody extends SidecarEmitter {
        */
       case SpawnMode.Default:
         try {
-          const moduleName = typeof this.targetProcess === 'number'
-            ? this.targetProcess
-            : path.basename(this.targetProcess)
           session = await frida.attach(moduleName)
         } catch (e) {
           log.silly('SidecarBody',
             '[ATTACH_SYMBOL]() SpawnMode.Default attach(%s) failed. trying spawn...',
-            this.targetProcess,
+            moduleName,
           )
           if (typeof this.targetProcess === 'number') {
             this.emit('error', e)

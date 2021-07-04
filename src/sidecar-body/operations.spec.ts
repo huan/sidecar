@@ -3,6 +3,7 @@ import { test }  from 'tstest'
 
 import {
   SidecarBody,
+  SpawnMode,
 }                 from './sidecar-body'
 import {
   init,
@@ -16,7 +17,7 @@ test('init()', async t => {
   @Sidecar('/bin/ls')
   class SidecarTest extends SidecarBody {}
 
-  const s = new SidecarTest()
+  const s = new SidecarTest({ spawnMode: SpawnMode.Always })
   const future = new Promise<void>(resolve => s.on('inited', resolve))
 
   try {
@@ -41,7 +42,7 @@ test('attach()', async t => {
   @Sidecar('/bin/ls')
   class SidecarTest extends SidecarBody {}
 
-  const s = new SidecarTest()
+  const s = new SidecarTest({ spawnMode: SpawnMode.Always })
 
   s.script = {
     unload: (..._: any[]) => { return {} as any },
@@ -62,11 +63,13 @@ test('attach()', async t => {
         setTimeout(reject, 100)
       }),
     ])
-
     t.pass('attach() successfully')
   } catch (e) {
     t.fail('Rejection:' + e && e.message)
-  }
+  } finally {
+      try { detach(s) }
+      catch (e) { throw e }
+    }
 })
 
 test('detach()', async t => {
@@ -74,7 +77,7 @@ test('detach()', async t => {
   @Sidecar('/bin/ls')
   class SidecarTest extends SidecarBody {}
 
-  const s = new SidecarTest()
+  const s = new SidecarTest({ spawnMode: SpawnMode.Always })
   const future = new Promise<void>(resolve => s.on('detached', resolve))
 
   try {
