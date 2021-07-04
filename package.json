@@ -16,7 +16,7 @@
   },
   "scripts": {
     "clean": "shx rm -fr dist/*",
-    "dist": "npm run clean && tsc",
+    "dist": "npm run clean && tsc && shx cp -R src/agent/templates/{libs,*.mustache} dist/src/agent/templates/",
     "lint": "npm run lint:es && npm run lint:ts",
     "lint:ts": "tsc --noEmit",
     "pack": "npm pack",
