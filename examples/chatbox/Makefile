@@ -16,7 +16,7 @@ mac: chatbox.c
 	gcc -o chatbox-$(detected_OS) chatbox.c
 
 windows: chatbox.c
-	gcc -o chatbox-$(detected_OS) chatbox.c
+	cl /output:chatbox-$(detected_OS) chatbox.c
 
 clean:
 	rm -f chatbox-$(detected_OS)

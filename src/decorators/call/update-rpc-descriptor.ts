@@ -28,7 +28,9 @@ function updateRpcDescriptor (
        *  check Ret value and deal the error more gentle
        */
       if (result !== RET_SYMBOL) {
-        throw new Error(`The ${target.constructor.name}.${propertyKey}(...) must be defined to return the Ret() value to make Sidecar @Call happy.`)
+        const e = new Error(`The ${target.constructor.name}.${propertyKey}(...) must be defined to return the Ret() value to make Sidecar @Call happy.`)
+        console.error(e.stack)
+        throw e
       }
       return result
     }).catch((e: Error) => {

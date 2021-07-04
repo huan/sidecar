@@ -12,9 +12,15 @@ import {
 }                from './operations'
 import { Sidecar } from '../decorators/mod'
 
+const targetProgram = () =>
+  process.platform        === 'linux'   ? '/bin/ls'
+    : process.platform    === 'darwin'  ? '/bin/ls'
+      : process.platform  === 'win32'   ? 'c:\\Widnows\\notepad.exe'
+        : 'targteProgram(): Unknown process.platform:' + process.platform
+
 test('init()', async t => {
 
-  @Sidecar('/bin/ls')
+  @Sidecar(targetProgram())
   class SidecarTest extends SidecarBody {}
 
   const s = new SidecarTest({ spawnMode: SpawnMode.Always })
@@ -39,7 +45,7 @@ test('init()', async t => {
 })
 test('attach()', async t => {
 
-  @Sidecar('/bin/ls')
+  @Sidecar(targetProgram())
   class SidecarTest extends SidecarBody {}
 
   const s = new SidecarTest({ spawnMode: SpawnMode.Always })
@@ -73,7 +79,7 @@ test('attach()', async t => {
 
 test('detach()', async t => {
 
-  @Sidecar('/bin/ls')
+  @Sidecar(targetProgram())
   class SidecarTest extends SidecarBody {}
 
   const s = new SidecarTest({ spawnMode: SpawnMode.Always })
