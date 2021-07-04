@@ -5,7 +5,7 @@
   "main": "dist/src/mod.js",
   "typings": "dist/src/mod.d.ts",
   "engines": {
-    "node": "~14"
+    "node": ">=10"
   },
   "directories": {
     "doc": "docs",
