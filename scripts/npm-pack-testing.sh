@@ -15,7 +15,7 @@ npm install *-*.*.*.tgz \
   @chatie/tsconfig
 
 ./node_modules/.bin/tsc \
-  --target es6 \
+  --target es5 \
   --lib esnext \
   --noEmitOnError \
   --noImplicitAny \
