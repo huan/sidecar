@@ -48,23 +48,22 @@ import {
 /**
  * II. Declare a Sidecar class with decorators
  */
-@Sidecar('messaging')
-class MessagingSidecar extends SidecarBody {
+@Sidecar('chatbox')
+class ChatboxSidecar extends SidecarBody {
 
-  @Call(0x42)
-  @RetType('pointer', 'Utf8String')
-  testMethod (
+  @Call(0x11C9)
+  @RetType('void')
+  mo (
     @ParamType('pointer', 'Utf8String') content: string,
-    @ParamType('int')                   n: number,
   ): Promise<string> {
-    return Ret(content, n)
+    return Ret(content)
   }
 
-  @Hook(0x17)
-  hookMethod (
-    @ParamType('int') n: number,
+  @Hook(0x11F4)
+  mt (
+    @ParamType('pointer', 'Utf8String') content: string,
   ) {
-    return Ret(n) 
+    return Ret(content)
   }
 
 }
@@ -73,20 +72,20 @@ class MessagingSidecar extends SidecarBody {
  * III. Use the Sidecar class as usual.
  */
 async function main () {
-  const sidecar = new MessagingSidecar()
+  const sidecar = new ChatboxSidecar()
 
   /**
    * 1. Make API call
    */
-  const ret = await sidecar.testMethod()
-  console.log('ret:', ret)
+  const ret = await sidecar.mo('Hello from Sidecar')
+  console.log('mo() ret:', ret)
   // print the function call return value from address 0x42 from messaging binary
 
   /**
    * 2. Receive hooked API call
    */
   sidecar.on('hook', payload => {
-    console.log('hook event fired with payload:', payload)
+    console.log('hook event:', payload)
     // print the method name with arguments when the 0x17 address is being called
   })
 }
@@ -97,18 +96,24 @@ main().catch(console.error)
 Run the example by yourself with the following commands:
 
 ```sh
+# Clone the git repo to local
 git clone git@github.com:huan/sidecar.git
+
+# Enter the repo folder
 cd sidecar
 
-cd examples
-make
+# Install dependencies
+npm install
+
+# run the examples/demo.ts
+npm start
 ```
+
+Learn more from the example directory: <https://github.com/huan/sidecar/blob/main/examples>
 
 ## Requirements
 
-### Mac
-
-1. Disable [System Integrity Protection](https://support.apple.com/en-us/HT204899)
+1. Mac: disable [System Integrity Protection](https://support.apple.com/en-us/HT204899)
 
 ## Install
 
