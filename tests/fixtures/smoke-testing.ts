@@ -27,7 +27,7 @@ import {
   RetType,
   Ret,
   VERSION,
-}           from '@huan/sidecar'
+}           from 'sidecar'
 
 @Sidecar('test')
 class ChatboxSidecar extends SidecarBody {
