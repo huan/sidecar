@@ -1,3 +1,5 @@
+#!/usr/bin/env ts-node
+
 /**
  *   Sidecar - https://github.com/huan/sidecar
  *
@@ -16,35 +18,48 @@
  *   limitations under the License.
  *
  */
-import { VERSION }      from './version'
-import { Ret }          from './ret'
 import {
+  Sidecar,
   SidecarBody,
-  attach,
-  detach,
-}                       from './sidecar-body/mod'
-
-/**
- * Decorators
- */
-import { Call }       from './decorators/call/mod'
-import { Hook }       from './decorators/hook/mod'
-import { ParamType }  from './decorators/param-type/mod'
-import { RetType }    from './decorators/ret-type/mod'
-import { Sidecar }    from './decorators/sidecar/mod'
-
-export {
-  VERSION,
-
-  attach,
-  detach,
-
   Call,
   Hook,
   ParamType,
-  Ret,
   RetType,
+  Ret,
+  VERSION,
+}           from 'sidecar'
 
-  Sidecar,
-  SidecarBody,
+@Sidecar('test')
+class ChatboxSidecar extends SidecarBody {
+
+  @Call(0x1234)
+  @RetType('void')
+  mo (
+    @ParamType('pointer', 'Utf8String') content: string,
+  ): Promise<string> {
+    return Ret(content)
+  }
+
+  @Hook(0x5678)
+  mt (
+    @ParamType('pointer', 'Utf8String') content: string,
+  ) {
+    return Ret(content)
+  }
+
 }
+
+async function main () {
+  if (VERSION === '0.0.0') {
+    throw new Error('VERSION not set!')
+  }
+  const sidecar = new ChatboxSidecar()
+  return 0
+}
+
+main()
+  .then(process.exit)
+  .catch(e => {
+    console.error(e)
+    process.exit(1)
+  })
