@@ -11,7 +11,7 @@ import {
 import {
   targetAddress,
   targetProgram,
-}                 from './targets'
+}                 from './sidecar-config'
 
 @Sidecar(targetProgram())
 class ChatboxSidecar extends SidecarBody {
