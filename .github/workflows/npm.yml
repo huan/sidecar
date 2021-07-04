@@ -46,8 +46,8 @@ jobs:
         run: ./scripts/npm-pack-testing.sh
 
   publishGitHub:
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/v'))
-    name: Publish
+    if: github.event_name == 'pushXXX' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/v'))
+    name: Publish to GitHub Packages
     needs: [build, pack]
     runs-on: ubuntu-latest
     steps:
@@ -90,9 +90,9 @@ jobs:
         if: steps.check-branch.outputs.match != 'true'
         run: echo 'Not A Publish Branch'
 
-  publishNpm:
-    if: github.event_name == 'XXXpush' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/v'))
-    name: Publish
+  publish:
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/v'))
+    name: Publish to NPM
     needs: [build, pack]
     runs-on: ubuntu-latest
     steps:

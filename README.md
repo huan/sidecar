@@ -148,10 +148,15 @@ a binary instrumentation workshop, using Frida, for beginners, @leonjza](http://
 
 - [Learn Object-C Cheatsheet](http://cocoadevcentral.com/d/learn_objectivec/)
 - [Objective-C // Runtime Method Injection](http://labs.distriqt.com/post/846)
+- [The Node.js ⇆ Objective-C bridge](https://github.com/tootallnate/NodObjC)
 
 ## History
 
 ### Master
+
+### 0.1 (Jul 4, 2021)
+
+First worked version, published to NPM as `frida-sidecar`.
 
 ### 0.0.1 (Jun 13, 2021)
 

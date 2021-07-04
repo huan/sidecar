@@ -1,5 +1,5 @@
 {
-  "name": "@huan/sidecar",
+  "name": "frida-sidecar",
   "version": "0.2.19",
   "description": "Sidecar is for easy hook/call in-process functions with TypeScript annotations.",
   "main": "dist/src/mod.js",
