@@ -12,7 +12,7 @@ const log = function () {
   function verbose (prefix, message, ...args) {
     if (logLevel >= levelTable.verbose) {
       send(logPayload(
-        buildMessage(prefix, message, ...args)
+        buildMessage('VERB ' + prefix, message, ...args)
       ))
     }
   }
@@ -20,7 +20,7 @@ const log = function () {
   function silly (prefix, message, ...args) {
     if (logLevel >= levelTable.silly) {
       send(logPayload(
-        buildMessage(prefix, message, ...args)
+        buildMessage('SILL' + prefix, message, ...args)
       ))
     }
   }

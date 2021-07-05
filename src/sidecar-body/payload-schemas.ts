@@ -1,6 +1,6 @@
 export interface SidecarBodyEventPayloadLog {
   type    : 'log',
-  payload : 'string',
+  payload : string,
 }
 
 export interface SidecarBodyEventPayloadHook {

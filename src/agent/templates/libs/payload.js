@@ -11,11 +11,11 @@ const hookPayload = (
   method, // string
   args,   // Arguments, Array
 ) => ({
-  type     : 'hook',
-  papyload : {
-    method,
+  payload : {
     args,
-  }
+    method,
+  },
+  type     : 'hook',
 })
 
 /**
@@ -24,6 +24,14 @@ const hookPayload = (
 const logPayload = (
   payload,
 ) => ({
-  type : 'log',
   payload,
+  type : 'log',
 })
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    ...module.exports,
+    hookPayload,
+    logPayload,
+  }
+}
