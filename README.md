@@ -22,79 +22,188 @@ Sidecar is a runtime hooking tool for intercepting function calls by TypeScript 
 ## Features
 
 1. Easy to use by TypeScript decorators/annotations
-    1. `@Call(memory_address)` for make a API for calling memory address from the binary
-    1. `@Hook(memory_address)` for emit arguments when a memory address is being called
+    1. `@Call(memoryAddress)` for make a API for calling memory address from the binary
+    1. `@Hook(memoryAddress)` for emit arguments when a memory address is being called
 1. Portable on Windows, macOS, GNU/Linux, iOS, Android, and QNX, as well as X86, Arm, Thumb, Arm64, AArch64, and Mips.
-1. Powered by Frida.RE and can extended by any agent script.
+1. Powered by Frida.RE and can be easily extended by any agent script.
 
-## Example
+## Requirements
 
-Talk is cheap, show me the code.
+1. Mac: disable [System Integrity Protection](https://support.apple.com/en-us/HT204899)
+
+## Introduction
+
+When you are running an application on the
+Linux, Mac, Windows, iPhone, or Android,
+you might want to make it programmatic,
+so that your can control it automatically.
+
+The SDK and API are designed for achieving this, if there are any.
+However, most of the application have very limited functionalities
+for providing a SDK or API to the developers,
+or they have neither SDK nor API at all,
+what we have is only the binary executable application.
+
+How can we make a binary executable application to be able to called
+from our program? If we can call the function in the application process
+directly, then we will be able to make the application as our SDK/API,
+then we can make API call to control the application,
+or hook function inside the application to get to know what happened.
+
+I have the above question and I want to find an universal way to solve it: Frida is for rescue. [Frida](https://frida.re/) is a dynamic instrumentation toolkit for developers and reverse-engineers, which can help us easily call the internal function from a process,
+or hook any internal function inside the process. And it has a nice Node.js binding and TypeScript support, which is nice to me because I love TypeScript much.
+
+That's why I start build this project: **Sidecar**.
+Sidecar is a runtime hooking tool
+for intercepting function calls
+by decorate a TypeScript class with annotation.
+
+Here's an example code example for demostration that how easy
+it can help you to hook a exiting application.
+
+### Talk is cheap, show me the code
 
 ```ts
 @Sidecar('chatbox')
 class ChatboxSidecar extends SidecarBody {
 
-  @Call(0x11C9)
+  @Call(0x11c9)
   @RetType('void')
   mo (
     @ParamType('pointer', 'Utf8String') content: string,
-  ): Promise<string> {
-    return Ret(content)
-  }
+  ): Promise<string> { return Ret(content) }
 
-  @Hook(0x11F4)
+  @Hook(0x11f4)
   mt (
     @ParamType('pointer', 'Utf8String') content: string,
-  ) {
-    return Ret(content)
-  }
+  ) { return Ret(content) }
 
 }
 ```
 
 Learn more from the example directory: <https://github.com/huan/sidecar/blob/main/examples>
 
-## Requirements
+## References
 
-1. Mac: disable [System Integrity Protection](https://support.apple.com/en-us/HT204899)
+### 1. `@Sidecar(targetProcess, initAgentSource)`
 
-## Install
+1. `targetProcess`    : `TargetProcess`,
+1. `initAgentSource`? : `string`,
 
-```sh
-npm install frida-sidecar
-```
+The class decorator.
 
-## Usage
+`targetProcess` is the executable binary name,
+and the `initAgentSource` is a Frida agent script
+that help you to do whatever you want to do
+with Frida system.
 
-```ts
-// tbw
-```
-
-## Related project: FFI Adapter
-
-I have another NPM module named [ffi-adapter](https://github.com/huan/ffi-adapter), which is a Foreign Function Interface Adapter Powered by Decorator & TypeScript.
-
-FFi Adapter example:
+Example:
 
 ```ts
-import {
-  LIBRARY,
-  API,
-  RETURN,
-}             from 'ffi-adapter'
+@Sidecar('chatbox')
+class ChatboxSidecar {}
+```
 
-@LIBRARY('./libfactorial')
-export class LibFactorial {
-  @API() factorial (n: number): number { return RETURN(n) }
+### 2. `class SidecarBody`
+
+Base class for the `Sidecar` class. All `Sidecar` class need to `extends` from the `SidecarBody`, or the system will throw an error.
+
+Example:
+
+```ts
+@Sidecar('chatbox')
+class ChatboxSidecar extends SidecarBody {}
+```
+
+### 3. `@Call(functionTarget)`
+
+1. `functionTarget`: `FunctionTarget`
+
+The native call method decorator.
+
+`functionTarget` is the address of the function in the executable binary.
+
+Example:
+
+```ts
+class ChatboxSidecar extends SidecarBody {
+  @Call(0x11c9)
+  mo () {}
 }
-
-const lib = new LibFactorial()
-console.log('factorial(5) =', lib.factorial(5))
-// Output: factorial(5) = 120
 ```
 
-Learn more about examples at <https://github.com/huan/ffi-adapter/tree/master/tests/fixtures/library>
+### 4. `@Hook(functionTarget)`
+
+1. `functionTarget`: `FunctionTarget`
+
+The hook method decorator.
+
+`functionTarget` is the address of the function in the executable binary.
+
+Example:
+
+```ts
+class ChatboxSidecar extends SidecarBody {
+  @Hook(0x11f4)
+  mo () {}
+}
+```
+
+### 5. `@RetType(nativeType, ...pointerTypeList)`
+
+1. `nativeType`      : `NativeType`
+1. `pointerTypeList` : `PointerType[]`
+
+```ts
+@Sidecar('chatbox')
+class ChatboxSidecar extends SidecarBody {
+  @RetType('void')
+  mo () {}
+```
+
+### 6. `@ParamType(nativeType, ...pointerTypeList)`
+
+1. `nativeType`      : `NativeType`
+1. `pointerTypeList` : `PointerType[]`
+
+```ts
+class ChatboxSidecar extends SidecarBody {
+  mo (
+    @ParamType('pointer', 'Utf8String') content: string,
+  ) {}
+```
+
+### 7. `Name(parameterName)`
+
+TODO: to be implemented.
+
+1. `parameterName`: `string`
+
+The parameter name.
+
+This is especially useful for `Hook` methods.
+The `hook` event will be emit with the method name and the arguments array.
+If the `Name(parameterName)` has been set,
+then the event will have additional information for the parameter names.
+
+```ts
+class ChatboxSidecar extends SidecarBody {
+  mo (
+    @Name('content') content: string,
+  ) {}
+```
+
+### 8. `Ret(...args)`
+
+1. `args`: `any[]`
+
+Example:
+
+```ts
+@Sidecar('chatbox')
+class ChatboxSidecar extends SidecarBody {
+  mo () { return Ret() }
+```
 
 ## Resources
 
@@ -154,6 +263,10 @@ a binary instrumentation workshop, using Frida, for beginners, @leonjza](http://
 
 ### Master
 
+### 0.2 (Jul 5, 2021)
+
+1. Add `agent` type support to `FunctionTarget` so that both `@Call` and `@Hook`can use a pre-defined native function ptr defined from the `initAgentSource`. (more types like `java`, `objc`, `name`, and `module` to be added)
+
 ### 0.1 (Jul 4, 2021)
 
 First worked version, published to NPM as `frida-sidecar`.
@@ -165,6 +278,31 @@ Repo created.
 ## Special thanks
 
 Thanks to Quinton Ashley [@quinton-ashley](https://github.com/quinton-ashley) who is the previous owner of NPM name `sidecar` and he transfer this beautify name to me for publishing this project after I requested via email. Appreciate it! (Jun 29, 2021)
+
+## Related project: FFI Adapter
+
+I have another NPM module named [ffi-adapter](https://github.com/huan/ffi-adapter), which is a Foreign Function Interface Adapter Powered by Decorator & TypeScript.
+
+FFi Adapter example:
+
+```ts
+import {
+  LIBRARY,
+  API,
+  RETURN,
+}             from 'ffi-adapter'
+
+@LIBRARY('./libfactorial')
+export class LibFactorial {
+  @API() factorial (n: number): number { return RETURN(n) }
+}
+
+const lib = new LibFactorial()
+console.log('factorial(5) =', lib.factorial(5))
+// Output: factorial(5) = 120
+```
+
+Learn more about examples at <https://github.com/huan/ffi-adapter/tree/master/tests/fixtures/library>
 
 ## Author
 

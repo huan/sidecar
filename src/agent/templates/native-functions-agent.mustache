@@ -3,4 +3,17 @@
  *  Parameters: {{{ nativeParamTypes }}}
  *  Ret: {{ retType }}
  */
-// TODO:
+function {{ name }}_NativeFunction_wrapper (...args) {
+  log.verbose('Agent', '{{ name }}(%s)', args.join(', '))
+
+  {{{ declareNativeArgs }}}
+
+  /**
+    * Huan(202107):
+    *  `target` at here is a `agent` type `target`,
+    *  which means that it is a native function ptr
+    *  defined from the `initAgentSource`
+    */
+  const ret = {{ target }}(...{{ nativeArgs }})
+  return {{ jsRet }}
+}

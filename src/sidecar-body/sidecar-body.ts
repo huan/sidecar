@@ -13,9 +13,6 @@ import {
   log,
 }                     from '../config'
 import * as frida     from '../frida'
-import {
-  HookEventPayload,
-}                     from '../schema'
 
 import {
   ATTACH_SYMBOL,
@@ -309,8 +306,8 @@ class SidecarBody extends SidecarEmitter {
    * ScriptMessageHandler
    */
   private [SCRIPT_MESSAGRE_HANDLER_SYMBOL] (
-    message: frida.Message,
-    data: null | Buffer,
+    message : frida.Message,
+    data    : null | Buffer,
   ) {
     log.verbose('SidecarBody', '[SCRIPT_MESSAGRE_HANDLER_SYMBOL](%s, %s)', JSON.stringify(message), data)
     switch (message.type) {
@@ -319,15 +316,14 @@ class SidecarBody extends SidecarEmitter {
           '[SCRIPT_MESSAGRE_HANDLER_SYMBOL]() MessageType.Send: %s',
           JSON.stringify(message.payload),
         )
-        {
-          const payload: HookEventPayload = {
-            ...message.payload,
-            data,
-          }
-          this.emit('hook', payload)
-        }
+
+        this.emit(
+          message.payload.type,     // event: SidecarBodyEventType
+          message.payload.payload,  // payload: SidecarBodyEventPayload
+        )
 
         break
+
       case frida.MessageType.Error:
         log.error('SidecarBody',
           '[SCRIPT_MESSAGRE_HANDLER_SYMBOL]() MessageType.Error: %s',

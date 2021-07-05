@@ -2,19 +2,28 @@
  * File: templates/lib/payload.js
  *
  * To make sure the payload typing is right
+ * See: sidecar-body/payload-schema.ts
  ********************************************/
+/**
+ * SidecarBodyEventPayloadHook
+ */
 const hookPayload = (
   method, // string
   args,   // Arguments, Array
 ) => ({
-  type: 'hook',
-  method,
-  args,
+  type     : 'hook',
+  papyload : {
+    method,
+    args,
+  }
 })
 
+/**
+ * SidecarBodyEventPayloadLog
+ */
 const logPayload = (
-  message,
+  payload,
 ) => ({
-  type: 'log',
-  message,
+  type : 'log',
+  payload,
 })

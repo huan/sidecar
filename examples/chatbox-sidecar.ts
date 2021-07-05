@@ -31,10 +31,23 @@ import {
   targetProgram,
 }                 from './sidecar-config'
 
-@Sidecar(targetProgram())
+import {
+  loadAgentSource,
+}                   from './load-agent-source'
+
+void targetAddress
+
+@Sidecar(
+  targetProgram(),
+  loadAgentSource(),
+)
 class ChatboxSidecar extends SidecarBody {
 
-  @Call(targetAddress('mo'))
+  // @Call(targetAddress('mo'))
+  @Call({
+    target : 'agentMo',
+    type   : 'agent',
+  })
   @RetType('void')
   mo (
     @ParamType('pointer', 'Utf8String') content: string,
@@ -42,7 +55,11 @@ class ChatboxSidecar extends SidecarBody {
     return Ret(content)
   }
 
-  @Hook(targetAddress('mt'))
+  // @Hook(targetAddress('mt'))
+  @Hook({
+    target : 'agentMt',
+    type   : 'agent',
+  })
   mt (
     @ParamType('pointer', 'Utf8String') content: string,
   ) {

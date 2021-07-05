@@ -2,14 +2,16 @@ import { EventEmitter } from 'stream'
 import TypedEventEmitter  from 'typed-emitter'
 
 import {
-  HookEventPayload,
-}                     from '../schema'
+  SidecarBodyEventPayloadLog,
+  SidecarBodyEventPayloadHook,
+}                               from './payload-schemas'
 
 export type AttachedEventListener = () => void
 export type DetachedEventListener = () => void
 export type InitedEventListener   = () => void
 
-export type HookEventListener = (payload: HookEventPayload) => void
+export type HookEventListener = (payload: SidecarBodyEventPayloadHook['payload']) => void
+export type LogEventListener  = (payload: SidecarBodyEventPayloadLog['payload'])  => void
 
 interface SidecarEvents {
   attached : AttachedEventListener
@@ -17,6 +19,7 @@ interface SidecarEvents {
   error    : Error
   hook     : HookEventListener
   inited   : InitedEventListener
+  log      : LogEventListener
 }
 
 type SidecarEmitterType = new () => TypedEventEmitter<

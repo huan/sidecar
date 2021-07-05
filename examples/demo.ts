@@ -27,6 +27,9 @@ async function main () {
   const sidecar = new ChatboxSidecar()
   await attach(sidecar)
 
+  sidecar.on('log', payload => {
+    console.log(payload)
+  })
   sidecar.on('hook', payload => {
     console.log(payload)
   })
