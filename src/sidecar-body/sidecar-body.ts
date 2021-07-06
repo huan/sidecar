@@ -69,6 +69,13 @@ class SidecarBody extends SidecarEmitter {
   spawnMode        : SpawnMode
   targetProcess?   : frida.TargetProcess
 
+  /**
+   * Whether the attached process has been spawned by Sidecar:
+   *  If yes, then sidecar should destroy the process when `detach`
+   *  If no, then the sidecar should leave the process as it is when `detach`
+   */
+  spawnPid?: number
+
   constructor (
     options?: SidecarBodyOptions,
   ) {
@@ -179,6 +186,8 @@ class SidecarBody extends SidecarEmitter {
 
           try {
             pid = await frida.spawn(this.targetProcess)
+            this.spawnPid = pid
+
             log.silly('SidecarBody',
               '[ATTACH_SYMBOL]() spawn(%s) succeed: pid = %s',
               this.targetProcess,
@@ -204,6 +213,8 @@ class SidecarBody extends SidecarEmitter {
           throw new Error(`Sidecar: "targetProcess" must be program when using SpawnMode.Always. We got: ${this.spawnMode}`)
         }
         pid = await frida.spawn(this.targetProcess)
+        this.spawnPid = pid
+
         session = await frida.attach(pid)
         break
 
@@ -283,6 +294,18 @@ class SidecarBody extends SidecarEmitter {
       }
     } else {
       log.silly('SidecarBody', '[DETACH_SYMBOL]() this.session is undefined')
+    }
+
+    if (this.spawnPid) {
+      // TODO: kill pid for clean up
+      const pid = this.spawnPid
+      this.spawnPid = undefined
+
+      try {
+        await frida.kill(pid)
+      } catch (e) {
+        this.emit('error', e)
+      }
     }
 
     this.emit(DETACH_SYMBOL)
