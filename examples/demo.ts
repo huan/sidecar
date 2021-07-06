@@ -27,12 +27,10 @@ async function main () {
   const sidecar = new ChatboxSidecar()
   await attach(sidecar)
 
-  sidecar.on('log', payload => {
-    console.log(payload)
+  sidecar.on('mt', args => {
+    console.log('mt args:', args)
   })
-  sidecar.on('hook', payload => {
-    console.log(payload)
-  })
+
   await sidecar.mo('Hello from Sidecar')
 
   /**

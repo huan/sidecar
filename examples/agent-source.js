@@ -1,5 +1,3 @@
-log.setLevel(3)
-
 const agentMo = new NativeFunction(
   sidecarModuleBaseAddress.add(0x11c9),
   'void',
@@ -9,10 +7,10 @@ const agentMo = new NativeFunction(
 const agentMt_NativeCallback = new NativeCallback(
   (...args) => {
     log.verbose('Agent()', 'agentMt() faint from Frida: %s', args[0].readUtf8String())
-    // send(hookPayload(
-    //   'mt',
-    //   [ args[0].readUtf8String() ]
-    // ), null)
+    send(hookPayload(
+      'mt',
+      {...[args[0].readUtf8String()]}
+    ), null)
   },
   'void',
   ['pointer'],
