@@ -57,7 +57,7 @@ class ChatboxSidecar extends SidecarBody {
 
   // @Hook(targetAddress('mt'))
   @Hook({
-    target : 'agentMt_NativeFunction',
+    target : 'agentMt_PatchCode',
     type   : 'agent',
   })
   mt (

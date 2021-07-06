@@ -222,6 +222,10 @@ class ChatboxSidecar extends SidecarBody {
 
 ## Resources
 
+### RPA Examples
+
+1. [Quake REST API demo](https://gist.github.com/oleavr/51066491b6961b608fb38fb1fb971dd3)
+
 ### Papers
 
 1. [Assembly to Open Source Code Matching for Reverse Engineering and Malware Analysis](https://pdfs.semanticscholar.org/00d8/9af14d1632499636917613a27edac5cf5005.pdf)
