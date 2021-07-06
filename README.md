@@ -1,4 +1,4 @@
-# Sidecar [![NPM](https://github.com/huan/sidecar/actions/workflows/npm.yml/badge.svg)](https://github.com/huan/sidecar/actions/workflows/npm.yml)
+# Sidecar [![NPM](https://github.com/huan/sidecar/actions/workflows/npm.yml/badge.svg)](https://github.com/huan/sidecar/actions/workflows/npm.yml)  [![NPM Version](https://img.shields.io/npm/v/frida-sidecar?color=brightgreen)](https://www.npmjs.com/package/frida-sidecar)
 
 Sidecar is a runtime hooking tool for intercepting function calls by TypeScript annotation with ease, powered by [Frida.RE](https://frida.re/).
 
@@ -79,6 +79,24 @@ class ChatboxSidecar extends SidecarBody {
   ) { return Ret(content) }
 
 }
+
+async function main () {
+  const sidecar = new ChatboxSidecar()
+  await attach(sidecar)
+
+  sidecar.on('hook', payload => {
+    console.log('hook:', payload)
+  })
+  setInterval(
+    () => sidecar.mo('Hello from Sidecar'),
+    1000,
+  )
+
+  process.on('SIGINT',  () => detach(sidecar))
+  process.on('SIGTERM', () => detach(sidecar))
+}
+
+main().catch(console.error)
 ```
 
 Learn more from the example directory: <https://github.com/huan/sidecar/blob/main/examples>
@@ -111,7 +129,6 @@ Base class for the `Sidecar` class. All `Sidecar` class need to `extends` from t
 Example:
 
 ```ts
-@Sidecar('chatbox')
 class ChatboxSidecar extends SidecarBody {}
 ```
 
@@ -144,8 +161,7 @@ Example:
 
 ```ts
 class ChatboxSidecar extends SidecarBody {
-  @Hook(0x11f4)
-  mo () {}
+  @Hook(0x11f4) mo () {}
 }
 ```
 
@@ -157,8 +173,7 @@ class ChatboxSidecar extends SidecarBody {
 ```ts
 @Sidecar('chatbox')
 class ChatboxSidecar extends SidecarBody {
-  @RetType('void')
-  mo () {}
+  @RetType('void') mo () {}
 ```
 
 ### 6. `@ParamType(nativeType, ...pointerTypeList)`
@@ -248,16 +263,17 @@ a binary instrumentation workshop, using Frida, for beginners, @leonjza](http://
 - [易语言汇编代码转置入代码开源](https://www.eyuyan.la/post/15447.html)
 - [The 32 bit x86 C Calling Convention](https://aaronbloomfield.github.io/pdr/book/x86-32bit-ccc-chapter.pdf)
 
-### iOS
-
-- [iOS逆向分析笔记](https://www.jianshu.com/p/157f56d60a59)
-- [iOS — To swizzle or not to swizzle?](https://medium.com/rocknnull/ios-to-swizzle-or-not-to-swizzle-f8b0ed4a1ce6)
-
-### Objective C
+### ObjC
 
 - [Learn Object-C Cheatsheet](http://cocoadevcentral.com/d/learn_objectivec/)
 - [Objective-C // Runtime Method Injection](http://labs.distriqt.com/post/846)
 - [The Node.js ⇆ Objective-C bridge](https://github.com/tootallnate/NodObjC)
+- [iOS逆向分析笔记](https://www.jianshu.com/p/157f56d60a59)
+- [iOS — To swizzle or not to swizzle?](https://medium.com/rocknnull/ios-to-swizzle-or-not-to-swizzle-f8b0ed4a1ce6)
+
+### Java
+
+- [Tiktok data acquisition Frida tutorial, Java, Interceptor, NativePointer(Function/Callback) usage and examples](https://www.fatalerrors.org/a/0dx91Tk.html)
 
 ## History
 

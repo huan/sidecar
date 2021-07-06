@@ -20,6 +20,8 @@
  ***********************************/
 {{> libs/log.js }}
 
+log.level('{{ logLevel }}')
+
 /****************************************************
  * File: "templates/agent.mustache
  *  > Get base address for target {{{ targetProcess }}}
@@ -48,7 +50,7 @@ const sidecarModuleBaseAddress = Module.getBaseAddress('{{{ moduleName }}}')
  * RPC Exports Init *
  ********************/
 function init () {
-  log.verbose('SidecarAgent', 'init()')
+  log.verbose('init()')
 
   /**
    * Huan(202106) return 42 to let caller to make sure that

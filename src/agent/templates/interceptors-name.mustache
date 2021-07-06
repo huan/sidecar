@@ -2,5 +2,23 @@
  * Interceptor Target (Name): {{ name }} / {{ target }}
  *  Parameters: {{{ nativeParamTypes }}}
  */
+const {{ name }}_Interceptor_target = Module.findExportByName(null, '{{ target }}')
 
-// Huan(202107) TODO:
+Interceptor.attach(
+  {{ name }}_Interceptor_target,
+  {
+    onEnter: args => {
+      log.verbose(
+        'FridaAgent'
+        'Interceptor.attach(%s) onEnter()',
+        {{ target }},
+      )
+
+      send(hookPayload(
+        '{{ name }}',
+        {{ jsArgs }}
+      ), null)
+
+    },
+  }
+)

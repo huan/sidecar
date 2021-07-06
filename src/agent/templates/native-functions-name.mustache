@@ -3,4 +3,23 @@
  *  Parameters: {{{ nativeParamTypes }}}
  *  Ret: {{ retType }}
  */
-// TODO:
+const {{ name }}_NativeFunction_address = Module.findExportByName(null, '{{ target }}')
+
+const {{ name }}_NativeFunction = new NativeFunction(
+  {{ name }}_NativeFunction_address,
+  {{{ nativeRetType }}},
+  [{{{ nativeParamTypes }}}],
+)
+
+function {{ name }}_NativeFunction_wrapper (...args) {
+  log.verbose(
+    'FridaAgent',
+    '{{ name }}(%s)',
+    args.join(', '),
+  )
+
+  {{{ declareNativeArgs }}}
+
+  const ret = {{ name }}_NativeFunction(...{{ nativeArgs }})
+  return {{ jsRet }}
+}

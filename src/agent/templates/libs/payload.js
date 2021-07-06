@@ -11,23 +11,32 @@ const hookPayload = (
   method, // string
   args,   // Arguments, Array
 ) => ({
-  payload : {
+  payload: {
     args,
     method,
   },
-  type     : 'hook',
+  type: 'hook',
 })
 
 /**
  * SidecarBodyEventPayloadLog
  */
 const logPayload = (
-  payload,
+  level,
+  prefix,
+  message,
 ) => ({
-  payload,
+  payload: {
+    level,
+    message,
+    prefix,
+  },
   type : 'log',
 })
 
+/**
+ * For unit testing under Node.js
+ */
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     ...module.exports,

@@ -4,7 +4,11 @@
  *  Ret: {{ retType }}
  */
 function {{ name }}_NativeFunction_wrapper (...args) {
-  log.verbose('Agent', '{{ name }}(%s)', args.join(', '))
+  log.verbose(
+    'FridaAgent',
+    '{{ name }}(%s)',
+    args.join(', '),
+  )
 
   {{{ declareNativeArgs }}}
 

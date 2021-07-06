@@ -21,9 +21,18 @@ import {
 
   SCRIPT_DESTROYED_HANDLER_SYMBOL,
   SCRIPT_MESSAGRE_HANDLER_SYMBOL,
+
+  LOG_EVENT_HANDLER,
+  HOOK_EVENT_HANDLER,
 }                                   from './constants'
 
 import { SidecarEmitter } from './sidecar-emitter'
+import {
+  isSidecarBodyEventPayloadHook,
+  isSidecarBodyEventPayloadLog,
+  SidecarBodyEventPayloadHook,
+  SidecarBodyEventPayloadLog,
+}                                   from './payload-schemas'
 
 /**
  * Frida: Spawning vs. attaching
@@ -123,7 +132,7 @@ class SidecarBody extends SidecarEmitter {
       initAgentSource: this.initAgentSource || metadata.initAgentSource,
     })
 
-    this.emit('inited')
+    this.emit(INIT_SYMBOL)
   }
 
   async [ATTACH_SYMBOL] () {
@@ -225,7 +234,7 @@ class SidecarBody extends SidecarEmitter {
     this.session = session
     this.script  = script
 
-    this.emit('attached')
+    this.emit(ATTACH_SYMBOL)
 
     /**
      * Delay resume after `emit`
@@ -276,7 +285,7 @@ class SidecarBody extends SidecarEmitter {
       log.silly('SidecarBody', '[DETACH_SYMBOL]() this.session is undefined')
     }
 
-    this.emit('detached')
+    this.emit(DETACH_SYMBOL)
   }
 
   /**
@@ -309,7 +318,11 @@ class SidecarBody extends SidecarEmitter {
     message : frida.Message,
     data    : null | Buffer,
   ) {
-    log.verbose('SidecarBody', '[SCRIPT_MESSAGRE_HANDLER_SYMBOL](%s, %s)', JSON.stringify(message), data)
+    log.silly('SidecarBody',
+      '[SCRIPT_MESSAGRE_HANDLER_SYMBOL](%s, %s)',
+      JSON.stringify(message),
+      data,
+    )
     switch (message.type) {
       case frida.MessageType.Send:
         log.silly('SidecarBody',
@@ -317,10 +330,21 @@ class SidecarBody extends SidecarEmitter {
           JSON.stringify(message.payload),
         )
 
-        this.emit(
-          message.payload.type,     // event: SidecarBodyEventType
-          message.payload.payload,  // payload: SidecarBodyEventPayload
-        )
+        if (isSidecarBodyEventPayloadLog(message.payload)) {
+          this[LOG_EVENT_HANDLER](message.payload.payload)
+        } else if (isSidecarBodyEventPayloadHook(message.payload)) {
+          this[HOOK_EVENT_HANDLER](message.payload.payload)
+        } else {
+          log.warn('SidecarBody',
+            '[SCRIPT_MESSAGRE_HANDLER_SYMBOL](): unknown payload type %s: %s',
+            message.payload.type,
+            JSON.stringify(message.payload)
+          )
+          this.emit(
+            message.payload.type,     // event: SidecarBodyEventType
+            message.payload.payload,  // payload: SidecarBodyEventPayload
+          )
+        }
 
         break
 
@@ -343,6 +367,38 @@ class SidecarBody extends SidecarEmitter {
     if (data) {
       log.silly('SidecarBody', '[SCRIPT_MESSAGRE_HANDLER_SYMBOL]() data:', data)
     }
+  }
+
+  private [LOG_EVENT_HANDLER] (
+    payload: SidecarBodyEventPayloadLog['payload'],
+  ) {
+    const prefix = `SidecarBody<${payload.prefix}>`
+    switch (payload.level) {
+      case 'verbose':
+        log.verbose(prefix, payload.message)
+        break
+
+      case 'silly':
+        log.silly(prefix, payload.message)
+        break
+
+      default:
+        throw new Error('unknown log payload: ' + JSON.stringify(payload))
+    }
+  }
+
+  private [HOOK_EVENT_HANDLER] (
+    payload: SidecarBodyEventPayloadHook['payload'],
+  ) {
+    log.verbose('SidecarBody',
+      '[HOOK_EVENT_HANDLER]("%s")',
+      JSON.stringify(payload),
+    )
+
+    this.emit(
+      payload.method,
+      payload.args,
+    )
   }
 
 }

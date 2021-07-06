@@ -42,7 +42,7 @@ export interface FunctionTargetWrapper {
  *  number: memory address of the function
  *    - 0x1234
  *
- *  string: method name of the function
+ *  string: export name of the function
  *    - lib: 'open'
  *    - ObjC: '- connection:didReceiveData:'
  */

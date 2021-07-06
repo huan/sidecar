@@ -1,6 +1,9 @@
 #!/usr/bin/env ts-node
 import { test }  from 'tstest'
-import { SidecarBodyEventPayloadHook, SidecarBodyEventPayloadLog } from '../../../sidecar-body/payload-schemas'
+import {
+  SidecarBodyEventPayloadHook,
+  SidecarBodyEventPayloadLog,
+}                                 from '../../../sidecar-body/payload-schemas'
 
 const {
   hookPayload,
@@ -10,9 +13,17 @@ const {
 test('logPayload()', async t => {
   const message = 'test' as string
 
-  const payload = logPayload(message)
+  const payload = logPayload(
+    'verbose',
+    'Test',
+    message,
+  )
   const EXPECTED: SidecarBodyEventPayloadLog = {
-    payload : message,
+    payload : {
+      level: 'verbose',
+      message,
+      prefix: 'Test',
+    },
     type    : 'log',
   }
 

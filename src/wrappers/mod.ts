@@ -3,6 +3,7 @@ import { SidecarMetadata } from '../decorators/sidecar/metadata-sidecar'
 import { declareNativeArgs }      from './declare-native-args'
 import { jsArgs }                 from './js-args'
 import { jsRet }                  from './js-ret'
+import { logLevel }               from './log-level'
 import { moduleName }             from './module-name'
 import { nativeArgs }             from './native-args'
 import { nativeFunctionNameList } from './native-function-name-list'
@@ -14,6 +15,7 @@ const wrapView = (metadata: SidecarMetadata) => ({
   declareNativeArgs,
   jsArgs,
   jsRet,
+  logLevel,
   moduleName,
   nativeArgs,
   nativeFunctionNameList,

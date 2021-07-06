@@ -12,6 +12,12 @@ import {
 }                from './operations'
 import { Sidecar } from '../decorators/mod'
 
+import {
+  INIT_SYMBOL,
+  ATTACH_SYMBOL,
+  DETACH_SYMBOL,
+}                 from './constants'
+
 const targetProgram = () =>
   process.platform        === 'linux'   ? '/bin/ls'
     : process.platform    === 'darwin'  ? '/bin/ls'
@@ -24,7 +30,7 @@ test('init()', async t => {
   class SidecarTest extends SidecarBody {}
 
   const s = new SidecarTest({ spawnMode: SpawnMode.Always })
-  const future = new Promise<void>(resolve => s.on('inited', resolve))
+  const future = new Promise<void>(resolve => s.on(INIT_SYMBOL, resolve))
 
   try {
     await init(s)
@@ -57,7 +63,7 @@ test('attach()', async t => {
     detach: (..._: any[]) => { return {} as any },
   } as any
 
-  const future = new Promise<void>(resolve => s.on('attached', resolve))
+  const future = new Promise<void>(resolve => s.on(ATTACH_SYMBOL, resolve))
 
   try {
     await attach(s)
@@ -83,7 +89,7 @@ test('detach()', async t => {
   class SidecarTest extends SidecarBody {}
 
   const s = new SidecarTest({ spawnMode: SpawnMode.Always })
-  const future = new Promise<void>(resolve => s.on('detached', resolve))
+  const future = new Promise<void>(resolve => s.on(DETACH_SYMBOL, resolve))
 
   try {
     await init(s)
