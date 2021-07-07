@@ -47,7 +47,7 @@
     "@chatie/tsconfig": "^0.16.2",
     "@types/frida-gum": "^16.5.0",
     "@types/mustache": "^4.1.1",
-    "@types/node": "^15.12.4",
+    "@types/node": "^16.0.0",
     "cross-env": "^7.0.3",
     "frida-compile": "^9.5.2",
     "pkg-jq": "^0.2.11",
