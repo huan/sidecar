@@ -1,8 +1,19 @@
-/**
- * Interceptor Target (Address): {{ name }} / {{ target }}
- *  Parameters: {{{ nativeParamTypes }}}
- */
-const {{ name }}_Interceptor_target = sidecarModuleBaseAddress.add({{ target }})
+/******************************************************************
+ * File: "interceptors-address.mustache"
+ *
+ * Interceptor Target: {{ name }}
+ *  - type: {{ target.type }}
+ *  - address: {{ target.address }}
+ *  - Parameters: {{{ nativeParamTypes }}}
+ ******************************************************************/
+const {{ name }}_Interceptor_target =
+{{# target.moduleName }}
+  Module.getBaseAddress('{{ target.moduleName }}')
+{{/ target.moduleName}}
+{{^ target.moduleName }}
+  sidecarModuleBaseAddress
+{{/ target.moduleName}}
+  .add({{ target.address }})
 
 Interceptor.attach(
   {{ name }}_Interceptor_target,
@@ -11,7 +22,7 @@ Interceptor.attach(
       log.verbose(
         'SidecarAgent',
         'Interceptor.attach(0x%s) onEnter()',
-        Number({{ target }}).toString(16),
+        Number({{ target.address }}).toString(16),
       )
 
       send(hookPayload(

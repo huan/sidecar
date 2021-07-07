@@ -1,9 +1,19 @@
-/**
- * Native Function (Address): {{ name }} / {{ target }}
- *  Parameters: {{{ nativeParamTypes }}}
- *  Ret: {{ retType }}
- */
-const {{ name }}_NativeFunction_address = sidecarModuleBaseAddress.add({{ target }})
+/*****************************************************************
+ * File: "native-functino-address.mustache"
+ *
+ * Native Function: {{ name }}
+ *  - address: {{ target.address }}
+ *  - Parameters: {{{ nativeParamTypes }}}
+ *  - Ret: {{ retType }}
+ ******************************************************************/
+const {{ name }}_NativeFunction_address =
+{{# target.moduleName }}
+  Module.getBaseAddress('{{ target.moduleName }}')
+{{/ target.moduleName}}
+{{^ target.moduleName }}
+  sidecarModuleBaseAddress
+{{/ target.moduleName}}
+  .add({{ target.address }})
 
 const {{ name }}_NativeFunction = new NativeFunction(
   {{ name }}_NativeFunction_address,

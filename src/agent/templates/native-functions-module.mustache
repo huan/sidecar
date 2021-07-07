@@ -1,10 +1,21 @@
-/**
- * Native Function (Module): {{ name }} / {{ target }}
- *  Parameters: {{{ nativeParamTypes }}}
- *  Ret: {{ retType }}
- */
-// FIXME: Huan(202107) how to present the moduleName & exportName?
-const {{ name }}_NativeFunction_address = Module.findExportByName(null, '{{ target }}')
+/*****************************************************************
+ * File: "native-functino-module.mustache"
+ *
+ * Native Function: {{ name }}
+ *  - moduleName: {{ target.moduleName }}
+ *  - exportName: {{ target.exportName }}
+ *  - Parameters: {{{ nativeParamTypes }}}
+ *  - Ret: {{ retType }}
+ ******************************************************************/
+const {{ name }}_NativeFunction_address = Module.getExportByName(
+{{# target.moduleName }}
+  '{{ target.moduleName }}',
+{{/ target.moduleName}}
+{{^ target.moduleName }}
+  null,
+{{/ target.moduleName}}
+  '{{ target.exportName }}',
+)
 
 const {{ name }}_NativeFunction = new NativeFunction(
   {{ name }}_NativeFunction_address,

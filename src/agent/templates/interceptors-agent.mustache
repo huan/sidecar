@@ -1,8 +1,9 @@
 /**********************************************************
  * File: "interceptors-agent.mustache"
  *
- * Interceptor Target (Agent): {{ name }} / {{ target }}
- *  Parameters: {{{ nativeParamTypes }}}
+ * Interceptor Target: {{ name }}
+ *  - varName: {{ target.varName }}
+ *  - Parameters: {{{ nativeParamTypes }}}
  **********************************************************/
 Interceptor.attach(
   /**
@@ -10,13 +11,13 @@ Interceptor.attach(
    *    which is declared in the `initAgentSource`
    *    for workaround
    */
-  {{ target }},
+  {{ target.varName }},
   {
     onEnter: args => {
       log.verbose(
         'SidecarAgent',
         'Interceptor.attach(%s) onEnter()',
-        '{{ target }}',
+        '{{ target.varName }}',
       )
 
       send(hookPayload(

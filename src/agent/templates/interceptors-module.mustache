@@ -1,0 +1,36 @@
+/****************************************************************************
+ * File: "interceptors-module.mustache"
+ *
+ * Interceptor Target: {{ name }}
+ *  - moduleName: {{ target.moduleName }}
+ *  - exportName: {{ target.exportName }}
+ *  - Parameters: {{{ nativeParamTypes }}}
+ ****************************************************************************/
+const {{ name }}_Interceptor_target = Module.getExportByName(
+{{# target.moduleName }}
+  '{{ target.moduleName }}',
+{{/ target.moduleName}}
+{{^ target.moduleName }}
+  null,
+{{/ target.moduleName}}
+  '{{ target.exportName }}',
+)
+
+Interceptor.attach(
+  {{ name }}_Interceptor_target,
+  {
+    onEnter: args => {
+      log.verbose(
+        'SidecarAgent',
+        'Interceptor.attach(%s) onEnter()',
+        {{ target.exportName }},
+      )
+
+      send(hookPayload(
+        '{{ name }}',
+        {{ jsArgs }}
+      ), null)
+
+    },
+  }
+)

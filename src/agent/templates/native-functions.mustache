@@ -8,10 +8,6 @@
  ************************************************************/
 {{# nativeFunctionList }}
 
-  {{# name }}
-    {{> native-functions-name.mustache }}
-  {{/ name }}
-
   {{# address }}
     {{> native-functions-address.mustache }}
   {{/ address}}
@@ -20,12 +16,8 @@
     {{> native-functions-agent.mustache }}
   {{/ agent}}
 
-  {{# objc }}
-    {{> native-functions-objc.mustache }}
-  {{/ objc}}
-
-  {{# java }}
-    {{> native-functions-java.mustache }}
-  {{/ java}}
+  {{# module }}
+    {{> native-functions-module.mustache }}
+  {{/ module}}
 
 {{/ nativeFunctionList}}

@@ -1,8 +1,11 @@
-/**
- * Native Function (Agent): {{ name }} / {{ target }}
- *  Parameters: {{{ nativeParamTypes }}}
- *  Ret: {{ retType }}
- */
+/*****************************************************************
+ * File: "native-functino-agent.mustache"
+ *
+ * Native Function: {{ name }}
+ *  - varName: {{ target.varName }}
+ *  - Parameters: {{{ nativeParamTypes }}}
+ *  - Ret: {{ retType }}
+ ******************************************************************/
 function {{ name }}_NativeFunction_wrapper (...args) {
   log.verbose(
     'SidecarAgent',
@@ -18,6 +21,6 @@ function {{ name }}_NativeFunction_wrapper (...args) {
     *  which means that it is a native function ptr
     *  defined from the `initAgentSource`
     */
-  const ret = {{ target }}(...{{ nativeArgs }})
+  const ret = {{ target.varName }}(...{{ nativeArgs }})
   return {{ jsRet }}
 }
