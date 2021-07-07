@@ -45,7 +45,7 @@ test('init()', async t => {
 
     t.pass('init() successfully')
   } catch (e) {
-    t.fail('Rejection:' + e && e.message)
+    t.fail('Rejection:' + e && (e as Error).message)
     console.error(e)
   }
 })
@@ -77,7 +77,7 @@ test('attach()', async t => {
     ])
     t.pass('attach() successfully')
   } catch (e) {
-    t.fail('Rejection:' + e && e.message)
+    t.fail('Rejection:' + e && (e as Error).message)
   } finally {
     await detach(s)
   }
@@ -107,6 +107,6 @@ test('detach()', async t => {
 
     t.pass('detach() successfully')
   } catch (e) {
-    t.fail('Rejection:' + e && e.message)
+    t.fail('Rejection:' + e && (e as Error).message)
   }
 })

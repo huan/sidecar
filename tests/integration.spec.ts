@@ -61,9 +61,8 @@ test('smoke testing', async (t) => {
   const MessagingSidecar = getFixture()
   const sidecar = new MessagingSidecar()
 
-  sidecar.on('hook', payload => {
-    console.log('method:', payload.method)
-    console.log('args:', payload.args)
+  sidecar.on('mt', args => {
+    console.log('args:', args)
   })
 
   const EXPECTED_RET_VALUE = 42

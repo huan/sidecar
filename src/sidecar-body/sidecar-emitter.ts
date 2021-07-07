@@ -25,9 +25,12 @@ import { SidecarBodyEventPayloadHook } from './payload-schemas'
 // }
 
 export type SymbolEventListener = () => void
-export type HookEventListener   = (args: SidecarBodyEventPayloadHook['payload']) => void
+export type HookEventListener   = (
+  args: Error | SidecarBodyEventPayloadHook['payload']['args']
+) => void
 
 interface SidecarEvents {
+  [symbol: symbol]: SymbolEventListener
   [hook: string]: HookEventListener
 }
 

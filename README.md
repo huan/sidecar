@@ -279,26 +279,6 @@ a binary instrumentation workshop, using Frida, for beginners, @leonjza](http://
 
 - [Tiktok data acquisition Frida tutorial, Java, Interceptor, NativePointer(Function/Callback) usage and examples](https://www.fatalerrors.org/a/0dx91Tk.html)
 
-## History
-
-### Master
-
-### 0.2 (Jul 5, 2021)
-
-1. Add `agent` type support to `FunctionTarget` so that both `@Call` and `@Hook`can use a pre-defined native function ptr defined from the `initAgentSource`. (more types like `java`, `objc`, `name`, and `module` to be added)
-
-### 0.1 (Jul 4, 2021)
-
-First worked version, published to NPM as `frida-sidecar`.
-
-### 0.0.1 (Jun 13, 2021)
-
-Repo created.
-
-## Special thanks
-
-Thanks to Quinton Ashley [@quinton-ashley](https://github.com/quinton-ashley) who is the previous owner of NPM name `sidecar` and he transfer this beautify name to me for publishing this project after I requested via email. Appreciate it! (Jun 29, 2021)
-
 ## Related project: FFI Adapter
 
 I have another NPM module named [ffi-adapter](https://github.com/huan/ffi-adapter), which is a Foreign Function Interface Adapter Powered by Decorator & TypeScript.
@@ -323,6 +303,28 @@ console.log('factorial(5) =', lib.factorial(5))
 ```
 
 Learn more about examples at <https://github.com/huan/ffi-adapter/tree/master/tests/fixtures/library>
+
+## History
+
+### Master
+
+1. Upgrade to TypeScript 4.4-dev for supporting index signatures for symbols. ([Microsoft/TypeScript#44512](https://github.com/microsoft/TypeScript/pull/44512))
+
+### 0.2 (Jul 5, 2021)
+
+1. Add `agent` type support to `FunctionTarget` so that both `@Call` and `@Hook`can use a pre-defined native function ptr defined from the `initAgentSource`. (more types like `java`, `objc`, `name`, and `module` to be added)
+
+### 0.1 (Jul 4, 2021)
+
+First worked version, published to NPM as `frida-sidecar`.
+
+### 0.0.1 (Jun 13, 2021)
+
+Repo created.
+
+## Special thanks
+
+Thanks to Quinton Ashley [@quinton-ashley](https://github.com/quinton-ashley) who is the previous owner of NPM name `sidecar` and he transfer this beautify name to me for publishing this project after I requested via email. Appreciate it! (Jun 29, 2021)
 
 ## Author
 

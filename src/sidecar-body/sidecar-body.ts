@@ -180,7 +180,7 @@ class SidecarBody extends SidecarEmitter {
             moduleName,
           )
           if (typeof this.targetProcess === 'number') {
-            this.emit('error', e)
+            this.emit('error', e as Error)
             return
           }
 
@@ -197,10 +197,10 @@ class SidecarBody extends SidecarEmitter {
           } catch (e) {
             log.error('SidecarBody',
               '[ATTACH_SYMBOL]() spawn(%s) failed: %s\n%s',
-              e && e.message,
-              e && e.stack,
+              e && (e as Error).message,
+              e && (e as Error).stack,
             )
-            this.emit('error', e)
+            this.emit('error', e as Error)
             return
           }
 
@@ -270,10 +270,10 @@ class SidecarBody extends SidecarEmitter {
       } catch (e) {
         log.error('SidecarBody',
           '[DETACH_SYMBOL]() script.unload() rejection: %s\n%s',
-          e && e.message,
-          e && e.stack,
+          e && (e as Error).message,
+          e && (e as Error).stack,
         )
-        this.emit('error', e)
+        this.emit('error', e as Error)
       }
     } else {
       log.silly('SidecarBody', '[DETACH_SYMBOL]() this.script is undefined')
@@ -287,10 +287,10 @@ class SidecarBody extends SidecarEmitter {
       } catch (e) {
         log.error('SidecarBody',
           '[DETACH_SYMBOL]() session.detach() rejection: %s\n%s',
-          e && e.message,
-          e && e.stack,
+          e && (e as Error).message,
+          e && (e as Error).stack,
         )
-        this.emit('error', e)
+        this.emit('error', e as Error)
       }
     } else {
       log.silly('SidecarBody', '[DETACH_SYMBOL]() this.session is undefined')
@@ -304,7 +304,7 @@ class SidecarBody extends SidecarEmitter {
       try {
         await frida.kill(pid)
       } catch (e) {
-        this.emit('error', e)
+        this.emit('error', e as Error)
       }
     }
 
@@ -328,7 +328,7 @@ class SidecarBody extends SidecarEmitter {
       try {
         await this[DETACH_SYMBOL]()
       } catch (e) {
-        this.emit('error', e)
+        this.emit('error', e as Error)
       }
     }
 
@@ -357,15 +357,22 @@ class SidecarBody extends SidecarEmitter {
           this[LOG_EVENT_HANDLER](message.payload.payload)
         } else if (isSidecarBodyEventPayloadHook(message.payload)) {
           this[HOOK_EVENT_HANDLER](message.payload.payload)
+
         } else {
+          /**
+           * Unknown payload type
+           */
           log.warn('SidecarBody',
             '[SCRIPT_MESSAGRE_HANDLER_SYMBOL](): unknown payload type %s: %s',
             message.payload.type,
             JSON.stringify(message.payload)
           )
-          this.emit(
-            message.payload.type,     // event: SidecarBodyEventType
-            message.payload.payload,  // payload: SidecarBodyEventPayload
+          this.emit('error',
+            new Error([
+              'SidecarBody got unknown message from Frida Agent:',
+              'Payload:',
+              JSON.stringify(message.payload, null, 2),
+            ].join('\n'))
           )
         }
 
