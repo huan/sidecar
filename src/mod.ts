@@ -39,7 +39,7 @@ import { Sidecar }    from './decorators/sidecar/mod'
 import {
   addressTarget,
   agentTarget,
-  moduleTarget,
+  exportTarget,
   FunctionTarget,
 }                     from './function-target'
 
@@ -60,6 +60,6 @@ export {
 
   addressTarget,
   agentTarget,
-  moduleTarget,
+  exportTarget,
   FunctionTarget,
 }

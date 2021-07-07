@@ -3,13 +3,13 @@ import { test }  from 'tstest'
 import {
   addressTarget,
   agentTarget,
-  moduleTarget,
+  exportTarget,
   TargetPayloadAddress,
   TargetPayloadAgent,
-  TargetPayloadModule,
-}                 from './function-target'
+  TargetPayloadExport,
+}                         from './function-target'
 
-test('AddressTarget()', async t => {
+test('addressTarget()', async t => {
   const DATA     = 0x1234
   const EXPECTED: TargetPayloadAddress = {
     address    : '0x1234',
@@ -22,7 +22,7 @@ test('AddressTarget()', async t => {
   t.deepEqual(result, EXPECTED, 'should get the correct address target for number')
 })
 
-test('AddressTarget() with module', async t => {
+test('addressTarget() with module', async t => {
   const DATA     = 0x1234
   const MODULE_NAME = 'myModule'
   const EXPECTED: TargetPayloadAddress = {
@@ -36,7 +36,7 @@ test('AddressTarget() with module', async t => {
   t.deepEqual(result, EXPECTED, 'should get the correct address target for number and module name')
 })
 
-test('AgentTarget()', async t => {
+test('agentTarget()', async t => {
   const DATA     = 'myPtr'
   const EXPECTED: TargetPayloadAgent = {
     type       : 'agent',
@@ -48,29 +48,29 @@ test('AgentTarget()', async t => {
   t.deepEqual(result, EXPECTED, 'should get the correct agent target for var name')
 })
 
-test('ModuleTarget()', async t => {
+test('exportTarget()', async t => {
   const DATA     = 'testExport'
-  const EXPECTED: TargetPayloadModule = {
+  const EXPECTED: TargetPayloadExport = {
     exportName : DATA,
     moduleName   : null,
-    type         : 'module',
+    type         : 'export',
   }
 
-  const result = moduleTarget(DATA)
+  const result = exportTarget(DATA)
 
-  t.deepEqual(result, EXPECTED, 'should get the correct module target for number')
+  t.deepEqual(result, EXPECTED, 'should get the correct export target for number')
 })
 
-test('ModuleTarget() with module', async t => {
+test('exportTarget() with export', async t => {
   const DATA     = 'testExport'
   const MODULE_NAME = 'myModule'
-  const EXPECTED: TargetPayloadModule = {
+  const EXPECTED: TargetPayloadExport = {
     exportName : DATA,
     moduleName   : MODULE_NAME,
-    type         : 'module',
+    type         : 'export',
   }
 
-  const result = moduleTarget(DATA, MODULE_NAME)
+  const result = exportTarget(DATA, MODULE_NAME)
 
-  t.deepEqual(result, EXPECTED, 'should get the correct module target for name and module name')
+  t.deepEqual(result, EXPECTED, 'should get the correct export target for name and module name')
 })

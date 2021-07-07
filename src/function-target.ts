@@ -43,10 +43,10 @@ export interface TargetPayloadAgent {
 /**
  * The module name and the module export
  */
-export interface TargetPayloadModule {
+export interface TargetPayloadExport {
   exportName : string
   moduleName : null | string
-  type       : 'module'
+  type       : 'export'
 }
 
 // TODO:
@@ -58,7 +58,7 @@ export type TargetPayloadRaw =  number
 
 export type TargetPayloadObj =  TargetPayloadAddress
                               | TargetPayloadAgent
-                              | TargetPayloadModule
+                              | TargetPayloadExport
 
 export type FunctionTarget      = TargetPayloadRaw | TargetPayloadObj
 export type FunctionTargetType  = TargetPayloadObj['type']
@@ -79,13 +79,13 @@ const agentTarget = (
   varName,
 })
 
-const moduleTarget = (
+const exportTarget = (
   exportName: string,
   moduleName: null | string = null,
-): TargetPayloadModule => ({
+): TargetPayloadExport => ({
   exportName,
   moduleName,
-  type: 'module',
+  type: 'export',
 })
 
 /**
@@ -105,7 +105,7 @@ function normalizeFunctionTarget (
 export {
   addressTarget,
   agentTarget,
-  moduleTarget,
+  exportTarget,
 
   normalizeFunctionTarget,
 }
