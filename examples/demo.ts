@@ -31,13 +31,13 @@ async function main () {
     console.log('mt args:', args)
   })
 
-  await sidecar.mo('Hello from Sidecar')
+  await sidecar.mo('Sidecar: this message is from sidecar.mo()')
 
   /**
    * Call sidecar.mo(...) periodly
    */
   const timer = setInterval(async () => {
-    await sidecar.mo('Hello from timer interval')
+    await sidecar.mo('Sidecar: greeting from timer interval!')
   }, 5 * 1000)
 
   /**

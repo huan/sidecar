@@ -51,9 +51,7 @@ class ChatboxSidecar extends SidecarBody {
   @RetType('void')
   mo (
     @ParamType('pointer', 'Utf8String') content: string,
-  ): Promise<string> {
-    return Ret(content)
-  }
+  ): Promise<string> { return Ret(content) }
 
   // @Hook(targetAddress('mt'))
   @Hook({
@@ -62,9 +60,7 @@ class ChatboxSidecar extends SidecarBody {
   })
   mt (
     @ParamType('pointer', 'Utf8String') content: string,
-  ) {
-    return Ret(content)
-  }
+  ) { return Ret(content) }
 
 }
 
