@@ -1,11 +1,13 @@
-import { TargetProcess } from 'frida/dist/device'
 import {
   log,
-}                   from '../../config'
+}                           from '../../config'
 import {
   FunctionTarget,
-  TypeChain,
   normalizeFunctionTarget,
+}                           from '../../function-target'
+import {
+  TargetProcess,
+  TypeChain,
 }                           from '../../frida'
 
 import { getMetadataCall }        from '../call/metadata-call'
@@ -45,14 +47,13 @@ function buildSidecarMetadata <T extends {
    * Process Call Config
    */
   for (const [name, functionTarget] of Object.entries(config.call)) {
-    const wrappedTarget = normalizeFunctionTarget(functionTarget)
+    const targetObj = normalizeFunctionTarget(functionTarget)
     const functionDescription: SidecarMetadataFunctionTypeDescription = {
-      [wrappedTarget.type]: {
+      [targetObj.type]: {
         name,
         paramTypeList : config.paramType[name],
         retType       : config.retType[name],
-        target        : wrappedTarget.target,
-        type          : wrappedTarget.type,
+        target        : targetObj,
       },
     }
     nativeFunctionList.push(functionDescription)
@@ -64,14 +65,13 @@ function buildSidecarMetadata <T extends {
   // console.log(metadata.hook)
   for (const [name, functionTarget] of Object.entries(config.hook)) {
     // console.log(name, 'retType:', metadata.retType[name])
-    const wrappedTarget = normalizeFunctionTarget(functionTarget)
+    const targetObj = normalizeFunctionTarget(functionTarget)
     const functionDescription: SidecarMetadataFunctionTypeDescription = {
-      [wrappedTarget.type]: {
+      [targetObj.type]: {
         name,
         paramTypeList : config.paramType[name],
         retType       : config.retType[name],
-        target        : wrappedTarget.target,
-        type          : wrappedTarget.type,
+        target        : targetObj,
       },
     }
     interceptorList.push(functionDescription)

@@ -27,6 +27,7 @@ import {
   SidecarBody,
   RetType,
   ParamType,
+  agentTarget,
 }                   from '../src/mod'
 
 function getFixture () {
@@ -42,10 +43,7 @@ function getFixture () {
       return Ret(content, count)
     }
 
-    @Hook({
-      target : 'label1',
-      type   : 'agent',
-    })
+    @Hook(agentTarget('label1'))
     mt (
       @ParamType('pointer', 'Utf8String') message: string,
     ) {

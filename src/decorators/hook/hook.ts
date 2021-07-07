@@ -4,7 +4,7 @@ import {
 
 import {
   FunctionTarget,
-}                         from '../../frida'
+}                         from '../../function-target'
 
 const HOOK_TARGET_SYMBOL = Symbol('hookTarget')
 

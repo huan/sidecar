@@ -33,6 +33,16 @@ import { ParamType }  from './decorators/param-type/mod'
 import { RetType }    from './decorators/ret-type/mod'
 import { Sidecar }    from './decorators/sidecar/mod'
 
+/**
+ * Target helpers
+ */
+import {
+  addressTarget,
+  agentTarget,
+  moduleTarget,
+  FunctionTarget,
+}                     from './function-target'
+
 export {
   VERSION,
 
@@ -47,4 +57,9 @@ export {
 
   Sidecar,
   SidecarBody,
+
+  addressTarget,
+  agentTarget,
+  moduleTarget,
+  FunctionTarget,
 }

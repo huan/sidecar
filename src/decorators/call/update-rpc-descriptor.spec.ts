@@ -5,7 +5,7 @@ import {
   Ret,
   RET_SYMBOL,
 }                         from '../../ret'
-import { CALL_RET_ERROR } from './constants'
+import { DEBUG_CALL_RET_ERROR } from './constants'
 
 import {
   updateRpcDescriptor,
@@ -47,7 +47,7 @@ test('update & get call target metadata', async t => {
   t.equal(ret, AFTER_VALUE, 'should get a updated method return value')
 
   await new Promise(setImmediate)
-  t.false((Test as any)[CALL_RET_ERROR], 'should not trigger error if the method returns "Ret()"')
+  t.false((Test as any)[DEBUG_CALL_RET_ERROR], 'should not trigger error if the method returns "Ret()"')
 })
 
 test('method to be proxyed must retur "Ret()"', async t => {
@@ -73,5 +73,5 @@ test('method to be proxyed must retur "Ret()"', async t => {
   )
   await new Promise(setImmediate)
 
-  t.true((Test as any)[CALL_RET_ERROR], 'should trigger error if the method does not return "Ret()" (We can safely ignore the Error message above this test)')
+  t.true((Test as any)[DEBUG_CALL_RET_ERROR], 'should trigger error if the method does not return "Ret()" (We can safely ignore the Error message above this test)')
 })

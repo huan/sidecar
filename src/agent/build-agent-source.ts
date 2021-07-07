@@ -2,10 +2,11 @@ import Mustache from  'mustache'
 
 import { SidecarMetadata } from '../decorators/sidecar/metadata-sidecar'
 
+import { wrapView }       from '../wrappers/mod'
+
 import { log } from '../config'
 
-import { partialLookup } from './partial-lookup'
-import { wrapView } from '../wrappers/mod'
+import { partialLookup }  from './partial-lookup'
 
 const AGENT_MUSTACHE = 'agent.mustache'
 

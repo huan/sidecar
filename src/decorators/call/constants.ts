@@ -1,7 +1,7 @@
-const CALL_SYMBOL     = Symbol('callTarget')
-const CALL_RET_ERROR  = Symbol('callRetError')
+const CALL_SYMBOL           = Symbol('callTarget')
+const DEBUG_CALL_RET_ERROR  = Symbol('callRetError')
 
 export {
   CALL_SYMBOL,
-  CALL_RET_ERROR,
+  DEBUG_CALL_RET_ERROR,
 }

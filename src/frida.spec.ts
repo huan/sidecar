@@ -5,13 +5,14 @@ import { expectType } from 'tsd'
 
 import {
   ScriptMessageHandler,
-  FunctionTargetLink,
   NativeType,
   PointerType,
-  normalizeFunctionTarget,
-  FunctionTarget,
-  FunctionTargetWrapper,
 }                           from './frida'
+import {
+  normalizeFunctionTarget,
+  TargetPayloadObj,
+  TargetPayloadRaw,
+}                           from './function-target'
 
 test('PointerType typing', async t => {
   type EXPECTED_TYPE = 'Pointer' | 'Int' | 'Utf8String'
@@ -30,7 +31,7 @@ test('NativeType typing', async t => {
 })
 
 test('TargetType typing', async t => {
-  const type: FunctionTargetLink = '' as any
+  const type: TargetPayloadRaw = '' as any
   expectType<number | string>(type)
   t.pass('TargetType should be typing right')
 })
@@ -43,20 +44,16 @@ test('ScriptMessageHandler typing', async t => {
 
 test('normalizeFunctionTarget()', async t => {
   const TEST_LIST: [
-    FunctionTarget,
-    FunctionTargetWrapper,
+    TargetPayloadRaw,
+    TargetPayloadObj,
   ][] = [
     [
       'stringTarget',
-      { target: 'stringTarget', type: 'name' },
+      { type: 'agent', varName: 'stringTarget' },
     ],
     [
       0x42,
-      { target: '0x42', type: 'address' },
-    ],
-    [
-      { target: 'NSString', type: 'objc' },
-      { target: 'NSString', type: 'objc' },
+      { address: '0x42', moduleName: null, type: 'address' },
     ],
   ]
 

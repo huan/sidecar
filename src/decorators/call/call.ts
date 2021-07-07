@@ -4,7 +4,7 @@ import {
 
 import {
   FunctionTarget,
-}                 from '../../frida'
+}                 from '../../function-target'
 
 import { updateMetadataCall }   from './metadata-call'
 import { updateRpcDescriptor }  from './update-rpc-descriptor'
@@ -13,13 +13,13 @@ function Call (
   functionTarget: FunctionTarget,
 ) {
   log.verbose('Sidecar', '@Call(%s)',
-    typeof functionTarget === 'object' ? JSON.stringify(functionTarget)
-      : typeof functionTarget === 'number' ? '0x' + functionTarget.toString(16)
-        : functionTarget,
+    typeof functionTarget === 'string' ? functionTarget
+      : typeof functionTarget === 'number' ? `0x${functionTarget.toString(16)}`
+        : JSON.stringify(functionTarget)
   )
 
   return function callMethodDecorator (
-    target      : Object,
+    target      : any,
     propertyKey : string,
     descriptor  : PropertyDescriptor,
   ): PropertyDescriptor {

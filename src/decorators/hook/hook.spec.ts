@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 import { test }  from 'tstest'
-import { FunctionTarget } from '../../frida'
+import { FunctionTarget } from '../../function-target'
 
 import {
   Hook,

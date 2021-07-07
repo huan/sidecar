@@ -10,8 +10,8 @@ Interceptor.attach(
     onEnter: args => {
       log.verbose(
         'SidecarAgent',
-        'Interceptor.attach(%s) onEnter()',
-        {{ target }},
+        'Interceptor.attach(0x%s) onEnter()',
+        Number({{ target }}).toString(16),
       )
 
       send(hookPayload(

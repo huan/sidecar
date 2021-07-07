@@ -4,8 +4,11 @@ import {
 import {
   TypeChain,
   TargetProcess,
+}                       from '../../frida'
+import {
+  TargetPayloadObj,
   FunctionTargetType,
-}                     from '../../frida'
+}                     from '../../function-target'
 
 import { SIDECAR_SYMBOL } from './constants'
 
@@ -13,8 +16,7 @@ export interface SidecarMetadataFunctionDescription {
   name          : string
   paramTypeList : TypeChain[]
   retType?      : TypeChain
-  target        : string
-  type          : FunctionTargetType
+  target        : TargetPayloadObj,
 }
 
 export type SidecarMetadataFunctionTypeDescription = {

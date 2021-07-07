@@ -24,6 +24,7 @@ import {
   ParamType,
   RetType,
   Ret,
+  agentTarget,
 }                 from '../src/mod'
 
 import {
@@ -36,28 +37,23 @@ import {
 }                   from './load-agent-source'
 
 void targetAddress
+void agentTarget
 
 @Sidecar(
-  targetProgram(),
-  loadAgentSource(),
+  targetProgram(),    // chatbox-linux
+  loadAgentSource(),  // $!#%$#T^@#$!@!
 )
 class ChatboxSidecar extends SidecarBody {
 
-  // @Call(targetAddress('mo'))
-  @Call({
-    target : 'agentMo',
-    type   : 'agent',
-  })
+  @Call(/* 0x55d6daf341c9 */ targetAddress('mo'))
+  // @Call(agentTarget('agentMo')
   @RetType('void')
   mo (
     @ParamType('pointer', 'Utf8String') content: string,
   ): Promise<string> { return Ret(content) }
 
-  // @Hook(targetAddress('mt'))
-  @Hook({
-    target : 'agentMt_PatchCode',
-    type   : 'agent',
-  })
+  @Hook(/* 0x55d6daf341c9 */ targetAddress('mt'))
+  // @Hook(agentTarget('agentMt_PatchCode')
   mt (
     @ParamType('pointer', 'Utf8String') content: string,
   ) { return Ret(content) }

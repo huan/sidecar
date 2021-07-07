@@ -9,7 +9,7 @@ Interceptor.attach(
   {
     onEnter: args => {
       log.verbose(
-        'SidecarAgent'
+        'SidecarAgent',
         'Interceptor.attach(%s) onEnter()',
         {{ target }},
       )

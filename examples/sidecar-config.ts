@@ -18,7 +18,7 @@
  */
 import path from 'path'
 
-import { FunctionTarget } from '../src/frida'
+import { FunctionTarget } from '../src/function-target'
 
 /**
  * See: https://github.com/frida/frida-node/blob/master/test/data/index.ts

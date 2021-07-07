@@ -3,10 +3,10 @@ import {
 }                         from '../../config'
 import { RET_SYMBOL }     from '../../ret'
 import { SidecarBody }    from '../../sidecar-body/mod'
-import { CALL_RET_ERROR } from './constants'
+import { DEBUG_CALL_RET_ERROR } from './constants'
 
 function updateRpcDescriptor (
-  target      : any,
+  target      : Function,
   propertyKey : string,
   descriptor  : PropertyDescriptor,
 ): PropertyDescriptor {
@@ -36,7 +36,7 @@ function updateRpcDescriptor (
       }
       return result
     }).catch((e: Error) => {
-      target[CALL_RET_ERROR] = e
+      (target as any)[DEBUG_CALL_RET_ERROR] = e
       console.error(e)
     })
   }
@@ -57,8 +57,18 @@ function updateRpcDescriptor (
       `${propertyKey}(%s)`,
       args.join(', '),
     )
-    // console.log('this:', this)
-    return this.script!.exports[propertyKey](...args)
+
+    if (!this.script) {
+      log.warn(`Sidecar<${target.constructor.name}>`,
+        '%s(%s) updateRpcDescriptor() > proxyMethod() > "this.script" is undefined.',
+        propertyKey,
+        args.join(', '),
+      )
+      this.emit('error', new Error('proxyMethod() found this.script is undefined'))
+      return
+    }
+
+    return this.script.exports[propertyKey](...args)
   }
 
   /**

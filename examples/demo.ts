@@ -40,13 +40,17 @@ async function main () {
     await sidecar.mo('Sidecar: greeting from timer interval!')
   }, 5 * 1000)
 
+  void timer
+  void detach
+
   /**
    * detach after 10 seconds.
    */
-  setTimeout(async () => {
-    clearInterval(timer)
-    await detach(sidecar)
-  }, 11 * 1000)
+  // setTimeout(async () => {
+  //   void timer
+  //   clearInterval(timer)
+  //   await detach(sidecar)
+  // }, 11 * 1000)
 
 }
 

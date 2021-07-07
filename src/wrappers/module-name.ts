@@ -6,7 +6,7 @@ function moduleName (
 ) {
   const targetProcess = this.targetProcess
   if (!targetProcess) {
-    throw new Error('no targetProcess found in SidecarView')
+    throw new Error('no targetProcess found in SidecarMetadata')
   }
 
   return typeof targetProcess === 'number'

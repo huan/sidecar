@@ -2,9 +2,9 @@
 import { test } from 'tstest'
 
 import {
-  FunctionTargetLink,
-  FunctionTargetWrapper,
-}                         from '../../frida'
+  TargetPayloadRaw,
+  TargetPayloadObj,
+}                         from '../../function-target'
 import { Ret }            from '../../ret'
 
 import {
@@ -14,7 +14,7 @@ import { getMetadataCall }    from './metadata-call'
 import { CALL_SYMBOL }        from './constants'
 
 test('Call with metadata', async t => {
-  const TARGET: FunctionTargetLink = 0x42
+  const TARGET: TargetPayloadRaw = 0x42
   const METHOD_NAME = 'testMethod'
 
   class Test {
@@ -35,7 +35,7 @@ test('Call with metadata', async t => {
 })
 
 test('getCallTarget()', async t => {
-  const TARGET: FunctionTargetLink = 0x42
+  const TARGET: TargetPayloadRaw = 0x42
   const METHOD_NAME = 'testMethod'
 
   class Test {
@@ -54,10 +54,10 @@ test('getCallTarget()', async t => {
   t.deepEqual(data, TARGET, 'should get Call target data')
 })
 
-test('getCallTarget() with label', async t => {
-  const TARGET: FunctionTargetWrapper = {
-    target : 'test',
+test('getCallTarget() with agent target', async t => {
+  const TARGET: TargetPayloadObj = {
     type   : 'agent',
+    varName : 'test',
   }
   const METHOD_NAME = 'testMethod'
 
@@ -74,5 +74,5 @@ test('getCallTarget() with label', async t => {
     METHOD_NAME,
   )
 
-  t.deepEqual(data, TARGET, 'should get Call target data by')
+  t.deepEqual(data, TARGET, 'should get Call target data by agent target')
 })

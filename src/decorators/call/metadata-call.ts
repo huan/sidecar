@@ -1,9 +1,9 @@
 import {
   log,
-}                 from '../../config'
+}                   from '../../config'
 import {
   FunctionTarget,
-}                       from '../../frida'
+}                   from '../../function-target'
 
 import { CALL_SYMBOL } from './constants'
 
