@@ -2,23 +2,28 @@ import {
   log,
 }               from '../../config'
 import {
-  SidecarTarget,
   TypeChain,
   TargetProcess,
+  FunctionTargetType,
 }                     from '../../frida'
 
 import { SIDECAR_SYMBOL } from './constants'
 
 export interface SidecarMetadataFunctionDescription {
-  name          : string,
-  paramTypeList : TypeChain[],
-  retType?      : TypeChain,
-  target        : SidecarTarget,
+  name          : string
+  paramTypeList : TypeChain[]
+  retType?      : TypeChain
+  target        : string
+  type          : FunctionTargetType
+}
+
+export type SidecarMetadataFunctionTypeDescription = {
+  [type in FunctionTargetType]?: SidecarMetadataFunctionDescription
 }
 
 export interface SidecarMetadata {
-  nativeFunctionList : SidecarMetadataFunctionDescription[],
-  interceptorList    : SidecarMetadataFunctionDescription[],
+  nativeFunctionList : SidecarMetadataFunctionTypeDescription[],
+  interceptorList    : SidecarMetadataFunctionTypeDescription[],
   initAgentSource?   : string,
   targetProcess?     : TargetProcess,
 }

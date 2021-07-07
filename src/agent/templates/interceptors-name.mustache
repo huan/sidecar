@@ -1,0 +1,24 @@
+/**
+ * Interceptor Target (Name): {{ name }} / {{ target }}
+ *  Parameters: {{{ nativeParamTypes }}}
+ */
+const {{ name }}_Interceptor_target = Module.findExportByName(null, '{{ target }}')
+
+Interceptor.attach(
+  {{ name }}_Interceptor_target,
+  {
+    onEnter: args => {
+      log.verbose(
+        'SidecarAgent'
+        'Interceptor.attach(%s) onEnter()',
+        {{ target }},
+      )
+
+      send(hookPayload(
+        '{{ name }}',
+        {{ jsArgs }}
+      ), null)
+
+    },
+  }
+)

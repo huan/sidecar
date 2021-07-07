@@ -1,3 +1,5 @@
+#!/usr/bin/env ts-node
+
 /**
  *   Sidecar - https://github.com/huan/sidecar
  *
@@ -17,38 +19,49 @@
  *
  */
 import {
-  attach,
-  detach,
-}           from '../src/mod'
+  Sidecar,
+  SidecarBody,
+  Call,
+  Hook,
+  ParamType,
+  RetType,
+  Ret,
+  VERSION,
+}           from 'frida-sidecar'
 
-import { ChatboxSidecar } from './chatbox-sidecar'
+@Sidecar('test')
+class ChatboxSidecar extends SidecarBody {
 
-async function main () {
-  const sidecar = new ChatboxSidecar()
-  await attach(sidecar)
+  @Call(0x1234)
+  @RetType('void')
+  mo (
+    @ParamType('pointer', 'Utf8String') content: string,
+  ): Promise<string> {
+    return Ret(content)
+  }
 
-  sidecar.on('mt', args => {
-    console.log('mt args:', args)
-  })
-
-  await sidecar.mo('Sidecar: this message is from sidecar.mo()')
-
-  /**
-   * Call sidecar.mo(...) periodly
-   */
-  const timer = setInterval(async () => {
-    await sidecar.mo('Sidecar: greeting from timer interval!')
-  }, 5 * 1000)
-
-  /**
-   * detach after 10 seconds.
-   */
-  setTimeout(async () => {
-    clearInterval(timer)
-    await detach(sidecar)
-  }, 11 * 1000)
+  @Hook(0x5678)
+  mt (
+    @ParamType('pointer', 'Utf8String') content: string,
+  ) {
+    return Ret(content)
+  }
 
 }
 
+async function main () {
+  if (VERSION === '0.0.0') {
+    throw new Error('VERSION not set!')
+  }
+  const sidecar = new ChatboxSidecar()
+  sidecar.on('hook', payload => console.log(payload))
+
+  return 0
+}
+
 main()
-  .catch(console.error)
+  .then(process.exit)
+  .catch(e => {
+    console.error(e)
+    process.exit(1)
+  })

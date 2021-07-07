@@ -14,8 +14,8 @@ import { buildAgentSource } from '../agent/build-agent-source'
 
 /* eslint-disable sort-keys */
 
-const agentSource = command({
-  name: 'agent-source',
+const source = command({
+  name: 'source',
   description: 'Dump sidecar agent source',
   args: {
     file: positional({
@@ -48,18 +48,14 @@ const agentSource = command({
 
     vm.runInContext(source, context)
 
-    // vm.runInContext(`const { Klass } = ${source}`, context)
-
-    // vm.runInContext('metadata = JSON.stringify(getMetadataSidecar(ChatboxSidecar), null, 2)', context)
-    // vm.runInContext('view = sidecarView(sidecarMetadata(ChatboxSidecar))', context)
-    // vm.runInContext('console.log("metadata:", metadata)', context)
-    // vm.runInContext('console.log("######################")', context)
-    // console.log(4)
-
-    // console.log('Sidecar file: ', file)
+    /**
+     * Wait to the next event loop
+     *  so that the Promise inside the VM can be executed
+     */
     await new Promise(setImmediate)
+
     console.log(context.agentSource)
   },
 })
 
-export { agentSource }
+export { source }

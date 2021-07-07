@@ -8,7 +8,6 @@ TMPDIR="/tmp/npm-pack-testing.$$"
 mkdir "$TMPDIR"
 mv *-*.*.*.tgz "$TMPDIR"
 cp tests/fixtures/smoke-testing.ts "$TMPDIR"
-cp -R tests/fixtures/library "$TMPDIR"
 
 cd $TMPDIR
 npm init -y

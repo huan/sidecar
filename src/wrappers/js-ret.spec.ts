@@ -7,7 +7,7 @@ import { jsRet } from './js-ret'
 test('jsRet()', async t => {
   const SIDECAR_VIEW = getSidecarMetadataFixture()
 
-  const nativeFunctionList = SIDECAR_VIEW.nativeFunctionList
+  const nativeFunctionList = SIDECAR_VIEW.nativeFunctionList.map(x => Object.values(x)).flat()
 
   const EXPECTED_RET_LIST = [
     'ret.readPointer().readInt()',

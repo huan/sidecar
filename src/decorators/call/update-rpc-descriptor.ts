@@ -20,7 +20,9 @@ function updateRpcDescriptor (
   const ret = descriptor.value()
 
   if (!(ret instanceof Promise)) {
-    throw new Error(`The ${target.constructor.name}.${propertyKey}(...) must be defined to return the Ret() value to make Sidecar @Call happy.`)
+    const e = new Error(`The "${target.constructor.name}.${propertyKey}" method return a non-promise: it must return the Ret() to make Sidecar @Call happy.`)
+    console.error(e.stack)
+    throw e
   } else {
     ret.then((result: any) => {
       /**
@@ -28,7 +30,9 @@ function updateRpcDescriptor (
        *  check Ret value and deal the error more gentle
        */
       if (result !== RET_SYMBOL) {
-        throw new Error(`The ${target.constructor.name}.${propertyKey}(...) must be defined to return the Ret() value to make Sidecar @Call happy.`)
+        const e = new Error(`The "${target.constructor.name}.${propertyKey}" method must return the Ret() to make Sidecar @Call happy.`)
+        console.error(e.stack)
+        throw e
       }
       return result
     }).catch((e: Error) => {

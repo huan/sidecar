@@ -12,13 +12,25 @@ import {
 }                from './operations'
 import { Sidecar } from '../decorators/mod'
 
+import {
+  INIT_SYMBOL,
+  ATTACH_SYMBOL,
+  DETACH_SYMBOL,
+}                 from './constants'
+
+const targetProgram = () =>
+  process.platform        === 'linux'   ? '/bin/ls'
+    : process.platform    === 'darwin'  ? '/bin/ls'
+      : process.platform  === 'win32'   ? 'c:\\Windows\\notepad.exe'
+        : 'targteProgram(): Unknown process.platform:' + process.platform
+
 test('init()', async t => {
 
-  @Sidecar('/bin/ls')
+  @Sidecar(targetProgram())
   class SidecarTest extends SidecarBody {}
 
   const s = new SidecarTest({ spawnMode: SpawnMode.Always })
-  const future = new Promise<void>(resolve => s.on('inited', resolve))
+  const future = new Promise<void>(resolve => s.on(INIT_SYMBOL, resolve))
 
   try {
     await init(s)
@@ -33,13 +45,13 @@ test('init()', async t => {
 
     t.pass('init() successfully')
   } catch (e) {
-    t.fail('Rejection:' + e && e.message)
+    t.fail('Rejection:' + e && (e as Error).message)
     console.error(e)
   }
 })
 test('attach()', async t => {
 
-  @Sidecar('/bin/ls')
+  @Sidecar(targetProgram())
   class SidecarTest extends SidecarBody {}
 
   const s = new SidecarTest({ spawnMode: SpawnMode.Always })
@@ -51,7 +63,7 @@ test('attach()', async t => {
     detach: (..._: any[]) => { return {} as any },
   } as any
 
-  const future = new Promise<void>(resolve => s.on('attached', resolve))
+  const future = new Promise<void>(resolve => s.on(ATTACH_SYMBOL, resolve))
 
   try {
     await attach(s)
@@ -65,7 +77,7 @@ test('attach()', async t => {
     ])
     t.pass('attach() successfully')
   } catch (e) {
-    t.fail('Rejection:' + e && e.message)
+    t.fail('Rejection:' + e && (e as Error).message)
   } finally {
     await detach(s)
   }
@@ -73,11 +85,11 @@ test('attach()', async t => {
 
 test('detach()', async t => {
 
-  @Sidecar('/bin/ls')
+  @Sidecar(targetProgram())
   class SidecarTest extends SidecarBody {}
 
   const s = new SidecarTest({ spawnMode: SpawnMode.Always })
-  const future = new Promise<void>(resolve => s.on('detached', resolve))
+  const future = new Promise<void>(resolve => s.on(DETACH_SYMBOL, resolve))
 
   try {
     await init(s)
@@ -95,6 +107,6 @@ test('detach()', async t => {
 
     t.pass('detach() successfully')
   } catch (e) {
-    t.fail('Rejection:' + e && e.message)
+    t.fail('Rejection:' + e && (e as Error).message)
   }
 })

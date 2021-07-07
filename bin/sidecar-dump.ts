@@ -20,8 +20,8 @@ import { VERSION } from '../src/version'
 
 import {
   metadata,
-  agentSource,
-}         from '../src/dump/mod'
+  source,
+}               from '../src/dump/mod'
 
 // import { sidecarMetadata } from '../src/decorators/sidecar/sidecar-metadata'
 
@@ -33,7 +33,7 @@ const sidecarDump = subcommands({
   version: VERSION,
   cmds: {
     metadata,
-    agentSource,
+    source,
   },
 })
 

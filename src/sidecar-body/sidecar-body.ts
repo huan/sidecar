@@ -13,9 +13,6 @@ import {
   log,
 }                     from '../config'
 import * as frida     from '../frida'
-import {
-  HookEventPayload,
-}                     from '../schema'
 
 import {
   ATTACH_SYMBOL,
@@ -24,10 +21,23 @@ import {
 
   SCRIPT_DESTROYED_HANDLER_SYMBOL,
   SCRIPT_MESSAGRE_HANDLER_SYMBOL,
+
+  LOG_EVENT_HANDLER,
+  HOOK_EVENT_HANDLER,
 }                                   from './constants'
 
 import { SidecarEmitter } from './sidecar-emitter'
+import {
+  isSidecarBodyEventPayloadHook,
+  isSidecarBodyEventPayloadLog,
+  SidecarBodyEventPayloadHook,
+  SidecarBodyEventPayloadLog,
+}                                   from './payload-schemas'
 
+/**
+ * Frida: Spawning vs. attaching
+ * https://summit-labs.frida.ninja/frida-tool-reference/frida
+ */
 export enum SpawnMode {
   Default = 0,
   Always  = 1,
@@ -58,6 +68,13 @@ class SidecarBody extends SidecarEmitter {
   initAgentSource? : string
   spawnMode        : SpawnMode
   targetProcess?   : frida.TargetProcess
+
+  /**
+   * Whether the attached process has been spawned by Sidecar:
+   *  If yes, then sidecar should destroy the process when `detach`
+   *  If no, then the sidecar should leave the process as it is when `detach`
+   */
+  spawnPid?: number
 
   constructor (
     options?: SidecarBodyOptions,
@@ -122,7 +139,7 @@ class SidecarBody extends SidecarEmitter {
       initAgentSource: this.initAgentSource || metadata.initAgentSource,
     })
 
-    this.emit('inited')
+    this.emit(INIT_SYMBOL)
   }
 
   async [ATTACH_SYMBOL] () {
@@ -163,12 +180,14 @@ class SidecarBody extends SidecarEmitter {
             moduleName,
           )
           if (typeof this.targetProcess === 'number') {
-            this.emit('error', e)
+            this.emit('error', e as Error)
             return
           }
 
           try {
             pid = await frida.spawn(this.targetProcess)
+            this.spawnPid = pid
+
             log.silly('SidecarBody',
               '[ATTACH_SYMBOL]() spawn(%s) succeed: pid = %s',
               this.targetProcess,
@@ -178,10 +197,10 @@ class SidecarBody extends SidecarEmitter {
           } catch (e) {
             log.error('SidecarBody',
               '[ATTACH_SYMBOL]() spawn(%s) failed: %s\n%s',
-              e && e.message,
-              e && e.stack,
+              e && (e as Error).message,
+              e && (e as Error).stack,
             )
-            this.emit('error', e)
+            this.emit('error', e as Error)
             return
           }
 
@@ -194,6 +213,8 @@ class SidecarBody extends SidecarEmitter {
           throw new Error(`Sidecar: "targetProcess" must be program when using SpawnMode.Always. We got: ${this.spawnMode}`)
         }
         pid = await frida.spawn(this.targetProcess)
+        this.spawnPid = pid
+
         session = await frida.attach(pid)
         break
 
@@ -224,7 +245,7 @@ class SidecarBody extends SidecarEmitter {
     this.session = session
     this.script  = script
 
-    this.emit('attached')
+    this.emit(ATTACH_SYMBOL)
 
     /**
      * Delay resume after `emit`
@@ -249,10 +270,10 @@ class SidecarBody extends SidecarEmitter {
       } catch (e) {
         log.error('SidecarBody',
           '[DETACH_SYMBOL]() script.unload() rejection: %s\n%s',
-          e && e.message,
-          e && e.stack,
+          e && (e as Error).message,
+          e && (e as Error).stack,
         )
-        this.emit('error', e)
+        this.emit('error', e as Error)
       }
     } else {
       log.silly('SidecarBody', '[DETACH_SYMBOL]() this.script is undefined')
@@ -266,16 +287,28 @@ class SidecarBody extends SidecarEmitter {
       } catch (e) {
         log.error('SidecarBody',
           '[DETACH_SYMBOL]() session.detach() rejection: %s\n%s',
-          e && e.message,
-          e && e.stack,
+          e && (e as Error).message,
+          e && (e as Error).stack,
         )
-        this.emit('error', e)
+        this.emit('error', e as Error)
       }
     } else {
       log.silly('SidecarBody', '[DETACH_SYMBOL]() this.session is undefined')
     }
 
-    this.emit('detached')
+    if (this.spawnPid) {
+      // TODO: kill pid for clean up
+      const pid = this.spawnPid
+      this.spawnPid = undefined
+
+      try {
+        await frida.kill(pid)
+      } catch (e) {
+        this.emit('error', e as Error)
+      }
+    }
+
+    this.emit(DETACH_SYMBOL)
   }
 
   /**
@@ -295,7 +328,7 @@ class SidecarBody extends SidecarEmitter {
       try {
         await this[DETACH_SYMBOL]()
       } catch (e) {
-        this.emit('error', e)
+        this.emit('error', e as Error)
       }
     }
 
@@ -305,25 +338,46 @@ class SidecarBody extends SidecarEmitter {
    * ScriptMessageHandler
    */
   private [SCRIPT_MESSAGRE_HANDLER_SYMBOL] (
-    message: frida.Message,
-    data: null | Buffer,
+    message : frida.Message,
+    data    : null | Buffer,
   ) {
-    log.verbose('SidecarBody', '[SCRIPT_MESSAGRE_HANDLER_SYMBOL](%s, %s)', JSON.stringify(message), data)
+    log.silly('SidecarBody',
+      '[SCRIPT_MESSAGRE_HANDLER_SYMBOL](%s, %s)',
+      JSON.stringify(message),
+      data,
+    )
     switch (message.type) {
       case frida.MessageType.Send:
         log.silly('SidecarBody',
           '[SCRIPT_MESSAGRE_HANDLER_SYMBOL]() MessageType.Send: %s',
           JSON.stringify(message.payload),
         )
-        {
-          const payload: HookEventPayload = {
-            ...message.payload,
-            data,
-          }
-          this.emit('hook', payload)
+
+        if (isSidecarBodyEventPayloadLog(message.payload)) {
+          this[LOG_EVENT_HANDLER](message.payload.payload)
+        } else if (isSidecarBodyEventPayloadHook(message.payload)) {
+          this[HOOK_EVENT_HANDLER](message.payload.payload)
+
+        } else {
+          /**
+           * Unknown payload type
+           */
+          log.warn('SidecarBody',
+            '[SCRIPT_MESSAGRE_HANDLER_SYMBOL](): unknown payload type %s: %s',
+            message.payload.type,
+            JSON.stringify(message.payload)
+          )
+          this.emit('error',
+            new Error([
+              'SidecarBody got unknown message from Frida Agent:',
+              'Payload:',
+              JSON.stringify(message.payload, null, 2),
+            ].join('\n'))
+          )
         }
 
         break
+
       case frida.MessageType.Error:
         log.error('SidecarBody',
           '[SCRIPT_MESSAGRE_HANDLER_SYMBOL]() MessageType.Error: %s',
@@ -343,6 +397,38 @@ class SidecarBody extends SidecarEmitter {
     if (data) {
       log.silly('SidecarBody', '[SCRIPT_MESSAGRE_HANDLER_SYMBOL]() data:', data)
     }
+  }
+
+  private [LOG_EVENT_HANDLER] (
+    payload: SidecarBodyEventPayloadLog['payload'],
+  ) {
+    const prefix = `SidecarBody<${payload.prefix}>`
+    switch (payload.level) {
+      case 'verbose':
+        log.verbose(prefix, payload.message)
+        break
+
+      case 'silly':
+        log.silly(prefix, payload.message)
+        break
+
+      default:
+        throw new Error('unknown log payload: ' + JSON.stringify(payload))
+    }
+  }
+
+  private [HOOK_EVENT_HANDLER] (
+    payload: SidecarBodyEventPayloadHook['payload'],
+  ) {
+    log.verbose('SidecarBody',
+      '[HOOK_EVENT_HANDLER]("%s")',
+      JSON.stringify(payload),
+    )
+
+    this.emit(
+      payload.method,
+      payload.args,
+    )
   }
 
 }

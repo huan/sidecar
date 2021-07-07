@@ -3,20 +3,19 @@ import {
 }                 from '../../config'
 
 import {
-  FridaTarget,
-  LabelTarget,
+  FunctionTarget,
 }                 from '../../frida'
 
 import { updateMetadataCall }   from './metadata-call'
 import { updateRpcDescriptor }  from './update-rpc-descriptor'
 
 function Call (
-  fridaTarget: FridaTarget | LabelTarget,
+  functionTarget: FunctionTarget,
 ) {
   log.verbose('Sidecar', '@Call(%s)',
-    typeof fridaTarget === 'object' ? JSON.stringify(fridaTarget)
-      : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
-        : fridaTarget,
+    typeof functionTarget === 'object' ? JSON.stringify(functionTarget)
+      : typeof functionTarget === 'number' ? '0x' + functionTarget.toString(16)
+        : functionTarget,
   )
 
   return function callMethodDecorator (
@@ -26,9 +25,9 @@ function Call (
   ): PropertyDescriptor {
     log.verbose('Sidecar',
       '@Call(%s) callMethodDecorator(%s, %s, descriptor)',
-      typeof fridaTarget === 'object' ? JSON.stringify(fridaTarget)
-        : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
-          : fridaTarget,
+      typeof functionTarget === 'object' ? JSON.stringify(functionTarget)
+        : typeof functionTarget === 'number' ? '0x' + functionTarget.toString(16)
+          : functionTarget,
 
       target.constructor.name,
       propertyKey,
@@ -37,7 +36,7 @@ function Call (
     updateMetadataCall(
       target,
       propertyKey,
-      fridaTarget,
+      functionTarget,
     )
 
     const rpcDescriptor = updateRpcDescriptor(

@@ -1,0 +1,29 @@
+/**********************************************************
+ * File: "interceptors-agent.mustache"
+ *
+ * Interceptor Target (Agent): {{ name }} / {{ target }}
+ *  Parameters: {{{ nativeParamTypes }}}
+ **********************************************************/
+Interceptor.attach(
+  /**
+   *  Huan(202107): `target` at here is a native ptr
+   *    which is declared in the `initAgentSource`
+   *    for workaround
+   */
+  {{ target }},
+  {
+    onEnter: args => {
+      log.verbose(
+        'SidecarAgent',
+        'Interceptor.attach(%s) onEnter()',
+        '{{ target }}',
+      )
+
+      send(hookPayload(
+        '{{ name }}',
+        {{ jsArgs }}
+      ), null)
+
+    },
+  }
+)

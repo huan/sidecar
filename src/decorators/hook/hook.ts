@@ -3,21 +3,20 @@ import {
 }                         from '../../config'
 
 import {
-  FridaTarget,
-  LabelTarget,
-}                 from '../../frida'
+  FunctionTarget,
+}                         from '../../frida'
 
 const HOOK_TARGET_SYMBOL = Symbol('hookTarget')
 
 function updateMetadataHook (
-  target      : Object,
-  propertyKey : string,
-  fridaTarget : FridaTarget | LabelTarget,
+  target         : Object,
+  propertyKey    : string,
+  functionTarget : FunctionTarget,
 ): void {
   // Update the parameter names
   Reflect.defineMetadata(
     HOOK_TARGET_SYMBOL,
-    fridaTarget,
+    functionTarget,
     target,
     propertyKey,
   )
@@ -26,23 +25,23 @@ function updateMetadataHook (
 function getMetadataHook (
   target      : Object,
   propertyKey : string,
-): undefined | FridaTarget | LabelTarget {
+): undefined | FunctionTarget {
   // Pull the array of parameter names
-  const fridaTarget = Reflect.getMetadata(
+  const functionTarget = Reflect.getMetadata(
     HOOK_TARGET_SYMBOL,
     target,
     propertyKey,
   )
-  return fridaTarget
+  return functionTarget
 }
 
 function Hook (
-  fridaTarget: FridaTarget | LabelTarget,
+  functionTarget: FunctionTarget,
 ) {
   log.verbose('Sidecar', '@Hook(%s)',
-    typeof fridaTarget === 'object' ? JSON.stringify(fridaTarget)
-      : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
-        : fridaTarget,
+    typeof functionTarget === 'object' ? JSON.stringify(functionTarget)
+      : typeof functionTarget === 'number' ? functionTarget.toString(16)
+        : functionTarget,
   )
 
   return function hookMethodDecorator (
@@ -52,9 +51,9 @@ function Hook (
   ): PropertyDescriptor {
     log.verbose('Sidecar',
       '@Hook(%s) hookMethodDecorator(%s, %s, descriptor)',
-      typeof fridaTarget === 'object' ? JSON.stringify(fridaTarget)
-        : typeof fridaTarget === 'number' ? fridaTarget.toString(16)
-          : fridaTarget,
+      typeof functionTarget === 'object' ? JSON.stringify(functionTarget)
+        : typeof functionTarget === 'number' ? functionTarget.toString(16)
+          : functionTarget,
 
       target.constructor.name,
       propertyKey,
@@ -63,7 +62,7 @@ function Hook (
     updateMetadataHook(
       target,
       propertyKey,
-      fridaTarget,
+      functionTarget,
     )
 
     // Huan(202106) TODO: add a replaced function to show a error message when be called.

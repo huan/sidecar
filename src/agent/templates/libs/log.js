@@ -12,7 +12,9 @@ const log = function () {
   function verbose (prefix, message, ...args) {
     if (logLevel >= levelTable.verbose) {
       send(logPayload(
-        buildMessage(prefix, message, ...args)
+        'verbose',
+        prefix,
+        sprintf(message, ...args)
       ))
     }
   }
@@ -20,24 +22,33 @@ const log = function () {
   function silly (prefix, message, ...args) {
     if (logLevel >= levelTable.silly) {
       send(logPayload(
-        buildMessage(prefix, message, ...args)
+        'silly',
+        prefix,
+        sprintf(message, ...args)
       ))
     }
   }
 
-  function setLevel (newLevel) {
-    logLevel = newLevel
+  function level (newLevel) {
+    if (typeof newLevel === 'number') {
+      logLevel = newLevel
+    } else if (newLevel in levelTable) {
+      logLevel = levelTable[newLevel]
+    } else {
+      console.error('unknown newLevel, enable maximum logging')
+      logLevel = 99
+    }
   }
 
   return {
-    setLevel,
+    level,
     verbose,
     silly,
   }
 
-  function buildMessage (prefix, message, ...args) {
-    return prefix + ' ' + sprintf(message, ...args)
-  }
+  // function buildMessage (prefix, message, ...args) {
+  //   return prefix + ' ' + sprintf(message, ...args)
+  // }
 
   // Credit: https://stackoverflow.com/a/4795914/1123955
   function sprintf () {
@@ -66,3 +77,13 @@ const log = function () {
     })
   }
 }()
+
+/**
+ * For unit testing under Node.js
+ */
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    ...module.exports,
+    log,
+  }
+}

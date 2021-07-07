@@ -1,7 +1,7 @@
 import { metadata } from './metadata'
-import { agentSource } from './agent-source'
+import { source }   from './source'
 
 export {
   metadata,
-  agentSource,
+  source,
 }

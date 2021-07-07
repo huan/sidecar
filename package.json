@@ -1,11 +1,11 @@
 {
-  "name": "sidecar",
-  "version": "0.2.6",
+  "name": "frida-sidecar",
+  "version": "0.5.6",
   "description": "Sidecar is for easy hook/call in-process functions with TypeScript annotations.",
   "main": "dist/src/mod.js",
   "typings": "dist/src/mod.d.ts",
   "engines": {
-    "node": "~14"
+    "node": ">=10"
   },
   "directories": {
     "doc": "docs",
@@ -16,13 +16,13 @@
   },
   "scripts": {
     "clean": "shx rm -fr dist/*",
-    "dist": "npm run clean && tsc",
+    "dist": "npm run clean && tsc && shx cp -R src/agent/templates/{libs,*.mustache} dist/src/agent/templates/",
     "lint": "npm run lint:es && npm run lint:ts",
     "lint:ts": "tsc --noEmit",
     "pack": "npm pack",
     "start": "ts-node examples/demo.ts",
     "test": "npm run lint && npm run test:unit",
-    "test:unit": "blue-tape -r ts-node/register \"src/**/*.spec.ts\" \"tests/**/*.spec.ts\"",
+    "test:unit": "cross-env BROLOG_LEVEL=silly blue-tape -r ts-node/register \"src/**/*.spec.ts\" \"tests/**/*.spec.ts\"",
     "test:pack": "bash -x scripts/npm-pack-testing.sh",
     "lint:es": "eslint --ignore-pattern fixtures/ \"src/**/*.ts\" \"tests/**/*.ts\""
   },
@@ -46,16 +46,15 @@
     "@chatie/semver": "^0.4.7",
     "@chatie/tsconfig": "^0.16.2",
     "@types/frida-gum": "^16.5.0",
-    "frida-compile": "^10.2.4",
     "@types/mustache": "^4.1.1",
     "@types/node": "^15.12.4",
+    "cross-env": "^7.0.3",
+    "frida-compile": "^10.2.4",
     "pkg-jq": "^0.2.11",
-    "reflect-metadata": "^0.1.13",
     "shx": "^0.3.3",
     "tsd": "^0.17.0",
     "tstest": "^0.4.10",
-    "typed-emitter": "^1.3.1",
-    "typescript": "^4.0.7"
+    "typescript": "^4.4.0-dev.20210706"
   },
   "git": {
     "scripts": {
@@ -69,6 +68,8 @@
     "brolog": "^1.12.4",
     "cmd-ts": "^0.7.0",
     "frida": "^14.2.18",
-    "mustache": "^4.2.0"
+    "mustache": "^4.2.0",
+    "reflect-metadata": "^0.1.13",
+    "typed-emitter": "^1.3.1"
   }
 }

@@ -1,7 +1,9 @@
 import { SidecarMetadataFunctionDescription } from '../decorators/mod'
 import { nativeArgName } from './name-helpers'
 
-function nativeArgs (this: SidecarMetadataFunctionDescription) {
+function nativeArgs (
+  this: SidecarMetadataFunctionDescription,
+): string {
   const name = this.name
   const paramTypeList = this.paramTypeList
 

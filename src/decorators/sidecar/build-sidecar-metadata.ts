@@ -3,9 +3,10 @@ import {
   log,
 }                   from '../../config'
 import {
-  SidecarTarget,
+  FunctionTarget,
   TypeChain,
-}                   from '../../frida'
+  normalizeFunctionTarget,
+}                           from '../../frida'
 
 import { getMetadataCall }        from '../call/metadata-call'
 import { getMetadataHook }        from '../hook/hook'
@@ -14,8 +15,8 @@ import { getMetadataRetType }     from '../ret-type/metadata-ret-type'
 
 import {
   SidecarMetadata,
-  SidecarMetadataFunctionDescription,
-}                               from './metadata-sidecar'
+  SidecarMetadataFunctionTypeDescription,
+}                                       from './metadata-sidecar'
 
 interface BuildSidecarMetadataOptions {
   initAgentSource? : string,
@@ -37,27 +38,41 @@ function buildSidecarMetadata <T extends {
 
   const config = buildSidecarConfig(klass)
 
-  const nativeFunctionList: SidecarMetadataFunctionDescription[] = []
-  const interceptorList   : SidecarMetadataFunctionDescription[] = []
+  const interceptorList    : SidecarMetadataFunctionTypeDescription[] = []
+  const nativeFunctionList : SidecarMetadataFunctionTypeDescription[] = []
 
-  for (const [name, target] of Object.entries(config.call)) {
-    const functionDescription: SidecarMetadataFunctionDescription = {
-      name,
-      paramTypeList : config.paramType[name],
-      retType       : config.retType[name],
-      target,
+  /**
+   * Process Call Config
+   */
+  for (const [name, functionTarget] of Object.entries(config.call)) {
+    const wrappedTarget = normalizeFunctionTarget(functionTarget)
+    const functionDescription: SidecarMetadataFunctionTypeDescription = {
+      [wrappedTarget.type]: {
+        name,
+        paramTypeList : config.paramType[name],
+        retType       : config.retType[name],
+        target        : wrappedTarget.target,
+        type          : wrappedTarget.type,
+      },
     }
     nativeFunctionList.push(functionDescription)
   }
 
+  /**
+   * Process Hook Config
+   */
   // console.log(metadata.hook)
-  for (const [name, target] of Object.entries(config.hook)) {
+  for (const [name, functionTarget] of Object.entries(config.hook)) {
     // console.log(name, 'retType:', metadata.retType[name])
-    const functionDescription: SidecarMetadataFunctionDescription = {
-      name,
-      paramTypeList : config.paramType[name],
-      retType       : config.retType[name],
-      target,
+    const wrappedTarget = normalizeFunctionTarget(functionTarget)
+    const functionDescription: SidecarMetadataFunctionTypeDescription = {
+      [wrappedTarget.type]: {
+        name,
+        paramTypeList : config.paramType[name],
+        retType       : config.retType[name],
+        target        : wrappedTarget.target,
+        type          : wrappedTarget.type,
+      },
     }
     interceptorList.push(functionDescription)
   }
@@ -76,8 +91,8 @@ function buildSidecarMetadata <T extends {
 }
 
 interface SidecarConfig {
-  call             : { [k: string]: SidecarTarget }
-  hook             : { [k: string]: SidecarTarget }
+  call             : { [k: string]: FunctionTarget }
+  hook             : { [k: string]: FunctionTarget }
   paramType        : { [k: string]: TypeChain[]  }
   retType          : { [k: string]: TypeChain    }
 }

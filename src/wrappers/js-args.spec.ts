@@ -20,7 +20,9 @@ test('jsArgs()', async t => {
   const result = [
     ...nativeFunctionList,
     ...interceptorFunctionList,
-  ].map(x => jsArgs.call(x))
+  ].map(x => Object.values(x))
+    .flat()
+    .map(x => jsArgs.call(x))
 
   t.deepEqual(result, EXPECTED_ARGS_LIST, 'should wrap the args correct')
 })

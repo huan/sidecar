@@ -3,21 +3,47 @@
  * --------------------------------
  * Sidecar Frida Agent Mustache Template
  *
- * Huan <zixia@zixia.net>, June 24, 2021
  *  https://github.com/huan/sidecar
+ *  Huan <zixia@zixia.net>
+ *  June 24, 2021
  *****************************************/
 
+/***********************************
+ * File: "templates/agent.mustache"
+ *  > Partials: "libs/payload.js"
+ ***********************************/
 {{> libs/payload.js}}
 
+/***********************************
+ * File: "templates/agent.mustache"
+ *  > Partials: "libs/log.js"
+ ***********************************/
 {{> libs/log.js }}
 
-/**
- * Get base address for target {{{ targetProcess }}}
- */
+log.level('{{ logLevel }}')
+
+/****************************************************
+ * File: "templates/agent.mustache
+ *  > Get base address for target {{{ targetProcess }}}
+ ****************************************************/
 const sidecarModuleBaseAddress = Module.getBaseAddress('{{{ moduleName }}}')
 
+/***********************************
+ * File: "templates/agent.mustache
+ *  > Variable: "initAgentSource"
+ ***********************************/
+{{{ initAgentSource }}}
+
+/********************************************
+ * File: "templates/agent.mustache
+ *  > Partials: "native-functions.mustache"
+ ********************************************/
 {{> native-functions.mustache }}
 
+/**************************************
+ * File: "templates/agent.mustache"
+ *  > Partials: "interceptors.mustache"
+ **************************************/
 {{> interceptors.mustache }}
 
 /********************
@@ -25,11 +51,6 @@ const sidecarModuleBaseAddress = Module.getBaseAddress('{{{ moduleName }}}')
  ********************/
 function init () {
   log.verbose('SidecarAgent', 'init()')
-
-  /**
-   * initAgentSource
-   */
-  {{{ initAgentSource }}}
 
   /**
    * Huan(202106) return 42 to let caller to make sure that
@@ -43,4 +64,8 @@ rpc.exports = {
   ...rpc.exports,
 }
 
+/**************************************
+ * File: "templates/agent.mustache"
+ *  > Partials: "rpc-exports.mustache"
+ **************************************/
 {{> rpc-exports.mustache }}

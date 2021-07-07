@@ -8,7 +8,7 @@
  *********************************************************/
 rpc.exports = {
   ...rpc.exports,
-{{# nativeFunctionList }}
-  {{name}}: {{ name }}_NativeFunction_wrapper,
-{{/ nativeFunctionList}}
+{{# nativeFunctionNameList }}
+  {{ . }}: {{ . }}_NativeFunction_wrapper,
+{{/ nativeFunctionNameList}}
 }
