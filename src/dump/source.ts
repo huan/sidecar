@@ -1,18 +1,19 @@
+/* eslint-disable sort-keys */
 import vm from 'vm'
 import path from 'path'
 
 import {
   command,
+  option,
+  optional,
   positional,
+  string,
 }                 from 'cmd-ts'
 import { File }   from 'cmd-ts/dist/cjs/batteries/fs'
 
 import { getMetadataSidecar } from '../decorators/sidecar/metadata-sidecar'
 import { buildAgentSource } from '../agent/build-agent-source'
-
-// import { bundleTsFile } from './bundle-ts-file'
-
-/* eslint-disable sort-keys */
+import { extractClassNameList } from './ts-loader'
 
 const source = command({
   name: 'source',
@@ -20,31 +21,51 @@ const source = command({
   args: {
     file: positional({
       type        : File,
-      displayName : 'decorated class file',
+      displayName : 'classFile',
+      description : 'The file contains the sidecar class',
+    }),
+    name: option({
+      description: 'The name of class that decorated by @Sidecar',
+      long: 'name',
+      short: 'n',
+      type: optional(string),
     }),
   },
-  handler: async ({ file }) => {
-    // const source = await bundleTsFile(file)
-    // console.log(source)
-    const context = {
-      getMetadataSidecar,
-      buildAgentSource,
-      agentSource: undefined,
-      exports: {},
-      require,
-      module,
+  handler: async ({
+    file,
+    name,
+  }) => {
+    /**
+     * Check the class name parameter
+     */
+    if (!name) {
+      const classNameList = await extractClassNameList(file)
+      if (classNameList.length === 0) {
+        throw new Error(`There's no @Sidecar decorated class name found in file ${file}`)
+      } else if (classNameList.length > 1) {
+        console.error(`Found multiple @Sidecar decorated classes in ${file}, please specify the class name by --name:\n`)
+        console.error(classNameList.map(x => '  ' + x).join('\n'))
+        return
+      }
+      name = classNameList[0]
+    }
 
-      __filename: file,
-      __dirname: path.dirname(require.resolve(file)),
+    const context = {
+      agentSource: undefined,
+      buildAgentSource,
+      getMetadataSidecar,
+      require,
+
+      __filename : file,
+      __dirname  : path.dirname(require.resolve(file)),
     }
     vm.createContext(context) // Contextify the object
-    // vm.runInContext("require('ts-node/register')", context)
 
-    const source = `
-      const { ChatboxSidecar } = require('${file}')
-      const metadata = getMetadataSidecar(ChatboxSidecar)
-      buildAgentSource(metadata).then(source => agentSource = source)
-    `
+    const source = [
+      `const { ${name} } = require('${file}')`,
+      `const metadata = getMetadataSidecar(${name})`,
+      'buildAgentSource(metadata).then(source => agentSource = source)',
+    ].join('\n')
 
     vm.runInContext(source, context)
 

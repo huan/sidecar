@@ -1,17 +1,18 @@
+/* eslint-disable sort-keys */
 import vm from 'vm'
 import path from 'path'
 
 import {
   command,
+  option,
+  optional,
   positional,
+  string,
 }                 from 'cmd-ts'
 import { File }   from 'cmd-ts/dist/cjs/batteries/fs'
 
-import { getMetadataSidecar } from '../decorators/sidecar/metadata-sidecar'
-
-// import { bundleTsFile } from './bundle-ts-file'
-
-/* eslint-disable sort-keys */
+import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar'
+import { extractClassNameList } from './ts-loader'
 
 const metadata = command({
   name: 'metadata',
@@ -19,38 +20,53 @@ const metadata = command({
   args: {
     file: positional({
       type        : File,
-      displayName : 'decorated class file',
+      displayName : 'classFile',
+      description: 'The file contains the sidecar class',
+    }),
+    name: option({
+      description: 'The name of class that decorated by @Sidecar',
+      long: 'name',
+      short: 'n',
+      type: optional(string),
     }),
   },
-  handler: async ({ file }) => {
-    // const source = await bundleTsFile(file)
-    // console.log(source)
+
+  handler: async ({
+    file,
+    name,
+  }) => {
+    /**
+     * Check the class name parameter
+     */
+    if (!name) {
+      const classNameList = await extractClassNameList(file)
+      if (classNameList.length === 0) {
+        throw new Error(`There's no @Sidecar decorated class name found in file ${file}`)
+      } else if (classNameList.length > 1) {
+        console.error(`Found multiple @Sidecar decorated classes in ${file}, please specify the class name by --name:\n`)
+        console.error(classNameList.map(x => '  ' + x).join('\n'))
+        return
+      }
+      name = classNameList[0]
+    }
+
     const context = {
       getMetadataSidecar,
       metadata: undefined,
-      exports: {},
       require,
-      module,
 
       __filename: file,
       __dirname: path.dirname(require.resolve(file)),
     }
+
+    const source = [
+      `const { ${name} } = require('${file}')`,
+      `metadata = JSON.stringify(getMetadataSidecar(${name}), null, 2)`,
+    ].join('\n')
+
     vm.createContext(context) // Contextify the object
-    // console.log(1)
-    // vm.runInContext("require('ts-node/register')", context)
-    // console.log(2, file)
-    vm.runInContext(`const { ChatboxSidecar } = require('${file}')`, context)
-    // console.log(3)
+    vm.runInContext(source, context)
 
-    // vm.runInContext(`const { Klass } = ${source}`, context)
-
-    vm.runInContext('metadata = JSON.stringify(getMetadataSidecar(ChatboxSidecar), null, 2)', context)
-    // vm.runInContext('view = sidecarView(sidecarMetadata(ChatboxSidecar))', context)
-    // vm.runInContext('console.log("metadata:", metadata)', context)
-    // vm.runInContext('console.log("######################")', context)
-    // console.log(4)
-
-    // console.log('Sidecar file: ', file)
     console.log(context.metadata)
   },
 })
