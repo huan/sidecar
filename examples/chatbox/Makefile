@@ -1,6 +1,6 @@
 # Credit: https://stackoverflow.com/a/14777895/1123955
 ifeq ($(OS),Windows_NT)
-    detected_OS := windows
+    detected_OS := win32
 else
     detected_OS := $(shell sh -c 'uname 2>/dev/null | tr "[:upper:]" "[:lower:]"')
 endif
@@ -15,7 +15,7 @@ linux: chatbox.c
 mac: chatbox.c
 	gcc -o chatbox-$(detected_OS) chatbox.c
 
-windows: chatbox.c
+win32: chatbox.c
 	cl.exe /Fe:chatbox-$(detected_OS) chatbox.c
 
 clean:
