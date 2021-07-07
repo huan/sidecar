@@ -9,14 +9,14 @@ Sidecar is a runtime hooking tool for intercepting function calls by TypeScript 
 ## What is a "Sidecar" Pattern?
 
 > Segregating the functionalities of an application into a separate process can be viewed as a Sidecar pattern. The Sidecar design pattern allows you to add a number of capabilities to your application without the need of additional configuration code for 3rd party components.
->  
-> As a sidecar is attached to a motorcycle, similarly in software architecture a sidecar is attached to a parent application and extends/enhances its functionalities. A Sidecar is loosely coupled with the main application.  
->  
+>
+> As a sidecar is attached to a motorcycle, similarly in software architecture a sidecar is attached to a parent application and extends/enhances its functionalities. A Sidecar is loosely coupled with the main application.
+>
 > &mdash; SOURCE: [Sidecar Design Pattern in your Microservices Ecosystem, Samir Behara, July 23, 2018](https://samirbehara.com/2018/07/23/sidecar-design-pattern-in-your-microservices-ecosystem/)
 
 ## What is a "Hooking" Patern?
 
-> Hook: by intercepting function calls or messages or events passed between software components.  
+> Hook: by intercepting function calls or messages or events passed between software components.
 > &mdash; SOURCE: [Hooking, Wikipedia](https://en.wikipedia.org/wiki/Hooking)
 
 ## Features
@@ -220,6 +220,117 @@ class ChatboxSidecar extends SidecarBody {
   mo () { return Ret() }
 ```
 
+## Debug utility: `sidecar-dump`
+
+Sidecar provide a utility named `sidecar-dump` for viewing the metadata of the sidecar class, or debuging the frida agent init source code.
+
+You can run this util by the following command:
+
+```sh
+$ npx sidecar-dump --help
+sidecar-dump <subcommand>
+> Sidecar utility for dumping metadata/source for a sidecar class
+
+where <subcommand> can be one of:
+
+- metadata - Dump sidecar metadata
+- source - Dump sidecar agent source
+
+For more help, try running `sidecar-dump <subcommand> --help`
+```
+
+`sidecar-dump` support two sub commands:
+
+1. `metadata`: dump the metadata for a sidecar class
+1. `source`: dump the generated frida agent source code for a sidecar class
+
+### 1. `sidecar-dump metadata`
+
+Sidecar is using decorators heavily, for example, we are using `@Call()` for specifying the process target, `@ParamType()` for specifying the parameter data type, etc.
+
+Internally, sidecar organize all the decorated information as metadata and save them into the class.
+
+the `sidecar-dump metadata` command is to viewing this metadata information, so that we can review and debug them.
+
+For example, the following is the metadata showed by sidecar-dump for our `ChatboxSidecar` class from [examples/chatbox-sidecar.ts](examples/chatbox-sidecar.ts).
+
+```sh
+$ sidecar-dump metadata examples/chatbox-sidecar.ts
+{
+  "initAgentSource": "console.log('inited...')",
+  "interceptorList": [
+    {
+      "agent": {
+        "name": "mt",
+        "paramTypeList": [
+          [
+            "pointer",
+            "Utf8String"
+          ]
+        ],
+        "target": "agentMt_PatchCode",
+        "type": "agent"
+      }
+    }
+  ],
+  "nativeFunctionList": [
+    {
+      "agent": {
+        "name": "mo",
+        "paramTypeList": [
+          [
+            "pointer",
+            "Utf8String"
+          ],
+          [
+            "pointer",
+            "Utf8String"
+          ]
+        ],
+        "retType": [
+          "void"
+        ],
+        "target": "agentMo",
+        "type": "agent"
+      }
+    }
+  ],
+  "targetProcess": "/tmp/t/examples/chatbox/chatbox-linux"
+}
+```
+
+### 2. `sidecar-dump source`
+
+Sidecar is using Frida to connect to the program process and make communication with it.
+
+In order to make the connection, sidecar will generate a frida agent source code, and using this agent as the bridge between the sidecar, frida, and the target program process. 
+
+the `sidecar-dump source` command is to viewing this frida agent source, so that we can review and debug them.
+
+For example, the following is the source code showed by sidecar-dump for our `ChatboxSidecar` class from [examples/chatbox-sidecar.ts](examples/chatbox-sidecar.ts).
+
+```sh
+$ sidecar-dump source  examples/chatbox-sidecar.ts
+/****************************************************
+ * File: "templates/agent.mustache"
+ *  > Get base address for target "chatbox-linux"
+ ****************************************************/
+const sidecarModuleBaseAddress = Module.getBaseAddress('chatbox-linux')
+
+/***********************************
+ * File: "templates/agent.mustache
+ *  > Variable: "initAgentSource"
+ ***********************************/
+const agentMo = new NativeFunction(
+  sidecarModuleBaseAddress.add(0x11c9),
+  'void',
+  ['pointer'],
+)
+
+#...
+
+```
+
 ## Resources
 
 ### RPA Examples
@@ -308,6 +419,9 @@ Learn more about examples at <https://github.com/huan/ffi-adapter/tree/master/te
 
 ### Master
 
+### 0.6 (Jul 7, 2021)
+
+1. Add `sidecar-dump` utility: it dump the sidecar `metadata` and `source` from a class defination file now.
 1. Upgrade to TypeScript 4.4-dev for supporting index signatures for symbols. ([Microsoft/TypeScript#44512](https://github.com/microsoft/TypeScript/pull/44512))
 
 ### 0.2 (Jul 5, 2021)

@@ -23,19 +23,19 @@
 log.level('{{ logLevel }}')
 
 /****************************************************
- * File: "templates/agent.mustache
- *  > Get base address for target {{{ targetProcess }}}
+ * File: "templates/agent.mustache"
+ *  > Get base address for target "{{{ targetProcess }}}"
  ****************************************************/
 const sidecarModuleBaseAddress = Module.getBaseAddress('{{{ moduleName }}}')
 
 /***********************************
- * File: "templates/agent.mustache
+ * File: "templates/agent.mustache"
  *  > Variable: "initAgentSource"
  ***********************************/
 {{{ initAgentSource }}}
 
 /********************************************
- * File: "templates/agent.mustache
+ * File: "templates/agent.mustache"
  *  > Partials: "native-functions.mustache"
  ********************************************/
 {{> native-functions.mustache }}

@@ -39,7 +39,7 @@ if (!process[REGISTER_INSTANCE]) {
 
 const sidecarDump = subcommands({
   name: 'sidecar-dump',
-  description: 'Sidecar dumping utility',
+  description: 'Sidecar utility for dumping metadata/source for a sidecar class',
   version: VERSION,
   cmds: {
     metadata,
