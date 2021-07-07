@@ -12,7 +12,8 @@ cp tests/fixtures/smoke-testing.ts "$TMPDIR"
 cd $TMPDIR
 npm init -y
 npm install *-*.*.*.tgz \
-  @chatie/tsconfig
+  @chatie/tsconfig \
+  typescript@next
 
 ./node_modules/.bin/tsc \
   --target es5 \
