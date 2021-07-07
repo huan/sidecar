@@ -37,21 +37,17 @@ async function main () {
    * Call sidecar.mo(...) periodly
    */
   const timer = setInterval(async () => {
+    console.log('Sidecar: calling mo() to send message')
     await sidecar.mo('Sidecar: greeting from timer interval!')
   }, 5 * 1000)
 
-  void timer
-  void detach
+  const clean = async () => {
+    clearInterval(timer)
+    await detach(sidecar)
+  }
 
-  /**
-   * detach after 10 seconds.
-   */
-  // setTimeout(async () => {
-  //   void timer
-  //   clearInterval(timer)
-  //   await detach(sidecar)
-  // }, 11 * 1000)
-
+  process.on('SIGINT',  clean)
+  process.on('SIGTERM', clean)
 }
 
 main()
