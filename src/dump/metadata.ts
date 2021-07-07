@@ -12,7 +12,7 @@ import {
 import { File }   from 'cmd-ts/dist/cjs/batteries/fs'
 
 import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar'
-import { extractClassNameList } from './ts-loader'
+import { extractClassNameList } from './extract-class-names'
 
 const metadata = command({
   name: 'metadata',

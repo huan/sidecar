@@ -11,9 +11,10 @@ import {
 }                 from 'cmd-ts'
 import { File }   from 'cmd-ts/dist/cjs/batteries/fs'
 
-import { getMetadataSidecar } from '../decorators/sidecar/metadata-sidecar'
-import { buildAgentSource } from '../agent/build-agent-source'
-import { extractClassNameList } from './ts-loader'
+import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar'
+import { buildAgentSource }     from '../agent/build-agent-source'
+
+import { extractClassNameList } from './extract-class-names'
 
 const source = command({
   name: 'source',
