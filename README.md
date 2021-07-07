@@ -84,8 +84,8 @@ async function main () {
   const sidecar = new ChatboxSidecar()
   await attach(sidecar)
 
-  sidecar.on('hook', payload => {
-    console.log('hook:', payload)
+  sidecar.on('mt', args => {
+    console.log('mt:', args)
   })
   setInterval(
     () => sidecar.mo('Hello from Sidecar'),
@@ -99,7 +99,7 @@ async function main () {
 main().catch(console.error)
 ```
 
-Learn more from the example directory: <https://github.com/huan/sidecar/blob/main/examples>
+Learn more from the sidecar example: <https://github.com/huan/sidecar/blob/main/examples>
 
 ## References
 
