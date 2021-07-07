@@ -10,6 +10,7 @@ import {
   string,
 }                 from 'cmd-ts'
 import { File }   from 'cmd-ts/dist/cjs/batteries/fs'
+import slash      from 'slash'
 
 import { log }    from '../config'
 
@@ -38,6 +39,7 @@ const source = command({
     file,
     name,
   }) => {
+    file = slash(file)
     log.verbose('sidecar-dump <source>',
       'file<%s>, name<%s>',
       file,

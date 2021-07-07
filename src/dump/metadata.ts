@@ -10,6 +10,7 @@ import {
   string,
 }                 from 'cmd-ts'
 import { File }   from 'cmd-ts/dist/cjs/batteries/fs'
+import slash      from 'slash'
 
 import { log }    from '../config'
 
@@ -37,6 +38,7 @@ const metadata = command({
     file,
     name,
   }) => {
+    file = slash(file)  // convert windows path to posix
     log.verbose('sidecar-dump <metadata>',
       'file<%s>, name<%s>',
       file,
