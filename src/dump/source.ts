@@ -11,6 +11,8 @@ import {
 }                 from 'cmd-ts'
 import { File }   from 'cmd-ts/dist/cjs/batteries/fs'
 
+import { log }    from '../config'
+
 import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar'
 import { buildAgentSource }     from '../agent/build-agent-source'
 
@@ -36,6 +38,11 @@ const source = command({
     file,
     name,
   }) => {
+    log.verbose('sidecar-dump <source>',
+      'file<%s>, name<%s>',
+      file,
+      name || '',
+    )
     /**
      * Check the class name parameter
      */
@@ -67,6 +74,7 @@ const source = command({
       `const metadata = getMetadataSidecar(${name})`,
       'buildAgentSource(metadata).then(source => agentSource = source)',
     ].join('\n')
+    log.silly('sidecar-dump <source>', source)
 
     vm.runInContext(source, context)
 

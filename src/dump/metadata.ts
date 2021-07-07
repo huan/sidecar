@@ -11,6 +11,8 @@ import {
 }                 from 'cmd-ts'
 import { File }   from 'cmd-ts/dist/cjs/batteries/fs'
 
+import { log }    from '../config'
+
 import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar'
 import { extractClassNameList } from './extract-class-names'
 
@@ -35,6 +37,12 @@ const metadata = command({
     file,
     name,
   }) => {
+    log.verbose('sidecar-dump <metadata>',
+      'file<%s>, name<%s>',
+      file,
+      name || '',
+    )
+
     /**
      * Check the class name parameter
      */
@@ -63,6 +71,7 @@ const metadata = command({
       `const { ${name} } = require('${file}')`,
       `metadata = JSON.stringify(getMetadataSidecar(${name}), null, 2)`,
     ].join('\n')
+    log.silly('sidecar-dump <metadata>', source)
 
     vm.createContext(context) // Contextify the object
     vm.runInContext(source, context)
