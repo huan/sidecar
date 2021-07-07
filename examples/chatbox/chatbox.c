@@ -16,7 +16,12 @@
  *   limitations under the License.
  *
  */
+#ifdef _WIN32
+#include <Windows.h>
+#else
 #include <unistd.h>
+#endif
+
 #include <stdio.h>
 
 char buf[100] = {0};
@@ -49,7 +54,11 @@ int main() {
       mt(randomMessage("Receive"));
     }
 
+#ifdef _WIN32
+    Sleep(3000);
+#else
     sleep(3);
+#endif
   }
 
   return 0;
