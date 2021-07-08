@@ -45,15 +45,15 @@ void agentTarget
 )
 class ChatboxSidecar extends SidecarBody {
 
-  @Call(/* 0x55d6daf341c9 */ targetAddress('mo'))
-  // @Call(agentTarget('agentMo')
+  // @Call(/* 0x55d6daf341c9 */ targetAddress('mo'))
+  @Call(agentTarget('agentMo'))
   @RetType('void')
   mo (
     @ParamType('pointer', 'Utf8String') content: string,
   ): Promise<string> { return Ret(content) }
 
-  @Hook(/* 0x55d6daf341c9 */ targetAddress('mt'))
-  // @Hook(agentTarget('agentMt_PatchCode')
+  // @Hook(/* 0x55d6daf341c9 */ targetAddress('mt'))
+  @Hook(agentTarget('agentMt_PatchCode'))
   mt (
     @ParamType('pointer', 'Utf8String') content: string,
   ) { return Ret(content) }
