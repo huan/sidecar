@@ -8,9 +8,16 @@ import {
 }                           from './schema'
 
 const designToNativeTypesTable = new Map<ReflectDesignType, NativeType[]>()
+  .set(Promise, []) // empty array will permit `any`
   .set(undefined, ['void'])
+  .set(Buffer, ['pointer'])
   .set(String, ['pointer'])
+  .set(Boolean, [
+    'pointer',
+    'bool',
+  ])
   .set(Number, [
+    'pointer',
     'int',
     'uint',
     'long',
@@ -30,9 +37,6 @@ const designToNativeTypesTable = new Map<ReflectDesignType, NativeType[]>()
     'int64',
     'uint64',
   ])
-  .set(Buffer, ['pointer'])
-  .set(Boolean, ['bool'])
-  .set(Promise, []) // empty array will permit `any`
 
 function toNativeTypeList (
   designType: ReflectDesignType,

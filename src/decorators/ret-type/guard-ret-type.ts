@@ -40,8 +40,13 @@ function guardRetType (
    *  because the TypeScript metadata do not support to get the value inside the `Promise<value>`
    *  so we will not be able to check them.
    */
+  // Huan(202107) add check for PointerType
   if (nativeTypeList.length > 0 && !nativeTypeList.includes(nativeType)) {
-    throw new Error(`The ${target.constructor.name}.${String(propertyKey)}() decorated by "@RetType(${nativeType}, ...)" does match the design return type "${designRetType?.name ?? 'void'}"`)
+    throw new Error([
+      `The ${target.constructor.name}.${String(propertyKey)}()`,
+      `decorated by "@RetType(${nativeType}, ...)"`,
+      `does match the design return type "${designRetType?.name ?? 'void'}"`,
+    ].join('\n'))
   }
 }
 

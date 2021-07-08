@@ -13,6 +13,10 @@ import {
 
 import { Sidecar } from './sidecar'
 import { SidecarBody } from '../../sidecar-body/mod'
+import {
+  agentTarget,
+  exportTarget,
+}                   from '../../function-target'
 
 const getFixture = () => {
   @Sidecar('chatbox')
@@ -25,13 +29,16 @@ const getFixture = () => {
       @ParamType('int') n: number,
     ): Promise<string> { return Ret(content, n) }
 
-    @Hook(0x17)
+    @Hook(agentTarget('agentVar'))
     hookMethod (
       @ParamType('int') n: number,
     ) { return Ret(n) }
 
-    // Huan(202106) TODO: support { label }
-    // @Call({ label: 'label1' }) anotherCall () { return Ret() }
+    @Call(exportTarget('exportNameTest', 'moduleNameTest'))
+    @RetType('pointer', 'Int')
+    anotherCall (
+      @ParamType('pointer', 'Int') i: number,
+    ): Promise<number> { return Ret(i) }
 
   }
 
@@ -49,7 +56,7 @@ test('@Sidecar() buildSidecarMetadata()', async t => {
     initAgentSource: undefined,
     interceptorList: [
       {
-        address: {
+        agent: {
           name: 'hookMethod',
           paramTypeList: [
             [
@@ -57,7 +64,7 @@ test('@Sidecar() buildSidecarMetadata()', async t => {
             ],
           ],
           retType: undefined,
-          target: { address: '0x17', moduleName: null, type: 'address' },
+          target: { type: 'agent', varName: 'agentVar' },
         },
       },
     ],
@@ -79,6 +86,22 @@ test('@Sidecar() buildSidecarMetadata()', async t => {
             'Utf8String',
           ],
           target: { address: '0x42', moduleName: null, type: 'address' },
+        },
+      },
+      {
+        export: {
+          name: 'anotherCall',
+          paramTypeList: [
+            [
+              'pointer',
+              'Int',
+            ],
+          ],
+          retType: [
+            'pointer',
+            'Int',
+          ],
+          target: { exportName: 'exportNameTest', moduleName: 'moduleNameTest', type: 'export' },
         },
       },
     ],

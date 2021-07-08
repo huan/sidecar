@@ -38,9 +38,14 @@ function guardParamType (
     nativeType,
   )
 
+  // Huan(202107) add check for PointerType
   const nativeTypeList = toNativeTypeList(designParamType)
   if (!nativeTypeList.includes(nativeType)) {
-    throw new Error(`The "${target.constructor.name}.${String(propertyKey)}(args[${parameterIndex}]) decorated by "@ParamType(${nativeType}, ...)" does match the design type "${designParamType?.name}"`)
+    throw new Error([
+      `The "${target.constructor.name}.${String(propertyKey)}(args[${parameterIndex}])`,
+      `decorated by "@ParamType(${nativeType}, ...)"`,
+      `does match the design type "${designParamType?.name}"`,
+    ].join('\n'))
   }
 }
 
