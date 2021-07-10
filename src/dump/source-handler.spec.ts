@@ -30,12 +30,12 @@ test('sourceHandler()', async t => {
     /**
      * For CI under Linux
      */
-    .replace(/"[^"]+sidecar\/examples\/chatbox\/chatbox-linux"/sg, '"chatbox-linux"')
+    .replace(/"[^"]+sidecar\/examples\/chatbox\/chatbox-linux"/sg, '"chatbox-test"')
     /**
      * For CI under Windows
      *  D:\\a\\sidecar\\sidecar\\examples\\chatbox\\chatbox-win32.exe"
      */
-    .replace(/"[^"]+sidecar\\examples\\chatbox\\chatbox-win32.exe"/sg, '"chatbot-win32.exe"')
+    .replace(/"[^"]+sidecar\\examples\\chatbox\\chatbox-win32.exe"/sg, '"chatbox-test"')
 
   const EXPECTED = await fs
     .readFileSync(EXPECTED_FILE)
