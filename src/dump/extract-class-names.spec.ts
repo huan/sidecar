@@ -29,6 +29,20 @@ test('extractClassNameListFromSource()', async t => {
   t.deepEqual(classNameList, EXPECTED, 'should extract the class name correct')
 })
 
+test('extractClassNameListFromSource() with export', async t => {
+  const TS = `
+  @Sidecar(
+    targetProgram(),
+    loadAgentSource(),
+  )
+  export class ChatboxSidecar extends SidecarBody {}
+  `
+  const EXPECTED = ['ChatboxSidecar']
+
+  const classNameList = await extractClassNameListFromSource(TS)
+  t.deepEqual(classNameList, EXPECTED, 'should extract the exported class name correct')
+})
+
 test('extractClassNameListFromSource() with examples/chatbox-sidebar.ts', async t => {
   const TS = await fs.readFileSync(path.join(
     __dirname,

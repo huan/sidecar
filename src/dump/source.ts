@@ -61,7 +61,9 @@ const source = command({
     }
 
     const context = {
-      agentSource: undefined,
+      agentSource: {
+        promise: undefined,
+      },
       buildAgentSource,
       getMetadataSidecar,
       require,
@@ -74,7 +76,7 @@ const source = command({
     const source = [
       `const { ${name} } = require('${file}')`,
       `const metadata = getMetadataSidecar(${name})`,
-      'buildAgentSource(metadata).then(source => agentSource = source)',
+      'agentSource.promise = buildAgentSource(metadata)',
     ].join('\n')
     log.silly('sidecar-dump <source>', source)
 
@@ -84,9 +86,9 @@ const source = command({
      * Wait to the next event loop
      *  so that the Promise inside the VM can be executed
      */
-    await new Promise(setImmediate)
-
-    console.log(context.agentSource)
+    // await new Promise(setImmediate)
+    const agentSource = await context.agentSource.promise
+    console.log(agentSource)
   },
 })
 

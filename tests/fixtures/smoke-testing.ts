@@ -30,7 +30,7 @@ import {
 }           from 'frida-sidecar'
 
 @Sidecar('test')
-class ChatboxSidecar extends SidecarBody {
+export class ChatboxSidecar extends SidecarBody {
 
   @Call(0x1234)
   @RetType('void')

@@ -1,0 +1,42 @@
+{
+  "interceptorList": [
+    {
+      "address": {
+        "name": "mt",
+        "paramTypeList": [
+          [
+            "pointer",
+            "Utf8String"
+          ]
+        ],
+        "target": {
+          "address": "0x5678",
+          "moduleName": null,
+          "type": "address"
+        }
+      }
+    }
+  ],
+  "nativeFunctionList": [
+    {
+      "address": {
+        "name": "mo",
+        "paramTypeList": [
+          [
+            "pointer",
+            "Utf8String"
+          ]
+        ],
+        "retType": [
+          "void"
+        ],
+        "target": {
+          "address": "0x1234",
+          "moduleName": null,
+          "type": "address"
+        }
+      }
+    }
+  ],
+  "targetProcess": "test"
+}

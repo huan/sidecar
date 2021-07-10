@@ -13,7 +13,7 @@ async function extractClassNameListFromSource (
   /**
    * Extract the @Sidecar decorated classes
    */
-  const REGEXP = /@Sidecar\s*\(.*?\)\s*class\s+([A-Za-z0-9\-_]+)/sg
+  const REGEXP = /@Sidecar\s*\(.*?\)\s*(?:export)?\s*class\s+([A-Za-z0-9\-_]+)\s+/sg
 
   return Array.from(
     source.matchAll(REGEXP)
