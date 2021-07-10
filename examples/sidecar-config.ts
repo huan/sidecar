@@ -58,8 +58,8 @@ const chatboxConfig: TargetAddressConfig = {
   },
   linux: {
     x64: {
-      mo: 0x11c9,
-      mt: 0x11f4,
+      mo: 0x11e9,
+      mt: 0x121f,
     },
   },
   win32: {

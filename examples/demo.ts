@@ -27,18 +27,19 @@ async function main () {
   const sidecar = new ChatboxSidecar()
   await attach(sidecar)
 
+  /**
+   * 1. Hook sidecar.mt(...)
+   */
   sidecar.on('mt', args => {
     console.log('mt args:', args)
   })
 
-  await sidecar.mo('Sidecar: this message is from sidecar.mo()')
-
   /**
-   * Call sidecar.mo(...) periodly
+   * 2. Call sidecar.mo(...)
    */
   const timer = setInterval(async () => {
-    console.log('Sidecar: calling mo() to send message')
-    await sidecar.mo('Sidecar: greeting from timer interval!')
+    const ret = await sidecar.mo('Sidecar: greeting from timer interval!')
+    console.log('Sidecar: called mo() to send message, ret is ' + ret)
   }, 5 * 1000)
 
   const clean = async () => {

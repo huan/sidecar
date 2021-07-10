@@ -23,6 +23,7 @@
 #endif
 
 #include <stdio.h>
+#include <string.h>
 
 char buf[100] = {0};
 int counter = 0;
@@ -32,8 +33,9 @@ char* randomMessage (const char* type) {
   return buf;
 }
 
-void mo (char* content) {
+int mo (char* content) {
   printf("> %s\n", content);
+  return strlen(content);
 }
 
 void mt (char* content) {

@@ -1,6 +1,6 @@
 const agentMo = new NativeFunction(
-  sidecarModuleBaseAddress.add(0x11c9),
-  'void',
+  sidecarModuleBaseAddress.add(0x11e9),
+  'int',
   ['pointer'],
 )
 
@@ -39,7 +39,7 @@ const agentMt_PatchCode = Memory.alloc(Process.pageSize)
 // )
 
 Interceptor.attach(
-  sidecarModuleBaseAddress.add(0x11f4),
+  sidecarModuleBaseAddress.add(0x121f),
   {
     onEnter: args => {
       console.log('interceptor called', args[0].readUtf8String())
