@@ -27,7 +27,15 @@ test('sourceHandler()', async t => {
 
   const normalize = (text: string) => text
     .replace(/\s+/sg, ' ')
+    /**
+     * For CI under Linux
+     */
     .replace(/"[^"]+sidecar\/examples\/chatbox\/chatbox-linux"/sg, '"chatbox-linux"')
+    /**
+     * For CI under Windows
+     *  D:\\a\\sidecar\\sidecar\\examples\\chatbox\\chatbox-win32.exe"
+     */
+    .replace(/"[^"]+sidecar\\examples\\chatbox\\chatbox-win32.exe"/sg, '"chatbot-win32.exe"')
 
   const EXPECTED = await fs
     .readFileSync(EXPECTED_FILE)
