@@ -34,9 +34,9 @@ diff \
   || exit 1
 echo "PASSED: sidecar-dump metadata smoke-testing.ts"
 
-npx sidecar-dump source smoke-testing.ts > smoke-testing.source.test.json
+npx sidecar-dump source smoke-testing.ts > smoke-testing.source.test.js
 diff \
-  smoke-testing.source.json \
-  smoke-testing.source.test.json \
+  smoke-testing.source.js \
+  smoke-testing.source.test.js \
   || exit 1
 echo "PASSED: sidecar-dump source smoke-testing.ts"
