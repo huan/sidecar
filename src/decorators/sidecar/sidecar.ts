@@ -18,7 +18,7 @@ function Sidecar (
   log.verbose('Sidecar', '@Sidecar(%s%s)',
     targetProcess,
     initAgentSource
-      ? `, "${initAgentSource.substr(0, 80)}"`
+      ? `, "${initAgentSource.substr(0, 20)}..."`
       : '',
   )
 
@@ -37,7 +37,7 @@ function Sidecar (
     log.verbose('Sidecar',
       '@Sidecar(%s%s) classDecorator(%s)',
       targetProcess || '',
-      initAgentSource?.substr(0, 80) || '',
+      `"${initAgentSource?.substr(0, 20)}..."` || '',
       Klass.name,
     )
 

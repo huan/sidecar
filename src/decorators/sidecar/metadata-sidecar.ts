@@ -34,10 +34,15 @@ function updateMetadataSidecar (
   target : any,
   view   : SidecarMetadata,
 ): void {
-  log.verbose('Sidecar', 'updateMetadataSidecar(%s, %s)',
+  log.verbose('Sidecar', 'updateMetadataSidecar(%s, "%s...")',
     target.name,
-    JSON.stringify(view)
+    JSON.stringify(view).substr(0, 20),
   )
+  // log.silly('Sidecar', 'updateMetadataSidecar(%s, %s)',
+  //   target.name,
+  //   JSON.stringify(view)
+  // )
+
   // Update the parameter names
   Reflect.defineMetadata(
     SIDECAR_SYMBOL,

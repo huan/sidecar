@@ -59,9 +59,15 @@ async function main () {
   return 0
 }
 
-main()
+/**
+ * https://stackoverflow.com/a/6398335/1123955
+ */
+if (require.main === module) {
+  main()
   .then(process.exit)
   .catch(e => {
     console.error(e)
     process.exit(1)
   })
+}
+

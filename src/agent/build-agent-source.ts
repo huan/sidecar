@@ -11,8 +11,8 @@ import { partialLookup }  from './partial-lookup'
 const AGENT_MUSTACHE = 'agent.mustache'
 
 async function buildAgentSource (metadata: SidecarMetadata) {
-  log.verbose('Sidecar', 'buildAgentSource()')
-  log.silly('Sidecar', 'buildAgentSource(%s)', JSON.stringify(metadata))
+  log.verbose('Sidecar', 'buildAgentSource("%s...")', JSON.stringify(metadata).substr(0, 20))
+  // log.silly('Sidecar', 'buildAgentSource(%s)', JSON.stringify(metadata))
 
   const agentMustache = partialLookup(AGENT_MUSTACHE)
   const view = wrapView(metadata)
