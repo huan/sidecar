@@ -31,8 +31,8 @@ test('sourceHandler()', async t => {
      */
     .replace(/^.*chatbox.*$/gm, '')
     .replace(/[^\S\r\n]+/g, ' ')
-    .replace(/^ $/gm, '')
-    .replace(/\r/g, '')
+    .replace(/^ +$/gm, '')  // remove spaces in empty line
+    .replace(/\r/g, '')     // Windows will add \r, which need to be removed for comparing
 
   const FIXTURE = await fs
     .readFileSync(FIXTURE_FILE)
