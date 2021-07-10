@@ -421,8 +421,9 @@ Learn more about examples at <https://github.com/huan/ffi-adapter/tree/master/te
 
 ### 0.6 (Jul 7, 2021)
 
-1. Add `sidecar-dump` utility: it dump the sidecar `metadata` and `source` from a class defination file now.
 1. Upgrade to TypeScript 4.4-dev for supporting index signatures for symbols. ([Microsoft/TypeScript#44512](https://github.com/microsoft/TypeScript/pull/44512))
+1. Add `sidecar-dump` utility: it dump the sidecar `metadata` and `source` from a class defination file now.
+1. Add pack testing for `sidecar-dump` to make sure it works under Liniux, Mac, and Windows.
 
 ### 0.2 (Jul 5, 2021)
 
