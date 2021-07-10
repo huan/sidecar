@@ -1,6 +1,9 @@
 #!/usr/bin/env ts-node
 import { test }  from 'tstest'
-import { NativeType } from '../../frida'
+import {
+  NativeType,
+  PointerType,
+}                 from '../../frida'
 
 import {
   guardParamType,
@@ -27,19 +30,21 @@ test('guard parame type', async t => {
 
   const EXPECTED_RESULTS: [
     NativeType,
+    PointerType,
     boolean,
   ][] = [
-    ['int', false],
-    ['pointer', true],
+    ['int', 'Int', false],
+    ['pointer', 'Utf8String', true],
   ]
 
-  for (const [nativeType, shouldMatch] of EXPECTED_RESULTS) {
+  for (const [nativeType, pointerType, shouldMatch] of EXPECTED_RESULTS) {
     if (shouldMatch) {
       guardParamType(
         test,
         'method',
         0,
         nativeType,
+        [pointerType],
       )
       t.pass('should not throw for nativeType: ' + nativeType)
     } else {
@@ -48,6 +53,7 @@ test('guard parame type', async t => {
         'method',
         0,
         nativeType,
+        [pointerType],
       ), 'should throw for nativeType: ' + nativeType)
     }
   }

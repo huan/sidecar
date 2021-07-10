@@ -68,12 +68,12 @@ test('guardPointerType()', async t => {
 
   for (const [designType, pointerType, shouldMatch] of DESIGN_POINTER_PAIR_LIST) {
     if (shouldMatch) {
-      t.doesNotThrow(() => guardPointerType(pointerType)(designType), [
+      t.doesNotThrow(() => guardPointerType([pointerType])(designType), [
         'should not throw when match:',
         `"${designType?.name}" <> "${pointerType}"`,
       ].join(' '))
     } else {
-      t.throws(() => guardPointerType(pointerType)(designType), [
+      t.throws(() => guardPointerType([pointerType])(designType), [
         'should throw when does not match:',
         `"${designType?.name}" <> "${pointerType}"`,
       ].join(' '))

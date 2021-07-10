@@ -1,53 +1,52 @@
 import {
   NativeType,
+  PointerType,
 }               from '../../frida'
 import {
   log,
 }               from '../../config'
 
 import {
-  ReflectDesignType,
-}                     from '../../schema'
-import {
-  toNativeTypeList,
-}                     from '../../misc'
+  guardNativeType,
+  guardPointerType,
+  ReflectedDesignType,
+}                       from '../../type-guard'
 
 /**
- * Verify the TypeScript ret type is matching the NativeType from `ParamType`
+ * Verify the TypeScript ret type is matching the NativeType from `RetType`
  */
 function guardRetType (
-  target      : Object,
-  propertyKey : string,
-  nativeType  : NativeType,
+  target          : Object,
+  propertyKey     : string,
+  nativeType      : NativeType,
+  pointerTypeList : PointerType[],
 ): void {
-  const designRetType = Reflect.getMetadata('design:returntype', target, propertyKey) as ReflectDesignType
+  const designRetType = Reflect.getMetadata('design:returntype', target, propertyKey) as ReflectedDesignType
 
   log.verbose('Sidecar',
-    'guardRetType(%s.%s) designType/nativeType: %s/%s',
+    'guardRetType(%s.%s) designType/nativeType/pointerTypeList: %s/%s/%s',
     target.constructor.name,
     propertyKey,
 
     designRetType?.name ?? 'void',
     nativeType,
+    pointerTypeList.join(','),
   )
 
-  const nativeTypeList = toNativeTypeList(designRetType)
-  // console.log(nativeTypeList)
-
-  /**
-   * Huan(202106): why `nativeTypeList.length > 0`?
-   *  nativeTypeList will be empty for the designType `Promise`
-   *  because the TypeScript metadata do not support to get the value inside the `Promise<value>`
-   *  so we will not be able to check them.
-   */
-  // Huan(202107) add check for PointerType
-  if (nativeTypeList.length > 0 && !nativeTypeList.includes(nativeType)) {
+  try {
+    guardNativeType(nativeType)(designRetType)
+    if (nativeType === 'pointer') {
+      guardPointerType(pointerTypeList)(designRetType)
+    }
+  } catch (e) {
+    log.error('Sidecar', 'guardRetType() %s', e && (e as Error).message)
     throw new Error([
       `The ${target.constructor.name}.${String(propertyKey)}()`,
       `decorated by "@RetType(${nativeType}, ...)"`,
       `does match the design return type "${designRetType?.name ?? 'void'}"`,
     ].join('\n'))
   }
+
 }
 
 export { guardRetType }

@@ -50,7 +50,7 @@ class ChatboxSidecar extends SidecarBody {
   @RetType('void')
   mo (
     @ParamType('pointer', 'Utf8String') content: string,
-  ): Promise<string> { return Ret(content) }
+  ): Promise<void> { return Ret(content) }
 
   // @Hook(/* 0x55d6daf341c9 */ targetAddress('mt'))
   @Hook(agentTarget('agentMt_PatchCode'))

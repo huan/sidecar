@@ -128,12 +128,18 @@ const guardNativeType = (nativeType: NativeType) => (designType: ReflectedDesign
   const [nativeTypeList, _] = typeList
 
   // [] means allow all
-  if (nativeTypeList.length >= 0 && !nativeTypeList.includes(nativeType)) {
+  if (nativeTypeList.length > 0 && !nativeTypeList.includes(nativeType)) {
     throw new Error(`NativeType(${nativeType}) does match the design type "${designType?.name}"`)
   }
 }
 
-const guardPointerType = (pointerType: PointerType) => (designType: ReflectedDesignType) => {
+const guardPointerType = (pointerTypeList: PointerType[]) => (designType: ReflectedDesignType) => {
+  if (!Array.isArray(pointerTypeList) || pointerTypeList.length <= 0) {
+    throw new Error('pointerTypeList is empty')
+  }
+
+  const pointerType = pointerTypeList[pointerTypeList.length - 1]
+
   if (!designTypesCompatibleTable.has(designType)) {
     throw new Error(`Unsupported designType: ${(typeof designType)} ${(designType && designType.name)} ${designType}`)
   }
@@ -143,10 +149,16 @@ const guardPointerType = (pointerType: PointerType) => (designType: ReflectedDes
     throw new Error('pointerType can not found from designToPointerTypeTable[' + designType + ']')
   }
   // console.log(typeList)
-  const [_, pointerTypeList] = typeList
+  const [_, compatiblePointerTypeList] = typeList
 
+  /**
+   * Huan(202106): why `typeList.length > 0`?
+   *  nativeTypeList will be empty for the designType `Promise`
+   *  because the TypeScript metadata do not support to get the value inside the `Promise<value>`
+   *  so we will not be able to check them.
+   */
   // [] means allow all
-  if (pointerTypeList.length > 0 && !pointerTypeList.includes(pointerType)) {
+  if (compatiblePointerTypeList.length > 0 && !compatiblePointerTypeList.includes(pointerType)) {
     throw new Error(`PointerType(${pointerType}) does match the design type "${designType?.name}"`)
   }
 }

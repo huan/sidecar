@@ -1,31 +1,32 @@
 import {
   NativeType,
+  PointerType,
 }               from '../../frida'
 import {
   log,
 }               from '../../config'
 
 import {
-  ReflectDesignType,
-}                     from '../../schema'
-import {
-  toNativeTypeList,
-}                     from '../../misc'
+  guardPointerType,
+  guardNativeType,
+  ReflectedDesignType,
+}                       from '../../type-guard'
 
 /**
  * Verify the TypeScript param type is matching the NativeType from `ParamType`
  */
 function guardParamType (
-  target         : Object,
-  propertyKey    : string,
-  parameterIndex : number,
-  nativeType     : NativeType,
+  target          : Object,
+  propertyKey     : string,
+  parameterIndex  : number,
+  nativeType      : NativeType,
+  pointerTypeList : PointerType[],
 ): void {
-  const designParamTypeList = Reflect.getMetadata('design:paramtypes', target, propertyKey) as ReflectDesignType[]
+  const designParamTypeList = Reflect.getMetadata('design:paramtypes', target, propertyKey) as ReflectedDesignType[]
   const designParamType = designParamTypeList[parameterIndex]
 
   log.verbose('Sidecar',
-    'guardParamType(%s, %s, %s) %s.%s(args[%s]) designType/nativeType: %s/%s',
+    'guardParamType(%s, %s, %s) %s.%s(args[%s]) designType/nativeType/pointerTypes: %s/%s/%s',
     target.constructor.name,
     propertyKey,
     parameterIndex,
@@ -36,11 +37,16 @@ function guardParamType (
 
     designParamType?.name ?? 'void',
     nativeType,
+    pointerTypeList.join(','),
   )
 
-  // Huan(202107) add check for PointerType
-  const nativeTypeList = toNativeTypeList(designParamType)
-  if (!nativeTypeList.includes(nativeType)) {
+  try {
+    guardNativeType(nativeType)(designParamType)
+    if (nativeType === 'pointer') {
+      guardPointerType(pointerTypeList)(designParamType)
+    }
+  } catch (e) {
+    log.error('Sidecar', 'guardParamType() %s', e && (e as Error).message)
     throw new Error([
       `The "${target.constructor.name}.${String(propertyKey)}(args[${parameterIndex}])`,
       `decorated by "@ParamType(${nativeType}, ...)"`,

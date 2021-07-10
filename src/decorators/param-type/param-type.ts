@@ -50,6 +50,7 @@ function ParamType (
       propertyKey,
       parameterIndex,
       nativeType,
+      pointerTypeList,
     )
 
     updateMetadataParamType(

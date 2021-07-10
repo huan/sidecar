@@ -1,6 +1,9 @@
 #!/usr/bin/env ts-node
 import { test }  from 'tstest'
-import { NativeType } from '../../frida'
+import {
+  NativeType,
+  PointerType,
+}               from '../../frida'
 
 import {
   guardRetType,
@@ -14,8 +17,13 @@ test('guard ret type', async t => {
 
     // metadata will only be set when we have a decorator
     @triggerMetadata
-    method (): string { // <--- `string` should be native type `pointer`
+    syncMethod (): string { // <--- `string` should be native type `pointer`
       return ''
+    }
+
+    @triggerMetadata
+    asyncMethod (): Promise<string> {
+      return Promise.resolve('')
     }
 
   }
@@ -23,27 +31,34 @@ test('guard ret type', async t => {
   const test = new Test()
 
   const EXPECTED_RESULTS: [
+    string,
     NativeType,
+    PointerType,
     boolean,    // `true` if the native type is compatible, `false` otherwise
   ][] = [
-    ['int', false],
-    ['pointer', true],
+    ['syncMethod', 'int', 'Int', false],
+    ['syncMethod', 'pointer', 'Utf8String', true],
+
+    ['asyncMethod', 'pointer', 'Utf8String', true],
+    ['asyncMethod', 'int', 'Int', false],
   ]
 
-  for (const [nativeType, shouldMatch] of EXPECTED_RESULTS) {
+  for (const [method, nativeType, pointerType, shouldMatch] of EXPECTED_RESULTS) {
     if (shouldMatch) {
       guardRetType(
         test,
-        'method',
+        method,
         nativeType,
+        [pointerType],
       )
-      t.pass('should not throw for nativeType: ' + nativeType)
+      t.pass('should not throw for method/nativeType: ' + method + '/' + nativeType)
     } else {
       t.throws(() => guardRetType(
         test,
         'method',
         nativeType,
-      ), 'should throw for nativeType: ' + nativeType)
+        [pointerType],
+      ), 'should throw for method/nativeType: ' + method + '/' + nativeType)
     }
   }
 })

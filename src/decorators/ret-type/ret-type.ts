@@ -42,6 +42,7 @@ function RetType (
       target,
       propertyKey,
       nativeType,
+      pointerTypeList,
     )
 
     updateMetadataRetType(

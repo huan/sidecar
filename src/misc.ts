@@ -1,58 +1,5 @@
 // import ref from 'ref'
 
-import {
-  NativeType,
-}                           from './frida'
-import {
-  ReflectDesignType,
-}                           from './schema'
-
-const designToNativeTypesTable = new Map<ReflectDesignType, NativeType[]>()
-  .set(Promise, []) // empty array will permit `any`
-  .set(undefined, ['void'])
-  .set(Buffer, ['pointer'])
-  .set(String, ['pointer'])
-  .set(Boolean, [
-    'pointer',
-    'bool',
-  ])
-  .set(Number, [
-    'pointer',
-    'int',
-    'uint',
-    'long',
-    'ulong',
-    'char',
-    'uchar',
-    'size_t',
-    'ssize_t',
-    'float',
-    'double',
-    'int8',
-    'uint8',
-    'int16',
-    'uint16',
-    'int32',
-    'uint32',
-    'int64',
-    'uint64',
-  ])
-
-function toNativeTypeList (
-  designType: ReflectDesignType,
-): NativeType[] {
-  if (!designToNativeTypesTable.has(designType)) {
-    throw new Error(`Unsupported designType: ${(typeof designType)} ${(designType && designType.name)} ${designType}`)
-  }
-
-  const nativeTypeList = designToNativeTypesTable.get(designType)
-  if (!nativeTypeList) {
-    throw new Error('nativeType can not found from designTypeMap[' + designType + ']')
-  }
-
-  return nativeTypeList
-}
-
 /**
  * Huan(202106):
     > class Test {}
@@ -81,6 +28,5 @@ function isInstance (target: any): boolean {
 }
 
 export {
-  toNativeTypeList,
   isInstance,
 }

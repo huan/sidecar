@@ -68,7 +68,7 @@ test('getRetType()', async t => {
 })
 
 test('guard ret native types', async t => {
-  const NATIVE_TYPE       = 'pointer'
+  const NATIVE_TYPE = 'pointer'
 
   const getFixture = () => {
     class Test {
@@ -83,5 +83,5 @@ test('guard ret native types', async t => {
     return Test
   }
 
-  t.throws(getFixture, 'should throw because the RetType(pointer) is not match the design type `number`')
+  t.throws(getFixture, 'should throw because the RetType(char) is not match the design type `number`')
 })
