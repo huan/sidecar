@@ -32,6 +32,7 @@ test('sourceHandler()', async t => {
     .replace(/^.*chatbox.*$/gm, '')
     .replace(/[^\S\r\n]+/g, ' ')
     .replace(/^ $/gm, '')
+    .replace(/\r/g, '')
 
   const FIXTURE = await fs
     .readFileSync(FIXTURE_FILE)
@@ -60,6 +61,7 @@ test('sourceHandler()', async t => {
   // console.log('####################')
   // console.log('normalizedFixture:', normalizedFixture)
   // t.ok('oa')
+  // console.log('###:', normalizedSource.length)
 
   t.equal(
     normalizedSource,
