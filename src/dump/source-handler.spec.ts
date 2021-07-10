@@ -25,7 +25,14 @@ test('sourceHandler()', async t => {
     'chatbox-sidecar.source.js',
   )
 
-  const EXPECTED = await fs.promises.readFile(EXPECTED_FILE)
+  const normalize = (text: string) => text
+    .replace(/\s+/sg, ' ')
+    .replace(/"[^"]+sidecar\/examples\/chatbox\/chatbox-linux"/sg, '"chatbox-linux"')
+
+  const EXPECTED = await fs
+    .readFileSync(EXPECTED_FILE)
+    .toString()
+
   const source = await sourceHandler({ file: FILE })
 
   /**
@@ -41,8 +48,8 @@ test('sourceHandler()', async t => {
    * We remove all spaces in the file so that the comparision will ignore all spaces
    */
   t.equal(
-    source.replace(/\s+/sg, ' '),
-    EXPECTED.toString().replace(/\s+/sg, ' '),
+    normalize(source),
+    normalize(EXPECTED),
     'should get the source from ts file',
   )
 })
