@@ -244,7 +244,7 @@ class ChatboxSidecar {
   mo () { return Ret() }
 ```
 
-### 9 `FunctionTarget`
+### 9. `FunctionTarget`
 
 The `FunctionTarget` is where `@Call` or `@Hook` to be located. It can be created by the following factory helper functions:
 
@@ -273,6 +273,15 @@ class ChatboxSidecar {
   mo () {}
 }
 ```
+
+#### 9.1 `agentTarget(varName: string)`
+
+`agentTarget` let you specify a `varName` in the `initAgentScript` source code, and will use it directly for advanced users.
+
+There's two type of the `AgentTarget` usage: `@Call` and `@Hook`.
+
+1. `AgentTarget` with `@Call`: the `varName` should be a javascript function in the `initAgentScript`. The decorated method call that function.
+1. `AgentTarget` with `@Hook`: the `varName` should be a `NativeCallback` pointer in the `initAgentScript`. The decorated method hook that callback.
 
 ## Debug utility: `sidecar-dump`
 
