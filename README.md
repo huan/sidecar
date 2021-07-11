@@ -122,6 +122,7 @@ with Frida system.
 Example:
 
 ```ts
+import { Sidecar } from 'frida-sidecar'
 @Sidecar('chatbox')
 class ChatboxSidecar {}
 ```
@@ -133,6 +134,7 @@ Base class for the `Sidecar` class. All `Sidecar` class need to `extends` from t
 Example:
 
 ```ts
+import { SidecarBody } from 'frida-sidecar'
 class ChatboxSidecar extends SidecarBody {}
 ```
 
@@ -147,7 +149,8 @@ The native call method decorator.
 Example:
 
 ```ts
-class ChatboxSidecar extends SidecarBody {
+import { Call } from 'frida-sidecar'
+class ChatboxSidecar {
   @Call(0x11c9)
   mo () {}
 }
@@ -166,7 +169,8 @@ The hook method decorator.
 Example:
 
 ```ts
-class ChatboxSidecar extends SidecarBody {
+import { Hook } from 'frida-sidecar'
+class ChatboxSidecar {
   @Hook(0x11f4) mo () {}
 }
 ```
@@ -179,8 +183,8 @@ If the `functionTarget` is not the type of `number`, then it can be `string` or 
 1. `pointerTypeList` : `PointerType[]`
 
 ```ts
-@Sidecar('chatbox')
-class ChatboxSidecar extends SidecarBody {
+import { RetType } from 'frida-sidecar'
+class ChatboxSidecar {
   @RetType('void') mo () {}
 ```
 
@@ -190,7 +194,8 @@ class ChatboxSidecar extends SidecarBody {
 1. `pointerTypeList` : `PointerType[]`
 
 ```ts
-class ChatboxSidecar extends SidecarBody {
+import { ParamType } from 'frida-sidecar'
+class ChatboxSidecar {
   mo (
     @ParamType('pointer', 'Utf8String') content: string,
   ) {}
@@ -210,7 +215,8 @@ If the `Name(parameterName)` has been set,
 then the event will have additional information for the parameter names.
 
 ```ts
-class ChatboxSidecar extends SidecarBody {
+import { Name } from 'frida-sidecar'
+class ChatboxSidecar {
   mo (
     @Name('content') content: string,
   ) {}
@@ -223,8 +229,8 @@ class ChatboxSidecar extends SidecarBody {
 Example:
 
 ```ts
-@Sidecar('chatbox')
-class ChatboxSidecar extends SidecarBody {
+import { Ret } from 'frida-sidecar'
+class ChatboxSidecar {
   mo () { return Ret() }
 ```
 
@@ -242,6 +248,21 @@ For convenice, the `number` and `string` can be used as `FunctionTarget` as an a
 
 1. if the target is a `number`, then it will be converted to `addressTarget(target)`
 1. if the target is a `string`, then it will be converted to `agentTarget(target)`
+
+Example:
+
+```ts
+import { 
+  Call,
+  addressTarget,
+} from 'frida-sidecar'
+class ChatboxSidecar {
+  @Call(
+    addressTarget(0x11c9)
+  )
+  mo () {}
+}
+```
 
 ## Debug utility: `sidecar-dump`
 
@@ -352,6 +373,24 @@ const agentMo = new NativeFunction(
 
 #...
 
+```
+
+You can dump the sidecar agent source code to a javascript file, then using it with frida directly for debugging & testing.
+
+```sh
+$ sidecar-dump source chatbox-sidecar.ts > agent.js
+$ frida chatbox -l agent.js
+     ____
+    / _  |   Frida 14.2.18 - A world-class dynamic instrumentation toolkit
+   | (_| |
+    > _  |   Commands:
+   /_/ |_|       help      -> Displays the help system
+   . . . .       object?   -> Display information about 'object'
+   . . . .       exit/quit -> Exit
+   . . . .
+   . . . .   More info at https://frida.re/docs/home/
+                                                                                
+[Local::chatbox]-> rpc.exports.mo('hello from frida cli')
 ```
 
 ## Resources
