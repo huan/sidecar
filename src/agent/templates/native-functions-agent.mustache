@@ -13,14 +13,17 @@ function {{ name }}_NativeFunction_wrapper (...args) {
     args.join(', '),
   )
 
-  {{{ declareNativeArgs }}}
-
   /**
     * Huan(202107):
     *  `target` at here is a `agent` type `target`,
-    *  which means that it is a native function ptr
+    *  which means that it is a javascript function name
     *  defined from the `initAgentSource`
     */
-  const ret = {{ target.varName }}(...{{ nativeArgs }})
-  return {{ jsRet }}
+  const ret = {{ target.varName }}(...{{ rawArgs }})
+
+  /**
+   * Return what js function returned.
+   *  no conversion
+   */
+  return ret
 }

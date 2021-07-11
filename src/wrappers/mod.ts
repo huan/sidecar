@@ -9,6 +9,7 @@ import { nativeArgs }             from './native-args'
 import { nativeFunctionNameList } from './native-function-name-list'
 import { nativeParamTypes }       from './native-param-types'
 import { nativeRetType }          from './native-ret-type'
+import { rawArgs }                from './raw-args'
 
 const wrapView = (metadata: SidecarMetadata) => ({
   ...metadata,
@@ -21,6 +22,7 @@ const wrapView = (metadata: SidecarMetadata) => ({
   nativeFunctionNameList,
   nativeParamTypes,
   nativeRetType,
+  rawArgs,
 })
 
 export { wrapView }

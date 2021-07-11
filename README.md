@@ -101,6 +101,10 @@ main().catch(console.error)
 
 Learn more from the sidecar example: <https://github.com/huan/sidecar/blob/main/examples>
 
+## Knowned Issues
+
+- [ ] `Intercepter.attach()` a `NativeCallback()` ptr not work in Sidecar generated script. (it is possible by direct using the frida cli)
+
 ## References
 
 ### 1. `@Sidecar(targetProcess, initAgentSource)`
@@ -385,6 +389,7 @@ a binary instrumentation workshop, using Frida, for beginners, @leonjza](http://
 - [The Node.js ⇆ Objective-C bridge](https://github.com/tootallnate/NodObjC)
 - [iOS逆向分析笔记](https://www.jianshu.com/p/157f56d60a59)
 - [iOS — To swizzle or not to swizzle?](https://medium.com/rocknnull/ios-to-swizzle-or-not-to-swizzle-f8b0ed4a1ce6)
+- [0x04 Calling iOS Native Functions from Python Using Frida and RPC](https://grepharder.github.io/blog/0x04_calling_ios_native_functions_from_python_using_frida_and_rpc.html)
 
 ### Java
 
