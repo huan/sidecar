@@ -253,19 +253,18 @@ Interceptor.attach(
         args.join(', '),
       )
 
-
-  // pointer type for arg[0] -> Utf8String
-  const mo_NativeArg_0 = Memory.alloc(1024 /*Process.pointerSize*/)
-
-  mo_NativeArg_0.writeUtf8String(args[0])
-
       /**
         * Huan(202107):
         *  `target` at here is a `agent` type `target`,
-        *  which means that it is a native function ptr
+        *  which means that it is a javascript function name
         *  defined from the `initAgentSource`
         */
-      const ret = agentMo(...[ mo_NativeArg_0 ])
+      const ret = agentMo(...[ args[0] ])
+
+      /**
+       * Return what js function returned.
+       *  no conversion
+       */
       return ret
     }
 
