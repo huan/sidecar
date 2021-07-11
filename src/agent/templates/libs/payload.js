@@ -12,7 +12,13 @@ const sidecarPayloadHook = (
   args,   // Arguments, Array
 ) => ({
   payload: {
-    args,
+    /**
+     * Convert `args` from Array to Object
+     * to satisfy `SidecarPayloadHook` interface
+     */
+    args: {
+      ...args,
+    },
     method,
   },
   type: 'hook',

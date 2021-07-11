@@ -31,15 +31,15 @@ async function main () {
    * 1. Hook sidecar.mt(...)
    */
   sidecar.on('mt', args => {
-    console.log('Demo: sidecar hook(mt) received args: "' + JSON.stringify(args) + '"')
+    console.log('sidecar @Hook() mt() received args: "' + JSON.stringify(args, null, 2) + '"')
   })
 
   /**
    * 2. Call sidecar.mo(...)
    */
   const timer = setInterval(async () => {
-    const ret = await sidecar.mo('Demo: sidecar greeting from timer interval!')
-    console.log('Demo: sidecar mo() received ret: ' + ret)
+    const ret = await sidecar.mo('sidecar greeting from timer interval!')
+    console.log('sidecar @Call() mo() has sent message and received ret: ' + ret)
   }, 5 * 1000)
 
   const clean = async () => {

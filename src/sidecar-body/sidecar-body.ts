@@ -265,16 +265,23 @@ class SidecarBody extends SidecarEmitter {
     if (this.script) {
       const script = this.script
       this.script = undefined
-      try {
-        await script.unload()
-      } catch (e) {
-        log.error('SidecarBody',
-          '[DETACH_SYMBOL]() script.unload() rejection: %s\n%s',
-          e && (e as Error).message,
-          e && (e as Error).stack,
-        )
-        this.emit('error', e as Error)
+
+      if (!script.isDestroyed) {
+        /**
+         * Only call `unload()` if script is not destroyed
+         */
+        try {
+          await script.unload()
+        } catch (e) {
+          log.error('SidecarBody',
+            '[DETACH_SYMBOL]() script.unload() rejection: %s\n%s',
+            e && (e as Error).message,
+            e && (e as Error).stack,
+          )
+          this.emit('error', e as Error)
+        }
       }
+
     } else {
       log.silly('SidecarBody', '[DETACH_SYMBOL]() this.script is undefined')
     }

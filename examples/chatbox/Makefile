@@ -5,8 +5,10 @@ else
     detected_OS := $(shell sh -c 'uname 2>/dev/null | tr "[:upper:]" "[:lower:]"')
 endif
 
+all: build chatbox
+
 # https://stackoverflow.com/a/10305055/1123955
-all:
+build:
 	-@make $(detected_OS)
 
 linux: chatbox.c
