@@ -142,7 +142,7 @@ class ChatboxSidecar extends SidecarBody {}
 
 The native call method decorator.
 
-`functionTarget` is the address of the function in the executable binary.
+`functionTarget` is the address (in `number` type) of the function which we need to call in the executable binary.
 
 Example:
 
@@ -153,13 +153,15 @@ class ChatboxSidecar extends SidecarBody {
 }
 ```
 
+If the `functionTarget` is not the type of `number`, then it can be `string` or an `FunctionTarget` object. See `FunctionTarget` section to learn more about the advanced usage of `FunctionTarget`.
+
 ### 4. `@Hook(functionTarget)`
 
 1. `functionTarget`: `FunctionTarget`
 
 The hook method decorator.
 
-`functionTarget` is the address of the function in the executable binary.
+`functionTarget` is the address (in `number` type) of the function which we need to hook in the executable binary.
 
 Example:
 
@@ -168,6 +170,8 @@ class ChatboxSidecar extends SidecarBody {
   @Hook(0x11f4) mo () {}
 }
 ```
+
+If the `functionTarget` is not the type of `number`, then it can be `string` or an `FunctionTarget` object. See `FunctionTarget` section to learn more about the advanced usage of `FunctionTarget`.
 
 ### 5. `@RetType(nativeType, ...pointerTypeList)`
 
@@ -223,6 +227,21 @@ Example:
 class ChatboxSidecar extends SidecarBody {
   mo () { return Ret() }
 ```
+
+### 9 `FunctionTarget`
+
+The `FunctionTarget` is where `@Call` or `@Hook` to be located. It can be created by the following factory helper functions:
+
+1. `addressTarget(address: number, module?: string)`: memory address. i.e. `agentTarget0x369adf`. Can specify a second `module` to call `address` in a specified module
+1. `agentTarget(varName: string)`: the variable/function name in `initAgentSource` to be called
+1. `exportTarget(exportName: string, exportModule?: string)`: export name of a function. Can specify a second `moduleName` to load `exportName` from it.
+1. `objcTarget`: to be added
+1. `javaTarget`: to be added
+
+For convenice, the `number` and `string` can be used as `FunctionTarget` as an alias of `addressTarget()` and `agentTarget()`. @hen we are using `@Call(target)` and `@Hook(target)`:
+
+1. if the target is a `number`, then it will be converted to `addressTarget(target)`
+1. if the target is a `string`, then it will be converted to `agentTarget(target)`
 
 ## Debug utility: `sidecar-dump`
 
