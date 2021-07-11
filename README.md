@@ -458,6 +458,9 @@ a binary instrumentation workshop, using Frida, for beginners, @leonjza](http://
 - [Online x86 / x64 Assembler and Disassembler](https://defuse.ca/online-x86-assembler.htm) (`0xf` is not valid, use `0x0f` instead)
 - [易语言汇编代码转置入代码开源](https://www.eyuyan.la/post/15447.html)
 - [The 32 bit x86 C Calling Convention](https://aaronbloomfield.github.io/pdr/book/x86-32bit-ccc-chapter.pdf)
+- [x86 Disassembly/Calling Conventions](https://en.wikibooks.org/wiki/X86_Disassembly/Calling_Conventions)
+- [How to pass parameters to a procedure in assembly?](https://stackoverflow.com/a/44738641/1123955)
+- [NativeCallback doesn't seem to work on Windows, except for mscdecl #525](https://github.com/frida/frida-gum/issues/525)
 
 ### ObjC
 
@@ -496,6 +499,14 @@ console.log('factorial(5) =', lib.factorial(5))
 ```
 
 Learn more about examples at <https://github.com/huan/ffi-adapter/tree/master/tests/fixtures/library>
+
+## Badge
+
+[![Powered by Sidecar](https://img.shields.io/badge/Powered%20By-Sidecar-red.svg)](https://github.com/huan/sidecar)
+
+```markdown
+[![Powered by Sidecar](https://img.shields.io/badge/Powered%20By-Sidecar-red.svg)](https://github.com/huan/sidecar)
+```
 
 ## History
 
