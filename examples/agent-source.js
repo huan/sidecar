@@ -1,57 +1,41 @@
-const agentMo = new NativeFunction(
+/**
+ * Call -> moHelper(message)
+ *  MO Sidecar Agent Helper
+ */
+const moNativeFunction = new NativeFunction(
   sidecarModuleBaseAddress.add(0x11e9),
   'int',
   ['pointer'],
 )
 
-const agentMt_PatchCode = Memory.alloc(Process.pageSize)
+function moHelper (message) {
+  const buf = Memory.allocUtf8String(message)
+  return moNativeFunction(buf)
+}
 
-// Memory.patchCode(agentMt_PatchCode, Process.pageSize, function (code) {
-//   var cw = new X86Writer(code, { pc: agentMt_PatchCode })
-//   cw.putNop()
-//   cw.putNop()
-//   cw.putNop()
-//   cw.putNop()
-//   cw.putRet()
-//   cw.flush()
-// })
-
-// const agentMt_NativeCallback = new NativeCallback(
-//   (...args) => {
-//     log.verbose('FridaAgent', 'agentMt() faint from Frida: %s', args[0].readUtf8String())
-//     send(hookPayload(
-//       'mt',
-//       {
-//         ...[args[0].readUtf8String()],
-//         // Huan(202107): TODO: add name alias support
-//       }
-//     ), null)
-//   },
-//   'void',
-//   ['pointer'],
-// )
-
-// const agentMt_NativeFunction = new NativeFunction(
-//   // agentMt_NativeCallback,
-//   agentMt_PatchCode,
-//   'void',
-//   ['pointer'],
-// )
+/**
+ * Hook -> mtNativeCallback
+ *  MT Sidecar Agent Helper
+ */
+const mtNativeCallback = new NativeCallback(() => {}, 'void', ['pointer'])
+const mtNativeFunction = new NativeFunction(mtNativeCallback, 'void', ['pointer'])
 
 Interceptor.attach(
   sidecarModuleBaseAddress.add(0x121f),
   {
     onEnter: args => {
-      console.log('interceptor called', args[0].readUtf8String())
-      send(hookPayload({
-        type: 'hook',
-        payload: {
-          method: 'mt',
-          args: {
-            content: args[0].readUtf8String(),
-          },
-        },
-      }))
-    } // agentMt_NativeFunction(args[0]),
+      log.verbose('AgentScript',
+        'Interceptor.attach() onEnter() arg0: %s',
+        args[0].readUtf8String(),
+      )
+      /**
+       * Huan(202107):
+       *  1. We MUST use `setImmediate()` for calling `mtNativeFunction(arg0),
+       *    or the hook to mtNativeCallback will not be triggered. (???)
+       *  2. `args` MUST be saved to arg0 so that it can be access in the `setImmediate`
+       */
+      const arg0 = args[0]
+      setImmediate(() => mtNativeFunction(arg0))
+    }
   }
 )
