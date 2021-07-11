@@ -33,7 +33,7 @@ export interface TargetPayloadAddress {
 }
 
 /**
- * The variable name in the `initAgentSource`
+ * The variable name in the `initAgentScript`
  */
 export interface TargetPayloadAgent {
   type    : 'agent'

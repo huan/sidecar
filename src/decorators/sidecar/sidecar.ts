@@ -13,12 +13,12 @@ import { updateMetadataSidecar } from './metadata-sidecar'
 
 function Sidecar (
   targetProcess    : TargetProcess,
-  initAgentSource? : string,
+  initAgentScript? : string,
 ) {
   log.verbose('Sidecar', '@Sidecar(%s%s)',
     targetProcess,
-    initAgentSource
-      ? `, "${initAgentSource.substr(0, 20)}..."`
+    initAgentScript
+      ? `, "${initAgentScript.substr(0, 20)}..."`
       : '',
   )
 
@@ -37,7 +37,7 @@ function Sidecar (
     log.verbose('Sidecar',
       '@Sidecar(%s%s) classDecorator(%s)',
       targetProcess || '',
-      `"${initAgentSource?.substr(0, 20)}..."` || '',
+      `"${initAgentScript?.substr(0, 20)}..."` || '',
       Klass.name,
     )
 
@@ -47,7 +47,7 @@ function Sidecar (
     }
 
     const meta = buildSidecarMetadata(Klass, {
-      initAgentSource,
+      initAgentScript,
       targetProcess,
     })
     updateMetadataSidecar(Klass, meta)

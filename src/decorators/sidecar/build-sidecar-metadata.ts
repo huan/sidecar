@@ -19,7 +19,7 @@ import {
 }                                       from './metadata-sidecar'
 
 interface BuildSidecarMetadataOptions {
-  initAgentSource? : string,
+  initAgentScript? : string,
   targetProcess?   : TargetProcess,
 }
 
@@ -122,12 +122,12 @@ function buildSidecarMetadata <T extends {
   }
 
   const {
-    initAgentSource,
+    initAgentScript,
     targetProcess,
   }                   = options
 
   return {
-    initAgentSource,
+    initAgentScript,
     interceptorList,
     nativeFunctionList,
     targetProcess,

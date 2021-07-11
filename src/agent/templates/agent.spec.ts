@@ -28,7 +28,7 @@ test('agent.mustache', async t => {
     template,
     {
       ...wrappedView,
-      initAgentSource: 'console.log("hello")',
+      initAgentScript: 'console.log("hello")',
     },
     partialLookup,
   )

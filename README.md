@@ -107,15 +107,15 @@ Learn more from the sidecar example: <https://github.com/huan/sidecar/blob/main/
 
 ## References
 
-### 1. `@Sidecar(targetProcess, initAgentSource)`
+### 1. `@Sidecar(targetProcess, initAgentScript)`
 
 1. `targetProcess`    : `TargetProcess`,
-1. `initAgentSource`? : `string`,
+1. `initAgentScript`? : `string`,
 
 The class decorator.
 
 `targetProcess` is the executable binary name,
-and the `initAgentSource` is a Frida agent script
+and the `initAgentScript` is a Frida agent script
 that help you to do whatever you want to do
 with Frida system.
 
@@ -125,6 +125,16 @@ Example:
 import { Sidecar } from 'frida-sidecar'
 @Sidecar('chatbox')
 class ChatboxSidecar {}
+```
+
+It is possible to load a init agent script, for example:
+
+```ts
+const initAgentScript = 'console.log("this will be runned when the sidecar class initiating")'
+@Sidecar(
+  'chatbox', 
+  initAgentScript,
+)
 ```
 
 ### 2. `class SidecarBody`
@@ -151,8 +161,7 @@ Example:
 ```ts
 import { Call } from 'frida-sidecar'
 class ChatboxSidecar {
-  @Call(0x11c9)
-  mo () {}
+  @Call(0x11c9) mo () {}
 }
 ```
 
@@ -171,7 +180,7 @@ Example:
 ```ts
 import { Hook } from 'frida-sidecar'
 class ChatboxSidecar {
-  @Hook(0x11f4) mo () {}
+  @Hook(0x11f4) mt () {}
 }
 ```
 
@@ -239,7 +248,7 @@ class ChatboxSidecar {
 The `FunctionTarget` is where `@Call` or `@Hook` to be located. It can be created by the following factory helper functions:
 
 1. `addressTarget(address: number, module?: string)`: memory address. i.e. `agentTarget0x369adf`. Can specify a second `module` to call `address` in a specified module
-1. `agentTarget(varName: string)`: the variable/function name in `initAgentSource` to be called
+1. `agentTarget(varName: string)`: the variable/function name in `initAgentScript` to be called
 1. `exportTarget(exportName: string, exportModule?: string)`: export name of a function. Can specify a second `moduleName` to load `exportName` from it.
 1. `objcTarget`: to be added
 1. `javaTarget`: to be added
@@ -301,7 +310,7 @@ For example, the following is the metadata showed by sidecar-dump for our `Chatb
 ```sh
 $ sidecar-dump metadata examples/chatbox-sidecar.ts
 {
-  "initAgentSource": "console.log('inited...')",
+  "initAgentScript": "console.log('inited...')",
   "interceptorList": [
     {
       "agent": {
@@ -363,7 +372,7 @@ const sidecarModuleBaseAddress = Module.getBaseAddress('chatbox-linux')
 
 /***********************************
  * File: "templates/agent.mustache
- *  > Variable: "initAgentSource"
+ *  > Variable: "initAgentScript"
  ***********************************/
 const agentMo = new NativeFunction(
   sidecarModuleBaseAddress.add(0x11c9),
@@ -490,7 +499,7 @@ Learn more about examples at <https://github.com/huan/ffi-adapter/tree/master/te
 
 ### 0.2 (Jul 5, 2021)
 
-1. Add `agent` type support to `FunctionTarget` so that both `@Call` and `@Hook`can use a pre-defined native function ptr defined from the `initAgentSource`. (more types like `java`, `objc`, `name`, and `module` to be added)
+1. Add `agent` type support to `FunctionTarget` so that both `@Call` and `@Hook`can use a pre-defined native function ptr defined from the `initAgentScript`. (more types like `java`, `objc`, `name`, and `module` to be added)
 
 ### 0.1 (Jul 4, 2021)
 

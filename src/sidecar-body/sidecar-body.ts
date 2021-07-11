@@ -45,7 +45,7 @@ export enum SpawnMode {
 }
 
 export interface SidecarBodyOptions {
-  initAgentSource? : string,
+  initAgentScript? : string,
   spawnMode?       : SpawnMode,
   targetProcess?   : frida.TargetProcess,
 }
@@ -65,7 +65,7 @@ class SidecarBody extends SidecarEmitter {
   /**
    * Constructor options:
    */
-  initAgentSource? : string
+  initAgentScript? : string
   spawnMode        : SpawnMode
   targetProcess?   : frida.TargetProcess
 
@@ -86,7 +86,7 @@ class SidecarBody extends SidecarEmitter {
         : '',
     )
 
-    this.initAgentSource  = options?.initAgentSource
+    this.initAgentScript  = options?.initAgentScript
     this.spawnMode        = options?.spawnMode || SpawnMode.Default
     this.targetProcess    = options?.targetProcess
   }
@@ -105,13 +105,13 @@ class SidecarBody extends SidecarEmitter {
     }
 
     /**
-     * 1. initAgentSource
+     * 1. initAgentScript
      */
-    if (this.initAgentSource) {
-      log.silly('SidecarBody', '[INIT_SYMBOL]() initAgentSource has been specified from constructor args')
+    if (this.initAgentScript) {
+      log.silly('SidecarBody', '[INIT_SYMBOL]() initAgentScript has been specified from constructor args')
     } else {
-      log.silly('SidecarBody', '[INIT_SYMBOL]() load initAgentSource from metadata')
-      this.initAgentSource = metadata.initAgentSource || ''
+      log.silly('SidecarBody', '[INIT_SYMBOL]() load initAgentScript from metadata')
+      this.initAgentScript = metadata.initAgentScript || ''
     }
 
     /**
@@ -136,7 +136,7 @@ class SidecarBody extends SidecarEmitter {
      */
     this.agentSource = await buildAgentSource({
       ...metadata,
-      initAgentSource: this.initAgentSource || metadata.initAgentSource,
+      initAgentScript: this.initAgentScript || metadata.initAgentScript,
     })
 
     this.emit(INIT_SYMBOL)

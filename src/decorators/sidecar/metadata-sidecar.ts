@@ -26,7 +26,7 @@ export type SidecarMetadataFunctionTypeDescription = {
 export interface SidecarMetadata {
   nativeFunctionList : SidecarMetadataFunctionTypeDescription[],
   interceptorList    : SidecarMetadataFunctionTypeDescription[],
-  initAgentSource?   : string,
+  initAgentScript?   : string,
   targetProcess?     : TargetProcess,
 }
 

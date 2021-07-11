@@ -51,7 +51,7 @@ test('@Sidecar() viewMetadata()', async t => {
 
   const metadata = getMetadataSidecar(Test)
   const EXPECTED_DATA = {
-    initAgentSource: undefined,
+    initAgentScript: undefined,
     interceptorList: [
       {
         address: {

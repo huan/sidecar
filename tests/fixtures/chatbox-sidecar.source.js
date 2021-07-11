@@ -163,7 +163,7 @@ const sidecarModuleBaseAddress = Module.getBaseAddress('chatbox-linux')
 
 /***********************************
  * File: "templates/agent.mustache"
- *  > Variable: "initAgentSource"
+ *  > Variable: "initAgentScript"
  ***********************************/
 const agentMo = new NativeFunction(
   sidecarModuleBaseAddress.add(0x11e9),
@@ -257,7 +257,7 @@ Interceptor.attach(
         * Huan(202107):
         *  `target` at here is a `agent` type `target`,
         *  which means that it is a javascript function name
-        *  defined from the `initAgentSource`
+        *  defined from the `initAgentScript`
         */
       const ret = agentMo(...[ args[0] ])
 
@@ -295,7 +295,7 @@ Interceptor.attach(
     Interceptor.attach(
       /**
        *  Huan(202107): `target` at here is a native ptr
-       *    which is declared in the `initAgentSource`
+       *    which is declared in the `initAgentScript`
        *    for workaround
        */
       agentMt_PatchCode,

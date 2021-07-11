@@ -17,7 +17,7 @@ function {{ name }}_NativeFunction_wrapper (...args) {
     * Huan(202107):
     *  `target` at here is a `agent` type `target`,
     *  which means that it is a javascript function name
-    *  defined from the `initAgentSource`
+    *  defined from the `initAgentScript`
     */
   const ret = {{ target.varName }}(...{{ rawArgs }})
 

@@ -1,17 +1,17 @@
 import fs   from 'fs'
 import path from 'path'
 
-function loadAgentSource () {
+function loadAgentScript () {
   const file = path.join(
     __dirname,
     'agent-source.js',
   )
 
-  const initAgentSource = fs
+  const initAgentScript = fs
     .readFileSync(file)
     .toString()
 
-  return initAgentSource
+  return initAgentScript
 }
 
-export { loadAgentSource }
+export { loadAgentScript }

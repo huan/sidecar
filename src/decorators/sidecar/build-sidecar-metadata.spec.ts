@@ -53,7 +53,7 @@ test('@Sidecar() buildSidecarMetadata()', async t => {
     targetProcess: 'chatbox',
   })
   const EXPECTED_DATA = {
-    initAgentSource: undefined,
+    initAgentScript: undefined,
     interceptorList: [
       {
         agent: {

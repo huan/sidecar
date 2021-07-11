@@ -163,7 +163,7 @@ const sidecarModuleBaseAddress = Module.getBaseAddress('test')
 
 /***********************************
  * File: "templates/agent.mustache"
- *  > Variable: "initAgentSource"
+ *  > Variable: "initAgentScript"
  ***********************************/
 
 
@@ -205,10 +205,10 @@ const sidecarModuleBaseAddress = Module.getBaseAddress('test')
         args.join(', '),
       )
 
-      
+
   // pointer type for arg[0] -> Utf8String
   const mo_NativeArg_0 = Memory.alloc(1024 /*Process.pointerSize*/)
-  
+
   mo_NativeArg_0.writeUtf8String(args[0])
 
       const ret = mo_NativeFunction(...[ mo_NativeArg_0 ])

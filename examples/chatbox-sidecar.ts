@@ -25,15 +25,15 @@ import {
   RetType,
   Ret,
   agentTarget,
-}                 from '../src/mod'
+}                   from '../src/mod'
 
 import {
   targetAddress,
   targetProgram,
-}                 from './sidecar-config'
+}                   from './sidecar-config'
 
 import {
-  loadAgentSource,
+  loadAgentScript,
 }                   from './load-agent-source'
 
 void targetAddress
@@ -41,7 +41,7 @@ void agentTarget
 
 @Sidecar(
   targetProgram(),    // chatbox-linux
-  loadAgentSource(),  // $!#%$#T^@#$!@!
+  loadAgentScript(),  // helper agent scripts
 )
 class ChatboxSidecar extends SidecarBody {
 
