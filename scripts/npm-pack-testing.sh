@@ -27,16 +27,16 @@ npm install *-*.*.*.tgz \
 
 node smoke-testing.js
 
-npx sidecar-dump metadata smoke-testing.ts > smoke-testing.metadata.test.json
+npx sidecar-dump metadata smoke-testing.ts > smoke-testing.metadata.json
 diff \
+  smoke-testing.sidecar-dump.metadata.json \
   smoke-testing.metadata.json \
-  smoke-testing.metadata.test.json \
   || exit 1
 echo "PASSED: sidecar-dump metadata smoke-testing.ts"
 
-npx sidecar-dump source smoke-testing.ts > smoke-testing.source.test.js
+npx sidecar-dump source smoke-testing.ts > smoke-testing.source.js
 diff \
+  smoke-testing.sidecar-dump.source.js \
   smoke-testing.source.js \
-  smoke-testing.source.test.js \
   || exit 1
 echo "PASSED: sidecar-dump source smoke-testing.ts"
