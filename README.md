@@ -104,6 +104,7 @@ Learn more from the sidecar example: <https://github.com/huan/sidecar/blob/main/
 ## Knowned Issues
 
 - [ ] `Intercepter.attach()` a `NativeCallback()` ptr not work in Sidecar generated script. (it is possible by direct using the frida cli)
+- [ ] Add typing.d for Sidecar Agent pre-defined variables & functions
 
 ## References
 

@@ -19,9 +19,9 @@
  * See: sidecar-body/payload-schema.ts
  ********************************************/
 /**
- * SidecarBodyEventPayloadHook
+ * SidecarPayloadHook
  */
-const hookPayload = (
+const sidecarPayloadHook = (
   method, // string
   args,   // Arguments, Array
 ) => ({
@@ -33,12 +33,12 @@ const hookPayload = (
 })
 
 /**
- * SidecarBodyEventPayloadLog
+ * SidecarPayloadLog
  */
-const logPayload = (
-  level,
-  prefix,
-  message,
+const sidecarPayloadLog = (
+  level,    // verbose, silly
+  prefix,   // module name
+  message,  // string
 ) => ({
   payload: {
     level,
@@ -54,8 +54,8 @@ const logPayload = (
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     ...module.exports,
-    hookPayload,
-    logPayload,
+    sidecarPayloadHook,
+    sidecarPayloadLog,
   }
 }
 
@@ -76,7 +76,7 @@ const log = function () {
 
   function verbose (prefix, message, ...args) {
     if (logLevel >= levelTable.verbose) {
-      send(logPayload(
+      send(sidecarPayloadLog(
         'verbose',
         prefix,
         sprintf(message, ...args)
@@ -86,7 +86,7 @@ const log = function () {
 
   function silly (prefix, message, ...args) {
     if (logLevel >= levelTable.silly) {
-      send(logPayload(
+      send(sidecarPayloadLog(
         'silly',
         prefix,
         sprintf(message, ...args)
@@ -210,7 +210,7 @@ Interceptor.attach(
   {
     onEnter: args => {
       console.log('interceptor called', args[0].readUtf8String())
-      send(hookPayload({
+      send(sidecarPayloadHook({
         type: 'hook',
         payload: {
           method: 'mt',
@@ -307,7 +307,7 @@ Interceptor.attach(
             'agentMt_PatchCode',
           )
 
-          send(hookPayload(
+          send(sidecarPayloadHook(
             'mt',
             [ args[0].readUtf8String() ]
           ), null)
