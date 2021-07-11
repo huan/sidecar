@@ -33,6 +33,7 @@ test('sourceHandler()', async t => {
     .replace(/[^\S\r\n]+/g, ' ')
     .replace(/^ +$/gm, '')  // remove spaces in empty line
     .replace(/\r/g, '')     // Windows will add \r, which need to be removed for comparing
+    .replace(/\n+$/s, '')   // strip all the ending newlines
 
   const FIXTURE = await fs
     .readFileSync(FIXTURE_FILE)
@@ -52,7 +53,7 @@ test('sourceHandler()', async t => {
   /**
    * We remove all spaces in the file so that the comparision will ignore all spaces
    */
-  const normalizedSource = normalize(source)
+  const normalizedSource  = normalize(source)
   const normalizedFixture = normalize(FIXTURE)
 
   void normalizedSource
