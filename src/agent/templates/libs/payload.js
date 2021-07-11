@@ -5,9 +5,9 @@
  * See: sidecar-body/payload-schema.ts
  ********************************************/
 /**
- * SidecarBodyEventPayloadHook
+ * SidecarPayloadHook
  */
-const hookPayload = (
+const sidecarPayloadHook = (
   method, // string
   args,   // Arguments, Array
 ) => ({
@@ -19,12 +19,12 @@ const hookPayload = (
 })
 
 /**
- * SidecarBodyEventPayloadLog
+ * SidecarPayloadLog
  */
-const logPayload = (
-  level,
-  prefix,
-  message,
+const sidecarPayloadLog = (
+  level,    // verbose, silly
+  prefix,   // module name
+  message,  // string
 ) => ({
   payload: {
     level,
@@ -40,7 +40,7 @@ const logPayload = (
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     ...module.exports,
-    hookPayload,
-    logPayload,
+    sidecarPayloadHook,
+    sidecarPayloadLog,
   }
 }

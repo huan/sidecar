@@ -28,10 +28,10 @@ import {
 
 import { SidecarEmitter } from './sidecar-emitter'
 import {
-  isSidecarBodyEventPayloadHook,
-  isSidecarBodyEventPayloadLog,
-  SidecarBodyEventPayloadHook,
-  SidecarBodyEventPayloadLog,
+  isSidecarPayloadHook,
+  isSidecarPayloadLog,
+  SidecarPayloadHook,
+  SidecarPayloadLog,
 }                                   from './payload-schemas'
 
 /**
@@ -353,9 +353,9 @@ class SidecarBody extends SidecarEmitter {
           JSON.stringify(message.payload),
         )
 
-        if (isSidecarBodyEventPayloadLog(message.payload)) {
+        if (isSidecarPayloadLog(message.payload)) {
           this[LOG_EVENT_HANDLER](message.payload.payload)
-        } else if (isSidecarBodyEventPayloadHook(message.payload)) {
+        } else if (isSidecarPayloadHook(message.payload)) {
           this[HOOK_EVENT_HANDLER](message.payload.payload)
 
         } else {
@@ -400,7 +400,7 @@ class SidecarBody extends SidecarEmitter {
   }
 
   private [LOG_EVENT_HANDLER] (
-    payload: SidecarBodyEventPayloadLog['payload'],
+    payload: SidecarPayloadLog['payload'],
   ) {
     const prefix = `SidecarBody<${payload.prefix}>`
     switch (payload.level) {
@@ -418,7 +418,7 @@ class SidecarBody extends SidecarEmitter {
   }
 
   private [HOOK_EVENT_HANDLER] (
-    payload: SidecarBodyEventPayloadHook['payload'],
+    payload: SidecarPayloadHook['payload'],
   ) {
     log.verbose('SidecarBody',
       '[HOOK_EVENT_HANDLER]("%s")',

@@ -31,7 +31,7 @@ async function main () {
    * 1. Hook sidecar.mt(...)
    */
   sidecar.on('mt', args => {
-    console.log('mt args:', args)
+    console.log('Sidecar: hook mt args: "' + JSON.stringify(args) + '"')
   })
 
   /**

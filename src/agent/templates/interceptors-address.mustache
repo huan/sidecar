@@ -25,7 +25,7 @@ Interceptor.attach(
         Number({{ target.address }}).toString(16),
       )
 
-      send(hookPayload(
+      send(sidecarPayloadHook(
         '{{ name }}',
         {{ jsArgs }}
       ), null)

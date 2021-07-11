@@ -1,19 +1,19 @@
 import { EventEmitter } from 'stream'
 import TypedEventEmitter  from 'typed-emitter'
 
-import { SidecarBodyEventPayloadHook } from './payload-schemas'
+import { SidecarPayloadHook } from './payload-schemas'
 
 // import {
-//   SidecarBodyEventPayloadLog,
-//   SidecarBodyEventPayloadHook,
+//   SidecarPayloadLog,
+//   SidecarPayloadHook,
 // }                               from './payload-schemas'
 
 // export type AttachedEventListener = () => void
 // export type DetachedEventListener = () => void
 // export type InitedEventListener   = () => void
 
-// export type HookEventListener = (payload: SidecarBodyEventPayloadHook['payload']) => void
-// export type LogEventListener  = (payload: SidecarBodyEventPayloadLog['payload'])  => void
+// export type HookEventListener = (payload: SidecarPayloadHook['payload']) => void
+// export type LogEventListener  = (payload: SidecarPayloadLog['payload'])  => void
 
 // interface SidecarEvents {
 //   attached : AttachedEventListener
@@ -26,7 +26,7 @@ import { SidecarBodyEventPayloadHook } from './payload-schemas'
 
 export type SymbolEventListener = () => void
 export type HookEventListener   = (
-  args: Error | SidecarBodyEventPayloadHook['payload']['args']
+  args: Error | SidecarPayloadHook['payload']['args']
 ) => void
 
 interface SidecarEvents {

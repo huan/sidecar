@@ -19,9 +19,9 @@
  * See: sidecar-body/payload-schema.ts
  ********************************************/
 /**
- * SidecarBodyEventPayloadHook
+ * SidecarPayloadHook
  */
-const hookPayload = (
+const sidecarPayloadHook = (
   method, // string
   args,   // Arguments, Array
 ) => ({
@@ -33,9 +33,9 @@ const hookPayload = (
 })
 
 /**
- * SidecarBodyEventPayloadLog
+ * SidecarPayloadLog
  */
-const logPayload = (
+const sidecarPayloadLog = (
   level,
   prefix,
   message,
@@ -54,8 +54,8 @@ const logPayload = (
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     ...module.exports,
-    hookPayload,
-    logPayload,
+    sidecarPayloadHook,
+    sidecarPayloadLog,
   }
 }
 
@@ -76,7 +76,7 @@ const log = function () {
 
   function verbose (prefix, message, ...args) {
     if (logLevel >= levelTable.verbose) {
-      send(logPayload(
+      send(sidecarPayloadLog(
         'verbose',
         prefix,
         sprintf(message, ...args)
@@ -86,7 +86,7 @@ const log = function () {
 
   function silly (prefix, message, ...args) {
     if (logLevel >= levelTable.silly) {
-      send(logPayload(
+      send(sidecarPayloadLog(
         'silly',
         prefix,
         sprintf(message, ...args)
@@ -254,7 +254,7 @@ const sidecarModuleBaseAddress = Module.getBaseAddress('test')
             Number(0x5678).toString(16),
           )
 
-          send(hookPayload(
+          send(sidecarPayloadHook(
             'mt',
             [ args[0].readUtf8String() ]
           ), null)

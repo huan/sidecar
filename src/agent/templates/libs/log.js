@@ -11,7 +11,7 @@ const log = function () {
 
   function verbose (prefix, message, ...args) {
     if (logLevel >= levelTable.verbose) {
-      send(logPayload(
+      send(sidecarPayloadLog(
         'verbose',
         prefix,
         sprintf(message, ...args)
@@ -21,7 +21,7 @@ const log = function () {
 
   function silly (prefix, message, ...args) {
     if (logLevel >= levelTable.silly) {
-      send(logPayload(
+      send(sidecarPayloadLog(
         'silly',
         prefix,
         sprintf(message, ...args)

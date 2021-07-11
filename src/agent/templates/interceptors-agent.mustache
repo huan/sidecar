@@ -20,7 +20,7 @@ Interceptor.attach(
         '{{ target.varName }}',
       )
 
-      send(hookPayload(
+      send(sidecarPayloadHook(
         '{{ name }}',
         {{ jsArgs }}
       ), null)

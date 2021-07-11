@@ -29,11 +29,10 @@ function declareNativeArgs (this: SidecarMetadataFunctionDescription) {
      */
     if (nativeType !== 'pointer') {
       statementChain.push(
-        '',
         `// non-pointer type for arg[${argIdx}]: ${nativeType}`,
         `const ${nativeArgName(name, argIdx)} = ${argName(argIdx)}`,
       )
-      declareStatementList.push(statementChain.join('\n  '))
+      declareStatementList.push(statementChain.join('\n'))
       continue
     }
 
@@ -41,7 +40,6 @@ function declareNativeArgs (this: SidecarMetadataFunctionDescription) {
      * Current arg is a native pointer
      */
     statementChain.push(
-      '',
       `// pointer type for arg[${argIdx}] -> ${pointerTypeList.join(' -> ')}`,
       // FIXME: Huan(202106) how to get the size? (1024)
       `const ${nativeArgName(name, argIdx)} = Memory.alloc(1024 /*Process.pointerSize*/)`,
@@ -52,7 +50,6 @@ function declareNativeArgs (this: SidecarMetadataFunctionDescription) {
       if (pointerType === 'Pointer') {
 
         statementChain.push(
-          '',
           `const ${bufName(name, argIdx, typeIdx)} = Memory.alloc(Process.pointerSize)`,
           `${lastVarName}.writePointer(${bufName(name, argIdx, typeIdx)})`
         )
@@ -67,14 +64,13 @@ function declareNativeArgs (this: SidecarMetadataFunctionDescription) {
          * Huan(202106) FIXME: alloc memory for string before assign to native argumenments
          */
         statementChain.push(
-          '',
           `${lastVarName}.write${pointerType}(${argName(argIdx)})`,
         )
 
       }
     }
 
-    declareStatementList.push(statementChain.join('\n  '))
+    declareStatementList.push(statementChain.join('\n'))
   }
 
   return declareStatementList.join('\n\n')

@@ -1,4 +1,4 @@
-export interface SidecarBodyEventPayloadLog {
+export interface SidecarPayloadLog {
   type    : 'log'
   payload : {
     level   : string,
@@ -7,7 +7,7 @@ export interface SidecarBodyEventPayloadLog {
   }
 }
 
-export interface SidecarBodyEventPayloadHook {
+export interface SidecarPayloadHook {
   type    : 'hook',
   payload : {
     method : string,
@@ -18,20 +18,20 @@ export interface SidecarBodyEventPayloadHook {
   }
 }
 
-export type SidecarBodyEventPayload = SidecarBodyEventPayloadHook
-                                    | SidecarBodyEventPayloadLog
+export type SidecarPayload = SidecarPayloadHook
+                                    | SidecarPayloadLog
 
-export type SidecarBodyEventType = SidecarBodyEventPayload['type']
+export type SidecarPayloadType = SidecarPayload['type']
 
-const isSidecarBodyEventPayloadLog = (
-  payload: SidecarBodyEventPayload
-): payload is SidecarBodyEventPayloadLog => payload.type === 'log'
+const isSidecarPayloadLog = (
+  payload: SidecarPayload
+): payload is SidecarPayloadLog => payload.type === 'log'
 
-const isSidecarBodyEventPayloadHook = (
-  payload: SidecarBodyEventPayload
-): payload is SidecarBodyEventPayloadHook => payload.type === 'hook'
+const isSidecarPayloadHook = (
+  payload: SidecarPayload
+): payload is SidecarPayloadHook => payload.type === 'hook'
 
 export {
-  isSidecarBodyEventPayloadHook,
-  isSidecarBodyEventPayloadLog,
+  isSidecarPayloadHook,
+  isSidecarPayloadLog,
 }

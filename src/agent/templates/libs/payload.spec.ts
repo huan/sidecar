@@ -1,24 +1,24 @@
 #!/usr/bin/env ts-node
 import { test }  from 'tstest'
 import {
-  SidecarBodyEventPayloadHook,
-  SidecarBodyEventPayloadLog,
+  SidecarPayloadHook,
+  SidecarPayloadLog,
 }                                 from '../../../sidecar-body/payload-schemas'
 
 const {
-  hookPayload,
-  logPayload,
-}               = require('./payload.js')
+  sidecarPayloadHook,
+  sidecarPayloadLog,
+}                       = require('./payload.js')
 
-test('logPayload()', async t => {
+test('sidecarPayloadLog()', async t => {
   const message = 'test' as string
 
-  const payload = logPayload(
+  const payload = sidecarPayloadLog(
     'verbose',
     'Test',
     message,
   )
-  const EXPECTED: SidecarBodyEventPayloadLog = {
+  const EXPECTED: SidecarPayloadLog = {
     payload : {
       level: 'verbose',
       message,
@@ -30,16 +30,16 @@ test('logPayload()', async t => {
   t.deepEqual(payload, EXPECTED, 'should get log payload correctly')
 })
 
-test('hookPayload()', async t => {
+test('sidecarPayloadHook()', async t => {
   const METHOD = 'method'
   const ARGS = ['arg0', 'arg1']
 
-  const payload = hookPayload(
+  const payload = sidecarPayloadHook(
     METHOD,
     ARGS,
   )
 
-  const EXPECTED_PAYLOAD: SidecarBodyEventPayloadHook = {
+  const EXPECTED_PAYLOAD: SidecarPayloadHook = {
     payload: {
       args   : {},
       method : METHOD,

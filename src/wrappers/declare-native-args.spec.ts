@@ -17,12 +17,29 @@ test('declareNativeArgs()', async t => {
     .flat()
     .map(x => declareNativeArgs.call(x))
 
-  // const result = declareNativeArgs.call(SIDECAR_VIEW.nativeFunctionList[0])
-  // console.log('###', fixture.nativeFunctionList[0])
-  // console.log(result[0])
+  // get the fixture
+  // console.log(JSON.stringify(result, null, 2))
 
-  /**
-   * Huan(202106) FIXME: find a way to check the generated script
-   */
-  t.true(result, 'should declare the native args correctly. (TBD)')
+  const EXPECTED = [
+    [
+      '// pointer type for arg[0] -> Int',
+      'const anotherCall_NativeArg_0 = Memory.alloc(1024 /*Process.pointerSize*/)',
+      'anotherCall_NativeArg_0.writeInt(args[0])',
+      '',
+      '// pointer type for arg[1] -> Pointer -> Utf8String',
+      'const anotherCall_NativeArg_1 = Memory.alloc(1024 /*Process.pointerSize*/)',
+      'const anotherCall_Memory_1_0 = Memory.alloc(Process.pointerSize)',
+      'anotherCall_NativeArg_1.writePointer(anotherCall_Memory_1_0)',
+      'anotherCall_Memory_1_0.writeUtf8String(args[1])',
+    ].join('\n'),
+    [
+      '// pointer type for arg[0] -> Utf8String',
+      'const testMethod_NativeArg_0 = Memory.alloc(1024 /*Process.pointerSize*/)',
+      'testMethod_NativeArg_0.writeUtf8String(args[0])',
+      '',
+      '// non-pointer type for arg[1]: int',
+      'const testMethod_NativeArg_1 = args[1]',
+    ].join('\n'),
+  ]
+  t.deepEqual(result, EXPECTED, 'should declare the native args correctly.')
 })

@@ -46,14 +46,14 @@ void agentTarget
 class ChatboxSidecar extends SidecarBody {
 
   // @Call(/* 0x55d6daf341c9 */ targetAddress('mo'))
-  @Call(agentTarget('agentMo'))
+  @Call(agentTarget('moHelper'))
   @RetType('int')
   mo (
     @ParamType('pointer', 'Utf8String') content: string,
   ): Promise<number> { return Ret(content) }
 
   // @Hook(/* 0x55d6daf341c9 */ targetAddress('mt'))
-  @Hook(agentTarget('agentMt_PatchCode'))
+  @Hook(agentTarget('mtNativeCallback'))
   mt (
     @ParamType('pointer', 'Utf8String') content: string,
   ) { return Ret(content) }

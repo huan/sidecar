@@ -5,15 +5,19 @@ import {
 }         from 'tstest'
 
 const {
-  logPayload,
-}               = require('./payload.js')
+  sidecarPayloadLog,
+}                       = require('./payload.js')
 
-const { log }   = require('./log.js')
+const { log }           = require('./log.js')
 
-;(global as any)['logPayload'] = logPayload
+// FIXME: Huan(202107) do not modify global settings
+;(global as any)['sidecarPayloadLog'] = sidecarPayloadLog
 
 test('log()', async t => {
   const spy = sinon.spy()
+  /**
+   * Frida `send` method
+   */
   global['send'] = spy
 
   log.level(2)
