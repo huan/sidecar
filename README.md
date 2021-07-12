@@ -86,11 +86,8 @@ async function main () {
 
   sidecar.on('mt', args => {
     console.log('mt:', args)
+    sidecar.mo('Hello from Sidecar'),
   })
-  setInterval(
-    () => sidecar.mo('Hello from Sidecar'),
-    1000,
-  )
 
   process.on('SIGINT',  () => detach(sidecar))
   process.on('SIGTERM', () => detach(sidecar))
@@ -101,10 +98,11 @@ main().catch(console.error)
 
 Learn more from the sidecar example: <https://github.com/huan/sidecar/blob/main/examples>
 
-## Knowned Issues
+## To-do list
 
-- [ ] `Intercepter.attach()` a `NativeCallback()` ptr not work in Sidecar generated script. (it is possible by direct using the frida cli)
-- [ ] Add typing.d for Sidecar Agent pre-defined variables & functions
+- [x] `Intercepter.attach()` a `NativeCallback()` ~~ptr not work in Sidecar generated script. (it is possible by direct using the frida cli)~~ worked! ([#9](https://github.com/huan/sidecar/issues/9))
+- [x] Add typing.d.ts for Sidecar Agent pre-defined variables & functions
+- [ ] Add `@Name()` support for specify parameter names in `@Hook()`-ed method args.
 
 ## References
 

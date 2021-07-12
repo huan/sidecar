@@ -21,32 +21,41 @@ import {
   detach,
 }           from '../src/mod'
 
-import { ChatboxSidecar } from './chatbox-sidecar'
+import { ChatboxSidecar }     from './chatbox-sidecar'
+
+/**
+ * The `ChatboxSidecarPro` has more complicated settings
+ *  You can read it and learn more in the [example](./chatbox-sidecar-pro.ts)
+ */
+// import { ChatboxSidecarPro }  from './chatbox-sidecar-pro'
 
 async function main () {
   const sidecar = new ChatboxSidecar()
-  await attach(sidecar)
 
   /**
-   * 1. Hook sidecar.mt(...)
+   * 0. Initialize the sidecar by `attach()`
    */
-  sidecar.on('mt', args => {
-    console.log('sidecar @Hook() mt() received args: "' + JSON.stringify(args, null, 2) + '"')
+  console.log('sidecar attaching...')
+  await attach(sidecar)
+  console.log('sidecar attached.')
+
+  /**
+   * 1. @Hook sidecar.mt(...)
+   */
+  sidecar.on('mt', async args => {
+    if (args instanceof Error) return
+
+    console.log(`sidecar @Hook() mt() received message: "${args[0]}"`)
+
+    /**
+     * 2. @Call sidecar.mo(...)
+     */
+    const reply = 'sidecar @Call() mt() greeting!'
+    const ret = await sidecar.mo(reply)
+    console.log(`replied with: "${reply}", ret: ${ret}\n`)
   })
 
-  /**
-   * 2. Call sidecar.mo(...)
-   */
-  const timer = setInterval(async () => {
-    const ret = await sidecar.mo('sidecar greeting from timer interval!')
-    console.log('sidecar @Call() mo() has sent message and received ret: ' + ret)
-  }, 5 * 1000)
-
-  const clean = async () => {
-    clearInterval(timer)
-    await detach(sidecar)
-  }
-
+  const clean = () => detach(sidecar)
   process.on('SIGINT',  clean)
   process.on('SIGTERM', clean)
 }

@@ -24,22 +24,40 @@ import {
   ParamType,
   RetType,
   Ret,
+  agentTarget,
 }                   from '../src/mod'
 
-@Sidecar('chatbox-linux')
-class ChatboxSidecar extends SidecarBody {
+import {
+  targetAddress,
+  targetProgram,
+}                   from './sidecar-config'
 
-  @Call(0x11e9)     // call address
-  @RetType('int')   // return type is `int`
+import {
+  loadAgentScript,
+}                   from './load-agent-script'
+
+void targetAddress
+void agentTarget
+
+@Sidecar(
+  targetProgram(),    // chatbox-linux
+  loadAgentScript(),  // helper agent scripts
+)
+class ChatboxSidecarPro extends SidecarBody {
+
+  // @Call(/* 0x55d6daf341c9 */ targetAddress('mo'))
+  @Call(agentTarget('moHelper'))
+  @RetType('int')
   mo (
-    @ParamType('pointer', 'Utf8String') content: string,  // parameter type is string (UTF-8)
+    @ParamType('pointer', 'Utf8String') content: string,
   ): Promise<number> { return Ret(content) }
 
-  @Hook(0x121f)     // hook address
+  // @Hook(/* 0x55d6daf341c9 */ targetAddress('mt'))
+  @Hook(agentTarget('mtNativeCallback'))
   mt (
-    @ParamType('pointer', 'Utf8String') content: string,  // parameter type is string (UTF-8)
+    @ParamType('pointer', 'Utf8String') content: string,
   ) { return Ret(content) }
 
 }
 
-export { ChatboxSidecar }
+export { ChatboxSidecarPro }
