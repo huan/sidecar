@@ -1,11 +1,11 @@
-/*****************************************************************
+/********************************************
  * File: "native-function-agent.mustache"
  *
  * Native Function: {{ name }}
  *  - varName: {{ target.varName }}
  *  - Parameters: {{{ nativeParamTypes }}}
  *  - Ret: {{ retType }}
- ******************************************************************/
+ ********************************************/
 function {{ name }}_NativeFunction_wrapper (...args) {
   log.verbose(
     'SidecarAgent',
@@ -13,17 +13,8 @@ function {{ name }}_NativeFunction_wrapper (...args) {
     args.join(', '),
   )
 
-  /**
-    * Huan(202107):
-    *  `target` at here is a `agent` type `target`,
-    *  which means that it is a javascript function name
-    *  defined from the `initAgentScript`
-    */
-  const ret = {{ target.varName }}(...{{ rawArgs }})
+  {{{ declareNativeArgs }}}
 
-  /**
-   * Return what js function returned.
-   *  no conversion
-   */
-  return ret
+  const ret = {{ target.varName }}(...{{ nativeArgs }})
+  return {{ jsRet }}
 }

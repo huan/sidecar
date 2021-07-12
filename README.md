@@ -246,16 +246,16 @@ class ChatboxSidecar {
 
 The `FunctionTarget` is where `@Call` or `@Hook` to be located. It can be created by the following factory helper functions:
 
-1. `addressTarget(address: number, module?: string)`: memory address. i.e. `agentTarget0x369adf`. Can specify a second `module` to call `address` in a specified module
-1. `agentTarget(varName: string)`: the variable/function name in `initAgentScript` to be called
+1. `addressTarget(address: number, module?: string)`: memory address. i.e. `0x369adf`. Can specify a second `module` to call `address` in a specified module
+1. `agentTarget(varName: string)`: the variable/function name in `initAgentScript` to be used
 1. `exportTarget(exportName: string, exportModule?: string)`: export name of a function. Can specify a second `moduleName` to load `exportName` from it.
 1. `objcTarget`: to be added
 1. `javaTarget`: to be added
 
-For convenice, the `number` and `string` can be used as `FunctionTarget` as an alias of `addressTarget()` and `agentTarget()`. @hen we are using `@Call(target)` and `@Hook(target)`:
+For convenice, the `number` and `string` can be used as `FunctionTarget` as an alias of `addressTarget()` and `agentTarget()`. When we are defining the `@Call(target)` and `@Hook(target)`:
 
-1. if the target is a `number`, then it will be converted to `addressTarget(target)`
-1. if the target is a `string`, then it will be converted to `agentTarget(target)`
+1. if the target type is `number`, then it will be converted to `addressTarget(target)`
+1. if the target typeis `string`, then it will be converted to `agentTarget(target)`
 
 Example:
 
@@ -278,8 +278,8 @@ class ChatboxSidecar {
 
 There's two type of the `AgentTarget` usage: `@Call` and `@Hook`.
 
-1. `AgentTarget` with `@Call`: the `varName` should be a javascript function in the `initAgentScript`. The decorated method call that function.
-1. `AgentTarget` with `@Hook`: the `varName` should be a `NativeCallback` pointer in the `initAgentScript`. The decorated method hook that callback.
+1. `AgentTarget` with `@Call`: the `varName` should be a `NativeFunction` instance in the `initAgentScript`. The decorated method call that function.
+1. `AgentTarget` with `@Hook`: the `varName` should be a `NativeCallback` instance in the `initAgentScript`. The decorated method hook that callback.
 
 ## Debug utility: `sidecar-dump`
 
@@ -508,7 +508,9 @@ Learn more about examples at <https://github.com/huan/ffi-adapter/tree/master/te
 
 ## History
 
-### Master
+### Master (0.7)
+
+1. `agentTarget` will use `NativeFunction` instead of a plain javascript function
 
 ### 0.6 (Jul 7, 2021)
 

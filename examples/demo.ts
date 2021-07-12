@@ -21,7 +21,7 @@ import {
   detach,
 }           from '../src/mod'
 
-import { ChatboxSidecar }     from './chatbox-sidecar'
+import { ChatboxSidecar } from './chatbox-sidecar'
 
 /**
  * The `ChatboxSidecarPro` has more complicated settings
@@ -31,6 +31,7 @@ import { ChatboxSidecar }     from './chatbox-sidecar'
 
 async function main () {
   const sidecar = new ChatboxSidecar()
+  // const sidecar = new ChatboxSidecarPro()
 
   /**
    * 0. Initialize the sidecar by `attach()`

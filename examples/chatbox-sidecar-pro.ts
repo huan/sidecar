@@ -46,7 +46,7 @@ void agentTarget
 class ChatboxSidecarPro extends SidecarBody {
 
   // @Call(/* 0x55d6daf341c9 */ targetAddress('mo'))
-  @Call(agentTarget('moHelper'))
+  @Call(agentTarget('moNativeFunction'))
   @RetType('int')
   mo (
     @ParamType('pointer', 'Utf8String') content: string,
