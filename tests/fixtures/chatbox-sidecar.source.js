@@ -26,7 +26,13 @@ const sidecarPayloadHook = (
   args,   // Arguments, Array
 ) => ({
   payload: {
-    args,
+    /**
+     * Convert `args` from Array to Object
+     * to satisfy `SidecarPayloadHook` interface
+     */
+    args: {
+      ...args,
+    },
     method,
   },
   type: 'hook',
@@ -157,7 +163,7 @@ log.level('info')
 
 /****************************************************
  * File: "templates/agent.mustache"
- *  > Get base address for target "/home/huan/git/sidecar/examples/chatbox/chatbox-linux"
+ *  > Get base address for target "chatbox-linux"
  ****************************************************/
 const sidecarModuleBaseAddress = Module.getBaseAddress('chatbox-linux')
 
@@ -165,47 +171,6 @@ const sidecarModuleBaseAddress = Module.getBaseAddress('chatbox-linux')
  * File: "templates/agent.mustache"
  *  > Variable: "initAgentScript"
  ***********************************/
-/**
- * Call -> moHelper(message)
- *  MO Sidecar Agent Helper
- */
-const moNativeFunction = new NativeFunction(
-  sidecarModuleBaseAddress.add(0x11e9),
-  'int',
-  ['pointer'],
-)
-
-function moHelper (message) {
-  const buf = Memory.allocUtf8String(message)
-  return moNativeFunction(buf)
-}
-
-/**
- * Hook -> mtNativeCallback
- *  MT Sidecar Agent Helper
- */
-const mtNativeCallback = new NativeCallback(() => {}, 'void', ['pointer'])
-const mtNativeFunction = new NativeFunction(mtNativeCallback, 'void', ['pointer'])
-
-Interceptor.attach(
-  sidecarModuleBaseAddress.add(0x121f),
-  {
-    onEnter: args => {
-      log.verbose('AgentScript',
-        'Interceptor.attach() onEnter() arg0: %s',
-        args[0].readUtf8String(),
-      )
-      /**
-       * Huan(202107):
-       *  1. We MUST use `setImmediate()` for calling `mtNativeFunction(arg0),
-       *    or the hook to mtNativeCallback will not be triggered. (???)
-       *  2. `args` MUST be saved to arg0 so that it can be access in the `setImmediate`
-       */
-      const arg0 = args[0]
-      setImmediate(() => mtNativeFunction(arg0))
-    }
-  }
-)
 
 
 /********************************************
@@ -221,15 +186,24 @@ Interceptor.attach(
  *  https://github.com/huan/sidecar
  ************************************************************/
 
-
     /*****************************************************************
-     * File: "native-function-agent.mustache"
+     * File: "native-function-address.mustache"
      *
      * Native Function: mo
-     *  - varName: moHelper
+     *  - address: 0x11e9
      *  - Parameters: 'pointer'
      *  - Ret: int
      ******************************************************************/
+    const mo_NativeFunction_address =
+      sidecarModuleBaseAddress
+      .add(0x11e9)
+
+    const mo_NativeFunction = new NativeFunction(
+      mo_NativeFunction_address,
+      'int',
+      ['pointer'],
+    )
+
     function mo_NativeFunction_wrapper (...args) {
       log.verbose(
         'SidecarAgent',
@@ -237,20 +211,14 @@ Interceptor.attach(
         args.join(', '),
       )
 
-      /**
-        * Huan(202107):
-        *  `target` at here is a `agent` type `target`,
-        *  which means that it is a javascript function name
-        *  defined from the `initAgentScript`
-        */
-      const ret = moHelper(...[ args[0] ])
+      // pointer type for arg[0] -> Utf8String
+const mo_NativeArg_0 = Memory.alloc(1024 /*Process.pointerSize*/)
+mo_NativeArg_0.writeUtf8String(args[0])
 
-      /**
-       * Return what js function returned.
-       *  no conversion
-       */
+      const ret = mo_NativeFunction(...[ mo_NativeArg_0 ])
       return ret
     }
+
 
 
 
@@ -268,27 +236,26 @@ Interceptor.attach(
  *  https://github.com/huan/sidecar
  *********************************************************/
 
-
-    /**********************************************************
-     * File: "interceptors-agent.mustache"
+    /******************************************************************
+     * File: "interceptors-address.mustache"
      *
      * Interceptor Target: mt
-     *  - varName: mtNativeCallback
+     *  - type: address
+     *  - address: 0x121f
      *  - Parameters: 'pointer'
-     **********************************************************/
+     ******************************************************************/
+    const mt_Interceptor_target =
+      sidecarModuleBaseAddress
+      .add(0x121f)
+
     Interceptor.attach(
-      /**
-       *  Huan(202107): `target` at here is a native ptr
-       *    which is declared in the `initAgentScript`
-       *    for workaround
-       */
-      mtNativeCallback,
+      mt_Interceptor_target,
       {
         onEnter: args => {
           log.verbose(
             'SidecarAgent',
-            'Interceptor.attach(%s) onEnter()',
-            'mtNativeCallback',
+            'Interceptor.attach(0x%s) onEnter()',
+            Number(0x121f).toString(16),
           )
 
           send(sidecarPayloadHook(
@@ -299,6 +266,7 @@ Interceptor.attach(
         },
       }
     )
+
 
 
 
@@ -336,4 +304,3 @@ rpc.exports = {
   ...rpc.exports,
   mo: mo_NativeFunction_wrapper,
 }
-
