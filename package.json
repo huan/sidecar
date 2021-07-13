@@ -48,7 +48,6 @@
     "@chatie/git-scripts": "^0.6.2",
     "@chatie/semver": "^0.4.7",
     "@chatie/tsconfig": "^0.16.2",
-    "@types/frida-gum": "^17.0.0",
     "@types/mustache": "^4.1.1",
     "@types/node": "^16.0.0",
     "@types/string-similarity": "^4.0.0",
@@ -70,6 +69,7 @@
     "tag": "next"
   },
   "dependencies": {
+    "@types/frida-gum": "^17.0.0",
     "brolog": "^1.12.4",
     "cmd-ts": "^0.7.0",
     "frida": "^15.0.2",
