@@ -32,8 +32,8 @@ function diffLines () {
   diff \
     -y \
     --suppress-common-lines \
-    $0 \
     $1 \
+    $2 \
     | wc -l
 }
 

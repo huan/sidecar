@@ -56,6 +56,7 @@ async function main () {
   const sidecar = new ChatboxSidecar()
   sidecar.on('hook', payload => console.log(payload))
 
+  console.log('PASSED: smoke testing OK')
   return 0
 }
 
