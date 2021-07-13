@@ -1,4 +1,8 @@
-# Sidecar [![NPM](https://github.com/huan/sidecar/actions/workflows/npm.yml/badge.svg)](https://github.com/huan/sidecar/actions/workflows/npm.yml)  [![NPM Version](https://img.shields.io/npm/v/frida-sidecar?color=brightgreen)](https://www.npmjs.com/package/frida-sidecar)
+# Sidecar
+
+[![NPM](https://github.com/huan/sidecar/actions/workflows/npm.yml/badge.svg)](https://github.com/huan/sidecar/actions/workflows/npm.yml)
+[![NPM Version](https://img.shields.io/npm/v/frida-sidecar?color=brightgreen)](https://www.npmjs.com/package/frida-sidecar)
+[![Powered by Frida](https://img.shields.io/badge/Powered%20By-Frida-red.svg)](https://github.com/https://github.com/frida/frida)
 
 Sidecar is a runtime hooking tool for intercepting function calls by TypeScript annotation with ease, powered by [Frida.RE](https://frida.re/).
 
