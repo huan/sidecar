@@ -21,7 +21,7 @@ Interceptor.replace(
    *    which is declared in the `initAgentScript` for workaround
    *
    *  Notice that the `target.varName` callback will be `Interceptor.replace()`-ed
-   *    which means it should be a empty callback function.
+   *    which means it should not contains any logic code, it should just be a stub.
    */
   {{ target.varName }},
   {
