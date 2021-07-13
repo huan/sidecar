@@ -6,6 +6,14 @@
  *  https://github.com/huan/sidecar
  *  Huan <zixia@zixia.net>
  *  June 24, 2021
+ *
+ * All sidecar agent variable/function names
+ *  MUST be started with the namespace `__sidecar__`
+ *
+ * i.e.:
+ *  const __sidecar__variableName = {}
+ *  function __sidecar__functionName () {}
+ *
  *****************************************/
 
 /***********************************
@@ -21,7 +29,7 @@
 /**
  * SidecarPayloadHook
  */
-const sidecarPayloadHook = (
+const __sidecar__payloadHook = (
   method, // string
   args,   // Arguments, Array
 ) => ({
@@ -41,7 +49,7 @@ const sidecarPayloadHook = (
 /**
  * SidecarPayloadLog
  */
-const sidecarPayloadLog = (
+const __sidecar__payloadLog = (
   level,    // verbose, silly
   prefix,   // module name
   message,  // string
@@ -60,8 +68,8 @@ const sidecarPayloadLog = (
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     ...module.exports,
-    sidecarPayloadHook,
-    sidecarPayloadLog,
+    __sidecar__payloadHook,
+    __sidecar__payloadLog,
   }
 }
 
@@ -72,7 +80,7 @@ if (typeof module !== 'undefined' && module.exports) {
 /*******************************
  * File: templates/libs/log.js
  *******************************/
-const log = function () {
+const log = (() => {
   const levelTable = {
     info    : 0,
     verbose : 1,
@@ -82,7 +90,7 @@ const log = function () {
 
   function verbose (prefix, message, ...args) {
     if (logLevel >= levelTable.verbose) {
-      send(sidecarPayloadLog(
+      send(__sidecar__payloadLog(
         'verbose',
         prefix,
         sprintf(message, ...args)
@@ -92,7 +100,7 @@ const log = function () {
 
   function silly (prefix, message, ...args) {
     if (logLevel >= levelTable.silly) {
-      send(sidecarPayloadLog(
+      send(__sidecar__payloadLog(
         'silly',
         prefix,
         sprintf(message, ...args)
@@ -147,7 +155,7 @@ const log = function () {
       return val
     })
   }
-}()
+})()
 
 /**
  * For unit testing under Node.js
@@ -165,7 +173,7 @@ log.level('info')
  * File: "templates/agent.mustache"
  *  > Get base address for target "chatbox-linux"
  ****************************************************/
-const sidecarModuleBaseAddress = Module.getBaseAddress('chatbox-linux')
+const __sidecar__moduleBaseAddress = Module.getBaseAddress('chatbox-linux')
 
 /***********************************
  * File: "templates/agent.mustache"
@@ -194,30 +202,35 @@ const sidecarModuleBaseAddress = Module.getBaseAddress('chatbox-linux')
      *  - Parameters: 'pointer'
      *  - Ret: int
      ******************************************************************/
-    const mo_NativeFunction_address =
-      sidecarModuleBaseAddress
-      .add(0x11e9)
 
-    const mo_NativeFunction = new NativeFunction(
-      mo_NativeFunction_address,
-      'int',
-      ['pointer'],
-    )
+    const __sidecar__mo_NativeFunction_wrapper = (() => {
+      const nativeFunctionAddress =
+        __sidecar__moduleBaseAddress
 
-    function mo_NativeFunction_wrapper (...args) {
-      log.verbose(
-        'SidecarAgent',
-        'mo(%s)',
-        args.join(', '),
+        .add(0x11e9)
+
+      const nativeFunction = new NativeFunction(
+        nativeFunctionAddress,
+        'int',
+        ['pointer'],
       )
 
-      // pointer type for arg[0] -> Utf8String
+      return function (...args) {
+        log.verbose(
+          'SidecarAgent',
+          'mo(%s)',
+          args.join(', '),
+        )
+
+        // pointer type for arg[0] -> Utf8String
 const mo_NativeArg_0 = Memory.alloc(1024 /*Process.pointerSize*/)
 mo_NativeArg_0.writeUtf8String(args[0])
 
-      const ret = mo_NativeFunction(...[ mo_NativeArg_0 ])
-      return ret
-    }
+        const ret = nativeFunction(...[ mo_NativeArg_0 ])
+        return ret
+      }
+
+    })()
 
 
 
@@ -244,28 +257,30 @@ mo_NativeArg_0.writeUtf8String(args[0])
      *  - address: 0x121f
      *  - Parameters: 'pointer'
      ******************************************************************/
-    const mt_Interceptor_target =
-      sidecarModuleBaseAddress
-      .add(0x121f)
+    ;(() => {
+      const interceptorTarget =
+        __sidecar__moduleBaseAddress
+        .add(0x121f)
 
-    Interceptor.attach(
-      mt_Interceptor_target,
-      {
-        onEnter: args => {
-          log.verbose(
-            'SidecarAgent',
-            'Interceptor.attach(0x%s) onEnter()',
-            Number(0x121f).toString(16),
-          )
+      Interceptor.attach(
+        interceptorTarget,
+        {
+          onEnter: args => {
+            log.verbose(
+              'SidecarAgent',
+              'Interceptor.attach(0x%s) onEnter()',
+              Number(0x121f).toString(16),
+            )
 
-          send(sidecarPayloadHook(
-            'mt',
-            [ args[0].readUtf8String() ]
-          ), null)
+            send(__sidecar__payloadHook(
+              'mt',
+              [ args[0].readUtf8String() ]
+            ), null)
 
-        },
-      }
-    )
+          },
+        }
+      )
+    })()
 
 
 
@@ -273,18 +288,18 @@ mo_NativeArg_0.writeUtf8String(args[0])
 /********************
  * RPC Exports Init *
  ********************/
-function init () {
+function __sidecar__init () {
   log.verbose('SidecarAgent', 'init()')
 
   /**
-   * Huan(202106) return 42 to let caller to make sure that
+   * DEBUG: Huan(202106) return 42 to let caller to make sure that
    *  this function has been runned successfully.
    */
   return 42
 }
 
 rpc.exports = {
-  init,
+  init: __sidecar__init,
   ...rpc.exports,
 }
 
@@ -302,5 +317,5 @@ rpc.exports = {
  *********************************************************/
 rpc.exports = {
   ...rpc.exports,
-  mo: mo_NativeFunction_wrapper,
+  mo: __sidecar__mo_NativeFunction_wrapper,
 }

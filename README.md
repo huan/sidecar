@@ -107,6 +107,7 @@ Learn more from the sidecar example: <https://github.com/huan/sidecar/blob/main/
 - [x] `Intercepter.attach()` a `NativeCallback()` ~~ptr not work in Sidecar generated script. (it is possible by direct using the frida cli)~~ worked! ([#9](https://github.com/huan/sidecar/issues/9))
 - [x] Add typing.d.ts for Sidecar Agent pre-defined variables & functions
 - [ ] Add `@Name()` support for specify parameter names in `@Hook()`-ed method args.
+- [ ] Calculate `Memory.alloc()` in sidecar agent scripts automatically.
 
 ## References
 
@@ -380,7 +381,7 @@ $ sidecar-dump metadata examples/chatbox-sidecar.ts
 
 Sidecar is using Frida to connect to the program process and make communication with it.
 
-In order to make the connection, sidecar will generate a frida agent source code, and using this agent as the bridge between the sidecar, frida, and the target program process. 
+In order to make the connection, sidecar will generate a frida agent source code, and using this agent as the bridge between the sidecar, frida, and the target program process.
 
 the `sidecar-dump source` command is to viewing this frida agent source, so that we can review and debug them.
 
@@ -524,9 +525,12 @@ Learn more about examples at <https://github.com/huan/ffi-adapter/tree/master/te
 
 ## History
 
-### Master (0.7)
+### Master (0.8)
 
 1. `agentTarget` will use `NativeFunction` instead of a plain javascript function
+1. Clean sidecar frida agent templates
+    1. Use closure to encapsulate variables
+    1. Add `__sidecar__` namespace for all variable names
 
 ### 0.6 (Jul 7, 2021)
 

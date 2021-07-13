@@ -21,7 +21,7 @@
 /**
  * SidecarPayloadHook
  */
-const sidecarPayloadHook = (
+const __sidecar__payloadHook = (
   method, // string
   args,   // Arguments, Array
 ) => ({
@@ -35,7 +35,7 @@ const sidecarPayloadHook = (
 /**
  * SidecarPayloadLog
  */
-const sidecarPayloadLog = (
+const __sidecar__payloadLog = (
   level,    // verbose, silly
   prefix,   // module name
   message,  // string
@@ -54,8 +54,8 @@ const sidecarPayloadLog = (
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     ...module.exports,
-    sidecarPayloadHook,
-    sidecarPayloadLog,
+    __sidecar__payloadHook,
+    __sidecar__payloadLog,
   }
 }
 
@@ -76,7 +76,7 @@ const log = function () {
 
   function verbose (prefix, message, ...args) {
     if (logLevel >= levelTable.verbose) {
-      send(sidecarPayloadLog(
+      send(__sidecar__payloadLog(
         'verbose',
         prefix,
         sprintf(message, ...args)
@@ -86,7 +86,7 @@ const log = function () {
 
   function silly (prefix, message, ...args) {
     if (logLevel >= levelTable.silly) {
-      send(sidecarPayloadLog(
+      send(__sidecar__payloadLog(
         'silly',
         prefix,
         sprintf(message, ...args)
@@ -252,7 +252,7 @@ mo_NativeArg_0.writeUtf8String(args[0])
             Number(0x5678).toString(16),
           )
 
-          send(sidecarPayloadHook(
+          send(__sidecar__payloadHook(
             'mt',
             [ args[0].readUtf8String() ]
           ), null)
