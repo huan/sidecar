@@ -37,15 +37,15 @@ function diffLines () {
     | wc -l
 }
 
-npx sidecar-dump metadata smoke-testing.ts > smoke-testing.test.metadata.json
-if [[ $(diffLines smoke-testing.test.metadata.json smoke-testing.sidecar-dump.metadata.json) -gt 10 ]]; then
+npx sidecar-dump metadata smoke-testing.ts > smoke-testing.metadata.json
+if [[ $(diffLines smoke-testing.metadata.json sidecar-dump.metadata.smoke-testing.json.fixture) -gt 10 ]]; then
   >&2 echo "FAILED: sidecar-dump metadata smoke-testing.ts"
   exit 1
 fi
 echo "PASSED: sidecar-dump metadata smoke-testing.ts"
 
-npx sidecar-dump source smoke-testing.ts > smoke-testing.test.source.js
-if [[ $(diffLines smoke-testing.test.source.js smoke-testing.sidecar-dump.source.js) -gt 10 ]]; then
+npx sidecar-dump source smoke-testing.ts > smoke-testing.source.js
+if [[ $(diffLines smoke-testing.source.js sidecar-dump.source.smoke-testing.js.fixture) -gt 10 ]]; then
   >&2 echo "FAILED: sidecar-dump source smoke-testing.ts"
   exit 1
 fi

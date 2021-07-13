@@ -24,7 +24,7 @@ test('sourceHandler()', async t => {
     '..',
     'tests',
     'fixtures',
-    'chatbox-sidecar.source.js',
+    'sidecar-dump.source.chatbox-sidecar.js.fixture',
   )
 
   const normalize = (text: string) => text
@@ -47,7 +47,7 @@ test('sourceHandler()', async t => {
    * Generate the testing fixture file, Huan(202107)
    *
    *  When we have updated the examples/chatbox-sidecar.ts file,
-   *  we need to update the `tests/fixtures/chatbox-sidecar.source.js`
+   *  we need to update the `tests/fixtures/sidecar-dump.source.chatbox-sidecar.js.fixture`
    *  so that the unit testing can be match the updated frida agent source code.
    */
   // fs.writeFileSync('t.js', source)
