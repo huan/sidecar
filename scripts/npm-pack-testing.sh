@@ -39,12 +39,14 @@ function diffLines () {
 
 npx sidecar-dump metadata smoke-testing.ts > smoke-testing.test.metadata.json
 if [[ $(diffLines smoke-testing.test.metadata.json smoke-testing.sidecar-dump.metadata.json) -gt 10 ]]; then
+  >&2 echo "FAILED: sidecar-dump metadata smoke-testing.ts"
   exit 1
 fi
 echo "PASSED: sidecar-dump metadata smoke-testing.ts"
 
 npx sidecar-dump source smoke-testing.ts > smoke-testing.test.source.js
 if [[ $(diffLines smoke-testing.test.source.js smoke-testing.sidecar-dump.source.js) -gt 10 ]]; then
+  >&2 echo "FAILED: sidecar-dump source smoke-testing.ts"
   exit 1
 fi
 echo "PASSED: sidecar-dump source smoke-testing.ts"
