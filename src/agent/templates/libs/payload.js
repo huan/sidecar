@@ -7,7 +7,7 @@
 /**
  * SidecarPayloadHook
  */
-const sidecarPayloadHook = (
+const __sidecar__payloadHook = (
   method, // string
   args,   // Arguments, Array
 ) => ({
@@ -27,7 +27,7 @@ const sidecarPayloadHook = (
 /**
  * SidecarPayloadLog
  */
-const sidecarPayloadLog = (
+const __sidecar__payloadLog = (
   level,    // verbose, silly
   prefix,   // module name
   message,  // string
@@ -46,7 +46,7 @@ const sidecarPayloadLog = (
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     ...module.exports,
-    sidecarPayloadHook,
-    sidecarPayloadLog,
+    __sidecar__payloadHook,
+    __sidecar__payloadLog,
   }
 }

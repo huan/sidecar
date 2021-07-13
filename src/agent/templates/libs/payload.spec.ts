@@ -1,4 +1,5 @@
 #!/usr/bin/env ts-node
+/* eslint-disable camelcase */
 import { test }  from 'tstest'
 import {
   SidecarPayloadHook,
@@ -6,14 +7,14 @@ import {
 }                                 from '../../../sidecar-body/payload-schemas'
 
 const {
-  sidecarPayloadHook,
-  sidecarPayloadLog,
-}                       = require('./payload.js')
+  __sidecar__payloadHook,
+  __sidecar__payloadLog,
+}                           = require('./payload.js')
 
-test('sidecarPayloadLog()', async t => {
+test('__sidecar__payloadLog()', async t => {
   const message = 'test' as string
 
-  const payload = sidecarPayloadLog(
+  const payload = __sidecar__payloadLog(
     'verbose',
     'Test',
     message,
@@ -30,11 +31,11 @@ test('sidecarPayloadLog()', async t => {
   t.deepEqual(payload, EXPECTED, 'should get log payload correctly')
 })
 
-test('sidecarPayloadHook()', async t => {
+test('__sidecar__payloadHook()', async t => {
   const METHOD = 'method'
   const ARGS = ['arg0', 'arg1']
 
-  const payload = sidecarPayloadHook(
+  const payload = __sidecar__payloadHook(
     METHOD,
     ARGS,
   )

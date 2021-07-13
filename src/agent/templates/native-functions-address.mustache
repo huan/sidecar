@@ -6,30 +6,34 @@
  *  - Parameters: {{{ nativeParamTypes }}}
  *  - Ret: {{ retType }}
  ******************************************************************/
-const {{ name }}_NativeFunction_address =
-{{# target.moduleName }}
-  Module.getBaseAddress('{{ target.moduleName }}')
-{{/ target.moduleName}}
-{{^ target.moduleName }}
-  sidecarModuleBaseAddress
-{{/ target.moduleName}}
-  .add({{ target.address }})
 
-const {{ name }}_NativeFunction = new NativeFunction(
-  {{ name }}_NativeFunction_address,
-  {{{ nativeRetType }}},
-  [{{{ nativeParamTypes }}}],
-)
+const __sidecar__{{ name }}_NativeFunction_wrapper = (() => {
+  const nativeFunctionAddress =
+  {{# target.moduleName }}
+    Module.getBaseAddress('{{ target.moduleName }}')
+  {{/ target.moduleName}}
+  {{^ target.moduleName }}
+    __sidecar__moduleBaseAddress
+  {{/ target.moduleName}}
+    .add({{ target.address }})
 
-function {{ name }}_NativeFunction_wrapper (...args) {
-  log.verbose(
-    'SidecarAgent',
-    '{{ name }}(%s)',
-    args.join(', '),
+  const nativeFunction = new NativeFunction(
+    nativeFunctionAddress,
+    {{{ nativeRetType }}},
+    [{{{ nativeParamTypes }}}],
   )
 
-  {{{ declareNativeArgs }}}
+  return function (...args) {
+    log.verbose(
+      'SidecarAgent',
+      '{{ name }}(%s)',
+      args.join(', '),
+    )
 
-  const ret = {{ name }}_NativeFunction(...{{ nativeArgs }})
-  return {{ jsRet }}
-}
+    {{{ declareNativeArgs }}}
+
+    const ret = nativeFunction(...[{{{ nativeArgs }}}])
+    return {{ jsRet }}
+  }
+
+})()

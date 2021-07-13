@@ -11,7 +11,7 @@ function nativeArgs (
    * There's no any parameters needed
    */
   if (!Array.isArray(paramTypeList)) {
-    return '[]'
+    return ''
   }
 
   const nativeArgNameList = []
@@ -22,7 +22,7 @@ function nativeArgs (
     )
   }
 
-  return '[ ' + nativeArgNameList.join(', ') + ' ]'
+  return nativeArgNameList.join(', ')
 }
 
 export { nativeArgs }

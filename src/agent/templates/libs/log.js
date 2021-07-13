@@ -1,7 +1,7 @@
 /*******************************
  * File: templates/libs/log.js
  *******************************/
-const log = function () {
+const log = (() => {
   const levelTable = {
     info    : 0,
     verbose : 1,
@@ -11,7 +11,7 @@ const log = function () {
 
   function verbose (prefix, message, ...args) {
     if (logLevel >= levelTable.verbose) {
-      send(sidecarPayloadLog(
+      send(__sidecar__payloadLog(
         'verbose',
         prefix,
         sprintf(message, ...args)
@@ -21,7 +21,7 @@ const log = function () {
 
   function silly (prefix, message, ...args) {
     if (logLevel >= levelTable.silly) {
-      send(sidecarPayloadLog(
+      send(__sidecar__payloadLog(
         'silly',
         prefix,
         sprintf(message, ...args)
@@ -76,7 +76,7 @@ const log = function () {
       return val
     })
   }
-}()
+})()
 
 /**
  * For unit testing under Node.js

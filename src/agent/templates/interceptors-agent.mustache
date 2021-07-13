@@ -15,28 +15,38 @@
  *  >  – so if you use Interceptor.replace() you will see calls from Frida's internal threads.
  *  > (And should be prepared to handle that.) Cool project btw!
  */
-Interceptor.replace(
-  /**
-   *  Huan(202107): `target` at here should be a native callback ptr
-   *    which is declared in the `initAgentScript` for workaround
-   *
-   *  Notice that the `target.varName` callback will be `Interceptor.replace()`-ed
-   *    which means it should not contains any logic code, it should just be a stub.
-   */
-  {{ target.varName }},
-  {
-    onEnter: args => {
-      log.verbose(
-        'SidecarAgent',
-        'Interceptor.attach(%s) onEnter()',
-        '{{ target.varName }}',
-      )
 
-      send(sidecarPayloadHook(
-        '{{ name }}',
-        {{ jsArgs }}
-      ), null)
+;(() => {
+  const sendSidecarPayloadHook = (...args) => {
+    log.verbose(
+      'SidecarAgent',
+      'Interceptor.attach(%s) onEnter()',
+      '{{ target.varName }}',
+    )
 
-    },
+    send(__sidecar__payloadHook(
+      '{{ name }}',
+      {{ jsArgs }}
+    ), null)
+
   }
-)
+  const nativeCallback = new NativeCallback(
+    sendSidecarPayloadHook,
+    {{{ nativeRetType }}},
+    [{{{ nativeParamTypes }}}],
+  )
+
+  /**
+  *  Huan(202107): `target` at here should be a native callback ptr
+  *    which is declared in the `initAgentScript` for workaround
+  *
+  *  Notice that the `target.varName` callback will be `Interceptor.replace()`-ed
+  *    which means it should not contains any logic code, it should just be a stub.
+  */
+  Interceptor.replace(
+    {{ target.varName }},
+    nativeCallback,
+  )
+
+})()
+

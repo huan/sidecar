@@ -1,4 +1,5 @@
 #!/usr/bin/env ts-node
+/* eslint-disable camelcase */
 import { test }  from 'tstest'
 
 import vm from 'vm'
@@ -26,11 +27,11 @@ test('render rpc-exports()', async t => {
    * https://nodejs.org/api/vm.html
    */
   const context = {
-    anotherCall_NativeFunction_wrapper: () => {},
+    __sidecar__anotherCall_NativeFunction_wrapper: () => {},
+    __sidecar__testMethod_NativeFunction_wrapper: () => {},
     rpc: {
       exports: {},
     },
-    testMethod_NativeFunction_wrapper: () => {},
   }
 
   vm.createContext(context) // Contextify the object.

@@ -6,6 +6,14 @@
  *  https://github.com/huan/sidecar
  *  Huan <zixia@zixia.net>
  *  June 24, 2021
+ *
+ * All sidecar agent variable/function names
+ *  MUST be started with the namespace `__sidecar__`
+ *
+ * i.e.:
+ *  const __sidecar__variableName = {}
+ *  function __sidecar__functionName () {}
+ *
  *****************************************/
 
 /***********************************
@@ -26,7 +34,7 @@ log.level('{{ logLevel }}')
  * File: "templates/agent.mustache"
  *  > Get base address for target "{{{ targetProcess }}}"
  ****************************************************/
-const sidecarModuleBaseAddress = Module.getBaseAddress('{{{ moduleName }}}')
+const __sidecar__moduleBaseAddress = Module.getBaseAddress('{{{ moduleName }}}')
 
 /***********************************
  * File: "templates/agent.mustache"
@@ -49,18 +57,18 @@ const sidecarModuleBaseAddress = Module.getBaseAddress('{{{ moduleName }}}')
 /********************
  * RPC Exports Init *
  ********************/
-function init () {
+function __sidecar__init () {
   log.verbose('SidecarAgent', 'init()')
 
   /**
-   * Huan(202106) return 42 to let caller to make sure that
+   * DEBUG: Huan(202106) return 42 to let caller to make sure that
    *  this function has been runned successfully.
    */
   return 42
 }
 
 rpc.exports = {
-  init,
+  init: __sidecar__init,
   ...rpc.exports,
 }
 

@@ -1,17 +1,18 @@
 #!/usr/bin/env ts-node
+/* eslint-disable camelcase */
 import {
   test,
   sinon,
 }         from 'tstest'
 
 const {
-  sidecarPayloadLog,
+  __sidecar__payloadLog,
 }                       = require('./payload.js')
 
 const { log }           = require('./log.js')
 
 // FIXME: Huan(202107) do not modify global settings
-;(global as any)['sidecarPayloadLog'] = sidecarPayloadLog
+;(global as any)['__sidecar__payloadLog'] = __sidecar__payloadLog
 
 test('log()', async t => {
   const spy = sinon.spy()

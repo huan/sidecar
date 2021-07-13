@@ -74,8 +74,9 @@ test('sourceHandler()', async t => {
   // console.log('normalizedFixture:', normalizedFixture)
   // console.log('###:', normalizedSource.length)
 
-  const ok = similarity > 0.99
+  const THRESHOLD = 0.95
+  const ok = similarity > THRESHOLD
   // console.log('similarity:', similarity)
 
-  t.true(ok, 'should get the source from ts file')
+  t.true(ok, `should get the source from ts file with similarity(${Math.floor(similarity * 100)}%) > ${THRESHOLD * 100}%`)
 })

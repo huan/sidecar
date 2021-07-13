@@ -6,30 +6,33 @@
  *  - address: {{ target.address }}
  *  - Parameters: {{{ nativeParamTypes }}}
  ******************************************************************/
-const {{ name }}_Interceptor_target =
-{{# target.moduleName }}
-  Module.getBaseAddress('{{ target.moduleName }}')
-{{/ target.moduleName}}
-{{^ target.moduleName }}
-  sidecarModuleBaseAddress
-{{/ target.moduleName}}
-  .add({{ target.address }})
 
-Interceptor.attach(
-  {{ name }}_Interceptor_target,
-  {
-    onEnter: args => {
-      log.verbose(
-        'SidecarAgent',
-        'Interceptor.attach(0x%s) onEnter()',
-        Number({{ target.address }}).toString(16),
-      )
+;(() => {
+  const interceptorTarget =
+  {{# target.moduleName }}
+    Module.getBaseAddress('{{ target.moduleName }}')
+  {{/ target.moduleName}}
+  {{^ target.moduleName }}
+    __sidecar__moduleBaseAddress
+  {{/ target.moduleName}}
+    .add({{ target.address }})
 
-      send(sidecarPayloadHook(
-        '{{ name }}',
-        {{ jsArgs }}
-      ), null)
+  Interceptor.attach(
+    interceptorTarget,
+    {
+      onEnter: args => {
+        log.verbose(
+          'SidecarAgent',
+          'Interceptor.attach(0x%s) onEnter()',
+          Number({{ target.address }}).toString(16),
+        )
 
-    },
-  }
-)
+        send(__sidecar__payloadHook(
+          '{{ name }}',
+          {{ jsArgs }}
+        ), null)
+
+      },
+    }
+  )
+})()
