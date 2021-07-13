@@ -285,6 +285,18 @@ There's two type of the `AgentTarget` usage: `@Call` and `@Hook`.
 1. `AgentTarget` with `@Call`: the `varName` should be a `NativeFunction` instance in the `initAgentScript`. The decorated method call that function.
 1. `AgentTarget` with `@Hook`: the `varName` should be a `NativeCallback` instance in the `initAgentScript`. The decorated method hook that callback.
 
+Notes:
+
+1. The `NativeFunction` passed to `@Call` must pay attention to
+  the **Garbage Collection** of the JavaScript inside Frida.
+  You have to hold a reference to all the memory you alloced by yourself,
+  for example, store them in a `Object` like `const refHolder = { buf }`,
+  then make sure the `refHolder` will be hold
+  unless you can `free` the memory that you have alloced before. (See also: [Frida Best Practices](https://frida.re/docs/best-practices/))
+1. the `NativeCallback` passed to `@Hook` is recommended to be a empty function,
+  like `() => {}` because it will be replaced by Sidecar/Frida.
+  So you should not put any code inside it,
+
 ## Debug utility: `sidecar-dump`
 
 Sidecar provide a utility named `sidecar-dump` for viewing the metadata of the sidecar class, or debuging the frida agent init source code.
