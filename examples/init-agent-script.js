@@ -7,7 +7,7 @@ const moNativeFunction = (() => {
    * Huan(202107): We might need more code here, that's why we created a closure at here.
    */
   const moNativeFunction = new NativeFunction(
-    sidecarModuleBaseAddress.add(0x11e9),
+    __sidecar__moduleBaseAddress.add(0x11e9),
     'int',
     ['pointer'],
   )
@@ -23,7 +23,7 @@ const mtNativeCallback = (() => {
   const mtNativeFunction = new NativeFunction(mtNativeCallback, 'void', ['pointer'])
 
   Interceptor.attach(
-    sidecarModuleBaseAddress.add(0x121f),
+    __sidecar__moduleBaseAddress.add(0x121f),
     {
       onEnter: args => {
         log.verbose('AgentScript',
@@ -38,6 +38,12 @@ const mtNativeCallback = (() => {
          */
         const arg0 = args[0]
         setImmediate(() => mtNativeFunction(arg0))
+
+        /**
+          * https://github.com/frida/frida/issues/1774#issuecomment-878173544
+          *   Huan(20210713): it seems not work with `Interceptor.replace` too?
+          */
+        // mtNativeFunction(args[0])
       }
     }
   )
