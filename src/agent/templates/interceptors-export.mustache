@@ -8,6 +8,10 @@
  ****************************************************************************/
 
 ;(() => {
+  /**
+   * TODO: Huan(202107): Need to be workaround for the `getExportByName` function
+   *  see: https://github.com/huan/sidecar/issues/10
+   */
   const interceptorTarget = Module.getExportByName(
 
   {{# target.moduleName }}

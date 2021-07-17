@@ -8,17 +8,25 @@
  *  - Ret: {{ retType }}
  ******************************************************************/
 
-const function __sidecar__{{ name }}_NativeFunction_wrapper = (() => {
-  const nativeFunctionAddress = Module.getExportByName(
+const __sidecar__{{ name }}_NativeFunction_wrapper = (() => {
+  /**
+   * Huan(202107): Need to be workaround for the `getExportByName` function
+   *  see: https://github.com/huan/sidecar/issues/10
+   */
+  const nativeFunctionAddress =
   {{# target.moduleName }}
-    '{{ target.moduleName }}',
+    Module.enumerateExportsSync('{{ target.moduleName }}')
+    .filter(x => x.type === 'function')
+    .filter(x => x.name === '{{ target.exportName }}')
+    .map(x => x.address)
+    .pop()
   {{/ target.moduleName}}
   {{^ target.moduleName }}
-    null,
+    Module.getExportByName(
+      null,
+      '{{ target.exportName }}',
+    )
   {{/ target.moduleName}}
-
-    '{{ target.exportName }}',
-  )
 
   const nativeFunction = new NativeFunction(
     nativeFunctionAddress,
