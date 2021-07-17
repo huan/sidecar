@@ -262,33 +262,54 @@ class SidecarBody extends SidecarEmitter {
   async [DETACH_SYMBOL] () {
     log.verbose('SidecarBody', '[DETACH_SYMBOL]()')
 
-    if (this.script) {
-      const script = this.script
-      this.script = undefined
+    const script   = this.script
+    const session  = this.session
+    const spawnPid = this.spawnPid
 
-      if (!script.isDestroyed) {
-        /**
-         * Only call `unload()` if script is not destroyed
-         */
-        try {
-          await script.unload()
-        } catch (e) {
-          log.error('SidecarBody',
-            '[DETACH_SYMBOL]() script.unload() rejection: %s\n%s',
-            e && (e as Error).message,
-            e && (e as Error).stack,
-          )
-          this.emit('error', e as Error)
-        }
+    this.script   = undefined
+    this.session  = undefined
+    this.spawnPid = undefined
+
+    if (!script || script.isDestroyed) {
+      /**
+       * Clean the system sliencely when the script has already been cleaned
+       */
+      try {
+        await script?.unload()
+      } catch (e) {
+        log.silly('SidecarBody', '[DETACH_SYMBOL]() this.script.unload() rejection: %s', e && (e as Error).message)
+      }
+      try {
+        await session?.detach()
+      } catch (e) {
+        log.silly('SidecarBody', '[DETACH_SYMBOL]() this.session.detach() rejection: %s', e && (e as Error).message)
+      }
+      try {
+        if (spawnPid) { await frida.kill(spawnPid) }
+      } catch (e) {
+        log.silly('SidecarBody', '[DETACH_SYMBOL]() frida.kill(%s) rejection: %s', spawnPid, e && (e as Error).message)
       }
 
-    } else {
-      log.silly('SidecarBody', '[DETACH_SYMBOL]() this.script is undefined')
+      return
     }
 
-    if (this.session) {
-      const session = this.session
-      this.session = undefined
+    if (script) {
+      /**
+       * Only call `unload()` if script is not destroyed
+       */
+      try {
+        await script.unload()
+      } catch (e) {
+        log.error('SidecarBody',
+          '[DETACH_SYMBOL]() script.unload() rejection: %s\n%s',
+          e && (e as Error).message,
+          e && (e as Error).stack,
+        )
+        this.emit('error', e as Error)
+      }
+    }
+
+    if (session) {
       try {
         await session.detach()
       } catch (e) {
@@ -303,13 +324,9 @@ class SidecarBody extends SidecarEmitter {
       log.silly('SidecarBody', '[DETACH_SYMBOL]() this.session is undefined')
     }
 
-    if (this.spawnPid) {
-      // TODO: kill pid for clean up
-      const pid = this.spawnPid
-      this.spawnPid = undefined
-
+    if (spawnPid) {
       try {
-        await frida.kill(pid)
+        await frida.kill(spawnPid)
       } catch (e) {
         this.emit('error', e as Error)
       }
