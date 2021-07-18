@@ -40,7 +40,7 @@ void targetAddress
 void agentTarget
 
 @Sidecar(
-  targetProgram(),    // chatbox-linux
+  [targetProgram()],    // chatbox-linux
   loadAgentScript(),  // helper agent scripts
 )
 class ChatboxSidecarPro extends SidecarBody {
