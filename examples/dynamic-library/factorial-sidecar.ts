@@ -42,7 +42,7 @@ if (!libFile || !spawnTarget) {
 const libPath = path.join(
   __dirname,
   libFile,
-)
+).replace(/\\/g, '\\\\')
 
 const initAgentScript = `
   Module.load('${libPath}')

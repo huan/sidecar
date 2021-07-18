@@ -24,7 +24,7 @@ import {
   detach,
 }                   from '../src/mod'
 
-import { FactorialSidecar } from '../examples/linux-so-library/factorial-sidecar'
+import { FactorialSidecar } from '../examples/dynamic-library/factorial-sidecar'
 
 test('library export function call', async (t) => {
   if (process.platform !== 'linux' && process.platform !== 'win32') {
