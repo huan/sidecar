@@ -1,7 +1,7 @@
 const rules = {
   'no-console': ['error', { allow: ['log', 'warn', 'error'] }],
   'multiline-ternary': 0,
-  'brace-style': ['1tbs', { "allowSingleLine": true }],
+  'brace-style': ['error', { "allowSingleLine": true }],
 }
 const globals = {
   Interceptor: true,
