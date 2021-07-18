@@ -1,4 +1,3 @@
-#!/usr/bin/env ts-node
 /**
  *   Sidecar - https://github.com/huan/sidecar
  *
@@ -38,7 +37,7 @@ const initAgentScript = `
 `
 
 @Sidecar(
-  ['/bin/sleep', ['10']],
+  ['/bin/sleep', ['60']],
   initAgentScript,
 )
 class FactorialSidecar extends SidecarBody {

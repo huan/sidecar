@@ -87,7 +87,10 @@ test('@Sidecar() viewMetadata()', async t => {
         },
       },
     ],
-    targetProcess: 'chatbox',
+    sidecarTarget: {
+      target: 'chatbox',
+      type: 'process',
+    },
   }
 
   t.deepEqual(metadata, EXPECTED_DATA, 'should get view from metadata correct')

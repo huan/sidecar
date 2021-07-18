@@ -334,12 +334,15 @@ class SidecarBody extends SidecarEmitter {
      *  If that, the `this.script` should has already be set to undefined
      *  and we need not to call [DETATCH_SYMBOL]() again.
      */
-    if (this.script) {
-      try {
-        await this[DETACH_SYMBOL]()
-      } catch (e) {
-        this.emit('error', e as Error)
-      }
+    if (!this.script) {
+      log.silly('SidecarBody', '[SCRIPT_DESTROYED_HANDLER_SYMBOL]() this.script is undefined. skipped')
+      return
+    }
+
+    try {
+      await this[DETACH_SYMBOL]()
+    } catch (e) {
+      this.emit('error', e as Error)
     }
 
   }

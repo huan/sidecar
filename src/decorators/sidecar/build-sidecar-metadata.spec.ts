@@ -105,7 +105,10 @@ test('@Sidecar() buildSidecarMetadata()', async t => {
         },
       },
     ],
-    targetProcess: 'chatbox',
+    sidecarTarget: {
+      target: 'chatbox',
+      type: 'process',
+    },
   }
 
   t.deepEqual(meta, EXPECTED_DATA, 'should get metadata correct')

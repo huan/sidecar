@@ -48,24 +48,25 @@ test('init()', async t => {
     console.error(e)
   }
 })
+
 test('attach()', async t => {
 
   @Sidecar([targetProgram()])
   class SidecarTest extends SidecarBody {}
 
-  const s = new SidecarTest()
+  const sidecar = new SidecarTest()
 
-  s.script = {
+  sidecar.script = {
     unload: (..._: any[]) => { return {} as any },
   } as any
-  s.session = {
+  sidecar.session = {
     detach: (..._: any[]) => { return {} as any },
   } as any
 
-  const future = new Promise<void>(resolve => s.on(ATTACH_SYMBOL, resolve))
+  const future = new Promise<void>(resolve => sidecar.on(ATTACH_SYMBOL, resolve))
 
   try {
-    await attach(s)
+    await attach(sidecar)
 
     await Promise.race([
       future,
@@ -78,7 +79,9 @@ test('attach()', async t => {
   } catch (e) {
     t.fail('Rejection:' + e && (e as Error).message)
   } finally {
-    await detach(s)
+    try {
+      await detach(sidecar)
+    } catch (e) {}
   }
 })
 
@@ -87,14 +90,16 @@ test('detach()', async t => {
   @Sidecar([targetProgram()])
   class SidecarTest extends SidecarBody {}
 
-  const s = new SidecarTest()
-  const future = new Promise<void>(resolve => s.on(DETACH_SYMBOL, resolve))
+  const sidecar = new SidecarTest()
+  sidecar.on('error', () => {})
+
+  const future = new Promise<void>(resolve => sidecar.on(DETACH_SYMBOL, resolve))
 
   try {
-    await init(s)
-    await attach(s)
+    await init(sidecar)
+    await attach(sidecar)
 
-    await detach(s)
+    await detach(sidecar)
 
     await Promise.race([
       future,

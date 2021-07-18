@@ -552,29 +552,30 @@ Learn more about examples at <https://github.com/huan/ffi-adapter/tree/master/te
 
 ## History
 
-### Master (0.9)
+### Master (v0.9)
 
 1. `agentTarget` will use `NativeFunction` instead of a plain javascript function
 1. Clean sidecar frida agent templates
     1. Use closure to encapsulate variables
     1. Add `__sidecar__` namespace for all variable names
 1. Enhance `@Sidecar()` to support spawn target. e.g. `@Sidecar(['/bin/sleep', [10]])`
+1. Add `.so` library example for Linux ([.so example](examples/linux-so-library/))
 
-### 0.6 (Jul 7, 2021)
+### v0.6 (Jul 7, 2021)
 
 1. Upgrade to TypeScript 4.4-dev for supporting index signatures for symbols. ([Microsoft/TypeScript#44512](https://github.com/microsoft/TypeScript/pull/44512))
 1. Add `sidecar-dump` utility: it dump the sidecar `metadata` and `source` from a class defination file now.
 1. Add pack testing for `sidecar-dump` to make sure it works under Liniux, Mac, and Windows.
 
-### 0.2 (Jul 5, 2021)
+### v0.2 (Jul 5, 2021)
 
 1. Add `agent` type support to `FunctionTarget` so that both `@Call` and `@Hook`can use a pre-defined native function ptr defined from the `initAgentScript`. (more types like `java`, `objc`, `name`, and `module` to be added)
 
-### 0.1 (Jul 4, 2021)
+### v0.1 (Jul 4, 2021)
 
 First worked version, published to NPM as `frida-sidecar`.
 
-### 0.0.1 (Jun 13, 2021)
+### v0.0.1 (Jun 13, 2021)
 
 Repo created.
 
