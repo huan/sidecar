@@ -16,6 +16,7 @@
  *   limitations under the License.
  */
 import path from 'path'
+import { SidecarTargetRawSpawn } from '../../src/decorators/sidecar/target'
 
 import {
   Call,
@@ -27,22 +28,33 @@ import {
   exportTarget,
 }                   from '../../src/mod'
 
-const libFile = path.join(
+const libFile = process.platform === 'linux' ? 'factorial-x64.so'
+  : process.platform === 'win32' ? 'factorial-x64.dll'
+    : undefined
+const spawnTarget = process.platform === 'linux' ? ['/bin/sleep', ['10']] as SidecarTargetRawSpawn
+  : process.platform === 'win32' ? ['C:\\Windows\\notepad.exe'] as SidecarTargetRawSpawn
+    : undefined
+
+if (!libFile || !spawnTarget) {
+  throw new Error('no libFile found!')
+}
+
+const libPath = path.join(
   __dirname,
-  'libfactorial.so',
+  libFile,
 )
 
 const initAgentScript = `
-  Module.load('${libFile}')
+  Module.load('${libPath}')
 `
 
 @Sidecar(
-  ['/bin/sleep', ['60']],
+  spawnTarget,
   initAgentScript,
 )
 class FactorialSidecar extends SidecarBody {
 
-  @Call(exportTarget('factorial', 'libfactorial.so'))
+  @Call(exportTarget('factorial', libFile))
   @RetType('uint64')
   factorial (
     @ParamType('int') n: number,

@@ -26,9 +26,9 @@ import {
 
 import { FactorialSidecar } from '../examples/linux-so-library/factorial-sidecar'
 
-test('.so library export function call', async (t) => {
-  if (process.platform !== 'linux') {
-    t.skip('This test will be skipped because it is using the Linux .so')
+test('library export function call', async (t) => {
+  if (process.platform !== 'linux' && process.platform !== 'win32') {
+    t.skip('This test will be skipped because it only support Linux(.so) and Windows(.dll) now')
     return
   }
 
