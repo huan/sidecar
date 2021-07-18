@@ -3,7 +3,6 @@ import { test }  from 'tstest'
 
 import {
   SidecarBody,
-  SpawnMode,
 }                 from './sidecar-body'
 import {
   init,
@@ -26,10 +25,10 @@ const targetProgram = () =>
 
 test('init()', async t => {
 
-  @Sidecar(targetProgram())
+  @Sidecar([targetProgram()])
   class SidecarTest extends SidecarBody {}
 
-  const s = new SidecarTest({ spawnMode: SpawnMode.Always })
+  const s = new SidecarTest()
   const future = new Promise<void>(resolve => s.on(INIT_SYMBOL, resolve))
 
   try {
@@ -51,10 +50,10 @@ test('init()', async t => {
 })
 test('attach()', async t => {
 
-  @Sidecar(targetProgram())
+  @Sidecar([targetProgram()])
   class SidecarTest extends SidecarBody {}
 
-  const s = new SidecarTest({ spawnMode: SpawnMode.Always })
+  const s = new SidecarTest()
 
   s.script = {
     unload: (..._: any[]) => { return {} as any },
@@ -85,10 +84,10 @@ test('attach()', async t => {
 
 test('detach()', async t => {
 
-  @Sidecar(targetProgram())
+  @Sidecar([targetProgram()])
   class SidecarTest extends SidecarBody {}
 
-  const s = new SidecarTest({ spawnMode: SpawnMode.Always })
+  const s = new SidecarTest()
   const future = new Promise<void>(resolve => s.on(DETACH_SYMBOL, resolve))
 
   try {

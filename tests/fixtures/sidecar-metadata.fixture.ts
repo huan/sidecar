@@ -76,7 +76,10 @@ const SIDECAR_METADATA: SidecarMetadata = {
       },
     },
   ],
-  targetProcess: 'chatbox-linux',
+  sidecarTarget: {
+    target: 'chatbox-linux',
+    type: 'process',
+  },
 }
 
 function getSidecarMetadataFixture (): SidecarMetadata {

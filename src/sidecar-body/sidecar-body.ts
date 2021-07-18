@@ -39,7 +39,6 @@ import {
   SidecarTargetObj,
 }                                   from '../decorators/sidecar/target'
 
-
 export interface SidecarBodyOptions {
   initAgentScript? : string,
   sidecarTarget?   : SidecarTarget,
@@ -175,7 +174,11 @@ class SidecarBody extends SidecarEmitter {
         return
       }
     } else if (isSidecarTargetSpawn(this.sidecarTarget)) {
-      const [command, args] = this.sidecarTarget.target
+      const [command] = this.sidecarTarget.target
+
+      let [, args] = this.sidecarTarget.target
+      args ??= []
+
       try {
         pid = await frida.spawn([command, ...args])
 
@@ -234,8 +237,11 @@ class SidecarBody extends SidecarEmitter {
      */
     while (true) {
       const fn = resumeCallbackList.pop()
-      if (fn) { await fn() }
-      else    { break }
+      if (fn) {
+        await fn()
+      } else {
+        break
+      }
     }
   }
 

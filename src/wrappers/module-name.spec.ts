@@ -6,11 +6,11 @@ import { moduleName } from './module-name'
 
 test('moduleName() spawn with linux path', async t => {
   const DATA = {
-    type: 'spawn',
     target: [
       '/usr/bin/command',
       ['arg1'],
     ],
+    type: 'spawn',
   } as SidecarTargetObjSpawn
   const EXPECT = 'command'
   const result = moduleName.call({
@@ -21,11 +21,11 @@ test('moduleName() spawn with linux path', async t => {
 
 test('moduleName() spawn with windows path', async t => {
   const DATA = {
-    type: 'spawn',
     target: [
       'C:\\Program Files\\folder\\command.exe',
       ['arg1'],
     ],
+    type: 'spawn',
   } as SidecarTargetObjSpawn
   const EXPECT = 'command.exe'
   const result = moduleName.call({

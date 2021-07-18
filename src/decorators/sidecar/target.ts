@@ -4,7 +4,7 @@ import { TargetProcess } from 'frida'
 type SpawnParameters = Parameters<typeof spawn>
 export type SidecarTargetRawSpawn = [
   command : SpawnParameters[0],
-  args    : SpawnParameters[1],
+  args?   : SpawnParameters[1],
 ]
 export type SidecarTargetRaw =  TargetProcess
                               | SidecarTargetRawSpawn
