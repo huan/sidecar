@@ -4,9 +4,6 @@ import {
 import {
   normalizeFunctionTarget,
 }                           from '../../function-target'
-import {
-  TargetProcess,
-}                           from '../../frida'
 
 import { getMetadataCall }        from '../call/metadata-call'
 import { getMetadataHook }        from '../hook/hook'
@@ -16,11 +13,15 @@ import { getMetadataRetType }     from '../ret-type/metadata-ret-type'
 import {
   SidecarMetadata,
   SidecarMetadataFunctionTypeDescription,
-}                                       from './metadata-sidecar'
+}                                           from './metadata-sidecar'
+import {
+  SidecarTarget,
+  normalizeSidecarTarget,
+}                                           from './target'
 
 interface BuildSidecarMetadataOptions {
   initAgentScript? : string,
-  targetProcess?   : TargetProcess,
+  sidecarTarget?   : SidecarTarget,
 }
 
 function buildSidecarMetadata <T extends {
@@ -123,14 +124,16 @@ function buildSidecarMetadata <T extends {
 
   const {
     initAgentScript,
-    targetProcess,
+    sidecarTarget,
   }                   = options
+
+  const normalizedTarget = normalizeSidecarTarget(sidecarTarget)
 
   return {
     initAgentScript,
     interceptorList,
     nativeFunctionList,
-    targetProcess,
+    sidecarTarget: normalizedTarget,
   }
 }
 

@@ -1,17 +1,29 @@
 import path from 'path'
 import { SidecarMetadata } from '../decorators/mod'
+import {
+  isSidecarTargetProcess,
+  isSidecarTargetSpawn,
+}                           from '../decorators/sidecar/target'
 
 function moduleName (
   this: SidecarMetadata,
 ) {
-  const targetProcess = this.targetProcess
-  if (!targetProcess) {
-    throw new Error('no targetProcess found in SidecarMetadata')
+  const targetObj = this.sidecarTarget
+  if (!targetObj) {
+    throw new Error('no target found in SidecarMetadata')
   }
 
-  return typeof targetProcess === 'number'
-    ? targetProcess
-    : path.basename(targetProcess)
+  if (isSidecarTargetProcess(targetObj)) {
+    return typeof targetObj.target === 'number'
+      ? targetObj.target
+      : path.win32.basename(targetObj.target)
+  } else if (isSidecarTargetSpawn(targetObj)) {
+    // See: https://nodejs.org/api/path.html
+    return path.win32.basename(targetObj.target[0])
+  } else {
+    throw new Error('unknown target obj: ' + JSON.stringify(targetObj))
+  }
+
 }
 
 export { moduleName }

@@ -1,7 +1,6 @@
-import { TargetProcess } from 'frida'
 import {
   log,
-}               from '../../config'
+}         from '../../config'
 
 import { SidecarBody } from '../../sidecar-body/sidecar-body'
 import { buildSidecarMetadata } from './build-sidecar-metadata'
@@ -9,14 +8,19 @@ import { buildSidecarMetadata } from './build-sidecar-metadata'
 // import { updateClassName }  from './update-class-name'
 // import { SIDECAR_SYMBOL }   from './constants'
 
-import { updateMetadataSidecar } from './metadata-sidecar'
+import { updateMetadataSidecar }  from './metadata-sidecar'
+import {
+  SidecarTarget,
+}                                 from './target'
 
 function Sidecar (
-  targetProcess    : TargetProcess,
+  sidecarTarget    : SidecarTarget,
   initAgentScript? : string,
 ) {
   log.verbose('Sidecar', '@Sidecar(%s%s)',
-    targetProcess,
+    Array.isArray(sidecarTarget)
+      ? JSON.stringify(sidecarTarget)
+      : sidecarTarget,
     initAgentScript
       ? `, "${initAgentScript.substr(0, 20)}..."`
       : '',
@@ -36,7 +40,9 @@ function Sidecar (
   ) {
     log.verbose('Sidecar',
       '@Sidecar(%s%s) classDecorator(%s)',
-      targetProcess || '',
+      Array.isArray(sidecarTarget)
+        ? JSON.stringify(sidecarTarget)
+        : (sidecarTarget || ''),
       `"${initAgentScript?.substr(0, 20)}..."` || '',
       Klass.name,
     )
@@ -48,7 +54,7 @@ function Sidecar (
 
     const meta = buildSidecarMetadata(Klass, {
       initAgentScript,
-      targetProcess,
+      sidecarTarget,
     })
     updateMetadataSidecar(Klass, meta)
   }

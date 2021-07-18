@@ -53,7 +53,7 @@ function updateRpcDescriptor (
     // console.log('target.constructor.name:', target.constructor.name)
 
     log.verbose(
-      `${target.constructor.name}`,
+      `${target.constructor.name}<Sidecar>`,
       `${propertyKey}(%s)`,
       args.join(', '),
     )

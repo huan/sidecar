@@ -1,16 +1,16 @@
 import {
   log,
-}               from '../../config'
+}                       from '../../config'
 import {
   TypeChain,
-  TargetProcess,
 }                       from '../../frida'
 import {
   TargetPayloadObj,
   FunctionTargetType,
 }                     from '../../function-target'
 
-import { SIDECAR_SYMBOL } from './constants'
+import { SIDECAR_SYMBOL }   from './constants'
+import { SidecarTargetObj } from './target'
 
 export interface SidecarMetadataFunctionDescription {
   name          : string
@@ -27,7 +27,7 @@ export interface SidecarMetadata {
   nativeFunctionList : SidecarMetadataFunctionTypeDescription[],
   interceptorList    : SidecarMetadataFunctionTypeDescription[],
   initAgentScript?   : string,
-  targetProcess?     : TargetProcess,
+  sidecarTarget?     : SidecarTargetObj,
 }
 
 function updateMetadataSidecar (

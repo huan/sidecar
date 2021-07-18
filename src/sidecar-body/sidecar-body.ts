@@ -4,8 +4,6 @@
  * Huan <zixia@zixia.net>, June 24, 2021
  *  https://github.com/huan/sidecar
  */
-import path from 'path'
-
 import { buildAgentSource }   from '../agent/build-agent-source'
 import { getMetadataSidecar } from '../decorators/sidecar/metadata-sidecar'
 
@@ -33,21 +31,18 @@ import {
   SidecarPayloadHook,
   SidecarPayloadLog,
 }                                   from './payload-schemas'
+import {
+  isSidecarTargetProcess,
+  isSidecarTargetSpawn,
+  normalizeSidecarTarget,
+  SidecarTarget,
+  SidecarTargetObj,
+}                                   from '../decorators/sidecar/target'
 
-/**
- * Frida: Spawning vs. attaching
- * https://summit-labs.frida.ninja/frida-tool-reference/frida
- */
-export enum SpawnMode {
-  Default = 0,
-  Always  = 1,
-  Never   = 2,
-}
 
 export interface SidecarBodyOptions {
   initAgentScript? : string,
-  spawnMode?       : SpawnMode,
-  targetProcess?   : frida.TargetProcess,
+  sidecarTarget?   : SidecarTarget,
 }
 
 class SidecarBody extends SidecarEmitter {
@@ -66,8 +61,7 @@ class SidecarBody extends SidecarEmitter {
    * Constructor options:
    */
   initAgentScript? : string
-  spawnMode        : SpawnMode
-  targetProcess?   : frida.TargetProcess
+  sidecarTarget?   : SidecarTargetObj
 
   /**
    * Whether the attached process has been spawned by Sidecar:
@@ -86,16 +80,15 @@ class SidecarBody extends SidecarEmitter {
         : '',
     )
 
-    this.initAgentScript  = options?.initAgentScript
-    this.spawnMode        = options?.spawnMode || SpawnMode.Default
-    this.targetProcess    = options?.targetProcess
+    this.initAgentScript = options?.initAgentScript
+    this.sidecarTarget   = normalizeSidecarTarget(options?.sidecarTarget)
   }
 
   protected async [INIT_SYMBOL] () {
     log.verbose('SidecarBody', '[INIT_SYMBOL]()')
 
-    const Klass = this.constructor as any
-    const metadata  = getMetadataSidecar(Klass)
+    const Klass    = this.constructor as any
+    const metadata = getMetadataSidecar(Klass)
 
     if (!metadata) {
       throw new Error([
@@ -115,20 +108,20 @@ class SidecarBody extends SidecarEmitter {
     }
 
     /**
-     * 2. targetProcess
+     * 2. sidecarTarget
      */
-    if (this.targetProcess) {
-      log.silly('SidecarBody', '[INIT_SYMBOL]() targetProgress has been specified from constructor args')
+    if (this.sidecarTarget) {
+      log.silly('SidecarBody', '[INIT_SYMBOL]() sidecarTarget has been specified from constructor args')
     } else {
-      if (!metadata.targetProcess) {
+      if (!metadata.sidecarTarget) {
         throw new Error([
-          'Sidecar must specify the "targetProcess"',
+          'Sidecar must specify the "sidecarTarget"',
           'either by the "@Sidecar" decorator,',
           'or in the "constructor()" parameters.',
         ].join('\n'))
       }
-      log.silly('SidecarBody', '[INIT_SYMBOL]() load targetProgress from metadata')
-      this.targetProcess = metadata.targetProcess
+      log.silly('SidecarBody', '[INIT_SYMBOL]() load sidecarTarget from metadata')
+      this.sidecarTarget = metadata.sidecarTarget
     }
 
     /**
@@ -145,85 +138,74 @@ class SidecarBody extends SidecarEmitter {
   async [ATTACH_SYMBOL] () {
     log.verbose('SidecarBody', '[ATTACH_SYMBOL]()')
 
-    if (!this.agentSource) {
+    if (typeof this.agentSource === 'undefined') {
       await this[INIT_SYMBOL]()
     }
 
     if (!(
-      this.agentSource && this.targetProcess
+      this.agentSource && this.sidecarTarget
     )) {
       throw new Error([
         'Sidecar:',
-        'agentSource or targetProcess not found.',
+        'agentSource or sidecarTarget not found.',
       ].join('\n'))
     }
-
-    const moduleName = typeof this.targetProcess === 'number'
-      ? this.targetProcess
-      : path.basename(this.targetProcess)
 
     const resumeCallbackList = []
 
     let pid: number
     let session : frida.Session
 
-    switch (this.spawnMode) {
-      /**
-       * Default: attach first, if failed, then try spawn.
-       */
-      case SpawnMode.Default:
-        try {
-          session = await frida.attach(moduleName)
-        } catch (e) {
-          log.silly('SidecarBody',
-            '[ATTACH_SYMBOL]() SpawnMode.Default attach(%s) failed. trying spawn...',
-            moduleName,
-          )
-          if (typeof this.targetProcess === 'number') {
-            this.emit('error', e as Error)
-            return
-          }
+    if (isSidecarTargetProcess(this.sidecarTarget)) {
+      const targetProcess = this.sidecarTarget.target
+      try {
+        session = await frida.attach(targetProcess)
+        log.silly('SidecarBody',
+          '[ATTACH_SYMBOL]() frida.attach(%s) succeed: pid = %s',
+          this.sidecarTarget.target,
+          session.pid,
+        )
+      } catch (e) {
+        log.silly('SidecarBody',
+          '[ATTACH_SYMBOL]() attach(%s) failed: %s',
+          targetProcess,
+          e && (e as Error).message,
+        )
+        this.emit('error', e as Error)
+        return
+      }
+    } else if (isSidecarTargetSpawn(this.sidecarTarget)) {
+      const [command, args] = this.sidecarTarget.target
+      try {
+        pid = await frida.spawn([command, ...args])
 
-          try {
-            pid = await frida.spawn(this.targetProcess)
-            this.spawnPid = pid
-
-            log.silly('SidecarBody',
-              '[ATTACH_SYMBOL]() spawn(%s) succeed: pid = %s',
-              this.targetProcess,
-              pid,
-            )
-            session = await frida.attach(pid)
-          } catch (e) {
-            log.error('SidecarBody',
-              '[ATTACH_SYMBOL]() spawn(%s) failed: %s\n%s',
-              e && (e as Error).message,
-              e && (e as Error).stack,
-            )
-            this.emit('error', e as Error)
-            return
-          }
-
-          resumeCallbackList.push(() => frida.resume(pid))
-        }
-        break
-
-      case SpawnMode.Always:
-        if (typeof this.targetProcess === 'number') {
-          throw new Error(`Sidecar: "targetProcess" must be program when using SpawnMode.Always. We got: ${this.spawnMode}`)
-        }
-        pid = await frida.spawn(this.targetProcess)
+        /**
+         * Huan(202107): Only save spawnPid
+         *  when we need to `frida.kill()` it within `detatch()`
+         */
         this.spawnPid = pid
 
         session = await frida.attach(pid)
-        break
+        resumeCallbackList.push(() => frida.resume(pid))
+        log.silly('SidecarBody',
+          '[ATTACH_SYMBOL]() friday.spawn(%s, [%s]) succeed: pid = %s',
+          command,
+          args.join(','),
+          pid,
+        )
+      } catch (e) {
+        log.silly('SidecarBody',
+          '[ATTACH_SYMBOL]() frida.attach(%s, [%s]) failed: %s',
+          command,
+          args.join(','),
+          e && (e as Error).message,
+        )
+        this.emit('error', e as Error)
+        return
+      }
 
-      case SpawnMode.Never:
-        session = await frida.attach(this.targetProcess)
-        break
-
-      default:
-        throw new Error('Sidecar: unknown SpawnMode: ' + this.spawnMode)
+    } else {
+      throw new Error('SidecarBody: unknown sidecar target obj payload: ' + JSON.stringify(this.sidecarTarget))
     }
 
     const script = await session.createScript(this.agentSource)
@@ -252,10 +234,8 @@ class SidecarBody extends SidecarEmitter {
      */
     while (true) {
       const fn = resumeCallbackList.pop()
-      if (!fn) {
-        break
-      }
-      await fn()
+      if (fn) { await fn() }
+      else    { break }
     }
   }
 

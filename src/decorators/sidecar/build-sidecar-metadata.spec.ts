@@ -50,7 +50,7 @@ test('@Sidecar() buildSidecarMetadata()', async t => {
   const Test = getFixture()
 
   const meta = buildSidecarMetadata(Test, {
-    targetProcess: 'chatbox',
+    sidecarTarget: 'chatbox',
   })
   const EXPECTED_DATA = {
     initAgentScript: undefined,

@@ -109,16 +109,34 @@ Learn more from the sidecar example: <https://github.com/huan/sidecar/blob/main/
 - [ ] Add `@Name()` support for specify parameter names in `@Hook()`-ed method args.
 - [ ] Calculate `Memory.alloc()` in sidecar agent scripts automatically.
 
+## Explanation
+
+### 1. Sidecar Steps
+
+When we are running a Sidecar Class, the following steps will happend:
+
+1. From the sidecar class file, decorators save all configs to the class metadata.
+    1. `@Sidecar()`: <src/decorators/sidecar/sidecar.ts>, <src/decorators/sidecar/build-sidecar-metadata.ts>
+    1. `@Call()`: <src/decorators/call/call.ts>
+    1. `@ParamType()`: <src/decorators/param-type/param-type.ts>
+    1. `@RetType()`: <src/decorators/ret-type/ret-type.ts>
+    1. `@Hook()`, `@Name`, etc.
+1. `SidecarBody`(<src/sidecar-body/sidecar-body.ts>) base class will generate `agentSource`:
+    1. `getMetadataSidecar()`(<src/decorators/sidecar/metadata-sidecar.ts>) for get the sidecar metadata from the class
+    1. `buildAgentSource()`(<src/agent/build-agent-source.ts>) for generate the agent source code for the whole sidecar system.
+1. Call the `attach()` method to attach the sidecar to the target
+1. Call the `detach()` method to detach the sidecar to the target
+
 ## References
 
-### 1. `@Sidecar(targetProcess, initAgentScript)`
+### 1. `@Sidecar(sidecarTarget, initAgentScript)`
 
-1. `targetProcess`    : `TargetProcess`,
+1. `sidecarTarget`    : `SidecarTarget`,
 1. `initAgentScript`? : `string`,
 
 The class decorator.
 
-`targetProcess` is the executable binary name,
+`sidecarTarget` is the executable binary name,
 and the `initAgentScript` is a Frida agent script
 that help you to do whatever you want to do
 with Frida system.
@@ -139,6 +157,15 @@ const initAgentScript = 'console.log("this will be runned when the sidecar class
   'chatbox', 
   initAgentScript,
 )
+```
+
+`sidecarTarget` supports `Spawn` mode, by specifing the `sidecarTarget` as a `array`:
+
+```ts
+@Sidecar([
+  '/bin/sleep', // command
+  [10],         // args
+])
 ```
 
 ### 2. `class SidecarBody`
@@ -373,7 +400,7 @@ $ sidecar-dump metadata examples/chatbox-sidecar.ts
       }
     }
   ],
-  "targetProcess": "/tmp/t/examples/chatbox/chatbox-linux"
+  "sidecarTarget": "/tmp/t/examples/chatbox/chatbox-linux"
 }
 ```
 
