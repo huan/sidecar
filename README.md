@@ -552,12 +552,13 @@ Learn more about examples at <https://github.com/huan/ffi-adapter/tree/master/te
 
 ## History
 
-### Master (0.8)
+### Master (0.9)
 
 1. `agentTarget` will use `NativeFunction` instead of a plain javascript function
 1. Clean sidecar frida agent templates
     1. Use closure to encapsulate variables
     1. Add `__sidecar__` namespace for all variable names
+1. Enhance `@Sidecar()` to support spawn target. e.g. `@Sidecar(['/bin/sleep', [10]])`
 
 ### 0.6 (Jul 7, 2021)
 
