@@ -559,26 +559,7 @@ a binary instrumentation workshop, using Frida, for beginners, @leonjza](http://
 
 I have another NPM module named [ffi-adapter](https://github.com/huan/ffi-adapter), which is a Foreign Function Interface Adapter Powered by Decorator & TypeScript.
 
-FFi Adapter example:
-
-```ts
-import {
-  LIBRARY,
-  API,
-  RETURN,
-}             from 'ffi-adapter'
-
-@LIBRARY('./libfactorial')
-export class LibFactorial {
-  @API() factorial (n: number): number { return RETURN(n) }
-}
-
-const lib = new LibFactorial()
-console.log('factorial(5) =', lib.factorial(5))
-// Output: factorial(5) = 120
-```
-
-Learn more about examples at <https://github.com/huan/ffi-adapter/tree/master/tests/fixtures/library>
+Learn more about FFI from its examples at <https://github.com/huan/ffi-adapter/tree/master/tests/fixtures/library>
 
 ## Badge
 
