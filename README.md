@@ -414,7 +414,7 @@ the `sidecar-dump source` command is to viewing this frida agent source, so that
 
 For example, the following is the source code showed by sidecar-dump for our `ChatboxSidecar` class from [examples/chatbox-sidecar.ts](examples/chatbox-sidecar.ts).
 
-```sh
+```ts
 $ sidecar-dump source  examples/chatbox-sidecar.ts
 ...
 const __sidecar__mo_NativeFunction_wrapper = (() => {
