@@ -1,5 +1,9 @@
-import { spawn } from 'child_process'
+import type { spawn } from 'child_process'
+import fs from 'fs'
+import path from 'path'
 import { TargetProcess } from 'frida'
+
+import { log } from '../../config'
 
 type SpawnParameters = Parameters<typeof spawn>
 export type SidecarTargetRawSpawn = [
@@ -39,6 +43,14 @@ const normalizeSidecarTarget = (
   if (typeof target === 'string' || typeof target === 'number') {
     return sidecarTargetObjProcess(target)
   } else if (Array.isArray(target)) {
+    const command = path.resolve(process.cwd(), target[0])
+    if (fs.existsSync(command)) {
+      log.verbose('Sidecar', 'normalizeSidecarTarget() spawn command found: "%s"', command)
+      target[0] = command
+    } else {
+      log.warn('Sidecar', 'normalizeSidecarTarget() spawn command not found: "%s"', command)
+    }
+
     return sidecarTargetObjSpawn(target)
   } else {
     return target
