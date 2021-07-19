@@ -5,9 +5,6 @@ import {
 import { SidecarBody } from '../../sidecar-body/sidecar-body'
 import { buildSidecarMetadata } from './build-sidecar-metadata'
 
-// import { updateClassName }  from './update-class-name'
-// import { SIDECAR_SYMBOL }   from './constants'
-
 import { updateMetadataSidecar }  from './metadata-sidecar'
 import {
   SidecarTarget,
