@@ -25,16 +25,13 @@ import {
   RetType,
   Ret,
   agentTarget,
-}                   from '../src/mod'
+}                   from '../../src/mod'
 
 import {
   targetAddress,
   targetProgram,
-}                   from './sidecar-config'
-
-import {
   loadAgentScript,
-}                   from './load-agent-script'
+}                   from './sidecar-config'
 
 void targetAddress
 void agentTarget

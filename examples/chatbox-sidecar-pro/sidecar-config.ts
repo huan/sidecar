@@ -16,9 +16,10 @@
  *   limitations under the License.
  *
  */
+import fs   from 'fs'
 import path from 'path'
 
-import { FunctionTarget } from '../src/function-target'
+import { FunctionTarget } from '../../src/function-target'
 
 /**
  * See: https://github.com/frida/frida-node/blob/master/test/data/index.ts
@@ -36,6 +37,7 @@ function targetProgram () {
 
   return path.join(
     __dirname,
+    '..',
     'chatbox',
     chatboxNameList.join(''),
   )
@@ -82,7 +84,13 @@ const targetAddressConfig = (config: TargetAddressConfig) => (
 
 const targetAddress = targetAddressConfig(chatboxConfig)
 
+function loadAgentScript () {
+  const file = require.resolve('./init-agent-script.js')
+  return fs.readFileSync(file, 'utf8')
+}
+
 export {
   targetProgram,
   targetAddress,
+  loadAgentScript,
 }

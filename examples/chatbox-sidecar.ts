@@ -26,7 +26,7 @@ import {
   Ret,
 }                   from '../src/mod'
 
-@Sidecar('chatbox-linux')
+@Sidecar(['examples/chatbox/chatbox-linux'])
 class ChatboxSidecar extends SidecarBody {
 
   @Call(0x11e9)     // call address
