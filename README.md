@@ -550,6 +550,12 @@ Learn more about examples at <https://github.com/huan/ffi-adapter/tree/master/te
 [![Powered by Sidecar](https://img.shields.io/badge/Powered%20By-Sidecar-red.svg)](https://github.com/huan/sidecar)
 ```
 
+## Demos for Community
+
+We have created different demos that work-out-of-box for some use cases.
+
+You can visit them at [Sidecar Demos](https://github.com/wechaty/sidecar-demos) if you are interested.
+
 ## History
 
 ### Master (v0.9)
@@ -559,7 +565,7 @@ Learn more about examples at <https://github.com/huan/ffi-adapter/tree/master/te
     1. Use closure to encapsulate variables
     1. Add `__sidecar__` namespace for all variable names
 1. Enhance `@Sidecar()` to support spawn target. e.g. `@Sidecar(['/bin/sleep', [10]])`
-1. Add `.so` library example for Linux ([.so example](examples/linux-so-library/))
+1. Add `.so` & `.DLL` library example for Linux & Windows ([Dynamic Library Example](examples/dynamic-library/))
 
 ### v0.6 (Jul 7, 2021)
 
