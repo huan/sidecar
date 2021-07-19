@@ -28,11 +28,12 @@ import {
   exportTarget,
 }                   from '../../src/mod'
 
-const libFile = process.platform === 'linux' ? 'factorial-x64.so'
-  : process.platform === 'win32' ? 'factorial-x64.dll'
+const libFile = process.platform === 'linux' ? 'libfactorial-x64.so'
+  :             process.platform === 'win32' ? 'libfactorial-x64.dll'
     : undefined
-const spawnTarget = process.platform === 'linux' ? ['/bin/sleep', ['10']] as SidecarTargetRawSpawn
-  : process.platform === 'win32' ? ['C:\\Windows\\notepad.exe'] as SidecarTargetRawSpawn
+
+const spawnTarget = process.platform === 'linux' ? ['/bin/sleep', ['10']]       as SidecarTargetRawSpawn
+  :                 process.platform === 'win32' ? ['C:\\Windows\\notepad.exe'] as SidecarTargetRawSpawn
     : undefined
 
 if (!libFile || !spawnTarget) {
