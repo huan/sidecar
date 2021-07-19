@@ -416,24 +416,59 @@ For example, the following is the source code showed by sidecar-dump for our `Ch
 
 ```sh
 $ sidecar-dump source  examples/chatbox-sidecar.ts
-/****************************************************
- * File: "templates/agent.mustache"
- *  > Get base address for target "chatbox-linux"
- ****************************************************/
-const sidecarModuleBaseAddress = Module.getBaseAddress('chatbox-linux')
+...
+const __sidecar__mo_NativeFunction_wrapper = (() => {
+  const nativeFunctionAddress =
+    __sidecar__moduleBaseAddress
+    .add(0x11e9)
 
-/***********************************
- * File: "templates/agent.mustache
- *  > Variable: "initAgentScript"
- ***********************************/
-const agentMo = new NativeFunction(
-  sidecarModuleBaseAddress.add(0x11c9),
-  'void',
-  ['pointer'],
-)
+  const nativeFunction = new NativeFunction(
+    nativeFunctionAddress,
+    'int',
+    ['pointer'],
+  )
 
-#...
+  return function (...args) {
+    log.verbose(
+      'SidecarAgent',
+      'mo(%s)',
+      args.join(', '),
+    )
 
+    // pointer type for arg[0] -> Utf8String
+    const mo_NativeArg_0 = Memory.alloc(1024 /*Process.pointerSize*/)
+    mo_NativeArg_0.writeUtf8String(args[0])
+
+    const ret = nativeFunction(...[mo_NativeArg_0])
+    return Number(ret)
+  }
+})()
+
+;(() => {
+  const interceptorTarget =
+    __sidecar__moduleBaseAddress
+    .add(0x121f)
+
+  Interceptor.attach(
+    interceptorTarget,
+    {
+      onEnter: args => {
+        log.verbose(
+          'SidecarAgent',
+          'Interceptor.attach(0x%s) onEnter()',
+          Number(0x121f).toString(16),
+        )
+
+        send(__sidecar__payloadHook(
+          'mt',
+          [ args[0].readUtf8String() ]
+        ), null)
+
+      },
+    }
+  )
+})()
+...
 ```
 
 You can dump the sidecar agent source code to a javascript file, then using it with frida directly for debugging & testing.
