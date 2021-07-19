@@ -468,7 +468,10 @@ const __sidecar__mo_NativeFunction_wrapper = (() => {
     }
   )
 })()
-...
+
+rpc.exports = {
+  mo: __sidecar__mo_NativeFunction_wrapper,
+}
 ```
 
 You can dump the sidecar agent source code to a javascript file, then using it with frida directly for debugging & testing.
