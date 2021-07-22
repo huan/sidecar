@@ -24,6 +24,18 @@ import {
   detach,
 }                       from './sidecar-body/mod'
 
+import {
+  INIT_SYMBOL,
+  ATTACH_SYMBOL,
+  DETACH_SYMBOL,
+
+  SCRIPT_DESTROYED_HANDLER_SYMBOL,
+  SCRIPT_MESSAGRE_HANDLER_SYMBOL,
+
+  LOG_EVENT_HANDLER,
+  HOOK_EVENT_HANDLER,
+}                                     from './sidecar-body/constants'
+
 /**
  * Decorators
  */
@@ -43,8 +55,20 @@ import {
   FunctionTarget,
 }                     from './function-target'
 
+const debug = {
+  ATTACH_SYMBOL,
+  DETACH_SYMBOL,
+  HOOK_EVENT_HANDLER,
+  INIT_SYMBOL,
+  LOG_EVENT_HANDLER,
+  SCRIPT_DESTROYED_HANDLER_SYMBOL,
+  SCRIPT_MESSAGRE_HANDLER_SYMBOL,
+}
+
 export {
   VERSION,
+
+  debug,
 
   attach,
   detach,

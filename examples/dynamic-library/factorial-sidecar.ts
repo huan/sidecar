@@ -45,9 +45,7 @@ const libPath = path.join(
   libFile,
 ).replace(/\\/g, '\\\\')
 
-const initAgentScript = `
-  Module.load('${libPath}')
-`
+const initAgentScript = `Module.load('${libPath}')`
 
 @Sidecar(
   spawnTarget,
