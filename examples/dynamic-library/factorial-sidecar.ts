@@ -30,15 +30,24 @@ import {
 
 const libFile = process.platform === 'linux' ? 'libfactorial-x64.so'
   :             process.platform === 'win32' ? 'libfactorial-x64.dll'
-    : undefined
+    :           process.platform === 'darwin' ? (
+      process.arch === 'arm64'
+        ? 'libfactorial.dylib'
+        : undefined
+    )
+      : undefined
 
 const spawnTarget = process.platform === 'linux' ? ['/bin/sleep', ['10']]       as SidecarTargetRawSpawn
   :                 process.platform === 'win32' ? ['C:\\Windows\\notepad.exe'] as SidecarTargetRawSpawn
-    : undefined
+    :               process.platform === 'darwin' ? ['/bin/sleep', ['10']]      as SidecarTargetRawSpawn
+      : undefined
 
 if (!libFile || !spawnTarget) {
-  throw new Error('no libFile found!')
+  console.error(`process.platform: ${process.platform} is not supported yet.`)
+  throw new Error('no libFile or spawnTarget found!')
 }
+
+console.log('libFile:', libFile, '\nspawnTarget:', spawnTarget)
 
 const libPath = path.join(
   __dirname,

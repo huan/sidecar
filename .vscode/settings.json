@@ -70,4 +70,7 @@
     "javascript",
     "typescript",
   ],
+  "files.associations": {
+    "dlfcn.h": "c"
+  },
 }
