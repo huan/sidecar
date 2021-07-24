@@ -16,7 +16,6 @@
  *   limitations under the License.
  *
  */
-import fs   from 'fs'
 import path from 'path'
 
 import { FunctionTarget } from '../../src/function-target'
@@ -53,9 +52,9 @@ interface TargetAddressConfig {
 
 const chatboxConfig: TargetAddressConfig = {
   darwin: {
-    x64: {
-      mo: 0x0,
-      mt: 0x0,
+    arm64: {
+      mo: 0x3d88,
+      mt: 0x3dc8,
     },
   },
   linux: {
@@ -84,13 +83,7 @@ const targetAddressConfig = (config: TargetAddressConfig) => (
 
 const targetAddress = targetAddressConfig(chatboxConfig)
 
-function loadAgentScript () {
-  const file = require.resolve('./init-agent-script.js')
-  return fs.readFileSync(file, 'utf8')
-}
-
 export {
   targetProgram,
   targetAddress,
-  loadAgentScript,
 }

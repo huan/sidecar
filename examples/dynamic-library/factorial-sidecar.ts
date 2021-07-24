@@ -33,9 +33,9 @@ const libFile = process.platform === 'linux'  ? 'libfactorial-x64.so'
     :           process.platform === 'darwin' ? 'libfactorial.dylib'
       : undefined
 
-const spawnTarget = process.platform === 'linux' ? ['/bin/sleep', ['10']]       as SidecarTargetRawSpawn
-  :                 process.platform === 'win32' ? ['C:\\Windows\\notepad.exe'] as SidecarTargetRawSpawn
-    :               process.platform === 'darwin' ? ['/bin/sleep', ['10']]      as SidecarTargetRawSpawn
+const spawnTarget = process.platform === 'linux'  ? ['/bin/sleep', ['10']]        as SidecarTargetRawSpawn
+  :                 process.platform === 'darwin' ? ['/bin/sleep', ['10']]        as SidecarTargetRawSpawn
+    :               process.platform === 'win32'  ? ['C:\\Windows\\notepad.exe']  as SidecarTargetRawSpawn
       : undefined
 
 if (!libFile || !spawnTarget) {

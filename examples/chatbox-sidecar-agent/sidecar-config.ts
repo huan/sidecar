@@ -16,41 +16,37 @@
  *   limitations under the License.
  *
  */
-import {
-  Sidecar,
-  SidecarBody,
-  Call,
-  Hook,
-  ParamType,
-  RetType,
-  Ret,
-  agentTarget,
-}                   from '../../src/mod'
+import fs   from 'fs'
+import path from 'path'
 
-import {
-  targetAddress,
-  targetProgram,
-}                   from './sidecar-config'
+/**
+ * See: https://github.com/frida/frida-node/blob/master/test/data/index.ts
+ */
+function targetProgram () {
+  const chatboxNameList = [
+    'chatbox',
+    '-',
+    process.platform,
+  ]
 
-void targetAddress
-void agentTarget
+  if (process.platform === 'win32') {
+    chatboxNameList.push('.exe')
+  }
 
-@Sidecar(
-  [targetProgram()],    // chatbox-linux
-)
-class ChatboxSidecarPro extends SidecarBody {
-
-  @Call(targetAddress('mo'))
-  @RetType('int')
-  mo (
-    @ParamType('pointer', 'Utf8String') content: string,
-  ): Promise<number> { return Ret(content) }
-
-  @Hook(targetAddress('mt'))
-  mt (
-    @ParamType('pointer', 'Utf8String') content: string,
-  ) { return Ret(content) }
-
+  return path.join(
+    __dirname,
+    '..',
+    'chatbox',
+    chatboxNameList.join(''),
+  )
 }
 
-export { ChatboxSidecarPro }
+function loadAgentScript () {
+  const file = require.resolve('./init-agent-script.js')
+  return fs.readFileSync(file, 'utf8')
+}
+
+export {
+  targetProgram,
+  loadAgentScript,
+}
