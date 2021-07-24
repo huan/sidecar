@@ -28,13 +28,9 @@ import {
   exportTarget,
 }                   from '../../src/mod'
 
-const libFile = process.platform === 'linux' ? 'libfactorial-x64.so'
-  :             process.platform === 'win32' ? 'libfactorial-x64.dll'
-    :           process.platform === 'darwin' ? (
-      process.arch === 'arm64'
-        ? 'libfactorial.dylib'
-        : undefined
-    )
+const libFile = process.platform === 'linux'  ? 'libfactorial-x64.so'
+  :             process.platform === 'win32'  ? 'libfactorial-x64.dll'
+    :           process.platform === 'darwin' ? 'libfactorial.dylib'
       : undefined
 
 const spawnTarget = process.platform === 'linux' ? ['/bin/sleep', ['10']]       as SidecarTargetRawSpawn
