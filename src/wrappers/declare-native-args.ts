@@ -36,38 +36,45 @@ function declareNativeArgs (this: SidecarMetadataFunctionDescription) {
       continue
     }
 
-    /**
-     * Current arg is a native pointer
-     */
-    statementChain.push(
-      `// pointer type for arg[${argIdx}] -> ${pointerTypeList.join(' -> ')}`,
-      // FIXME: Huan(202106) how to get the size? (1024)
-      `const ${nativeArgName(name, argIdx)} = Memory.alloc(1024 /*Process.pointerSize*/)`,
-    )
-    let lastVarName: string = nativeArgName(name, argIdx)
+    if (pointerTypeList.length > 0) {
+      /**
+       * Current arg is a native pointer
+       */
+      statementChain.push(
+        `// pointer type for arg[${argIdx}] -> ${pointerTypeList.join(' -> ')}`,
+        // FIXME: Huan(202106) how to get the size? (1024)
+        `const ${nativeArgName(name, argIdx)} = Memory.alloc(1024 /*Process.pointerSize*/)`,
+      )
+      let lastVarName: string = nativeArgName(name, argIdx)
 
-    for (const [typeIdx, pointerType] of pointerTypeList.entries()) {
-      if (pointerType === 'Pointer') {
+      for (const [typeIdx, pointerType] of pointerTypeList.entries()) {
+        if (pointerType === 'Pointer') {
 
-        statementChain.push(
-          `const ${bufName(name, argIdx, typeIdx)} = Memory.alloc(Process.pointerSize)`,
-          `${lastVarName}.writePointer(${bufName(name, argIdx, typeIdx)})`
-        )
+          statementChain.push(
+            `const ${bufName(name, argIdx, typeIdx)} = Memory.alloc(Process.pointerSize)`,
+            `${lastVarName}.writePointer(${bufName(name, argIdx, typeIdx)})`
+          )
 
-        lastVarName = bufName(name, argIdx, typeIdx)
-      } else {
+          lastVarName = bufName(name, argIdx, typeIdx)
+        } else {
 
-        /**
-         * Best Practices: String allocation (UTF-8/UTF-16/ANSI)
-         *  https://frida.re/docs/best-practices/
-         *
-         * Huan(202106) FIXME: alloc memory for string before assign to native argumenments
-         */
-        statementChain.push(
-          `${lastVarName}.write${pointerType}(${argName(argIdx)})`,
-        )
+          /**
+           * Best Practices: String allocation (UTF-8/UTF-16/ANSI)
+           *  https://frida.re/docs/best-practices/
+           *
+           * Huan(202106) FIXME: alloc memory for string before assign to native argumenments
+           */
+          statementChain.push(
+            `${lastVarName}.write${pointerType}(${argName(argIdx)})`,
+          )
 
+        }
       }
+    } else {
+      statementChain.push(
+        `// pointer type for arg[${argIdx}] -> ${pointerTypeList.join(' -> ')}`,
+        `const ${nativeArgName(name, argIdx)} = ${argName(argIdx)}`,
+      )
     }
 
     declareStatementList.push(statementChain.join('\n'))

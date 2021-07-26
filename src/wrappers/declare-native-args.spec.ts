@@ -42,7 +42,7 @@ test('declareNativeArgs()', async t => {
     ].join('\n'),
     [
       '// pointer type for arg[0] -> ',
-      'const pionterMethod_NativeArg_0 = Memory.alloc(1024 /*Process.pointerSize*/)',
+      'const pionterMethod_NativeArg_0 = args[0]',
     ].join('\n'),
   ]
   t.deepEqual(result, EXPECTED, 'should declare the native args correctly.')
