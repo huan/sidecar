@@ -104,6 +104,6 @@ dist
 .tern-port
 
 package-lock.json
-messaging
 t.*
 t/
+a.out

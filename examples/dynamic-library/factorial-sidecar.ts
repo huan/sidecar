@@ -28,17 +28,22 @@ import {
   exportTarget,
 }                   from '../../src/mod'
 
-const libFile = process.platform === 'linux' ? 'libfactorial-x64.so'
-  :             process.platform === 'win32' ? 'libfactorial-x64.dll'
-    : undefined
+const libFile = process.platform === 'linux'  ? 'libfactorial-x64.so'
+  :             process.platform === 'win32'  ? 'libfactorial-x64.dll'
+    :           process.platform === 'darwin' ? 'libfactorial.dylib'
+      : undefined
 
-const spawnTarget = process.platform === 'linux' ? ['/bin/sleep', ['10']]       as SidecarTargetRawSpawn
-  :                 process.platform === 'win32' ? ['C:\\Windows\\notepad.exe'] as SidecarTargetRawSpawn
-    : undefined
+const spawnTarget = process.platform === 'linux'  ? ['/bin/sleep', ['10']]        as SidecarTargetRawSpawn
+  :                 process.platform === 'darwin' ? ['/bin/sleep', ['10']]        as SidecarTargetRawSpawn
+    :               process.platform === 'win32'  ? ['C:\\Windows\\notepad.exe']  as SidecarTargetRawSpawn
+      : undefined
 
 if (!libFile || !spawnTarget) {
-  throw new Error('no libFile found!')
+  console.error(`process.platform: ${process.platform} is not supported yet.`)
+  throw new Error('no libFile or spawnTarget found!')
 }
+
+console.log('libFile:', libFile, '\nspawnTarget:', spawnTarget)
 
 const libPath = path.join(
   __dirname,

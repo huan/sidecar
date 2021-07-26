@@ -28,25 +28,23 @@ import {
 }                   from '../../src/mod'
 
 import {
-  targetAddress,
   targetProgram,
+  loadAgentScript,
 }                   from './sidecar-config'
 
-void targetAddress
-void agentTarget
-
 @Sidecar(
-  [targetProgram()],    // chatbox-linux
+  [targetProgram()],  // chatbox-linux
+  loadAgentScript(),  // helper agent scripts
 )
 class ChatboxSidecarPro extends SidecarBody {
 
-  @Call(targetAddress('mo'))
+  @Call(agentTarget('moNativeFunction'))
   @RetType('int')
   mo (
     @ParamType('pointer', 'Utf8String') content: string,
   ): Promise<number> { return Ret(content) }
 
-  @Hook(targetAddress('mt'))
+  @Hook(agentTarget('mtNativeCallback'))
   mt (
     @ParamType('pointer', 'Utf8String') content: string,
   ) { return Ret(content) }

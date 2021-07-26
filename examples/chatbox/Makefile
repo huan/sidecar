@@ -14,7 +14,7 @@ build:
 linux: chatbox.c
 	gcc -o chatbox-$(detected_OS) chatbox.c
 
-mac: chatbox.c
+darwin: chatbox.c
 	gcc -o chatbox-$(detected_OS) chatbox.c
 
 win32: chatbox.c
