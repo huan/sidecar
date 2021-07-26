@@ -46,12 +46,12 @@ function guardParamType (
       guardPointerType(pointerTypeList)(designParamType)
     }
   } catch (e) {
-    log.error('Sidecar', 'guardParamType() %s', e && (e as Error).message)
-    throw new Error([
+    log.error('Sidecar', [
       `The "${target.constructor.name}.${String(propertyKey)}(args[${parameterIndex}])`,
       `decorated by "@ParamType(${nativeType}, ...)"`,
       `does match the design type "${designParamType?.name}"`,
     ].join('\n'))
+    throw e
   }
 }
 

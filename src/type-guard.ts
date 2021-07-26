@@ -17,7 +17,10 @@ export type ReflectedDesignType = typeof undefined
                                 | typeof Promise
                                 | typeof String
 
-const undefinedNativeTypes  = ['void']    as NativeType[]
+const undefinedNativeTypes  = [
+  'pointer',
+  'void',
+]                                         as NativeType[]
 const undefinedPointerTypes = []          as PointerType[]
 
 const bufferNativeTypes  = ['pointer']    as NativeType[]
@@ -134,8 +137,11 @@ const guardNativeType = (nativeType: NativeType) => (designType: ReflectedDesign
 }
 
 const guardPointerType = (pointerTypeList: PointerType[]) => (designType: ReflectedDesignType) => {
-  if (!Array.isArray(pointerTypeList) || pointerTypeList.length <= 0) {
-    throw new Error('pointerTypeList is empty')
+  if (pointerTypeList.length === 0) {
+    /**
+     * Huan(202107): NativePointer allow raw pointer (`null` as well)
+     */
+    return
   }
 
   const pointerType = pointerTypeList[pointerTypeList.length - 1]
