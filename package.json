@@ -72,7 +72,7 @@
     "@types/frida-gum": "^17.0.0",
     "brolog": "^1.12.4",
     "cmd-ts": "^0.7.0",
-    "frida": "^15.0.2",
+    "frida": "=15.0.8",
     "mustache": "^4.2.0",
     "reflect-metadata": "^0.1.13",
     "slash": "^3.0.0",
