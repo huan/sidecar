@@ -550,6 +550,7 @@ a binary instrumentation workshop, using Frida, for beginners, @leonjza](http://
 - [iOS逆向分析笔记](https://www.jianshu.com/p/157f56d60a59)
 - [iOS — To swizzle or not to swizzle?](https://medium.com/rocknnull/ios-to-swizzle-or-not-to-swizzle-f8b0ed4a1ce6)
 - [0x04 Calling iOS Native Functions from Python Using Frida and RPC](https://grepharder.github.io/blog/0x04_calling_ios_native_functions_from_python_using_frida_and_rpc.html)
+- [Runtime奇技淫巧之类(Class)和对象(id)以及方法(SEL)](https://www.jianshu.com/p/37e1b71ad03a)
 
 ### Java
 
