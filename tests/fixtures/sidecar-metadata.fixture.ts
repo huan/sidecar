@@ -77,7 +77,7 @@ const SIDECAR_METADATA: SidecarMetadata = {
     },
     {
       address: {
-        name: 'pionterMethod',
+        name: 'pointerMethod',
         paramTypeList: [
           [
             'pointer',

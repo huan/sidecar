@@ -13,13 +13,17 @@ function jsRet (this: SidecarMetadataFunctionDescription) {
   const resultChain = []
 
   if (nativeType === 'pointer') {
-    resultChain.push(
-      'ret.readPointer()'
-    )
-    for (const pointerType of pointerTypeList) {
+    if (pointerTypeList.length > 0) {
       resultChain.push(
-        `.read${pointerType}()`
+        'ret.readPointer()'
       )
+      for (const pointerType of pointerTypeList) {
+        resultChain.push(
+          `.read${pointerType}()`
+        )
+      }
+    } else {
+      resultChain.push('ret') // raw pointer
     }
   } else {
     switch (nativeType) {
