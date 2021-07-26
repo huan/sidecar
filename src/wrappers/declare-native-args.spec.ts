@@ -42,7 +42,7 @@ test('declareNativeArgs()', async t => {
     ].join('\n'),
     [
       '// pointer type for arg[0] -> ',
-      'const pointerMethod_NativeArg_0 = args[0]',
+      'const pointerMethod_NativeArg_0 = ptr(Number(args[0]))',
     ].join('\n'),
   ]
   t.deepEqual(result, EXPECTED, 'should declare the native args correctly.')

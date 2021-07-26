@@ -46,7 +46,8 @@ function declareNativeArgs (this: SidecarMetadataFunctionDescription) {
        */
       statementChain.push(
         `// pointer type for arg[${argIdx}] -> ${pointerTypeList.join(' -> ')}`,
-        `const ${nativeArgName(name, argIdx)} = ${argName(argIdx)}`,
+        // Number() is to convert the `null` to number
+        `const ${nativeArgName(name, argIdx)} = ptr(Number(${argName(argIdx)}))`,
       )
     } else { // pointerTypeList.length > 0
       /**
