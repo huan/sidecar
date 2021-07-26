@@ -137,14 +137,15 @@ const guardNativeType = (nativeType: NativeType) => (designType: ReflectedDesign
 }
 
 const guardPointerType = (pointerTypeList: PointerType[]) => (designType: ReflectedDesignType) => {
-  if (pointerTypeList.length === 0) {
+  let pointerType: PointerType
+  if (pointerTypeList.length > 0) {
+    pointerType = pointerTypeList[pointerTypeList.length - 1]
+  } else {
     /**
      * Huan(202107): NativePointer allow raw pointer (`null` as well)
      */
-    return
+    pointerType = 'Pointer'
   }
-
-  const pointerType = pointerTypeList[pointerTypeList.length - 1]
 
   if (!designTypesCompatibleTable.has(designType)) {
     throw new Error(`Unsupported designType: ${(typeof designType)} ${(designType && designType.name)} ${designType}`)

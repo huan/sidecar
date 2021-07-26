@@ -24,7 +24,7 @@ function guardRetType (
   const designRetType = Reflect.getMetadata('design:returntype', target, propertyKey) as ReflectedDesignType
 
   log.verbose('Sidecar',
-    'guardRetType(%s.%s) designType/nativeType/pointerTypeList: %s/%s/%s',
+    'guardRetType(%s.%s) designType/nativeType/pointerTypeList: %s/%s/[%s]',
     target.constructor.name,
     propertyKey,
 
