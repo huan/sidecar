@@ -21,6 +21,7 @@ test('nativeParamTypes()', async t => {
   const EXPECTED_RESULT = [
     "'pointer', 'pointer'",
     "'pointer', 'int'",
+    "'pointer'",
   ]
   t.deepEqual(result, EXPECTED_RESULT, 'should list the native param types correctly.')
 })

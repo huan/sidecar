@@ -28,6 +28,7 @@ test('render rpc-exports()', async t => {
    */
   const context = {
     __sidecar__anotherCall_NativeFunction_wrapper: () => {},
+    __sidecar__pointerMethod_NativeFunction_wrapper: () => {},
     __sidecar__testMethod_NativeFunction_wrapper: () => {},
     rpc: {
       exports: {},
@@ -36,8 +37,9 @@ test('render rpc-exports()', async t => {
 
   vm.createContext(context) // Contextify the object.
   vm.runInContext(code, context)
-  t.true('testMethod' in context.rpc.exports, 'should export testMethod')
-  t.true('anotherCall' in context.rpc.exports, 'should export anotherCall')
+  t.true('testMethod'     in context.rpc.exports, 'should export testMethod')
+  t.true('pointerMethod'  in context.rpc.exports, 'should export pointerMethod')
+  t.true('anotherCall'    in context.rpc.exports, 'should export anotherCall')
 
   /**
    * Do not export Hook/Interceptor methods

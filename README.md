@@ -586,6 +586,7 @@ You can visit them at [Sidecar Demos](https://github.com/wechaty/sidecar-demos) 
     1. Add `__sidecar__` namespace for all variable names
 1. Enhance `@Sidecar()` to support spawn target. e.g. `@Sidecar(['/bin/sleep', [10]])`
 1. Add `.so` & `.DLL` library example for Linux & Windows ([Dynamic Library Example](examples/dynamic-library/))
+1. Add support for raw `pointer` type
 
 ### v0.6 (Jul 7, 2021)
 

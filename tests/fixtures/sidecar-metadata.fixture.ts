@@ -75,6 +75,24 @@ const SIDECAR_METADATA: SidecarMetadata = {
         },
       },
     },
+    {
+      address: {
+        name: 'pointerMethod',
+        paramTypeList: [
+          [
+            'pointer',
+          ],
+        ],
+        retType: [
+          'pointer',
+        ],
+        target: {
+          exportName: 'MessageBoxW',
+          moduleName: 'user32.dll',
+          type: 'export',
+        },
+      },
+    },
   ],
   sidecarTarget: {
     target: 'chatbox-linux',

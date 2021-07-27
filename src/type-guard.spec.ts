@@ -22,6 +22,7 @@ test('guardNativeType()', async t => {
     [Boolean, 'bool', true],
     [Number, 'int', true],
     [undefined, 'void', true],
+    [undefined, 'pointer', true], // Huan(202107): 'pointer' with `null` value
 
     // Huan(202107): Number might be a point to the number.
     // Need to check the PointerType to make sure it is a number.
