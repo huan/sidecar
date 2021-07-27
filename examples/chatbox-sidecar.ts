@@ -32,12 +32,14 @@ class ChatboxSidecar extends SidecarBody {
   @Call(0x11e9)     // call address
   @RetType('int')   // return type is `int`
   mo (
-    @ParamType('pointer', 'Utf8String') content: string,  // parameter type is string (UTF-8)
+    // parameter type is string (UTF-8)
+    @ParamType('pointer', 'Utf8String') content: string,
   ): Promise<number> { return Ret(content) }
 
   @Hook(0x121f)     // hook address
   mt (
-    @ParamType('pointer', 'Utf8String') content: string,  // parameter type is string (UTF-8)
+    // parameter type is string (UTF-8)
+    @ParamType('pointer', 'Utf8String') content: string,
   ) { return Ret(content) }
 
 }

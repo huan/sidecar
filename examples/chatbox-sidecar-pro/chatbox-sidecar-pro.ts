@@ -35,9 +35,9 @@ import {
 void targetAddress
 void agentTarget
 
-@Sidecar(
-  [targetProgram()],    // chatbox-linux
-)
+@Sidecar([
+  targetProgram(), // chatbox-linux
+])
 class ChatboxSidecarPro extends SidecarBody {
 
   @Call(targetAddress('mo'))
