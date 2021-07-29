@@ -7,7 +7,9 @@ import {
   nativeArgName,
 }                 from './name-helpers'
 
-function declareNativeArgs (this: SidecarMetadataFunctionDescription) {
+function declareNativeArgs (
+  this: SidecarMetadataFunctionDescription
+): string {
   const name          = this.name
   const paramTypeList = this.paramTypeList
 

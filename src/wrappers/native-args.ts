@@ -22,7 +22,7 @@ function nativeArgs (
     )
   }
 
-  return nativeArgNameList.join(', ')
+  return '[ ' + nativeArgNameList.join(', ') + ' ]'
 }
 
 export { nativeArgs }

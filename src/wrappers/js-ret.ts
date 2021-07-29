@@ -1,7 +1,9 @@
 import { log } from '../config'
 import { SidecarMetadataFunctionDescription } from '../decorators/mod'
 
-function jsRet (this: SidecarMetadataFunctionDescription) {
+function jsRet (
+  this: SidecarMetadataFunctionDescription,
+): string {
   const typeChain = this.retType
   if (!typeChain) {
     throw new Error('no .retType found in SidecarMetadataFunctionDescription context!')
@@ -13,6 +15,9 @@ function jsRet (this: SidecarMetadataFunctionDescription) {
   const resultChain = []
 
   if (nativeType === 'pointer') {
+    /**
+     * Pointer native type mapping/chaining
+     */
     if (pointerTypeList.length > 0) {
       resultChain.push(
         'ret.readPointer()'
@@ -23,9 +28,15 @@ function jsRet (this: SidecarMetadataFunctionDescription) {
         )
       }
     } else {
-      resultChain.push('ret') // raw pointer
+      /**
+       * Raw pointer
+       */
+      resultChain.push('ret')
     }
   } else {
+    /**
+     * Non-pointer native type mapping
+     */
     switch (nativeType) {
       case 'bool':
         log.silly('Sidecar', 'wrappers/js-ret NativeType(bool) for ret')

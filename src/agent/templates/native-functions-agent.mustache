@@ -16,6 +16,6 @@ const __sidecar__{{ name }}_NativeFunction_wrapper = function (...args) {
 
   {{{ declareNativeArgs }}}
 
-  const ret = {{ target.varName }}(...[{{{ nativeArgs }}}])
+  const ret = {{ target.varName }}(...{{{ nativeArgs }}})
   return {{ jsRet }}
 }

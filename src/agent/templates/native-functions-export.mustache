@@ -31,7 +31,7 @@ const __sidecar__{{ name }}_NativeFunction_wrapper = (() => {
   const nativeFunction = new NativeFunction(
     nativeFunctionAddress,
     {{{ nativeRetType }}},
-    [{{{ nativeParamTypes }}}],
+    {{{ nativeParamTypes }}},
   )
 
   return function (...args) {
@@ -43,7 +43,7 @@ const __sidecar__{{ name }}_NativeFunction_wrapper = (() => {
 
     {{{ declareNativeArgs }}}
 
-    const ret = nativeFunction(...[{{{ nativeArgs }}}])
+    const ret = nativeFunction(...{{{ nativeArgs }}})
     return {{ jsRet }}
   }
 

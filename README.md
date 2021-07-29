@@ -578,7 +578,11 @@ You can visit them at [Sidecar Demos](https://github.com/wechaty/sidecar-demos) 
 
 ## History
 
-### Master (v0.9)
+### Master v0.11
+
+1. Refactor wrappers for include '[' and ']' in array return string
+
+### v0.9 (Jul 29, 2021)
 
 1. `agentTarget` will use `NativeFunction` instead of a plain javascript function
 1. Clean sidecar frida agent templates

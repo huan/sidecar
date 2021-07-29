@@ -1,7 +1,9 @@
 import { SidecarMetadataFunctionDescription } from '../decorators/mod'
 import { argName } from './name-helpers'
 
-function jsArgs (this: SidecarMetadataFunctionDescription) {
+function jsArgs (
+  this: SidecarMetadataFunctionDescription
+): string {
   const typeList = this.paramTypeList
   if (!typeList) {
     throw new Error('no .paramTypeList found in SidecarMetadataFunctionDescription!')
