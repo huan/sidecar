@@ -168,6 +168,8 @@ const initAgentScript = 'console.log("this will be runned when the sidecar class
 ])
 ```
 
+To learn more about the power of `initAgentScript`, see also this great repo with lots of examples: [Hand-crafted Frida examples](https://github.com/iddoeldor/frida-snippets)
+
 ### 2. `class SidecarBody`
 
 Base class for the `Sidecar` class. All `Sidecar` class need to `extends` from the `SidecarBody`, or the system will throw an error.
