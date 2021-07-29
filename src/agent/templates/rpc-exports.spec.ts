@@ -30,6 +30,7 @@ test('render rpc-exports()', async t => {
     __sidecar__anotherCall_NativeFunction_wrapper: () => {},
     __sidecar__pointerMethod_NativeFunction_wrapper: () => {},
     __sidecar__testMethod_NativeFunction_wrapper: () => {},
+    __sidecar__voidMethod_NativeFunction_wrapper: () => {},
     rpc: {
       exports: {},
     },

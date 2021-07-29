@@ -22,6 +22,7 @@ test('nativeRetType()', async t => {
     "'pointer'",
     "'pointer'",
     "'pointer'",
+    "'void'",
   ]
   t.deepEqual(result, EXPECTED_RESULT, 'should list the native ret type correctly.')
 })
