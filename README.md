@@ -612,6 +612,22 @@ First worked version, published to NPM as `frida-sidecar`.
 
 Repo created.
 
+## Troubleshooting
+
+### 1. Error: Could not locate the binding file. Tried: `node_modules/frida/build/frida_binding.node`
+
+- Easy solution: use a server outside of China to get an unblocked network connection.
+- Hard solution: download `frida_binding.node` from <https://github.com/frida/frida/releases/> manually, then put it into `node_modules/frida/build` folder.
+
+Explanation:
+
+[frida](http://npmjs.com/package/frida)
+is using [prebuild-install](https://www.npmjs.com/package/prebuild-install)
+to install binary files
+from [GitHub Release](https://github.com/frida/frida/releases/).
+
+If your server has any trouble with visiting the Amazon S3 servers (which is all the GitHub release artifacts are hosted on), then your NPM install will fail to download the binary files (`frida_binding.node` in our case).
+
 ## Special thanks
 
 Thanks to Quinton Ashley [@quinton-ashley](https://github.com/quinton-ashley) who is the previous owner of NPM name `sidecar` and he transfer this beautify name to me for publishing this project after I requested via email. Appreciate it! (Jun 29, 2021)
