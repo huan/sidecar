@@ -28,22 +28,40 @@ import {
   exportTarget,
 }                   from '../../src/mod'
 
-const libFile = process.platform === 'linux'  ? 'libfactorial-x64.so'
-  :             process.platform === 'win32'  ? 'libfactorial-x64.dll'
-    :           process.platform === 'darwin' ? 'libfactorial.dylib'
-      : undefined
+/**
+ * Inspired by https://github.com/iddoeldor/frida-snippets#socket-activity
+ */
+const libFileConfig: {
+  [k in NodeJS.Platform]?: string
+} = {
+  darwin : 'libfactorial.dylib',
+  linux  : 'libfactorial-x64.so',
+  win32  : 'libfactorial-x64.dll',
+}
 
-const spawnTarget = process.platform === 'linux'  ? ['/bin/sleep', ['10']]        as SidecarTargetRawSpawn
-  :                 process.platform === 'darwin' ? ['/bin/sleep', ['10']]        as SidecarTargetRawSpawn
-    :               process.platform === 'win32'  ? ['C:\\Windows\\notepad.exe']  as SidecarTargetRawSpawn
-      : undefined
+const spawnTargetConfig: {
+  [k in NodeJS.Platform]?: SidecarTargetRawSpawn
+} = {
+  darwin : ['/bin/sleep', ['10']],
+  linux  : ['/bin/sleep', ['10']],
+  win32  : ['C:\\Windows\\notepad.exe'],
+}
+
+const libFile     = libFileConfig[process.platform]
+const spawnTarget = spawnTargetConfig[process.platform]
 
 if (!libFile || !spawnTarget) {
   console.error(`process.platform: ${process.platform} is not supported yet.`)
   throw new Error('no libFile or spawnTarget found!')
 }
 
-console.log('libFile:', libFile, '\nspawnTarget:', spawnTarget)
+console.log([
+  'libFile:',
+  libFile,
+  '\n',
+  'spawnTarget:',
+  spawnTarget,
+].join(''))
 
 const libPath = path.join(
   __dirname,
