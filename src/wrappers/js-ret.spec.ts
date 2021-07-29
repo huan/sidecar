@@ -13,6 +13,7 @@ test('jsRet()', async t => {
     'ret.readPointer().readInt()',
     'ret.readPointer().readUtf8String()',
     'ret',
+    'undefined /* void */',
   ]
 
   const result = nativeFunctionList

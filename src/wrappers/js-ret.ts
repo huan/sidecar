@@ -33,6 +33,7 @@ function jsRet (this: SidecarMetadataFunctionDescription) {
         break
       case 'void':
         log.silly('Sidecar', 'wrappers/js-ret NativeType(void) for ret')
+        resultChain.push('undefined /* void */')
         break
       default:  // all number types
         log.silly('Sidecar', 'wrappers/js-ret NativeType(number<%s>) for ret', nativeType)

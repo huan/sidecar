@@ -93,6 +93,18 @@ const SIDECAR_METADATA: SidecarMetadata = {
         },
       },
     },
+    {
+      address: {
+        name: 'voidMethod',
+        paramTypeList: [],
+        retType: ['void'],
+        target: {
+          address    : '0x1234',
+          moduleName : 'test',
+          type       : 'address',
+        },
+      },
+    },
   ],
   sidecarTarget: {
     target: 'chatbox-linux',
