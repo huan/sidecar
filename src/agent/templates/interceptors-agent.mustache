@@ -2,7 +2,7 @@
  * File: "interceptors-agent.mustache"
  *
  * Interceptor Target: {{ name }}
- *  - varName: {{ target.varName }}
+ *  - funcName: {{ target.funcName }}
  *  - Parameters: {{{ nativeParamTypes }}}
  **********************************************************/
 
@@ -21,7 +21,7 @@
     log.verbose(
       'SidecarAgent',
       'Interceptor.attach(%s) onEnter()',
-      '{{ target.varName }}',
+      '{{ target.funcName }}',
     )
 
     send(__sidecar__payloadHook(
@@ -40,11 +40,11 @@
   *  Huan(202107): `target` at here should be a native callback ptr
   *    which is declared in the `initAgentScript` for workaround
   *
-  *  Notice that the `target.varName` callback will be `Interceptor.replace()`-ed
+  *  Notice that the `target.funcName` callback will be `Interceptor.replace()`-ed
   *    which means it should not contains any logic code, it should just be a stub.
   */
   Interceptor.replace(
-    {{ target.varName }},
+    {{ target.funcName }},
     nativeCallback,
   )
 

@@ -39,8 +39,8 @@ test('addressTarget() with module', async t => {
 test('agentTarget()', async t => {
   const DATA     = 'myPtr'
   const EXPECTED: TargetPayloadAgent = {
-    type       : 'agent',
-    varName    : DATA,
+    funcName : DATA,
+    type     : 'agent',
   }
 
   const result = agentTarget(DATA)

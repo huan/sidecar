@@ -56,8 +56,8 @@ test('getCallTarget()', async t => {
 
 test('getCallTarget() with agent target', async t => {
   const TARGET: TargetPayloadObj = {
-    type   : 'agent',
-    varName : 'test',
+    funcName : 'test',
+    type     : 'agent',
   }
   const METHOD_NAME = 'testMethod'
 

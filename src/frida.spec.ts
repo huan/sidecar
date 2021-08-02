@@ -49,7 +49,7 @@ test('normalizeFunctionTarget()', async t => {
   ][] = [
     [
       'stringTarget',
-      { type: 'agent', varName: 'stringTarget' },
+      { funcName: 'stringTarget', type: 'agent' },
     ],
     [
       0x42,

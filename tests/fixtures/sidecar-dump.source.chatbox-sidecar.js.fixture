@@ -203,7 +203,7 @@ const __sidecar__moduleBaseAddress = Module.getBaseAddress('chatbox-linux')
      *  - Ret: int
      ******************************************************************/
 
-    const __sidecar__mo_NativeFunction_wrapper = (() => {
+    const __sidecar__mo_Function_wrapper = (() => {
       const nativeFunctionAddress =
         __sidecar__moduleBaseAddress
 
@@ -317,5 +317,5 @@ rpc.exports = {
  *********************************************************/
 rpc.exports = {
   ...rpc.exports,
-  mo: __sidecar__mo_NativeFunction_wrapper,
+  mo: __sidecar__mo_Function_wrapper,
 }

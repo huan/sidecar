@@ -27,10 +27,10 @@ test('render rpc-exports()', async t => {
    * https://nodejs.org/api/vm.html
    */
   const context = {
-    __sidecar__anotherCall_NativeFunction_wrapper: () => {},
-    __sidecar__pointerMethod_NativeFunction_wrapper: () => {},
-    __sidecar__testMethod_NativeFunction_wrapper: () => {},
-    __sidecar__voidMethod_NativeFunction_wrapper: () => {},
+    __sidecar__anotherCall_Function_wrapper: () => {},
+    __sidecar__pointerMethod_Function_wrapper: () => {},
+    __sidecar__testMethod_Function_wrapper: () => {},
+    __sidecar__voidMethod_Function_wrapper: () => {},
     rpc: {
       exports: {},
     },

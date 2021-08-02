@@ -64,7 +64,7 @@ test('@Sidecar() buildSidecarMetadata()', async t => {
             ],
           ],
           retType: undefined,
-          target: { type: 'agent', varName: 'agentVar' },
+          target: { funcName: 'agentVar', type: 'agent' },
         },
       },
     ],

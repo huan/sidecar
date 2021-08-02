@@ -9,6 +9,6 @@
 rpc.exports = {
   ...rpc.exports,
 {{# nativeFunctionNameList }}
-  {{ . }}: __sidecar__{{ . }}_NativeFunction_wrapper,
+  {{ . }}: __sidecar__{{ . }}_Function_wrapper,
 {{/ nativeFunctionNameList}}
 }

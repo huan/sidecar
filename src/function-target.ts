@@ -36,8 +36,8 @@ export interface TargetPayloadAddress {
  * The variable name in the `initAgentScript`
  */
 export interface TargetPayloadAgent {
-  type    : 'agent'
-  varName : string
+  type     : 'agent'
+  funcName : string
 }
 
 /**
@@ -73,10 +73,10 @@ const addressTarget = (
 })
 
 const agentTarget = (
-  varName: string,
+  funcName: string,
 ): TargetPayloadAgent => ({
-  type: 'agent',
-  varName,
+  funcName,
+  type : 'agent',
 })
 
 const exportTarget = (

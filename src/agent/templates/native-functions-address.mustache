@@ -7,7 +7,7 @@
  *  - Ret: {{ retType }}
  ******************************************************************/
 
-const __sidecar__{{ name }}_NativeFunction_wrapper = (() => {
+const __sidecar__{{ name }}_Function_wrapper = (() => {
   const nativeFunctionAddress =
   {{# target.moduleName }}
     Module.getBaseAddress('{{ target.moduleName }}')
