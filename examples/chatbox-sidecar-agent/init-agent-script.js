@@ -2,7 +2,7 @@
  * Call -> moHelper(message)
  *  MO Sidecar Agent Helper
  */
-const moNativeFunction = (() => {
+const moJsFunction = (() => {
   /**
    * Huan(202107): We might need more code here, that's why we created a closure at here.
    */
@@ -11,7 +11,12 @@ const moNativeFunction = (() => {
     'int',
     ['pointer'],
   )
-  return moNativeFunction
+
+  return function (content) {
+    const buf = Memory.allocUtf8String(content)
+    const ret = moNativeFunction(buf)
+    return ret + 1
+  }
 })()
 
 /**

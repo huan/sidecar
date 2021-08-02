@@ -25,11 +25,13 @@ import {
  * The `ChatboxSidecarPro` has more complicated settings
  *  You can read it and learn more in the [example](./chatbox-sidecar-pro.ts)
  */
-import { ChatboxSidecarPro }  from './chatbox-sidecar-pro/chatbox-sidecar-pro'
+import { ChatboxSidecarAgent }  from './chatbox-sidecar-agent/chatbox-sidecar-agent'
+// import { ChatboxSidecarPro }  from './chatbox-sidecar-pro/chatbox-sidecar-pro'
 // import { ChatboxSidecar } from './chatbox-sidecar'
 
 async function main () {
-  const sidecar = new ChatboxSidecarPro()
+  const sidecar = new ChatboxSidecarAgent()
+  // const sidecar = new ChatboxSidecarPro()
   // const sidecar = new ChatboxSidecar()
 
   /**

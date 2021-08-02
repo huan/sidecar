@@ -281,7 +281,7 @@ class ChatboxSidecar {
 The `FunctionTarget` is where `@Call` or `@Hook` to be located. It can be created by the following factory helper functions:
 
 1. `addressTarget(address: number, module?: string)`: memory address. i.e. `0x369adf`. Can specify a second `module` to call `address` in a specified module
-1. `agentTarget(varName: string)`: the variable/function name in `initAgentScript` to be used
+1. `agentTarget(funcName: string)`: the JavaScript function name in `initAgentScript` to be used
 1. `exportTarget(exportName: string, exportModule?: string)`: export name of a function. Can specify a second `moduleName` to load `exportName` from it.
 1. `objcTarget`: to be added
 1. `javaTarget`: to be added
@@ -289,7 +289,7 @@ The `FunctionTarget` is where `@Call` or `@Hook` to be located. It can be create
 For convenice, the `number` and `string` can be used as `FunctionTarget` as an alias of `addressTarget()` and `agentTarget()`. When we are defining the `@Call(target)` and `@Hook(target)`:
 
 1. if the target type is `number`, then it will be converted to `addressTarget(target)`
-1. if the target typeis `string`, then it will be converted to `agentTarget(target)`
+1. if the target type is `string`, then it will be converted to `agentTarget(target)`
 
 Example:
 
@@ -306,14 +306,14 @@ class ChatboxSidecar {
 }
 ```
 
-#### 9.1 `agentTarget(varName: string)`
+#### 9.1 `agentTarget(funcName: string)`
 
-`agentTarget` let you specify a `varName` in the `initAgentScript` source code, and will use it directly for advanced users.
+`agentTarget` let you specify a `funcName` in the `initAgentScript` source code, and will use it directly for advanced users.
 
 There's two type of the `AgentTarget` usage: `@Call` and `@Hook`.
 
-1. `AgentTarget` with `@Call`: the `varName` should be a `NativeFunction` instance in the `initAgentScript`. The decorated method call that function.
-1. `AgentTarget` with `@Hook`: the `varName` should be a `NativeCallback` instance in the `initAgentScript`. The decorated method hook that callback.
+1. `AgentTarget` with `@Call`: the `funcName` should be a JavaScript function instance in the `initAgentScript`. The decorated method call that function.
+1. `AgentTarget` with `@Hook`: the `funcName` should be a `NativeCallback` instance in the `initAgentScript`. The decorated method hook that callback.
 
 Notes:
 
@@ -419,7 +419,7 @@ For example, the following is the source code showed by sidecar-dump for our `Ch
 ```ts
 $ sidecar-dump source  examples/chatbox-sidecar.ts
 ...
-const __sidecar__mo_NativeFunction_wrapper = (() => {
+const __sidecar__mo_Function_wrapper = (() => {
   const nativeFunctionAddress =
     __sidecar__moduleBaseAddress
     .add(0x11e9)
@@ -472,7 +472,7 @@ const __sidecar__mo_NativeFunction_wrapper = (() => {
 })()
 
 rpc.exports = {
-  mo: __sidecar__mo_NativeFunction_wrapper,
+  mo: __sidecar__mo_Function_wrapper,
 }
 ```
 
@@ -583,6 +583,7 @@ You can visit them at [Sidecar Demos](https://github.com/wechaty/sidecar-demos) 
 ### Master v0.11
 
 1. Refactor wrappers for include '[' and ']' in array return string
+1. `agentTarget` now point to JavaScript function in `initAgentScript` instead of ~~`NativeFunction`~~
 
 ### v0.9 (Jul 29, 2021)
 

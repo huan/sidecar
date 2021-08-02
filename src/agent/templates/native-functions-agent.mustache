@@ -2,20 +2,16 @@
  * File: "native-function-agent.mustache"
  *
  * Native Function: {{ name }}
- *  - varName: {{ target.varName }}
+ *  - funcName: {{ target.funcName }}
  *  - Parameters: {{{ nativeParamTypes }}}
  *  - Ret: {{ retType }}
  ********************************************/
 
-const __sidecar__{{ name }}_NativeFunction_wrapper = function (...args) {
+const __sidecar__{{ name }}_Function_wrapper = function (...args) {
   log.verbose(
     'SidecarAgent',
     '{{ name }}(%s)',
     args.join(', '),
   )
-
-  {{{ declareNativeArgs }}}
-
-  const ret = {{ target.varName }}(...{{{ nativeArgs }}})
-  return {{ jsRet }}
+  return {{ target.funcName }}(...args)
 }

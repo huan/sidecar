@@ -36,9 +36,9 @@ import {
   [targetProgram()],  // chatbox-linux
   loadAgentScript(),  // helper agent scripts
 )
-class ChatboxSidecarPro extends SidecarBody {
+class ChatboxSidecarAgent extends SidecarBody {
 
-  @Call(agentTarget('moNativeFunction'))
+  @Call(agentTarget('moJsFunction'))
   @RetType('int')
   mo (
     @ParamType('pointer', 'Utf8String') content: string,
@@ -51,4 +51,4 @@ class ChatboxSidecarPro extends SidecarBody {
 
 }
 
-export { ChatboxSidecarPro }
+export { ChatboxSidecarAgent }
