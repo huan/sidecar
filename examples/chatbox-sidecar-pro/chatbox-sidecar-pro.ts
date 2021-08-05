@@ -24,16 +24,12 @@ import {
   ParamType,
   RetType,
   Ret,
-  agentTarget,
 }                   from '../../src/mod'
 
 import {
   targetAddress,
   targetProgram,
 }                   from './sidecar-config'
-
-void targetAddress
-void agentTarget
 
 @Sidecar([
   targetProgram(), // chatbox-linux
