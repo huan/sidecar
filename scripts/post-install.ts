@@ -14,9 +14,10 @@ function needInstall () {
 async function main () {
   if (needInstall()) {
     console.error('Sidecar: checking frida installation (frida_binding.node) failed, try to reinstall with cdn mirror...')
+
     const env = {
       ...process.env,
-      npm_config_frida_binary_host_mirror: 'https://cdn.chatie.io/mirrors/github.com/frida/frida/releases/download'
+      npm_config_frida_binary_host_mirror: 'https://cdn.chatie.io/mirrors/github.com/frida/frida/releases/download',
     }
     const cwd = path.resolve('node_modules/frida')
 
