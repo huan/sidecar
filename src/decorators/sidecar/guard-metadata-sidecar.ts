@@ -24,7 +24,7 @@ function guardMetadataSidecar (
     if (desc.agent) {
       if (desc.agent.paramTypeList.length > 0) {
         throw new Error([
-          `The of sidecar method ${desc.agent.name} is annoted as 'AgentType'`,
+          `The sidecar method "${desc.agent.name}" is decorated as 'AgentType'`,
           'which means that it will be mapped to a JavaScript function',
           'in `initAgentScript` source code,',
           'So decorated it with `@ParamType() is not allowed`,',
@@ -33,7 +33,7 @@ function guardMetadataSidecar (
       }
       if (desc.agent.retType) {
         throw new Error([
-          `The of sidecar method ${desc.agent.name} is annoted as 'AgentType'`,
+          `The sidecar method "${desc.agent.name}" is decorated as 'AgentType'`,
           'which means that it will be mapped to a JavaScript function',
           'in `initAgentScript` source code,',
           'So decorated it with `@RetType() is not allowed`,',
