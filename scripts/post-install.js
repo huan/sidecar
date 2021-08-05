@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import { spawnSync } from 'child_process'
-import path from 'path'
-import fs from 'fs'
-import pkgUp from 'pkg-up'
+const { spawnSync } = require('child_process')
+const path          = require('path')
+const fs            = require('fs')
+const pkgUp         = require('pkg-up')
 
 function needInstall () {
   try {
@@ -13,7 +13,7 @@ function needInstall () {
   }
 }
 
-async function reinstall (): Promise<void> {
+async function reinstall () {
   console.error('Sidecar: checking frida installation (frida_binding.node) failed, try to reinstall with cdn mirror...')
 
   const env = {
@@ -52,7 +52,7 @@ async function reinstall (): Promise<void> {
   if (ret.status === 0) {
     console.log('Sidecar: install frida_binding.node successed.')
   } else {
-    const message = ret.error || ret.stdout?.toString() || ret.stderr?.toString()
+    const message = ret.error || ret.stdout.toString() || ret.stderr.toString()
     console.error('Sidecar: install failed:', message)
   }
 }
