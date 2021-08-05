@@ -22,7 +22,6 @@ import {
   Call,
   Hook,
   ParamType,
-  RetType,
   Ret,
   agentTarget,
 }                   from '../../src/mod'
@@ -39,9 +38,8 @@ import {
 class ChatboxSidecarAgent extends SidecarBody {
 
   @Call(agentTarget('moJsFunction'))
-  @RetType('int')
   mo (
-    @ParamType('pointer', 'Utf8String') content: string,
+    content: string,
   ): Promise<number> { return Ret(content) }
 
   @Hook(agentTarget('mtNativeCallback'))

@@ -1,5 +1,5 @@
 const rules = {
-  'no-console': ['error', { allow: ['log', 'warn', 'error'] }],
+  'no-console': ['error', { allow: ['log', 'info', 'warn', 'error'] }],
   'multiline-ternary': 0,
   'brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
 }

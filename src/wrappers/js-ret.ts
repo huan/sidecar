@@ -6,7 +6,12 @@ function jsRet (
 ): string {
   const typeChain = this.retType
   if (!typeChain) {
-    throw new Error('no .retType found in SidecarMetadataFunctionDescription context!')
+    // throw new Error('no .retType found in SidecarMetadataFunctionDescription context!')
+    /**
+     * Huan(202108): No type chain means we have not specified `@RetType`
+     *  return raw data
+     */
+    return 'ret'
   }
 
   const [nativeType, ...pointerTypeList] = typeChain

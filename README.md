@@ -580,7 +580,9 @@ You can visit them at [Sidecar Demos](https://github.com/wechaty/sidecar-demos) 
 
 ## History
 
-### Master
+### Master v0.13
+
+1. Enforce `AgentTarget` not to be decorated by neither `@ParamType` nor `@RetType` for prevent confusing.
 
 ### v0.12 (Aug 5, 2021)
 

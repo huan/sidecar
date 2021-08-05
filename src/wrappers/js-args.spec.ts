@@ -16,6 +16,7 @@ test('jsArgs()', async t => {
     '[ args[0].readUtf8String(), args[1] ]',
     '[ args[0] ]',
     '[  ]',
+    '[  ]',
     '[ args[0], args[1].readUtf8String() ]',
   ]
 

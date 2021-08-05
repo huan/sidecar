@@ -47,6 +47,9 @@ test('declareNativeArgs()', async t => {
     [
       '',
     ].join('\n'),
+    [
+      '',
+    ].join('\n'),
   ]
   // console.log('result.length: ', result.length)
   // console.log('EXPECTED.length: ', EXPECTED.length)

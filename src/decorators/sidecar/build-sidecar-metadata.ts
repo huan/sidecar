@@ -103,7 +103,7 @@ function buildSidecarMetadata <T extends {
     )
 
     /**
-     * Build the function descript and save it
+     * 4. Build the function descript and save it
      */
     const functionDescription: SidecarMetadataFunctionTypeDescription = {
       [targetObj.type]: {

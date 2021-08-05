@@ -76,7 +76,7 @@ const SIDECAR_METADATA: SidecarMetadata = {
       },
     },
     {
-      address: {
+      export: {
         name: 'pointerMethod',
         paramTypeList: [
           [
@@ -102,6 +102,17 @@ const SIDECAR_METADATA: SidecarMetadata = {
           address    : '0x1234',
           moduleName : 'test',
           type       : 'address',
+        },
+      },
+    },
+    { // AgentType: should not be decorated by neither @ParamType nor @RetType
+      agent: {
+        name: 'agentMethod',
+        paramTypeList: [],
+        retType: undefined,
+        target: {
+          funcName : 'agentFunctionName',
+          type     : 'agent',
         },
       },
     },

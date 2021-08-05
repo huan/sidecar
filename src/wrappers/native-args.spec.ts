@@ -22,6 +22,7 @@ test('nativeArgs()', async t => {
     '[ testMethod_NativeArg_0, testMethod_NativeArg_1 ]',
     '[ pointerMethod_NativeArg_0 ]',
     '[  ]',
+    '[  ]',
   ]
   t.deepEqual(result, EXPECTED_RESULT, 'should list the native arg names correctly.')
 })

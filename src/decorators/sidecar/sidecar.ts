@@ -4,6 +4,7 @@ import {
 
 import { SidecarBody } from '../../sidecar-body/sidecar-body'
 import { buildSidecarMetadata } from './build-sidecar-metadata'
+import { guardMetadataSidecar } from './guard-metadata-sidecar'
 
 import { updateMetadataSidecar }  from './metadata-sidecar'
 import {
@@ -53,6 +54,15 @@ function Sidecar (
       initAgentScript,
       sidecarTarget,
     })
+
+    /**
+     * Validate metadata for sidecar
+     */
+    guardMetadataSidecar(meta)
+
+    /**
+     * Save metadata
+     */
     updateMetadataSidecar(Klass, meta)
   }
 }

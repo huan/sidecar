@@ -30,14 +30,14 @@ function updateMetadataParamType (
 function getMetadataParamType (
   target         : Object,
   propertyKey    : string,
-): undefined | TypeChain[] {
+): TypeChain[] {
   // Pull the array of parameter names
   const parameterTypeList = Reflect.getMetadata(
     PARAM_TYPE_SYMBOL,
     target,
     propertyKey,
   )
-  return parameterTypeList
+  return parameterTypeList || []
 }
 
 export {

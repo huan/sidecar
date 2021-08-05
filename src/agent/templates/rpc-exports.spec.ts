@@ -27,10 +27,11 @@ test('render rpc-exports()', async t => {
    * https://nodejs.org/api/vm.html
    */
   const context = {
-    __sidecar__anotherCall_Function_wrapper: () => {},
-    __sidecar__pointerMethod_Function_wrapper: () => {},
-    __sidecar__testMethod_Function_wrapper: () => {},
-    __sidecar__voidMethod_Function_wrapper: () => {},
+    __sidecar__agentMethod_Function_wrapper   : () => {},
+    __sidecar__anotherCall_Function_wrapper   : () => {},
+    __sidecar__pointerMethod_Function_wrapper : () => {},
+    __sidecar__testMethod_Function_wrapper    : () => {},
+    __sidecar__voidMethod_Function_wrapper    : () => {},
     rpc: {
       exports: {},
     },
@@ -41,6 +42,7 @@ test('render rpc-exports()', async t => {
   t.true('testMethod'     in context.rpc.exports, 'should export testMethod')
   t.true('pointerMethod'  in context.rpc.exports, 'should export pointerMethod')
   t.true('anotherCall'    in context.rpc.exports, 'should export anotherCall')
+  t.true('agentMethod'    in context.rpc.exports, 'should export agentCall')
 
   /**
    * Do not export Hook/Interceptor methods
