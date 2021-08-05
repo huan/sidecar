@@ -586,7 +586,7 @@ You can visit them at [Sidecar Demos](https://github.com/wechaty/sidecar-demos) 
 
 1. Refactor wrappers for include '[' and ']' in array return string
 1. `agentTarget` now point to JavaScript function in `initAgentScript` instead of ~~`NativeFunction`~~
-1. Add `scripts/post-install.ts` to double check `frida_binding.node` existance and run `prebuild-install` with cdn if needed
+1. Add `scripts/post-install.ts` to double check `frida_binding.node` existance and run `prebuild-install` with cdn if needed ([#14](https://github.com/huan/sidecar/issues/14))
 
 ### v0.9 (Jul 29, 2021)
 
@@ -618,19 +618,16 @@ Repo created.
 
 ## Troubleshooting
 
-### 1. Error: Could not locate the binding file. Tried: `node_modules/frida/build/frida_binding.node`
+### 1. Debug `initAgentScript`
 
-- Easy solution: use a server outside of China to get an unblocked network connection.
-- Hard solution: download `frida_binding.node` from <https://github.com/frida/frida/releases/> manually, then put it into `node_modules/frida/build` folder.
+If sidecar tells you that there's some script error internally, you should use `sidecar-dump` utility to dump the source of the frida agent script to a `agent.js` file, and use `frida -l agent.js` to debug it to get a clearly insight.
 
-Explanation:
-
-[frida](http://npmjs.com/package/frida)
-is using [prebuild-install](https://www.npmjs.com/package/prebuild-install)
-to install binary files
-from [GitHub Release](https://github.com/frida/frida/releases/).
-
-If your server has any trouble with visiting the Amazon S3 servers (which is all the GitHub release artifacts are hosted on), then your NPM install will fail to download the binary files (`frida_binding.node` in our case).
+```sh
+$ sidecar-dump source your-sidecar-class.ts > agent.js
+$ frida -l agent.js
+# by this way, you can locate the error inside the agent.js
+# for easy debug and fix.
+```
 
 ## Special thanks
 
