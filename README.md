@@ -580,10 +580,13 @@ You can visit them at [Sidecar Demos](https://github.com/wechaty/sidecar-demos) 
 
 ## History
 
-### Master v0.11
+### Master
+
+### v0.12 (Aug 5, 2021)
 
 1. Refactor wrappers for include '[' and ']' in array return string
 1. `agentTarget` now point to JavaScript function in `initAgentScript` instead of ~~`NativeFunction`~~
+1. Add `scripts/post-install.ts` to double check `frida_binding.node` existance and run `prebuild-install` with cdn if needed
 
 ### v0.9 (Jul 29, 2021)
 
