@@ -1,8 +1,18 @@
 #!/usr/bin/env node
-const { spawnSync } = require('child_process')
-const path          = require('path')
-const fs            = require('fs')
-const pkgDir        = require('pkg-dir')
+/**
+ * Huan(202108): Frida using `prebuild` NPM module to publish artifacts to GitHub Release,
+ *  and using `prebuild-install` to download the binary at installation.
+ *
+ * In China, the internet has been blocked to visit some of the AWS S3,
+ *  which might block the user to `npm install frida`.
+ *
+ * https://github.com/wechaty/wechaty-puppet-xp/issues/3
+ *
+ */
+const spawn   = require('cross-spawn')
+const path    = require('path')
+const fs      = require('fs')
+const pkgDir  = require('pkg-dir')
 
 function needInstall () {
   try {
@@ -43,7 +53,7 @@ async function reinstall () {
     npm_config_frida_binary_host_mirror: 'https://cdn.chatie.io/mirrors/github.com/frida/frida/releases/download',
   }
 
-  const ret = await spawnSync(
+  const ret = spawn.sync(
     'npx',
     [...args],
     {

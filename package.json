@@ -73,6 +73,7 @@
     "@types/frida-gum": "^17.0.0",
     "brolog": "^1.12.4",
     "cmd-ts": "^0.7.0",
+    "cross-spawn": "^7.0.3",
     "frida": "^15.0.12",
     "mustache": "^4.2.0",
     "pkg-dir": "^5.0.0",
