@@ -14,7 +14,7 @@ const path    = require('path')
 const fs      = require('fs')
 const pkgDir  = require('pkg-dir')
 
-function needInstall () {
+function needReinstall () {
   try {
     require('frida')
     return false
@@ -72,7 +72,7 @@ async function reinstall () {
 }
 
 async function main () {
-  if (needInstall()) {
+  if (needReinstall()) {
     await reinstall()
   }
 }
