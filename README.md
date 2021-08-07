@@ -1,7 +1,8 @@
 # Sidecar
 
 [![NPM](https://github.com/huan/sidecar/actions/workflows/npm.yml/badge.svg)](https://github.com/huan/sidecar/actions/workflows/npm.yml)
-[![NPM Version](https://img.shields.io/npm/v/frida-sidecar?color=brightgreen)](https://www.npmjs.com/package/frida-sidecar)
+[![NPM Version](https://img.shields.io/npm/v/sidecar?color=brightgreen)](https://www.npmjs.com/package/sidecar)
+[![npm (tag)](https://img.shields.io/npm/v/sidecar/next.svg)](https://www.npmjs.com/package/wechaty-puppet-whatsapp?activeTab=versions)
 [![Powered by Frida](https://img.shields.io/badge/Powered%20By-Frida-red.svg)](https://github.com/https://github.com/frida/frida)
 
 Sidecar is a runtime hooking tool for intercepting function calls by TypeScript annotation with ease, powered by [Frida.RE](https://frida.re/).
@@ -144,7 +145,7 @@ with Frida system.
 Example:
 
 ```ts
-import { Sidecar } from 'frida-sidecar'
+import { Sidecar } from 'sidecar'
 @Sidecar('chatbox')
 class ChatboxSidecar {}
 ```
@@ -177,7 +178,7 @@ Base class for the `Sidecar` class. All `Sidecar` class need to `extends` from t
 Example:
 
 ```ts
-import { SidecarBody } from 'frida-sidecar'
+import { SidecarBody } from 'sidecar'
 class ChatboxSidecar extends SidecarBody {}
 ```
 
@@ -192,7 +193,7 @@ The native call method decorator.
 Example:
 
 ```ts
-import { Call } from 'frida-sidecar'
+import { Call } from 'sidecar'
 class ChatboxSidecar {
   @Call(0x11c9) mo () {}
 }
@@ -211,7 +212,7 @@ The hook method decorator.
 Example:
 
 ```ts
-import { Hook } from 'frida-sidecar'
+import { Hook } from 'sidecar'
 class ChatboxSidecar {
   @Hook(0x11f4) mt () {}
 }
@@ -225,7 +226,7 @@ If the `functionTarget` is not the type of `number`, then it can be `string` or 
 1. `pointerTypeList` : `PointerType[]`
 
 ```ts
-import { RetType } from 'frida-sidecar'
+import { RetType } from 'sidecar'
 class ChatboxSidecar {
   @RetType('void') mo () {}
 ```
@@ -236,7 +237,7 @@ class ChatboxSidecar {
 1. `pointerTypeList` : `PointerType[]`
 
 ```ts
-import { ParamType } from 'frida-sidecar'
+import { ParamType } from 'sidecar'
 class ChatboxSidecar {
   mo (
     @ParamType('pointer', 'Utf8String') content: string,
@@ -257,7 +258,7 @@ If the `Name(parameterName)` has been set,
 then the event will have additional information for the parameter names.
 
 ```ts
-import { Name } from 'frida-sidecar'
+import { Name } from 'sidecar'
 class ChatboxSidecar {
   mo (
     @Name('content') content: string,
@@ -271,7 +272,7 @@ class ChatboxSidecar {
 Example:
 
 ```ts
-import { Ret } from 'frida-sidecar'
+import { Ret } from 'sidecar'
 class ChatboxSidecar {
   mo () { return Ret() }
 ```
@@ -297,7 +298,7 @@ Example:
 import { 
   Call,
   addressTarget,
-} from 'frida-sidecar'
+} from 'sidecar'
 class ChatboxSidecar {
   @Call(
     addressTarget(0x11c9)
@@ -580,7 +581,11 @@ You can visit them at [Sidecar Demos](https://github.com/wechaty/sidecar-demos) 
 
 ## History
 
-### Master v0.13
+### Master
+
+### v0.14
+
+Publish to NPM as **sidecar** package name!
 
 1. Enforce `AgentTarget` not to be decorated by neither `@ParamType` nor `@RetType` for prevent confusing.
 
@@ -612,7 +617,7 @@ You can visit them at [Sidecar Demos](https://github.com/wechaty/sidecar-demos) 
 
 ### v0.1 (Jul 4, 2021)
 
-First worked version, published to NPM as `frida-sidecar`.
+First worked version, published to NPM as `sidecar`.
 
 ### v0.0.1 (Jun 13, 2021)
 

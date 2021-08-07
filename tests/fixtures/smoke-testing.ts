@@ -27,7 +27,7 @@ import {
   RetType,
   Ret,
   VERSION,
-}           from 'frida-sidecar'
+}           from 'sidecar'
 
 @Sidecar('test')
 export class ChatboxSidecar extends SidecarBody {
