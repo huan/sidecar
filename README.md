@@ -2,7 +2,7 @@
 
 [![NPM](https://github.com/huan/sidecar/actions/workflows/npm.yml/badge.svg)](https://github.com/huan/sidecar/actions/workflows/npm.yml)
 [![NPM Version](https://img.shields.io/npm/v/frida-sidecar?color=brightgreen)](https://www.npmjs.com/package/frida-sidecar)
-[![Powered by Frida](https://img.shields.io/badge/Powered%20By-Frida-red.svg)](https://github.com/https://github.com/frida/frida)
+[![Powered by Frida](https://img.shields.io/badge/Powered%20By-Frida-red.svg)](https://github.com/frida/frida)
 
 Sidecar is a runtime hooking tool for intercepting function calls by TypeScript annotation with ease, powered by [Frida.RE](https://frida.re/).
 
@@ -566,10 +566,10 @@ Learn more about FFI from its examples at <https://github.com/huan/ffi-adapter/t
 
 ## Badge
 
-[![Powered by Sidecar](https://img.shields.io/badge/Powered%20By-Sidecar-red.svg)](https://github.com/huan/sidecar)
+[![Powered by Sidecar](https://img.shields.io/badge/Powered%20By-Sidecar-blue.svg)](https://github.com/huan/sidecar)
 
 ```markdown
-[![Powered by Sidecar](https://img.shields.io/badge/Powered%20By-Sidecar-red.svg)](https://github.com/huan/sidecar)
+[![Powered by Sidecar](https://img.shields.io/badge/Powered%20By-Sidecar-blue.svg)](https://github.com/huan/sidecar)
 ```
 
 ## Demos for Community
