@@ -564,12 +564,13 @@ I have another NPM module named [ffi-adapter](https://github.com/huan/ffi-adapte
 
 Learn more about FFI from its examples at <https://github.com/huan/ffi-adapter/tree/master/tests/fixtures/library>
 
-## Badge
+## 
 
-[![Powered by Sidecar](https://img.shields.io/badge/Powered%20By-Sidecar-blue.svg)](https://github.com/huan/sidecar)
+
+[![Powered by Sidecar](https://img.shields.io/badge/Powered%20By-Sidecar-brightgreen.svg)](https://github.com/huan/sidecar)
 
 ```markdown
-[![Powered by Sidecar](https://img.shields.io/badge/Powered%20By-Sidecar-blue.svg)](https://github.com/huan/sidecar)
+[![Powered by Sidecar](https://img.shields.io/badge/Powered%20By-Sidecar-brightgreen.svg)](https://github.com/huan/sidecar)
 ```
 
 ## Demos for Community
