@@ -1,6 +1,6 @@
 {
-  "name": "frida-sidecar",
-  "version": "0.13.5",
+  "name": "sidecar",
+  "version": "0.15.0",
   "description": "Sidecar is for easy hook/call in-process functions with TypeScript annotations.",
   "type": "module",
   "exports": {
@@ -29,7 +29,7 @@
     "start": "npm run example",
     "example": "cross-env NODE_OPTIONS=\"--no-warnings --loader=ts-node/esm\" node examples/main.ts",
     "chatbox": "cd examples/chatbox && make",
-    "postinstall": "node scripts/post-install.cjs",
+    "postinstall": "node bin/post-install.cjs",
     "test": "npm run lint && npm run test:unit",
     "test:unit": "cross-env NODE_OPTIONS=\"--no-warnings --loader=ts-node/esm\" tap \"src/**/*.spec.ts\" \"tests/**/*.spec.ts\"",
     "test:unit:debug": "cross-env BROLOG_LEVEL=silly npm run test:unit",
