@@ -10,7 +10,7 @@ import { getMetadataSidecar } from '../decorators/sidecar/metadata-sidecar.js'
 import {
   log,
 }                     from '../config.js'
-import * as frida     from '../frida'
+import * as frida     from '../frida.js'
 
 import {
   ATTACH_SYMBOL,

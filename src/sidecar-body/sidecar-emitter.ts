@@ -1,4 +1,4 @@
-import { EventEmitter } from 'stream'
+import { EventEmitter } from 'events'
 import type TypedEventEmitter  from 'typed-emitter'
 
 import type { SidecarPayloadHook } from './payload-schemas.js'

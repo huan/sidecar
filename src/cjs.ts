@@ -1,4 +1,4 @@
-import codeRootPkg from '../commonjs/code-root.js'
+import codeRootPkg from '../commonjs/code-root.cjs'
 const codeRoot = codeRootPkg['codeRoot']
 
 export {

@@ -18,10 +18,10 @@
 
 /***********************************
  * File: "templates/agent.mustache"
- *  > Partials: "libs/payload.js"
+ *  > Partials: "libs/payload.cjs"
  ***********************************/
 /********************************************
- * File: templates/lib/payload.js
+ * File: templates/lib/payload.cjs
  *
  * To make sure the payload typing is right
  * See: sidecar-body/payload-schema.ts
@@ -75,10 +75,10 @@ if (typeof module !== 'undefined' && module.exports) {
 
 /***********************************
  * File: "templates/agent.mustache"
- *  > Partials: "libs/log.js"
+ *  > Partials: "libs/log.cjs"
  ***********************************/
 /*******************************
- * File: templates/libs/log.js
+ * File: templates/libs/log.cjs
  *******************************/
 const log = (() => {
   const levelTable = {

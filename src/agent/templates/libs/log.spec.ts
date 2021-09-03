@@ -5,11 +5,11 @@ import {
   sinon,
 }         from 'tstest'
 
-const {
-  __sidecar__payloadLog,
-}                       = require('./payload.js')
+import cjsPayloadPkg   from './payload.cjs'
+import cjsLogPkg       from './log.cjs'
 
-const { log }           = require('./log.js')
+const { __sidecar__payloadLog } = cjsPayloadPkg
+const { log }                   = cjsLogPkg
 
 // FIXME: Huan(202107) do not modify global settings
 ;(global as any)['__sidecar__payloadLog'] = __sidecar__payloadLog

@@ -6,10 +6,12 @@ import type {
   SidecarPayloadLog,
 }                                 from '../../../sidecar-body/payload-schemas.js'
 
+import pkg from './payload.cjs'
+
 const {
   __sidecar__payloadHook,
   __sidecar__payloadLog,
-}                           = require('./payload.js')
+}                           = pkg
 
 test('__sidecar__payloadLog()', async t => {
   const message = 'test' as string
