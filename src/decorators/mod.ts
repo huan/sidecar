@@ -1,14 +1,18 @@
-import { Call }       from './call/mod'
-import { Hook }       from './hook/mod'
-import { Name }       from './name/mod'
-import { ParamType }  from './param-type/mod'
-import { RetType }    from './ret-type/mod'
+import { Call }       from './call/mod.js'
+import { Hook }       from './hook/mod.js'
+import { Name }       from './name/mod.js'
+import { ParamType }  from './param-type/mod.js'
+import { RetType }    from './ret-type/mod.js'
 import {
   Sidecar,
   SidecarMetadata,
   SidecarMetadataFunctionDescription,
-}                                         from './sidecar/mod'
+}                                         from './sidecar/mod.js'
 
+export type {
+  SidecarMetadata,
+  SidecarMetadataFunctionDescription,
+}
 export {
   Call,
   Hook,
@@ -16,6 +20,4 @@ export {
   ParamType,
   RetType,
   Sidecar,
-  SidecarMetadata,
-  SidecarMetadataFunctionDescription,
 }

@@ -38,3 +38,6 @@ function test (): void {
   const ret = testBox()
   console.log('ret:', ret)
 }
+
+void test
+export {}

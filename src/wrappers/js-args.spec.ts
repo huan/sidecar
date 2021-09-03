@@ -1,9 +1,9 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
-import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture'
+import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture.js'
 
-import { jsArgs } from './js-args'
+import { jsArgs } from './js-args.js'
 
 test('jsArgs()', async t => {
   const SIDECAR_METADATA = getSidecarMetadataFixture()
@@ -27,5 +27,5 @@ test('jsArgs()', async t => {
     .flat()
     .map(x => jsArgs.call(x))
 
-  t.deepEqual(result, EXPECTED_ARGS_LIST, 'should wrap the args correct')
+  t.same(result, EXPECTED_ARGS_LIST, 'should wrap the args correct')
 })

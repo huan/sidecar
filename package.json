@@ -2,31 +2,38 @@
   "name": "frida-sidecar",
   "version": "0.13.4",
   "description": "Sidecar is for easy hook/call in-process functions with TypeScript annotations.",
-  "main": "dist/src/mod.js",
-  "typings": "dist/src/mod.d.ts",
-  "engines": {
-    "node": ">=10"
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/src/mod.js",
+      "require": "./dist/cjs/src/mod.js"
+    }
   },
-  "directories": {
-    "doc": "docs",
-    "test": "tests"
+  "typings": "./dist/esm/src/mod.d.ts",
+  "engines": {
+    "node": ">=14"
   },
   "bin": {
     "sidecar-dump": "dist/bin/sidecar-dump.js"
   },
   "scripts": {
     "clean": "shx rm -fr dist/*",
-    "dist": "npm run clean && tsc && shx cp -R src/agent/templates/{libs,*.mustache} dist/src/agent/templates/",
+    "dist": "npm-run-all clean build dist:commonjs dist:copy",
+    "build": "tsc && tsc -p tsconfig.cjs.json",
+    "dist:commonjs": "echo '{\"type\": \"commonjs\"}' > dist/cjs/package.json",
+    "dist:copy": "npm-run-all copy:templates copy:esm copy:cjs",
+    "copy:templates": "shx cp -R src/agent/templates/{libs,*.mustache} dist/src/agent/templates/",
+    "copy:esm": "shx cp -R commonjs/ dist/esm/",
+    "copy:cjs": "shx cp -R commonjs/ dist/cjs/",
     "lint": "npm run lint:es && npm run lint:ts",
-    "lint:ts": "tsc --noEmit",
-    "pack": "npm pack",
+    "lint:ts": "tsc --isolatedModules --noEmit",
     "start": "npm run example",
-    "example": "ts-node examples/main.ts",
+    "example": "cross-env NODE_OPTIONS=\"--no-warnings --loader=ts-node/esm\" node examples/main.ts",
     "chatbox": "cd examples/chatbox && make",
-    "postinstall": "node scripts/post-install",
+    "postinstall": "node scripts/post-install.cjs",
     "test": "npm run lint && npm run test:unit",
-    "test:unit": "blue-tape -r ts-node/register \"src/**/*.spec.ts\" \"tests/**/*.spec.ts\"",
-    "test:unit:debug": "cross-env BROLOG_LEVEL=silly blue-tape -r ts-node/register \"src/**/*.spec.ts\" \"tests/**/*.spec.ts\"",
+    "test:unit": "cross-env NODE_OPTIONS=\"--no-warnings --loader=ts-node/esm\" tap \"src/**/*.spec.ts\" \"tests/**/*.spec.ts\"",
+    "test:unit:debug": "cross-env BROLOG_LEVEL=silly npm run test:unit",
     "test:pack": "bash -x scripts/npm-pack-testing.sh",
     "lint:es": "eslint --ignore-pattern fixtures/ \"src/**/*.ts\" \"tests/**/*.ts\""
   },
@@ -45,10 +52,10 @@
   },
   "homepage": "https://github.com/huan/sidecar#readme",
   "devDependencies": {
-    "@chatie/eslint-config": "^0.12.4",
+    "@chatie/eslint-config": "^0.13.5",
     "@chatie/git-scripts": "^0.6.2",
     "@chatie/semver": "^0.4.7",
-    "@chatie/tsconfig": "^0.16.2",
+    "@chatie/tsconfig": "^0.19.6",
     "@types/mustache": "^4.1.1",
     "@types/node": "^16.0.0",
     "@types/string-similarity": "^4.0.0",
@@ -58,8 +65,8 @@
     "shx": "^0.3.3",
     "string-similarity": "^4.0.4",
     "tsd": "^0.17.0",
-    "tstest": "^0.4.10",
-    "typescript": "=4.4.0-dev.20210706"
+    "tstest": "^0.5.16",
+    "typescript": "^4.4.2"
   },
   "git": {
     "scripts": {
@@ -69,6 +76,10 @@
   "publishConfig": {
     "tag": "next"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "dependencies": {
     "@types/frida-gum": "^17.0.0",
     "brolog": "^1.12.4",

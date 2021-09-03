@@ -19,6 +19,8 @@
 import fs   from 'fs'
 import path from 'path'
 
+import { codeRoot } from '../../src/cjs.js'
+
 /**
  * See: https://github.com/frida/frida-node/blob/master/test/data/index.ts
  */
@@ -34,8 +36,9 @@ function targetProgram () {
   }
 
   return path.join(
-    __dirname,
+    codeRoot,
     '..',
+    'examples',
     'chatbox',
     chatboxNameList.join(''),
   )

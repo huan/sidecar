@@ -20,9 +20,9 @@ import assert from 'assert'
 import {
   attach,
   detach,
-}           from '../../src/mod'
+}           from '../../src/mod.js'
 
-import { FactorialSidecar } from './factorial-sidecar'
+import { FactorialSidecar } from './factorial-sidecar.js'
 
 async function main () {
   const sidecar = new FactorialSidecar()

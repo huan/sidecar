@@ -8,7 +8,7 @@ import {
 }                 from 'cmd-ts'
 import { File }   from 'cmd-ts/dist/cjs/batteries/fs'
 
-import { sourceHandler } from './source-handler'
+import { sourceHandler } from './source-handler.js'
 
 async function handler (args: any) {
   const result = await sourceHandler(args)

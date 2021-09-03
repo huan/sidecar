@@ -1,9 +1,9 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
 import {
   isInstance,
-}                 from './misc'
+}                 from './misc.js'
 
 test('isInstance()', async t => {
   class Test {}

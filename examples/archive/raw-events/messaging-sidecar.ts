@@ -8,8 +8,8 @@ import { EventEmitter } from 'events'
 import { log } from 'brolog'
 
 import * as frida from './frida'
-import { SidecarFridaPayload } from './schema'
-import { loadAgentSource }        from './load-agent-source'
+import type { SidecarFridaPayload } from './schema.js'
+import { loadAgentSource }        from './load-agent-source.js'
 
 class MessagingSidecar extends EventEmitter {
 
@@ -44,7 +44,7 @@ class MessagingSidecar extends EventEmitter {
       throw new Error('stop() this.script is undefined!')
     }
 
-    await this.script.exports.init()
+    await this.script.exports['init']!()
   }
 
   public async stop () {
@@ -125,7 +125,7 @@ class MessagingSidecar extends EventEmitter {
     log.verbose('MessagingSidecar', 'mo(%s)', content)
 
     try {
-      await this.script!.exports.mo('MessagingSidebar: new messsage send by script.exports.mo()')
+      await this.script!.exports['mo']!('MessagingSidebar: new messsage send by script.exports.mo()')
     } catch (e) {
       console.error(e)
     }

@@ -1,13 +1,13 @@
 import {
   log,
-}                 from '../../config'
+}                 from '../../config.js'
 
-import {
+import type {
   FunctionTarget,
-}                 from '../../function-target'
+}                 from '../../function-target.js'
 
-import { updateMetadataCall }   from './metadata-call'
-import { updateRpcDescriptor }  from './update-rpc-descriptor'
+import { updateMetadataCall }   from './metadata-call.js'
+import { updateRpcDescriptor }  from './update-rpc-descriptor.js'
 
 function Call (
   functionTarget: FunctionTarget,

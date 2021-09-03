@@ -16,13 +16,13 @@
  *   limitations under the License.
  *
  */
-import { VERSION }      from './version'
-import { Ret }          from './ret'
+import { VERSION }      from './version.js'
+import { Ret }          from './ret.js'
 import {
   SidecarBody,
   attach,
   detach,
-}                       from './sidecar-body/mod'
+}                       from './sidecar-body/mod.js'
 
 import {
   INIT_SYMBOL,
@@ -34,16 +34,16 @@ import {
 
   LOG_EVENT_HANDLER,
   HOOK_EVENT_HANDLER,
-}                                     from './sidecar-body/constants'
+}                                     from './sidecar-body/constants.js'
 
 /**
  * Decorators
  */
-import { Call }       from './decorators/call/mod'
-import { Hook }       from './decorators/hook/mod'
-import { ParamType }  from './decorators/param-type/mod'
-import { RetType }    from './decorators/ret-type/mod'
-import { Sidecar }    from './decorators/sidecar/mod'
+import { Call }       from './decorators/call/mod.js'
+import { Hook }       from './decorators/hook/mod.js'
+import { ParamType }  from './decorators/param-type/mod.js'
+import { RetType }    from './decorators/ret-type/mod.js'
+import { Sidecar }    from './decorators/sidecar/mod.js'
 
 /**
  * Target helpers
@@ -53,7 +53,7 @@ import {
   agentTarget,
   exportTarget,
   FunctionTarget,
-}                     from './function-target'
+}                     from './function-target.js'
 
 const debug = {
   ATTACH_SYMBOL,
@@ -65,25 +65,22 @@ const debug = {
   SCRIPT_MESSAGRE_HANDLER_SYMBOL,
 }
 
+export type {
+  FunctionTarget,
+}
 export {
-  VERSION,
-
-  debug,
-
+  addressTarget,
+  agentTarget,
   attach,
-  detach,
-
   Call,
+  debug,
+  detach,
+  exportTarget,
   Hook,
   ParamType,
   Ret,
   RetType,
-
   Sidecar,
   SidecarBody,
-
-  addressTarget,
-  agentTarget,
-  exportTarget,
-  FunctionTarget,
+  VERSION,
 }

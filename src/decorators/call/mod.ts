@@ -1,5 +1,5 @@
-import { Call }                   from './call'
-import { getMetadataCall }  from './metadata-call'
+import { Call }                   from './call.js'
+import { getMetadataCall }  from './metadata-call.js'
 
 export {
   Call,

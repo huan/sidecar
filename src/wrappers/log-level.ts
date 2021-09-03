@@ -1,4 +1,4 @@
-import { log } from '../config'
+import { log } from '../config.js'
 
 function logLevel () {
   return log.level()

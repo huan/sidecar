@@ -4,12 +4,12 @@
  * Huan <zixia@zixia.net>, June 24, 2021
  *  https://github.com/huan/sidecar
  */
-import { buildAgentSource }   from '../agent/build-agent-source'
-import { getMetadataSidecar } from '../decorators/sidecar/metadata-sidecar'
+import { buildAgentSource }   from '../agent/build-agent-source.js'
+import { getMetadataSidecar } from '../decorators/sidecar/metadata-sidecar.js'
 
 import {
   log,
-}                     from '../config'
+}                     from '../config.js'
 import * as frida     from '../frida'
 
 import {
@@ -22,22 +22,22 @@ import {
 
   LOG_EVENT_HANDLER,
   HOOK_EVENT_HANDLER,
-}                                   from './constants'
+}                                   from './constants.js'
 
-import { SidecarEmitter } from './sidecar-emitter'
+import { SidecarEmitter } from './sidecar-emitter.js'
 import {
   isSidecarPayloadHook,
   isSidecarPayloadLog,
   SidecarPayloadHook,
   SidecarPayloadLog,
-}                                   from './payload-schemas'
+}                                   from './payload-schemas.js'
 import {
   isSidecarTargetProcess,
   isSidecarTargetSpawn,
   normalizeSidecarTarget,
   SidecarTarget,
   SidecarTargetObj,
-}                                   from '../decorators/sidecar/target'
+}                                   from '../decorators/sidecar/target.js'
 
 export interface SidecarBodyOptions {
   initAgentScript? : string,
@@ -218,11 +218,11 @@ class SidecarBody extends SidecarEmitter {
 
     await script.load()
 
-    if (script.exports && script.exports.init) {
+    if (script.exports && script.exports['init']) {
       // Huan(202106)
       // FIXME: do we need to call init() here?
       // It seems that frida will call init() automatically in CLI
-      await script.exports.init()
+      await script.exports['init']()
     } else {
       log.warn('SidecarBody', '[ATTACH_SYMBOL]() "init" not found in "script.exports"')
     }

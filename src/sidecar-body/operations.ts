@@ -2,8 +2,8 @@ import {
   ATTACH_SYMBOL,
   DETACH_SYMBOL,
   INIT_SYMBOL,
-}                       from './constants'
-import { SidecarBody }  from './sidecar-body'
+}                       from './constants.js'
+import type { SidecarBody }  from './sidecar-body.js'
 
 function attach (
   sidecar: SidecarBody,

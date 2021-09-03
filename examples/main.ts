@@ -19,15 +19,15 @@
 import {
   attach,
   detach,
-}           from '../src/mod'
+}           from '../src/mod.js'
 
 /**
  * The `ChatboxSidecarPro` has more complicated settings
  *  You can read it and learn more in the [example](./chatbox-sidecar-pro.ts)
  */
-import { ChatboxSidecarAgent }  from './chatbox-sidecar-agent/chatbox-sidecar-agent'
-// import { ChatboxSidecarPro }  from './chatbox-sidecar-pro/chatbox-sidecar-pro'
-// import { ChatboxSidecar } from './chatbox-sidecar'
+import { ChatboxSidecarAgent }  from './chatbox-sidecar-agent/chatbox-sidecar-agent.js'
+// import { ChatboxSidecarPro }  from './chatbox-sidecar-pro/chatbox-sidecar-pro.js'
+// import { ChatboxSidecar } from './chatbox-sidecar.js'
 
 async function main () {
   const sidecar = new ChatboxSidecarAgent()

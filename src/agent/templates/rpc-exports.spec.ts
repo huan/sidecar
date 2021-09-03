@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 /* eslint-disable camelcase */
 import { test }  from 'tstest'
 
@@ -7,10 +7,10 @@ import Mustache from  'mustache'
 
 import {
   partialLookup,
-}                         from '../partial-lookup'
+}                         from '../partial-lookup.js'
 
-import { getSidecarMetadataFixture } from '../../../tests/fixtures/sidecar-metadata.fixture'
-import { wrapView } from '../../wrappers/mod'
+import { getSidecarMetadataFixture } from '../../../tests/fixtures/sidecar-metadata.fixture.js'
+import { wrapView } from '../../wrappers/mod.js'
 
 test('render rpc-exports()', async t => {
 

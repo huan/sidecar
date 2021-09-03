@@ -1,7 +1,7 @@
 import {
   Hook,
   getMetadataHook,
-}                 from './hook'
+}                 from './hook.js'
 
 export {
   Hook,

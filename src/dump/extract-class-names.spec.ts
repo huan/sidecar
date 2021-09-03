@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
 import fs from 'fs'
@@ -6,7 +6,8 @@ import path from 'path'
 
 import {
   extractClassNameListFromSource,
-}                                   from './extract-class-names'
+}                                   from './extract-class-names.js'
+import { codeRoot } from '../../src/cjs.js'
 
 test('extractClassNameListFromSource()', async t => {
   const TS = `
@@ -26,7 +27,7 @@ test('extractClassNameListFromSource()', async t => {
   const EXPECTED = ['ChatboxSidecar', 'ChatboxSidecar2']
 
   const classNameList = await extractClassNameListFromSource(TS)
-  t.deepEqual(classNameList, EXPECTED, 'should extract the class name correct')
+  t.same(classNameList, EXPECTED, 'should extract the class name correct')
 })
 
 test('extractClassNameListFromSource() with export', async t => {
@@ -40,14 +41,12 @@ test('extractClassNameListFromSource() with export', async t => {
   const EXPECTED = ['ChatboxSidecar']
 
   const classNameList = await extractClassNameListFromSource(TS)
-  t.deepEqual(classNameList, EXPECTED, 'should extract the exported class name correct')
+  t.same(classNameList, EXPECTED, 'should extract the exported class name correct')
 })
 
 test('extractClassNameListFromSource() with examples/chatbox-sidebar.ts', async t => {
   const TS = await fs.readFileSync(path.join(
-    __dirname,
-    '..',
-    '..',
+    codeRoot,
     'examples',
     'chatbox-sidecar.ts',
   )).toString()
@@ -55,5 +54,5 @@ test('extractClassNameListFromSource() with examples/chatbox-sidebar.ts', async 
   const EXPECTED = ['ChatboxSidecar']
 
   const classNameList = await extractClassNameListFromSource(TS)
-  t.deepEqual(classNameList, EXPECTED, 'should extract the class name correct')
+  t.same(classNameList, EXPECTED, 'should extract the class name correct')
 })

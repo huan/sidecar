@@ -1,14 +1,14 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
-import {
+import type {
   NativeType,
   PointerType,
-}                 from '../../frida'
+}                 from '../../frida.js'
 
 import {
   getMetadataRetType,
   updateMetadataRetType,
-}                 from './metadata-ret-type'
+}                 from './metadata-ret-type.js'
 
 test('update & get ret type metadata', async t => {
   const PROPERTY_KEY = 'key'
@@ -28,5 +28,5 @@ test('update & get ret type metadata', async t => {
     PROPERTY_KEY,
   )
 
-  t.deepEqual(data, VALUE, 'should get the ret type data the same as we set(update)')
+  t.same(data, VALUE, 'should get the ret type data the same as we set(update)')
 })

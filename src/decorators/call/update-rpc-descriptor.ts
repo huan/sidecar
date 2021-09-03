@@ -1,9 +1,9 @@
 import {
   log,
-}                         from '../../config'
-import { RET_SYMBOL }     from '../../ret'
-import { SidecarBody }    from '../../sidecar-body/mod'
-import { DEBUG_CALL_RET_ERROR } from './constants'
+}                         from '../../config.js'
+import { RET_SYMBOL }     from '../../ret.js'
+import type { SidecarBody }    from '../../sidecar-body/mod.js'
+import { DEBUG_CALL_RET_ERROR } from './constants.js'
 
 function updateRpcDescriptor (
   target      : Function,
@@ -68,7 +68,7 @@ function updateRpcDescriptor (
       return
     }
 
-    return this.script.exports[propertyKey](...args)
+    return this.script.exports[propertyKey]!(...args)
   }
 
   /**

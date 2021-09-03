@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
 import fs from 'fs'
@@ -8,20 +8,17 @@ import stringSimilarity from 'string-similarity'
 
 import {
   sourceHandler,
-}                                   from './source-handler'
+}                                   from './source-handler.js'
+import { codeRoot } from '../../src/cjs.js'
 
 test('sourceHandler()', async t => {
   const CLASS_FILE = path.join(
-    __dirname,
-    '..',
-    '..',
+    codeRoot,
     'examples',
     'chatbox-sidecar.ts',
   )
   const FIXTURE_FILE = path.join(
-    __dirname,
-    '..',
-    '..',
+    codeRoot,
     'tests',
     'fixtures',
     'sidecar-dump.source.chatbox-sidecar.js.fixture',

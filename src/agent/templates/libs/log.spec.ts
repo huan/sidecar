@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 /* eslint-disable camelcase */
 import {
   test,
@@ -33,5 +33,5 @@ test('log()', async t => {
     type: 'log',
   }
   t.equal(spy.callCount, 1, 'should call spy')
-  t.deepEqual(spy.args[0][0], EXPECTED, 'should get correct payload event')
+  t.same(spy.args[0]![0], EXPECTED, 'should get correct payload event')
 })

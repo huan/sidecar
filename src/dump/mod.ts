@@ -1,5 +1,5 @@
-import { metadata } from './metadata'
-import { source }   from './source'
+import { metadata } from './metadata.js'
+import { source }   from './source.js'
 
 export {
   metadata,

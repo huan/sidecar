@@ -1,15 +1,15 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
 import {
   RetType,
-}                     from './ret-type'
+}                     from './ret-type.js'
 import {
   getMetadataRetType,
-}                     from './metadata-ret-type'
+}                     from './metadata-ret-type.js'
 import {
   RET_TYPE_SYMBOL,
-}                     from './constants'
+}                     from './constants.js'
 
 test('RetType with metadata', async t => {
   const NATIVE_TYPE       = 'pointer'
@@ -37,7 +37,7 @@ test('RetType with metadata', async t => {
     NATIVE_TYPE,
     ...POINTER_TYPE_LIST,
   ]
-  t.deepEqual(data, EXPECTED_DATA, 'should get the method ret type data')
+  t.same(data, EXPECTED_DATA, 'should get the method ret type data')
 })
 
 test('getRetType()', async t => {
@@ -64,7 +64,7 @@ test('getRetType()', async t => {
     NATIVE_TYPE,
     ...POINTER_TYPE_LIST,
   ]
-  t.deepEqual(typeList, EXPECTED_NAME_LIST, 'should get decorated method ret type list')
+  t.same(typeList, EXPECTED_NAME_LIST, 'should get decorated method ret type list')
 })
 
 test('guard ret native types', async t => {

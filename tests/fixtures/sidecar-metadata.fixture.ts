@@ -1,4 +1,4 @@
-import { SidecarMetadata } from '../../src/decorators/mod'
+import type { SidecarMetadata } from '../../src/decorators/mod.js'
 
 /**
  * Sidecar View Fixtures

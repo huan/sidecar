@@ -1,11 +1,11 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
 import {
   getParameterName,
   Name,
   PARAMETER_NAME_SYMBOL,
-}                         from './name'
+}                         from './name.js'
 
 test('@Name with metadata', async t => {
   const NAME = 'test_name'
@@ -31,7 +31,7 @@ test('@Name with metadata', async t => {
 
   /* eslint-disable no-sparse-arrays */
   const EXPECTED_DATA = [, NAME]
-  t.deepEqual(data, EXPECTED_DATA, 'should get the parameter name data')
+  t.same(data, EXPECTED_DATA, 'should get the parameter name data')
 })
 
 test('getParameterName', async t => {
@@ -57,5 +57,5 @@ test('getParameterName', async t => {
   ))
 
   const EXPECTED_NAME_LIST = [undefined, NAME]
-  t.deepEqual(nameList, EXPECTED_NAME_LIST, 'should get decorated name list')
+  t.same(nameList, EXPECTED_NAME_LIST, 'should get decorated name list')
 })

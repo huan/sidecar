@@ -1,11 +1,11 @@
 import {
   log,
-}                   from '../../config'
-import {
+}                   from '../../config.js'
+import type {
   FunctionTarget,
-}                   from '../../function-target'
+}                   from '../../function-target.js'
 
-import { CALL_SYMBOL } from './constants'
+import { CALL_SYMBOL } from './constants.js'
 
 function updateMetadataCall (
   target         : Object,

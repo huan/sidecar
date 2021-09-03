@@ -4,12 +4,12 @@ import path from 'path'
 
 import slash      from 'slash'
 
-import { log }    from '../config'
+import { log }    from '../config.js'
 
-import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar'
-import { buildAgentSource }     from '../agent/build-agent-source'
+import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar.js'
+import { buildAgentSource }     from '../agent/build-agent-source.js'
 
-import { extractClassNameList } from './extract-class-names'
+import { extractClassNameList } from './extract-class-names.js'
 
 const sourceHandler = async ({
   file,

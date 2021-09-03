@@ -8,7 +8,7 @@
  * TypeScript Decorators: Parameter Decorators
  *  https://blog.wotw.pro/typescript-decorators-parameter-decorators/
  */
-import { log } from '../../config'
+import { log } from '../../config.js'
 
 const PARAMETER_NAME_SYMBOL = Symbol('parameterName')
 

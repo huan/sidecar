@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 import {
   addressTarget,
@@ -7,7 +7,7 @@ import {
   TargetPayloadAddress,
   TargetPayloadAgent,
   TargetPayloadExport,
-}                         from './function-target'
+}                         from './function-target.js'
 
 test('addressTarget()', async t => {
   const DATA     = 0x1234
@@ -19,7 +19,7 @@ test('addressTarget()', async t => {
 
   const result = addressTarget(DATA)
 
-  t.deepEqual(result, EXPECTED, 'should get the correct address target for number')
+  t.same(result, EXPECTED, 'should get the correct address target for number')
 })
 
 test('addressTarget() with module', async t => {
@@ -33,7 +33,7 @@ test('addressTarget() with module', async t => {
 
   const result = addressTarget(DATA, MODULE_NAME)
 
-  t.deepEqual(result, EXPECTED, 'should get the correct address target for number and module name')
+  t.same(result, EXPECTED, 'should get the correct address target for number and module name')
 })
 
 test('agentTarget()', async t => {
@@ -45,7 +45,7 @@ test('agentTarget()', async t => {
 
   const result = agentTarget(DATA)
 
-  t.deepEqual(result, EXPECTED, 'should get the correct agent target for var name')
+  t.same(result, EXPECTED, 'should get the correct agent target for var name')
 })
 
 test('exportTarget()', async t => {
@@ -58,7 +58,7 @@ test('exportTarget()', async t => {
 
   const result = exportTarget(DATA)
 
-  t.deepEqual(result, EXPECTED, 'should get the correct export target for number')
+  t.same(result, EXPECTED, 'should get the correct export target for number')
 })
 
 test('exportTarget() with export', async t => {
@@ -72,5 +72,5 @@ test('exportTarget() with export', async t => {
 
   const result = exportTarget(DATA, MODULE_NAME)
 
-  t.deepEqual(result, EXPECTED, 'should get the correct export target for name and module name')
+  t.same(result, EXPECTED, 'should get the correct export target for name and module name')
 })

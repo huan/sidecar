@@ -8,7 +8,7 @@ import {
 }                 from 'cmd-ts'
 import { File }   from 'cmd-ts/dist/cjs/batteries/fs'
 
-import { metadataHandler } from './metadata-handler'
+import { metadataHandler } from './metadata-handler.js'
 
 async function handler (args: any) {
   const result = await metadataHandler(args)

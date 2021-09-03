@@ -1,9 +1,9 @@
 import type { spawn } from 'child_process'
 import fs from 'fs'
 import path from 'path'
-import { TargetProcess } from 'frida'
+import type { TargetProcess } from 'frida'
 
-import { log } from '../../config'
+import { log } from '../../config.js'
 
 type SpawnParameters = Parameters<typeof spawn>
 export type SidecarTargetRawSpawn = [

@@ -1,10 +1,10 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
 import {
   RET_SYMBOL,
   Ret,
-}                         from './ret'
+}                         from './ret.js'
 
 test('Ret()', async t => {
   const p = Ret()

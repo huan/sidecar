@@ -1,10 +1,10 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 /* eslint-disable camelcase */
 import { test }  from 'tstest'
-import {
+import type {
   SidecarPayloadHook,
   SidecarPayloadLog,
-}                                 from '../../../sidecar-body/payload-schemas'
+}                                 from '../../../sidecar-body/payload-schemas.js'
 
 const {
   __sidecar__payloadHook,
@@ -28,7 +28,7 @@ test('__sidecar__payloadLog()', async t => {
     type    : 'log',
   }
 
-  t.deepEqual(payload, EXPECTED, 'should get log payload correctly')
+  t.same(payload, EXPECTED, 'should get log payload correctly')
 })
 
 test('__sidecar__payloadHook()', async t => {
@@ -51,5 +51,5 @@ test('__sidecar__payloadHook()', async t => {
     EXPECTED_PAYLOAD.payload.args[idx] = item
   }
 
-  t.deepEqual(payload, EXPECTED_PAYLOAD, 'should make hook payload correctly.')
+  t.same(payload, EXPECTED_PAYLOAD, 'should make hook payload correctly.')
 })

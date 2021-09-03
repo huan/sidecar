@@ -4,10 +4,10 @@ import path from 'path'
 
 import slash      from 'slash'
 
-import { log }    from '../config'
+import { log }    from '../config.js'
 
-import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar'
-import { extractClassNameList } from './extract-class-names'
+import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar.js'
+import { extractClassNameList } from './extract-class-names.js'
 
 const metadataHandler = async ({
   file,

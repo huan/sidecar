@@ -24,12 +24,12 @@ import {
   ParamType,
   RetType,
   Ret,
-}                   from '../../src/mod'
+}                   from '../../src/mod.js'
 
 import {
   targetAddress,
   targetProgram,
-}                   from './sidecar-config'
+}                   from './sidecar-config.js'
 
 @Sidecar([
   targetProgram(), // chatbox-linux

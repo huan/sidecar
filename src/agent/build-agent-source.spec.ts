@@ -1,18 +1,18 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
-import { ChatboxSidecar }   from '../../examples/chatbox-sidecar'
-import { getMetadataSidecar }  from '../decorators/sidecar/metadata-sidecar'
+import { ChatboxSidecar }   from '../../examples/chatbox-sidecar.js'
+import { getMetadataSidecar }  from '../decorators/sidecar/metadata-sidecar.js'
 
-// import { Call, RetType, Sidecar } from '../decorators/mod'
-// import { sidecarMetadata } from '../decorators/sidecar/sidecar-metadata'
-// import { Ret } from '../ret'
-// import { SidecarBody } from '../sidecar-body/sidecar-body'
+// import { Call, RetType, Sidecar } from '../decorators/mod.js'
+// import { sidecarMetadata } from '../decorators/sidecar/sidecar-metadata.js'
+// import { Ret } from '../ret.js'
+// import { SidecarBody } from '../sidecar-body/sidecar-body.js'
 
 import {
   buildAgentSource,
-}                         from './build-agent-source'
-import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture'
+}                         from './build-agent-source.js'
+import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture.js'
 
 test('buildAgentSource() from fixture', async t => {
   const metadata = getSidecarMetadataFixture()

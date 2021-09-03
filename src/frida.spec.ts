@@ -1,18 +1,18 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 
 import { test }       from 'tstest'
 import { expectType } from 'tsd'
 
-import {
+import type {
   ScriptMessageHandler,
   NativeType,
   PointerType,
-}                           from './frida'
+}                           from './frida.js'
 import {
   normalizeFunctionTarget,
   TargetPayloadObj,
   TargetPayloadRaw,
-}                           from './function-target'
+}                           from './function-target.js'
 
 test('PointerType typing', async t => {
   type EXPECTED_TYPE = 'Pointer' | 'Int' | 'Utf8String'
@@ -60,5 +60,5 @@ test('normalizeFunctionTarget()', async t => {
   const result    = TEST_LIST.map(pair => pair[0]).map(normalizeFunctionTarget)
   const expected  = TEST_LIST.map(pair => pair[1])
 
-  t.deepEqual(result, expected, 'should normalize function target as expected')
+  t.same(result, expected, 'should normalize function target as expected')
 })

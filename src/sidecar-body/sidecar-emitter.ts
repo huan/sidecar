@@ -1,12 +1,12 @@
 import { EventEmitter } from 'stream'
-import TypedEventEmitter  from 'typed-emitter'
+import type TypedEventEmitter  from 'typed-emitter'
 
-import { SidecarPayloadHook } from './payload-schemas'
+import type { SidecarPayloadHook } from './payload-schemas.js'
 
 // import {
 //   SidecarPayloadLog,
 //   SidecarPayloadHook,
-// }                               from './payload-schemas'
+// }                               from './payload-schemas.js'
 
 // export type AttachedEventListener = () => void
 // export type DetachedEventListener = () => void

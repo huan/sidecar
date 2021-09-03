@@ -1,4 +1,4 @@
-import { SidecarMetadataFunctionDescription } from '../decorators/mod'
+import type { SidecarMetadataFunctionDescription } from '../decorators/mod.js'
 
 function nativeParamTypes (
   this: SidecarMetadataFunctionDescription,

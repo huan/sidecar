@@ -1,12 +1,10 @@
 {
   "extends": "@chatie/tsconfig",
   "compilerOptions": {
-    "downlevelIteration": true,
-    "outDir": "dist",
-    "target": "es5",
-    "moduleResolution": "Node",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "outDir": "dist/esm",
+    "lib": [
+      "esnext",
+    ],
   },
   "exclude": [
     "node_modules/",

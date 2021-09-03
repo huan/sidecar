@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
 import {
@@ -7,7 +7,7 @@ import {
   SidecarTargetObjSpawn,
   isSidecarTargetSpawn,
   isSidecarTargetProcess,
-}                           from './target'
+}                           from './target.js'
 
 test('normalizeSidecarTarget() processTarget: number', async t => {
   const TARGET = 0x1234
@@ -17,7 +17,7 @@ test('normalizeSidecarTarget() processTarget: number', async t => {
   }
 
   const actual = normalizeSidecarTarget(TARGET)
-  t.deepEqual(actual, EXPECTED, 'should normalize number to process target')
+  t.same(actual, EXPECTED, 'should normalize number to process target')
 
   t.true(isSidecarTargetProcess(actual), 'should be a process target')
 })
@@ -30,7 +30,7 @@ test('normalizeSidecarTarget() processTarget: string', async t => {
   }
 
   const actual = normalizeSidecarTarget(TARGET)
-  t.deepEqual(actual, EXPECTED, 'should normalize string to process target')
+  t.same(actual, EXPECTED, 'should normalize string to process target')
 
   t.true(isSidecarTargetProcess(actual), 'should be a process target')
 })
@@ -49,7 +49,7 @@ test('normalizeSidecarTarget() spawnTarget: []', async t => {
   }
 
   const actual = normalizeSidecarTarget(TARGET)
-  t.deepEqual(actual, EXPECTED, 'should normalize array to spawn target')
+  t.same(actual, EXPECTED, 'should normalize array to spawn target')
 
   t.true(isSidecarTargetSpawn(actual), 'should be a spawn target')
 })
@@ -64,7 +64,7 @@ test('normalizeSidecarTarget() obj: {}', async t => {
   } as SidecarTargetObjSpawn
 
   const actual = normalizeSidecarTarget(TARGET)
-  t.deepEqual(actual, TARGET, 'should normalize obj unchanged')
+  t.same(actual, TARGET, 'should normalize obj unchanged')
 
   t.true(isSidecarTargetSpawn(actual), 'should be a spawn target')
 })
@@ -72,7 +72,7 @@ test('normalizeSidecarTarget() obj: {}', async t => {
 test('normalizeSidecarTarget() undefined', async t => {
   const TARGET = undefined
   const actual = normalizeSidecarTarget(TARGET)
-  t.deepEqual(actual, undefined, 'should normalize undefined to undefined')
+  t.same(actual, undefined, 'should normalize undefined to undefined')
 
   t.false(isSidecarTargetSpawn(actual), 'should not be a spawn target')
   t.false(isSidecarTargetProcess(actual), 'should not be a process target')

@@ -1,16 +1,16 @@
 import {
   log,
-}                       from '../../config'
-import {
+}                       from '../../config.js'
+import type {
   TypeChain,
-}                       from '../../frida'
-import {
+}                       from '../../frida.js'
+import type {
   TargetPayloadObj,
   FunctionTargetType,
-}                     from '../../function-target'
+}                     from '../../function-target.js'
 
-import { SIDECAR_SYMBOL }   from './constants'
-import { SidecarTargetObj } from './target'
+import { SIDECAR_SYMBOL }   from './constants.js'
+import type { SidecarTargetObj } from './target.js'
 
 export interface SidecarMetadataFunctionDescription {
   name          : string

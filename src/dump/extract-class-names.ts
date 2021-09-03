@@ -17,7 +17,7 @@ async function extractClassNameListFromSource (
 
   return Array.from(
     source.matchAll(REGEXP)
-  ).map(m => m[1])
+  ).map(m => m[1]!)
 }
 
 export {

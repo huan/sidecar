@@ -1,15 +1,15 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }         from 'tstest'
 import { EventEmitter } from 'stream'
 import {
   Ret,
   RET_SYMBOL,
-}                         from '../../ret'
-import { DEBUG_CALL_RET_ERROR } from './constants'
+}                         from '../../ret.js'
+import { DEBUG_CALL_RET_ERROR } from './constants.js'
 
 import {
   updateRpcDescriptor,
-}                           from './update-rpc-descriptor'
+}                           from './update-rpc-descriptor.js'
 
 test('update & get call target metadata', async t => {
 
