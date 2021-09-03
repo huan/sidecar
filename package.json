@@ -14,7 +14,7 @@
     "node": ">=14"
   },
   "bin": {
-    "sidecar-dump": "dist/bin/sidecar-dump.js"
+    "sidecar-dump": "dist/esm/bin/sidecar-dump.js"
   },
   "scripts": {
     "clean": "shx rm -fr dist/*",
@@ -78,6 +78,7 @@
   },
   "files": [
     "dist",
+    "scripts",
     "src"
   ],
   "dependencies": {
