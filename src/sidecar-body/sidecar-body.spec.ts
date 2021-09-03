@@ -24,5 +24,5 @@ test('Class intance constructor should be the Class Function', async t => {
   class Test {}
   const test = new Test()
 
-  t.true(test.constructor === Test, 'should be equal')
+  t.ok(test.constructor === Test, 'should be equal')
 })

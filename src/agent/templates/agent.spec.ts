@@ -37,5 +37,5 @@ test('agent.mustache', async t => {
   /**
    * Huan(202106): how could we test this script has been correctly generated?
    */
-  t.true(result, 'should render to the right script (TBW)')
+  t.ok(result, 'should render to the right script (TBW)')
 })

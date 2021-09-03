@@ -20,7 +20,7 @@ test('buildAgentSource() from fixture', async t => {
   const source = await buildAgentSource(metadata)
 
   // console.log(source)
-  t.true(source, 'ok (tbw)')
+  t.ok(source, 'ok (tbw)')
 })
 
 test('buildAgentSource() from example demo', async t => {
@@ -31,5 +31,5 @@ test('buildAgentSource() from example demo', async t => {
   const source = await buildAgentSource(metadata)
 
   // console.log(source)
-  t.true(source, 'ok')
+  t.ok(source, 'ok')
 })

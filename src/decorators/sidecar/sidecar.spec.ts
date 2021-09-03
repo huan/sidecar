@@ -42,7 +42,7 @@ test('@Sidecar() smoke testing', async t => {
   const test = new Test()
 
   t.equal(Test.name, 'Test', 'should have the original class name after @Sidecar decorated')
-  t.true(test, 'should instanciate decorated class successfully')
+  t.ok(test, 'should instanciate decorated class successfully')
 })
 
 test('@Sidecar() viewMetadata()', async t => {

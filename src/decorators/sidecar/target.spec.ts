@@ -19,7 +19,7 @@ test('normalizeSidecarTarget() processTarget: number', async t => {
   const actual = normalizeSidecarTarget(TARGET)
   t.same(actual, EXPECTED, 'should normalize number to process target')
 
-  t.true(isSidecarTargetProcess(actual), 'should be a process target')
+  t.ok(isSidecarTargetProcess(actual), 'should be a process target')
 })
 
 test('normalizeSidecarTarget() processTarget: string', async t => {
@@ -32,7 +32,7 @@ test('normalizeSidecarTarget() processTarget: string', async t => {
   const actual = normalizeSidecarTarget(TARGET)
   t.same(actual, EXPECTED, 'should normalize string to process target')
 
-  t.true(isSidecarTargetProcess(actual), 'should be a process target')
+  t.ok(isSidecarTargetProcess(actual), 'should be a process target')
 })
 
 test('normalizeSidecarTarget() spawnTarget: []', async t => {
@@ -51,7 +51,7 @@ test('normalizeSidecarTarget() spawnTarget: []', async t => {
   const actual = normalizeSidecarTarget(TARGET)
   t.same(actual, EXPECTED, 'should normalize array to spawn target')
 
-  t.true(isSidecarTargetSpawn(actual), 'should be a spawn target')
+  t.ok(isSidecarTargetSpawn(actual), 'should be a spawn target')
 })
 
 test('normalizeSidecarTarget() obj: {}', async t => {
@@ -66,7 +66,7 @@ test('normalizeSidecarTarget() obj: {}', async t => {
   const actual = normalizeSidecarTarget(TARGET)
   t.same(actual, TARGET, 'should normalize obj unchanged')
 
-  t.true(isSidecarTargetSpawn(actual), 'should be a spawn target')
+  t.ok(isSidecarTargetSpawn(actual), 'should be a spawn target')
 })
 
 test('normalizeSidecarTarget() undefined', async t => {
@@ -74,6 +74,6 @@ test('normalizeSidecarTarget() undefined', async t => {
   const actual = normalizeSidecarTarget(TARGET)
   t.same(actual, undefined, 'should normalize undefined to undefined')
 
-  t.false(isSidecarTargetSpawn(actual), 'should not be a spawn target')
-  t.false(isSidecarTargetProcess(actual), 'should not be a process target')
+  t.notOk(isSidecarTargetSpawn(actual), 'should not be a spawn target')
+  t.notOk(isSidecarTargetProcess(actual), 'should not be a process target')
 })

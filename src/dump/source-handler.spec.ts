@@ -75,5 +75,5 @@ test('sourceHandler()', async t => {
   const ok = similarity > THRESHOLD
   // console.log('similarity:', similarity)
 
-  t.true(ok, `should get the source from ts file with similarity(${Math.floor(similarity * 100)}%) > ${THRESHOLD * 100}%`)
+  t.ok(ok, `should get the source from ts file with similarity(${Math.floor(similarity * 100)}%) > ${THRESHOLD * 100}%`)
 })
