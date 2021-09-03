@@ -1,6 +1,6 @@
 {
   "name": "frida-sidecar",
-  "version": "0.13.4",
+  "version": "0.13.5",
   "description": "Sidecar is for easy hook/call in-process functions with TypeScript annotations.",
   "type": "module",
   "exports": {
