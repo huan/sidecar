@@ -59,6 +59,7 @@ jobs:
       - name: Pack Testing
         run: |
           npm ls typescript
+          ./node_modules/.bin/tsc --version
           ./scripts/npm-pack-testing.sh
 
   publish:
