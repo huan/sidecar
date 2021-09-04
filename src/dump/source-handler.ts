@@ -1,5 +1,6 @@
 /* eslint-disable sort-keys */
-import slash      from 'slash'
+// import slash      from 'slash'
+import { pathToFileURL } from 'url'
 
 import { log }    from '../config.js'
 import vm         from './vm.js'
@@ -16,7 +17,8 @@ const sourceHandler = async ({
   file: string,
   name?: string,
 }): Promise<string> => {
-  file = slash(file)
+  file = pathToFileURL(file).href
+
   log.verbose('sidecar-dump <source>',
     'file<%s>, name<%s>',
     file,

@@ -1,5 +1,6 @@
 /* eslint-disable sort-keys */
-import slash      from 'slash'
+// import slash      from 'slash'
+import { pathToFileURL } from 'url'
 
 import { log }    from '../config.js'
 
@@ -14,7 +15,7 @@ const metadataHandler = async ({
   file: string,
   name?: string,
 }): Promise<string> => {
-  file = slash(file)  // convert windows path to posix
+  file = pathToFileURL(file).href  // convert windows path to posix
   log.verbose('sidecar-dump <metadata>',
     'file<%s>, name<%s>',
     file,
