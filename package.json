@@ -27,11 +27,11 @@
     "lint": "npm run lint:es && npm run lint:ts",
     "lint:ts": "tsc --isolatedModules --noEmit",
     "start": "npm run example",
-    "example": "cross-env NODE_OPTIONS=\"--no-warnings --loader=ts-node/esm\" node examples/main.ts",
+    "example": "cross-env NODE_OPTIONS=\"--no-warnings --loader=ts-node/esm --experimental-vm-modules\" node examples/main.ts",
     "chatbox": "cd examples/chatbox && make",
     "postinstall": "node scripts/post-install.cjs",
     "test": "npm run lint && npm run test:unit",
-    "test:unit": "cross-env NODE_OPTIONS=\"--no-warnings --loader=ts-node/esm\" tap \"src/**/*.spec.ts\" \"tests/**/*.spec.ts\"",
+    "test:unit": "cross-env NODE_OPTIONS=\"--no-warnings --loader=ts-node/esm --experimental-vm-modules\" tap \"src/**/*.spec.ts\" \"tests/**/*.spec.ts\"",
     "test:unit:debug": "cross-env BROLOG_LEVEL=silly npm run test:unit",
     "test:pack": "bash -x scripts/npm-pack-testing.sh",
     "lint:es": "eslint --ignore-pattern fixtures/ \"src/**/*.ts\" \"tests/**/*.ts\""

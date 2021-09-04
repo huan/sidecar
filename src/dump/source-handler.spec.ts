@@ -8,8 +8,8 @@ import stringSimilarity from 'string-similarity'
 
 import {
   sourceHandler,
-}                                   from './source-handler.js'
-import { codeRoot } from '../../src/cjs.js'
+}                     from './source-handler.js'
+import { codeRoot }   from '../../src/cjs.js'
 
 test('sourceHandler()', async t => {
   const CLASS_FILE = path.join(

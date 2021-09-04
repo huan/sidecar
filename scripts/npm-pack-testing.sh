@@ -2,7 +2,7 @@
 set -e
 
 # Huan(202107) Credit: https://stackoverflow.com/a/48287203/1123955
-function diffLines () {
+function diff_lines () {
   diff \
     -y \
     --suppress-common-lines \
@@ -11,16 +11,16 @@ function diffLines () {
     | wc -l
 }
 
-function sidecarDumpTest () {
+function sidecar_dump_test () {
   npx sidecar-dump metadata smoke-testing.ts > smoke-testing.metadata.json
-  if [[ $(diffLines smoke-testing.metadata.json sidecar-dump.metadata.smoke-testing.json.fixture) -gt 10 ]]; then
+  if [[ $(diff_lines smoke-testing.metadata.json sidecar-dump.metadata.smoke-testing.json.fixture) -gt 10 ]]; then
     >&2 echo "FAILED: sidecar-dump metadata smoke-testing.ts"
     exit 1
   fi
   echo "PASSED: sidecar-dump metadata smoke-testing.ts"
 
   npx sidecar-dump source smoke-testing.ts > smoke-testing.source.js
-  if [[ $(diffLines smoke-testing.source.js sidecar-dump.source.smoke-testing.js.fixture) -gt 10 ]]; then
+  if [[ $(diff_lines smoke-testing.source.js sidecar-dump.source.smoke-testing.js.fixture) -gt 10 ]]; then
     >&2 echo "FAILED: sidecar-dump source smoke-testing.ts"
     exit 1
   fi
@@ -58,7 +58,7 @@ npm install *-*.*.*.tgz \
 echo
 echo "CommonJS: pack testing..."
 node smoke-testing.js
-sidecarDumpTest
+sidecar_dump_test
 
 #
 # ES Modules
@@ -81,4 +81,4 @@ echo "`jq '.type="module"' package.json`" > package.json
 echo
 echo "ES Module: pack testing..."
 node smoke-testing.js
-sidecarDumpTest
+sidecar_dump_test
