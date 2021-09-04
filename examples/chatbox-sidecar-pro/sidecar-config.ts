@@ -19,7 +19,9 @@
 import path from 'path'
 
 import type { FunctionTarget } from '../../src/function-target.js'
-import { codeRoot } from '../../src/cjs.js'
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 /**
  * See: https://github.com/frida/frida-node/blob/master/test/data/index.ts
@@ -35,10 +37,9 @@ function targetProgram () {
     chatboxNameList.push('.exe')
   }
 
-  return path.join(
-    codeRoot,
+  return path.resolve(
+    __dirname,
     '..',
-    'examples',
     'chatbox',
     chatboxNameList.join(''),
   )
