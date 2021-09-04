@@ -2,6 +2,7 @@
   "extends": "@chatie/tsconfig",
   "compilerOptions": {
     "outDir": "dist/esm",
+    "emitDecoratorMetadata": true,
     "lib": [
       "esnext",
     ],
