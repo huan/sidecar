@@ -1,6 +1,6 @@
 {
   "name": "sidecar",
-  "version": "0.15.9",
+  "version": "0.15.10",
   "description": "Sidecar is for easy hook/call in-process functions with TypeScript annotations.",
   "type": "module",
   "exports": {
