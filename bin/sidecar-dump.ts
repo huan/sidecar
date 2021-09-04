@@ -1,4 +1,4 @@
-#!/usr/bin/env node --no-warnings --loader ts-node/esm
+#!/usr/bin/env node --experimental-vm-modules
 /**
  * https://github.com/huan/sidecar
  *

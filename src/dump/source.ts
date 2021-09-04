@@ -6,7 +6,7 @@ import {
   positional,
   string,
 }                 from 'cmd-ts'
-import { File }   from 'cmd-ts/dist/cjs/batteries/fs'
+import { File }   from 'cmd-ts/dist/cjs/batteries/fs.js'
 
 import { sourceHandler } from './source-handler.js'
 

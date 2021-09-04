@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm --experimental-vm-modules
 import { test }  from 'tstest'
 
 import fs from 'fs'
@@ -39,6 +39,7 @@ test('sourceHandler()', async t => {
     .toString()
 
   const source = await sourceHandler({ file: CLASS_FILE })
+  // console.info('source:', source)
 
   /**
    * Generate the testing fixture file, Huan(202107)
