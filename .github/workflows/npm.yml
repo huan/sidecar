@@ -57,7 +57,9 @@ jobs:
         run: ./scripts/generate-version.sh
 
       - name: Pack Testing
-        run: ./scripts/npm-pack-testing.sh
+        run: |
+          npm ls typescript
+          ./scripts/npm-pack-testing.sh
 
   publish:
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/v'))
