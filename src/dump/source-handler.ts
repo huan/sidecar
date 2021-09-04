@@ -16,9 +16,6 @@ const sourceHandler = async ({
   file: string,
   name?: string,
 }): Promise<string> => {
-  const fileUrl = pathToFileURL(file)
-  file = fileUrl.href
-
   log.verbose('sidecar-dump <source>',
     'file<%s>%s',
     file,
@@ -26,6 +23,10 @@ const sourceHandler = async ({
       ? `, name<${name}>`
       : '',
   )
+
+  const fileUrl = pathToFileURL(file)
+  file = fileUrl.href
+
   /**
    * Check the class name parameter
    */

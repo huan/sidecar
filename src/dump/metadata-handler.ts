@@ -15,18 +15,20 @@ const metadataHandler = async ({
   file: string,
   name?: string,
 }): Promise<string> => {
-  file = pathToFileURL(file).href  // convert windows path to posix
   log.verbose('sidecar-dump <metadata>',
     'file<%s>, name<%s>',
     file,
     name || '',
   )
 
+  const fileUrl = pathToFileURL(file)
+  file = fileUrl.href
+
   /**
    * Check the class name parameter
    */
   if (!name) {
-    const classNameList = await extractClassNameList(file)
+    const classNameList = await extractClassNameList(fileUrl)
     if (classNameList.length === 0) {
       throw new Error(`There's no @Sidecar decorated class name found in file ${file}`)
     } else if (classNameList.length > 1) {
