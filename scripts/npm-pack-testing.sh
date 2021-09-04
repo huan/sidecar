@@ -46,7 +46,7 @@ npm install *-*.*.*.tgz \
 # CommonJS
 #
 ./node_modules/.bin/tsc \
-  --target es5 \
+  --target es6 \
   --module CommonJS \
   --skipLibCheck \
   --strict \
