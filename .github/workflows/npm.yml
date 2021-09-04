@@ -60,6 +60,8 @@ jobs:
         run: |
           npm ls typescript
           ./node_modules/.bin/tsc --version
+          ls -l node_modules/.bin/tsc
+          cat node_modules/typescript/package.json
           ./scripts/npm-pack-testing.sh
 
   publish:
