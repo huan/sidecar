@@ -6,7 +6,7 @@
  */
 import { log } from 'brolog'
 
-import { SidecarFridaPayload } from './schema'
+import type { SidecarFridaPayload } from './schema.js'
 
 log.level('verbose')
 log.verbose('Agent', 'Entered')
@@ -42,8 +42,8 @@ Interceptor.attach(
   MT_ADDR,
   {
     onEnter: args => {
-      log.silly('Agent', 'Interceptor.attach() onEnter(%s)', args[0].readUtf8String())
-      const content = args[0].readUtf8String()
+      log.silly('Agent', 'Interceptor.attach() onEnter(%s)', args[0]!.readUtf8String())
+      const content = args[0]!.readUtf8String()
       const payload: SidecarFridaPayload = {
         args: {
           0: content,

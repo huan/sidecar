@@ -1,8 +1,8 @@
-import {
+import type {
   TypeChain,
-}                 from '../../frida'
+}                 from '../../frida.js'
 
-import { PARAM_TYPE_SYMBOL } from './constants'
+import { PARAM_TYPE_SYMBOL } from './constants.js'
 
 function updateMetadataParamType (
   target         : Object,

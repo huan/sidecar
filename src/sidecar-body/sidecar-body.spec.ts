@@ -1,9 +1,9 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
 import {
   SidecarBody,
-}                         from './sidecar-body'
+}                         from './sidecar-body.js'
 
 /**
  * Huan(202106):
@@ -24,5 +24,5 @@ test('Class intance constructor should be the Class Function', async t => {
   class Test {}
   const test = new Test()
 
-  t.true(test.constructor === Test, 'should be equal')
+  t.ok(test.constructor === Test, 'should be equal')
 })

@@ -1,6 +1,6 @@
 import { log } from 'brolog'
 
-import { MessagingSidecar } from './messaging-sidecar'
+import { MessagingSidecar } from './messaging-sidecar.js'
 
 log.level('verbose')
 

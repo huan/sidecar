@@ -1,15 +1,15 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
 import Mustache from  'mustache'
 
 import {
   partialLookup,
-}                         from '../partial-lookup'
+}                         from '../partial-lookup.js'
 
-import { getSidecarMetadataFixture } from '../../../tests/fixtures/sidecar-metadata.fixture'
+import { getSidecarMetadataFixture } from '../../../tests/fixtures/sidecar-metadata.fixture.js'
 
-import { wrapView } from '../../wrappers/mod'
+import { wrapView } from '../../wrappers/mod.js'
 
 test('native-functions.mustache', async t => {
 
@@ -26,5 +26,5 @@ test('native-functions.mustache', async t => {
   /**
    * Huan(202106): how could we test this script has been correctly generated?
    */
-  t.true(result, 'should render to the right script (TBW)')
+  t.ok(result, 'should render to the right script (TBW)')
 })

@@ -565,8 +565,7 @@ I have another NPM module named [ffi-adapter](https://github.com/huan/ffi-adapte
 
 Learn more about FFI from its examples at <https://github.com/huan/ffi-adapter/tree/master/tests/fixtures/library>
 
-## 
-
+## Badge
 
 [![Powered by Sidecar](https://img.shields.io/badge/Powered%20By-Sidecar-brightgreen.svg)](https://github.com/huan/sidecar)
 
@@ -582,7 +581,10 @@ You can visit them at [Sidecar Demos](https://github.com/wechaty/sidecar-demos) 
 
 ## History
 
-### Master
+### Master v0.15
+
+1. ES Modules support ([#17](https://github.com/huan/sidecar/issues/17))
+1. TypeScript version 4.4
 
 ### v0.14
 

@@ -24,12 +24,12 @@ import {
   ParamType,
   Ret,
   agentTarget,
-}                   from '../../src/mod'
+}                   from '../../src/mod.js'
 
 import {
   targetProgram,
   loadAgentScript,
-}                   from './sidecar-config'
+}                   from './sidecar-config.js'
 
 @Sidecar(
   [targetProgram()],  // chatbox-linux

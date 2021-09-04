@@ -18,7 +18,8 @@
  */
 import path from 'path'
 
-import { FunctionTarget } from '../../src/function-target'
+import type { FunctionTarget } from '../../src/function-target.js'
+import { codeRoot } from '../../src/cjs.js'
 
 /**
  * See: https://github.com/frida/frida-node/blob/master/test/data/index.ts
@@ -35,8 +36,9 @@ function targetProgram () {
   }
 
   return path.join(
-    __dirname,
+    codeRoot,
     '..',
+    'examples',
     'chatbox',
     chatboxNameList.join(''),
   )
@@ -75,11 +77,11 @@ const targetAddressConfig = (config: TargetAddressConfig) => (
   call: string,
 ) => config[
   process.platform
-][
+]![
   process.arch
-][
+]![
   call
-]
+]!
 
 const targetAddress = targetAddressConfig(chatboxConfig)
 

@@ -1,16 +1,16 @@
-import {
+import type {
   NativeType,
   PointerType,
-}               from '../../frida'
+}               from '../../frida.js'
 import {
   log,
-}               from '../../config'
+}               from '../../config.js'
 
 import {
   guardNativeType,
   guardPointerType,
   ReflectedDesignType,
-}                       from '../../type-guard'
+}                       from '../../type-guard.js'
 
 /**
  * Verify the TypeScript ret type is matching the NativeType from `RetType`

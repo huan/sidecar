@@ -1,15 +1,13 @@
 /* eslint-disable sort-keys */
-import vm from 'vm'
-import path from 'path'
+import { pathToFileURL } from 'url'
 
-import slash      from 'slash'
+import { log }    from '../config.js'
+import vm         from './vm.js'
 
-import { log }    from '../config'
+import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar.js'
+import { buildAgentSource }     from '../agent/build-agent-source.js'
 
-import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar'
-import { buildAgentSource }     from '../agent/build-agent-source'
-
-import { extractClassNameList } from './extract-class-names'
+import { extractClassNameList } from './extract-class-names.js'
 
 const sourceHandler = async ({
   file,
@@ -18,17 +16,22 @@ const sourceHandler = async ({
   file: string,
   name?: string,
 }): Promise<string> => {
-  file = slash(file)
   log.verbose('sidecar-dump <source>',
-    'file<%s>, name<%s>',
+    'file<%s>%s',
     file,
-    name || '',
+    name
+      ? `, name<${name}>`
+      : '',
   )
+
+  const fileUrl = pathToFileURL(file)
+  file = fileUrl.href
+
   /**
    * Check the class name parameter
    */
   if (!name) {
-    const classNameList = await extractClassNameList(file)
+    const classNameList = await extractClassNameList(fileUrl)
     if (classNameList.length === 0) {
       throw new Error(`There's no @Sidecar decorated class name found in file ${file}`)
     } else if (classNameList.length > 1) {
@@ -46,31 +49,40 @@ const sourceHandler = async ({
     )
   }
 
-  const context = {
+  const context = vm.createContext({
     buildAgentSource,
+    console,
+    generated: undefined,
     getMetadataSidecar,
-    require,
-
-    __filename : file,
-    __dirname  : path.dirname(require.resolve(file)),
+  }) as {
+    generated?: string,
   }
 
   const code = [
-    '(async () => {',
-    [
-      `const { ${name} } = require('${file}')`,
-      `const metadata = getMetadataSidecar(${name})`,
-      'const output = await buildAgentSource(metadata)',
-      'return output',
-    ].join('\n'),
-    '})()',
+    `const { ${name} } = await import('${file}')`,
+    `const metadata = getMetadataSidecar(${name})`,
+    'generated = await buildAgentSource(metadata)',
   ].join('\n')
+
   log.silly('sidecar-dump <source>', code)
 
-  const script = new vm.Script(code)
-  const generatedCode = await script.runInNewContext(context)
+  const importModuleDynamically = (
+    identifier: string
+  ) => import(identifier)
 
-  return generatedCode
+  const module = new vm.SourceTextModule(code, {
+    context,
+    importModuleDynamically,
+  })
+
+  await module.link(() => {})
+  await module.evaluate()
+
+  if (!context.generated) {
+    throw new Error('no context.generated found')
+  }
+
+  return context.generated
 }
 
 export { sourceHandler }

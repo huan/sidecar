@@ -1,17 +1,17 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test } from 'tstest'
 
-import {
+import type {
   TargetPayloadRaw,
   TargetPayloadObj,
-}                         from '../../function-target'
-import { Ret }            from '../../ret'
+}                         from '../../function-target.js'
+import { Ret }            from '../../ret.js'
 
 import {
   Call,
-}                             from './call'
-import { getMetadataCall }    from './metadata-call'
-import { CALL_SYMBOL }        from './constants'
+}                             from './call.js'
+import { getMetadataCall }    from './metadata-call.js'
+import { CALL_SYMBOL }        from './constants.js'
 
 test('Call with metadata', async t => {
   const TARGET: TargetPayloadRaw = 0x42
@@ -31,7 +31,7 @@ test('Call with metadata', async t => {
   )
 
   /* eslint-disable no-sparse-arrays */
-  t.deepEqual(data, TARGET, 'should get the Call target data')
+  t.same(data, TARGET, 'should get the Call target data')
 })
 
 test('getCallTarget()', async t => {
@@ -51,7 +51,7 @@ test('getCallTarget()', async t => {
     METHOD_NAME,
   )
 
-  t.deepEqual(data, TARGET, 'should get Call target data')
+  t.same(data, TARGET, 'should get Call target data')
 })
 
 test('getCallTarget() with agent target', async t => {
@@ -74,5 +74,5 @@ test('getCallTarget() with agent target', async t => {
     METHOD_NAME,
   )
 
-  t.deepEqual(data, TARGET, 'should get Call target data by agent target')
+  t.same(data, TARGET, 'should get Call target data by agent target')
 })

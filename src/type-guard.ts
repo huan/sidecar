@@ -1,7 +1,7 @@
-import {
+import type {
   NativeType,
   PointerType,
-}               from './frida'
+}               from './frida.js'
 
 /**
  * Reflect Metadata:
@@ -139,7 +139,7 @@ const guardNativeType = (nativeType: NativeType) => (designType: ReflectedDesign
 const guardPointerType = (pointerTypeList: PointerType[]) => (designType: ReflectedDesignType) => {
   let pointerType: PointerType
   if (pointerTypeList.length > 0) {
-    pointerType = pointerTypeList[pointerTypeList.length - 1]
+    pointerType = pointerTypeList[pointerTypeList.length - 1]!
   } else {
     /**
      * Huan(202107): NativePointer allow raw pointer (`null` as well)

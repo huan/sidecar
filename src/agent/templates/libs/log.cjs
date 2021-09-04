@@ -1,5 +1,5 @@
 /*******************************
- * File: templates/libs/log.js
+ * File: templates/libs/log.cjs
  *******************************/
 const log = (() => {
   const levelTable = {

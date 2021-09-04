@@ -8,10 +8,10 @@ import { log } from 'brolog'
 
 import * as frida from '../../../src/frida'
 
-import { clean }                  from './clean'
-import { loadAgentSource }        from './load-agent-source'
-import { scriptDestroyedHandler } from './script-destroyed-handler'
-import { scriptMessageHandler }   from './script-message-handler'
+import { clean }                  from './clean.js'
+import { loadAgentSource }        from './load-agent-source.js'
+import { scriptDestroyedHandler } from './script-destroyed-handler.js'
+import { scriptMessageHandler }   from './script-message-handler.js'
 
 log.level('silly')
 
@@ -38,13 +38,13 @@ async function main () {
   ;(timer as any).unref()
 
   try {
-    await script.exports.init()
+    await script.exports['init']!()
   } catch (e) {
     console.error(e)
   }
   // frida.resume(pid)
   try {
-    await script.exports.mo('Sidebar: new messsage send by script.exports.mo()')
+    await script.exports['mo']!('Sidebar: new messsage send by script.exports.mo()')
   } catch (e) {
     console.error(e)
   }

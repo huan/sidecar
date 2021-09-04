@@ -1,10 +1,10 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
 import {
   getMetadataCall,
   updateMetadataCall,
-}                           from './metadata-call'
+}                           from './metadata-call.js'
 
 test('update & get call target metadata', async t => {
   const PROPERTY_KEY = 'key'
@@ -24,5 +24,5 @@ test('update & get call target metadata', async t => {
     PROPERTY_KEY,
   )
 
-  t.deepEqual(data, CALL_TARGET, 'should get the call target data the same as we set(update')
+  t.same(data, CALL_TARGET, 'should get the call target data the same as we set(update')
 })

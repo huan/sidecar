@@ -1,11 +1,11 @@
-import { SidecarMetadataFunctionDescription } from '../decorators/mod'
-import { PointerType } from '../frida'
+import type { SidecarMetadataFunctionDescription } from '../decorators/mod.js'
+import type { PointerType } from '../frida.js'
 
 import {
   argName,
   bufName,
   nativeArgName,
-}                 from './name-helpers'
+}                 from './name-helpers.js'
 
 function declareNativeArgs (
   this: SidecarMetadataFunctionDescription

@@ -1,4 +1,4 @@
-import { ScriptDestroyedHandler } from './frida'
+import type { ScriptDestroyedHandler } from './frida.js'
 import { log } from 'brolog'
 
 const scriptDestroyedHandler: ScriptDestroyedHandler = () => {

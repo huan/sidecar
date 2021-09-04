@@ -1,13 +1,13 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
-import {
+import type {
   NativeType,
   PointerType,
-}               from '../../frida'
+}               from '../../frida.js'
 
 import {
   guardRetType,
-}                         from './guard-ret-type'
+}                         from './guard-ret-type.js'
 
 test('guard ret type', async t => {
 

@@ -1,9 +1,9 @@
 import path from 'path'
-import { SidecarMetadata } from '../decorators/mod'
+import type { SidecarMetadata } from '../decorators/mod.js'
 import {
   isSidecarTargetProcess,
   isSidecarTargetSpawn,
-}                           from '../decorators/sidecar/target'
+}                           from '../decorators/sidecar/target.js'
 
 function moduleName (
   this: SidecarMetadata,

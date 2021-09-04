@@ -1,15 +1,15 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }         from 'tstest'
-import { EventEmitter } from 'stream'
+import { EventEmitter } from 'events'
 import {
   Ret,
   RET_SYMBOL,
-}                         from '../../ret'
-import { DEBUG_CALL_RET_ERROR } from './constants'
+}                         from '../../ret.js'
+import { DEBUG_CALL_RET_ERROR } from './constants.js'
 
 import {
   updateRpcDescriptor,
-}                           from './update-rpc-descriptor'
+}                           from './update-rpc-descriptor.js'
 
 test('update & get call target metadata', async t => {
 
@@ -47,7 +47,7 @@ test('update & get call target metadata', async t => {
   t.equal(ret, AFTER_VALUE, 'should get a updated method return value')
 
   await new Promise(setImmediate)
-  t.false((Test as any)[DEBUG_CALL_RET_ERROR], 'should not trigger error if the method returns "Ret()"')
+  t.notOk((Test as any)[DEBUG_CALL_RET_ERROR], 'should not trigger error if the method returns "Ret()"')
 })
 
 test('method to be proxyed must retur "Ret()"', async t => {
@@ -73,5 +73,5 @@ test('method to be proxyed must retur "Ret()"', async t => {
   )
   await new Promise(setImmediate)
 
-  t.true((Test as any)[DEBUG_CALL_RET_ERROR], 'should trigger error if the method does not return "Ret()" (We can safely ignore the Error message above this test)')
+  t.ok((Test as any)[DEBUG_CALL_RET_ERROR], 'should trigger error if the method does not return "Ret()" (We can safely ignore the Error message above this test)')
 })

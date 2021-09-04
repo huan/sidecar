@@ -1,11 +1,11 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
-import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture'
+import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture.js'
 
 import {
   nativeArgs,
-}                       from './native-args'
+}                       from './native-args.js'
 
 test('nativeArgs()', async t => {
 
@@ -24,5 +24,5 @@ test('nativeArgs()', async t => {
     '[  ]',
     '[  ]',
   ]
-  t.deepEqual(result, EXPECTED_RESULT, 'should list the native arg names correctly.')
+  t.same(result, EXPECTED_RESULT, 'should list the native arg names correctly.')
 })

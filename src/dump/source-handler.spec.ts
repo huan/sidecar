@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm --experimental-vm-modules
 import { test }  from 'tstest'
 
 import fs from 'fs'
@@ -8,20 +8,17 @@ import stringSimilarity from 'string-similarity'
 
 import {
   sourceHandler,
-}                                   from './source-handler'
+}                     from './source-handler.js'
+import { codeRoot }   from '../../src/cjs.js'
 
 test('sourceHandler()', async t => {
   const CLASS_FILE = path.join(
-    __dirname,
-    '..',
-    '..',
+    codeRoot,
     'examples',
     'chatbox-sidecar.ts',
   )
   const FIXTURE_FILE = path.join(
-    __dirname,
-    '..',
-    '..',
+    codeRoot,
     'tests',
     'fixtures',
     'sidecar-dump.source.chatbox-sidecar.js.fixture',
@@ -42,6 +39,7 @@ test('sourceHandler()', async t => {
     .toString()
 
   const source = await sourceHandler({ file: CLASS_FILE })
+  // console.info('source:', source)
 
   /**
    * Generate the testing fixture file, Huan(202107)
@@ -78,5 +76,5 @@ test('sourceHandler()', async t => {
   const ok = similarity > THRESHOLD
   // console.log('similarity:', similarity)
 
-  t.true(ok, `should get the source from ts file with similarity(${Math.floor(similarity * 100)}%) > ${THRESHOLD * 100}%`)
+  t.ok(ok, `should get the source from ts file with similarity(${Math.floor(similarity * 100)}%) > ${THRESHOLD * 100}%`)
 })

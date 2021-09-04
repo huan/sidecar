@@ -1,10 +1,10 @@
 import {
   log,
-}                         from '../../config'
+}                         from '../../config.js'
 
-import {
+import type {
   FunctionTarget,
-}                         from '../../function-target'
+}                         from '../../function-target.js'
 
 const HOOK_TARGET_SYMBOL = Symbol('hookTarget')
 

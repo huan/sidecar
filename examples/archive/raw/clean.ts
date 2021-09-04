@@ -1,7 +1,7 @@
-import {
+import type {
   Session,
   Script,
-}           from './frida'
+}           from './frida.js'
 import { log } from 'brolog'
 
 function clean (

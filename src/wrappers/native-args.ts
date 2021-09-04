@@ -1,5 +1,5 @@
-import { SidecarMetadataFunctionDescription } from '../decorators/mod'
-import { nativeArgName } from './name-helpers'
+import type { SidecarMetadataFunctionDescription } from '../decorators/mod.js'
+import { nativeArgName } from './name-helpers.js'
 
 function nativeArgs (
   this: SidecarMetadataFunctionDescription,

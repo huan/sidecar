@@ -1,8 +1,8 @@
 import {
   log,
-}               from '../../config'
+}               from '../../config.js'
 
-import { SidecarMetadata } from './metadata-sidecar'
+import type { SidecarMetadata } from './metadata-sidecar.js'
 
 /**
  * Verify the Sidecar Metadata is satisfy as a whole

@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 /* eslint-disable camelcase */
 import { test }  from 'tstest'
 
@@ -7,10 +7,10 @@ import Mustache from  'mustache'
 
 import {
   partialLookup,
-}                         from '../partial-lookup'
+}                         from '../partial-lookup.js'
 
-import { getSidecarMetadataFixture } from '../../../tests/fixtures/sidecar-metadata.fixture'
-import { wrapView } from '../../wrappers/mod'
+import { getSidecarMetadataFixture } from '../../../tests/fixtures/sidecar-metadata.fixture.js'
+import { wrapView } from '../../wrappers/mod.js'
 
 test('render rpc-exports()', async t => {
 
@@ -39,13 +39,13 @@ test('render rpc-exports()', async t => {
 
   vm.createContext(context) // Contextify the object.
   vm.runInContext(code, context)
-  t.true('testMethod'     in context.rpc.exports, 'should export testMethod')
-  t.true('pointerMethod'  in context.rpc.exports, 'should export pointerMethod')
-  t.true('anotherCall'    in context.rpc.exports, 'should export anotherCall')
-  t.true('agentMethod'    in context.rpc.exports, 'should export agentCall')
+  t.ok('testMethod'     in context.rpc.exports, 'should export testMethod')
+  t.ok('pointerMethod'  in context.rpc.exports, 'should export pointerMethod')
+  t.ok('anotherCall'    in context.rpc.exports, 'should export anotherCall')
+  t.ok('agentMethod'    in context.rpc.exports, 'should export agentCall')
 
   /**
    * Do not export Hook/Interceptor methods
    */
-  t.false('hookMethod' in context.rpc.exports, 'should not export hookMethod')
+  t.notOk('hookMethod' in context.rpc.exports, 'should not export hookMethod')
 })

@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --experimental-vm-modules
 /**
  * https://github.com/huan/sidecar
  *
@@ -16,26 +16,29 @@ import {
   run,
   subcommands,
 }                     from 'cmd-ts'
-import {
-  REGISTER_INSTANCE,
-}                     from 'ts-node'
+// import {
+//   REGISTER_INSTANCE,
+// }                     from 'ts-node'
 
-import { VERSION } from '../src/version'
-import { log } from '../src/config'
+import { VERSION }  from '../src/version.js'
+// import { log }      from '../src/config.js'
 
 import {
   metadata,
   source,
-}               from '../src/dump/mod'
+}               from '../src/dump/mod.js'
 
 /**
  * Check ts-node loaded or not
  *  See: https://github.com/TypeStrong/ts-node/blob/5643ad64cf39ee0dfa2a9323e8d1dd9f400e5884/src/index.ts#L54-L68
+ *
+ * Update:
+ *  - Huan(202109): We enable ESM
  */
-if (!process[REGISTER_INSTANCE]) {
-  log.verbose('sidecar-dump', 'Loading `ts-node/register`...')
-  require('ts-node/register')
-}
+// if (!process[REGISTER_INSTANCE]) {
+//   log.verbose('sidecar-dump', 'Loading `ts-node/register`...')
+//   require('ts-node/register')
+// }
 
 const sidecarDump = subcommands({
   name: 'sidecar-dump',

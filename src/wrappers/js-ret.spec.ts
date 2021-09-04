@@ -1,8 +1,8 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
-import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture'
-import { jsRet } from './js-ret'
+import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture.js'
+import { jsRet } from './js-ret.js'
 
 test('jsRet()', async t => {
   const SIDECAR_VIEW = getSidecarMetadataFixture()
@@ -21,5 +21,5 @@ test('jsRet()', async t => {
     .map(x => jsRet.call(x))
 
   // console.log(result)
-  t.deepEqual(result, EXPECTED_RET_LIST, 'should wrap the ret correct')
+  t.same(result, EXPECTED_RET_LIST, 'should wrap the ret correct')
 })

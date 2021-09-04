@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 /**
  *   Sidecar - https://github.com/huan/sidecar
  *
@@ -22,13 +22,13 @@ import { test }  from 'tstest'
 import {
   attach,
   detach,
-}                   from '../src/mod'
+}                   from '../src/mod.js'
 
-import { FactorialSidecar } from '../examples/dynamic-library/factorial-sidecar'
+import { FactorialSidecar } from '../examples/dynamic-library/factorial-sidecar.js'
 
 test('library export function call', async (t) => {
   if (process.platform !== 'linux' && process.platform !== 'win32') {
-    t.skip('This test will be skipped because it only support Linux(.so) and Windows(.dll) now')
+    void t.skip('This test will be skipped because it only support Linux(.so) and Windows(.dll) now')
     return
   }
 

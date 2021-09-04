@@ -5,16 +5,16 @@
  * TypeScript Decorators: Parameter Decorators
  *  https://blog.wizardsoftheweb.pro/typescript-decorators-parameter-decorators/
  */
-import {
+import type {
   NativeType,
   PointerType,
-}               from '../../frida'
+}               from '../../frida.js'
 import {
   log,
-}               from '../../config'
+}               from '../../config.js'
 
-import { updateMetadataParamType }  from './metadata-param-type'
-import { guardParamType }           from './guard-param-type'
+import { updateMetadataParamType }  from './metadata-param-type.js'
+import { guardParamType }           from './guard-param-type.js'
 
 function ParamType (
   nativeType         : NativeType,
@@ -28,7 +28,7 @@ function ParamType (
       : '',
   )
 
-  return function paramTpyeDecorator (
+  return function paramTypeDecorator (
     target         : Object,
     propertyKey    : string,
     parameterIndex : number,

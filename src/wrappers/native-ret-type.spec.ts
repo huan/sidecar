@@ -1,11 +1,11 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
-import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture'
+import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture.js'
 
 import {
   nativeRetType,
-}                       from './native-ret-type'
+}                       from './native-ret-type.js'
 
 test('nativeRetType()', async t => {
 
@@ -25,5 +25,5 @@ test('nativeRetType()', async t => {
     "'void'",
     "'void'",
   ]
-  t.deepEqual(result, EXPECTED_RESULT, 'should list the native ret type correctly.')
+  t.same(result, EXPECTED_RESULT, 'should list the native ret type correctly.')
 })

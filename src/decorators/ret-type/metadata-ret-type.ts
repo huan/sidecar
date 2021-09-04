@@ -1,11 +1,11 @@
-import {
+import type {
   TypeChain,
-}                 from '../../frida'
+}                 from '../../frida.js'
 import {
   log,
-}               from '../../config'
+}               from '../../config.js'
 
-import { RET_TYPE_SYMBOL } from './constants'
+import { RET_TYPE_SYMBOL } from './constants.js'
 
 function updateMetadataRetType (
   target      : any,

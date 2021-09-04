@@ -1,12 +1,12 @@
 import Mustache from  'mustache'
 
-import { SidecarMetadata } from '../decorators/sidecar/metadata-sidecar'
+import type { SidecarMetadata } from '../decorators/sidecar/metadata-sidecar.js'
 
-import { wrapView }       from '../wrappers/mod'
+import { wrapView }       from '../wrappers/mod.js'
 
-import { log } from '../config'
+import { log } from '../config.js'
 
-import { partialLookup }  from './partial-lookup'
+import { partialLookup }  from './partial-lookup.js'
 
 const AGENT_MUSTACHE = 'agent.mustache'
 

@@ -1,15 +1,15 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
-import { Ret } from '../../ret'
-import { SidecarBody } from '../../sidecar-body/sidecar-body'
-import { Call } from '../call/call'
-import { Hook } from '../hook/hook'
-import { ParamType } from '../param-type/param-type'
-import { RetType } from '../ret-type/ret-type'
-import { getMetadataSidecar } from './metadata-sidecar'
+import { Ret } from '../../ret.js'
+import { SidecarBody } from '../../sidecar-body/sidecar-body.js'
+import { Call } from '../call/call.js'
+import { Hook } from '../hook/hook.js'
+import { ParamType } from '../param-type/param-type.js'
+import { RetType } from '../ret-type/ret-type.js'
+import { getMetadataSidecar } from './metadata-sidecar.js'
 
-import { Sidecar } from './sidecar'
+import { Sidecar } from './sidecar.js'
 
 const getFixture = () => {
   @Sidecar('chatbox')
@@ -42,7 +42,7 @@ test('@Sidecar() smoke testing', async t => {
   const test = new Test()
 
   t.equal(Test.name, 'Test', 'should have the original class name after @Sidecar decorated')
-  t.true(test, 'should instanciate decorated class successfully')
+  t.ok(test, 'should instanciate decorated class successfully')
 })
 
 test('@Sidecar() viewMetadata()', async t => {
@@ -93,5 +93,5 @@ test('@Sidecar() viewMetadata()', async t => {
     },
   }
 
-  t.deepEqual(metadata, EXPECTED_DATA, 'should get view from metadata correct')
+  t.same(metadata, EXPECTED_DATA, 'should get view from metadata correct')
 })

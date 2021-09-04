@@ -1,5 +1,6 @@
-import { log } from '../config'
-import { SidecarMetadataFunctionDescription } from '../decorators/mod'
+// import { log } from '../config.js'
+import type { SidecarMetadataFunctionDescription } from '../decorators/mod.js'
+import { log } from '../config.js'
 
 function jsRet (
   this: SidecarMetadataFunctionDescription,

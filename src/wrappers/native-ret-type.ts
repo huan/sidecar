@@ -1,4 +1,4 @@
-import { SidecarMetadataFunctionDescription } from '../decorators/mod'
+import type { SidecarMetadataFunctionDescription } from '../decorators/mod.js'
 
 function nativeRetType (this: SidecarMetadataFunctionDescription) {
   // console.log('this.retType', this.retType)

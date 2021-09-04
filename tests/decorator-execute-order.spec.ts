@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 /**
  * Huan(202106) see:
  *  http://blog.wolksoftware.com/decorators-metadata-reflection-in-typescript-from-novice-to-expert-part-4
@@ -54,5 +54,5 @@ test('decorator execute order', async t => {
     'method:method2',
     'class:Test',
   ]
-  t.deepEqual(orderList, EXPECTED_ORDER_LIST, 'should get the expected execute order of decorators')
+  t.same(orderList, EXPECTED_ORDER_LIST, 'should get the expected execute order of decorators')
 })

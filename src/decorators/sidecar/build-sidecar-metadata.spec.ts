@@ -1,22 +1,22 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
-import { Ret } from '../../ret'
-import { Call } from '../call/call'
-import { Hook } from '../hook/hook'
-import { ParamType } from '../param-type/param-type'
-import { RetType } from '../ret-type/ret-type'
+import { Ret } from '../../ret.js'
+import { Call } from '../call/call.js'
+import { Hook } from '../hook/hook.js'
+import { ParamType } from '../param-type/param-type.js'
+import { RetType } from '../ret-type/ret-type.js'
 
 import {
   buildSidecarMetadata,
-}                         from './build-sidecar-metadata'
+}                         from './build-sidecar-metadata.js'
 
-import { Sidecar } from './sidecar'
-import { SidecarBody } from '../../sidecar-body/mod'
+import { Sidecar } from './sidecar.js'
+import { SidecarBody } from '../../sidecar-body/mod.js'
 import {
   agentTarget,
   exportTarget,
-}                   from '../../function-target'
+}                   from '../../function-target.js'
 
 const getFixture = () => {
   @Sidecar('chatbox')
@@ -111,5 +111,5 @@ test('@Sidecar() buildSidecarMetadata()', async t => {
     },
   }
 
-  t.deepEqual(meta, EXPECTED_DATA, 'should get metadata correct')
+  t.same(meta, EXPECTED_DATA, 'should get metadata correct')
 })

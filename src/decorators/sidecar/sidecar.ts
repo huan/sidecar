@@ -1,15 +1,15 @@
 import {
   log,
-}         from '../../config'
+}         from '../../config.js'
 
-import { SidecarBody } from '../../sidecar-body/sidecar-body'
-import { buildSidecarMetadata } from './build-sidecar-metadata'
-import { guardMetadataSidecar } from './guard-metadata-sidecar'
+import { SidecarBody } from '../../sidecar-body/sidecar-body.js'
+import { buildSidecarMetadata } from './build-sidecar-metadata.js'
+import { guardMetadataSidecar } from './guard-metadata-sidecar.js'
 
-import { updateMetadataSidecar }  from './metadata-sidecar'
-import {
+import { updateMetadataSidecar }  from './metadata-sidecar.js'
+import type {
   SidecarTarget,
-}                                 from './target'
+}                                 from './target.js'
 
 function Sidecar (
   sidecarTarget    : SidecarTarget,

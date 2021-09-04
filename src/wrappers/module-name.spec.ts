@@ -1,8 +1,8 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
-import { SidecarTargetObjSpawn } from '../decorators/sidecar/target'
+import type { SidecarTargetObjSpawn } from '../decorators/sidecar/target.js'
 
-import { moduleName } from './module-name'
+import { moduleName } from './module-name.js'
 
 test('moduleName() spawn with linux path', async t => {
   const DATA = {

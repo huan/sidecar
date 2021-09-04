@@ -1,5 +1,5 @@
-import { getMetadataParamType } from './metadata-param-type'
-import { ParamType }            from './param-type'
+import { getMetadataParamType } from './metadata-param-type.js'
+import { ParamType }            from './param-type.js'
 
 export {
   getMetadataParamType,

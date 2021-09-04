@@ -30,10 +30,10 @@ Interceptor.attach(
   MT_ADDR,
   {
     onEnter: args => {
-      log.verbose('Agent', 'Interceptor.attach() onEnter(%s)', args[0].readUtf8String())
+      log.verbose('Agent', 'Interceptor.attach() onEnter(%s)', args[0]!.readUtf8String())
       send({
         payload: {
-          content: args[0].readUtf8String(),
+          content: args[0]!.readUtf8String(),
         },
         type: 'MT_MESSAGE',
       })

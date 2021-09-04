@@ -1,7 +1,7 @@
 import {
   ScriptMessageHandler,
   MessageType,
-}                         from './frida'
+}                         from './frida.js'
 import { log } from 'brolog'
 
 const scriptMessageHandler: ScriptMessageHandler = (message, data) => {

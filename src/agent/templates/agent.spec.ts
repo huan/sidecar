@@ -1,16 +1,16 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
 import Mustache from  'mustache'
 
 import {
   partialLookup,
-}                         from '../partial-lookup'
+}                         from '../partial-lookup.js'
 
-import { ChatboxSidecar } from '../../../examples/chatbox-sidecar'
+import { ChatboxSidecar } from '../../../examples/chatbox-sidecar.js'
 
-import { wrapView } from '../../wrappers/mod'
-import { getMetadataSidecar } from '../../decorators/sidecar/metadata-sidecar'
+import { wrapView } from '../../wrappers/mod.js'
+import { getMetadataSidecar } from '../../decorators/sidecar/metadata-sidecar.js'
 
 test('agent.mustache', async t => {
 
@@ -37,5 +37,5 @@ test('agent.mustache', async t => {
   /**
    * Huan(202106): how could we test this script has been correctly generated?
    */
-  t.true(result, 'should render to the right script (TBW)')
+  t.ok(result, 'should render to the right script (TBW)')
 })

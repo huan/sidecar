@@ -1,1 +1,1 @@
-export { Name } from './name'
+export { Name } from './name.js'

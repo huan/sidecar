@@ -1,23 +1,23 @@
 import {
   log,
-}                           from '../../config'
+}                           from '../../config.js'
 import {
   normalizeFunctionTarget,
-}                           from '../../function-target'
+}                           from '../../function-target.js'
 
-import { getMetadataCall }        from '../call/metadata-call'
-import { getMetadataHook }        from '../hook/hook'
-import { getMetadataParamType }   from '../param-type/metadata-param-type'
-import { getMetadataRetType }     from '../ret-type/metadata-ret-type'
+import { getMetadataCall }        from '../call/metadata-call.js'
+import { getMetadataHook }        from '../hook/hook.js'
+import { getMetadataParamType }   from '../param-type/metadata-param-type.js'
+import { getMetadataRetType }     from '../ret-type/metadata-ret-type.js'
 
-import {
+import type {
   SidecarMetadata,
   SidecarMetadataFunctionTypeDescription,
-}                                           from './metadata-sidecar'
+}                                           from './metadata-sidecar.js'
 import {
   SidecarTarget,
   normalizeSidecarTarget,
-}                                           from './target'
+}                                           from './target.js'
 
 interface BuildSidecarMetadataOptions {
   initAgentScript? : string,

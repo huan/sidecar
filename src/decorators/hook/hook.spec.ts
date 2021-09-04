@@ -1,12 +1,12 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
-import { FunctionTarget } from '../../function-target'
+import type { FunctionTarget } from '../../function-target.js'
 
 import {
   Hook,
   getMetadataHook,
   HOOK_TARGET_SYMBOL,
-}                         from './hook'
+}                         from './hook.js'
 
 test('Hook with metadata', async t => {
   const TARGET: FunctionTarget = 0x42
@@ -25,7 +25,7 @@ test('Hook with metadata', async t => {
   )
 
   /* eslint-disable no-sparse-arrays */
-  t.deepEqual(data, TARGET, 'should get the hook target data')
+  t.same(data, TARGET, 'should get the hook target data')
 })
 
 test('getHookTarget()', async t => {
@@ -44,5 +44,5 @@ test('getHookTarget()', async t => {
     'method',
   )
 
-  t.deepEqual(data, TARGET, 'should get hook target data')
+  t.same(data, TARGET, 'should get hook target data')
 })

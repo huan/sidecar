@@ -1,5 +1,5 @@
 /********************************************
- * File: templates/lib/payload.js
+ * File: templates/lib/payload.cjs
  *
  * To make sure the payload typing is right
  * See: sidecar-body/payload-schema.ts

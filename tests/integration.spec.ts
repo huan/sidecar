@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 /**
  *   Sidecar - https://github.com/huan/sidecar
  *
@@ -28,7 +28,7 @@ import {
   RetType,
   ParamType,
   agentTarget,
-}                   from '../src/mod'
+}                   from '../src/mod.js'
 
 function getFixture () {
   @Sidecar('messaging', 'console.log("Sidecar inited")')

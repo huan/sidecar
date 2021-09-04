@@ -1,21 +1,21 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
 import {
   SidecarBody,
-}                 from './sidecar-body'
+}                 from './sidecar-body.js'
 import {
   init,
   attach,
   detach,
-}                from './operations'
-import { Sidecar } from '../decorators/mod'
+}                from './operations.js'
+import { Sidecar } from '../decorators/mod.js'
 
 import {
   INIT_SYMBOL,
   ATTACH_SYMBOL,
   DETACH_SYMBOL,
-}                 from './constants'
+}                 from './constants.js'
 
 const targetProgram = () =>
   process.platform        === 'linux'   ? '/bin/ls'

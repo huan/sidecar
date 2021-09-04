@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 
 /**
  *   Sidecar - https://github.com/huan/sidecar
@@ -50,25 +50,20 @@ export class ChatboxSidecar extends SidecarBody {
 }
 
 async function main () {
+  const sidecar = new ChatboxSidecar()
+  sidecar.on('hook', payload => console.log(payload))
+
   if (VERSION === '0.0.0') {
     throw new Error('VERSION not set!')
   }
-  const sidecar = new ChatboxSidecar()
-  sidecar.on('hook', payload => console.log(payload))
 
   console.log('PASSED: smoke testing OK')
   return 0
 }
 
-/**
- * https://stackoverflow.com/a/6398335/1123955
- */
-if (require.main === module) {
-  main()
-  .then(process.exit)
+main()
   .catch(e => {
     console.error(e)
     process.exit(1)
   })
-}
 

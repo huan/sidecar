@@ -16,7 +16,7 @@
  *   limitations under the License.
  */
 import path from 'path'
-import { SidecarTargetRawSpawn } from '../../src/decorators/sidecar/target'
+import type { SidecarTargetRawSpawn } from '../../src/decorators/sidecar/target.js'
 
 import {
   Call,
@@ -26,7 +26,8 @@ import {
   RetType,
   ParamType,
   exportTarget,
-}                   from '../../src/mod'
+}                   from '../../src/mod.js'
+import { codeRoot } from '../../src/cjs.js'
 
 /**
  * Inspired by https://github.com/iddoeldor/frida-snippets#socket-activity
@@ -64,7 +65,9 @@ console.log([
 ].join(''))
 
 const libPath = path.join(
-  __dirname,
+  codeRoot,
+  'examples',
+  'dynamic-library',
   libFile,
 ).replace(/\\/g, '\\\\')
 

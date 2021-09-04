@@ -1,15 +1,15 @@
-import {
+import type {
   NativeType,
   PointerType,
-}               from '../../frida'
+}               from '../../frida.js'
 import {
   log,
-}               from '../../config'
+}               from '../../config.js'
 
 import {
   updateMetadataRetType,
-}                         from './metadata-ret-type'
-import { guardRetType }   from './guard-ret-type'
+}                         from './metadata-ret-type.js'
+import { guardRetType }   from './guard-ret-type.js'
 
 function RetType (
   nativeType         : NativeType,

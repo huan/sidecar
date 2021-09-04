@@ -1,13 +1,12 @@
 /* eslint-disable sort-keys */
-import vm from 'vm'
-import path from 'path'
+// import slash      from 'slash'
+import { pathToFileURL } from 'url'
 
-import slash      from 'slash'
+import { log }    from '../config.js'
 
-import { log }    from '../config'
-
-import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar'
-import { extractClassNameList } from './extract-class-names'
+import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar.js'
+import { extractClassNameList } from './extract-class-names.js'
+import vm from './vm.js'
 
 const metadataHandler = async ({
   file,
@@ -16,18 +15,20 @@ const metadataHandler = async ({
   file: string,
   name?: string,
 }): Promise<string> => {
-  file = slash(file)  // convert windows path to posix
   log.verbose('sidecar-dump <metadata>',
     'file<%s>, name<%s>',
     file,
     name || '',
   )
 
+  const fileUrl = pathToFileURL(file)
+  file = fileUrl.href
+
   /**
    * Check the class name parameter
    */
   if (!name) {
-    const classNameList = await extractClassNameList(file)
+    const classNameList = await extractClassNameList(fileUrl)
     if (classNameList.length === 0) {
       throw new Error(`There's no @Sidecar decorated class name found in file ${file}`)
     } else if (classNameList.length > 1) {
@@ -41,25 +42,31 @@ const metadataHandler = async ({
     name = classNameList[0]
   }
 
-  const context = {
+  const context = vm.createContext({
+    console,
     getMetadataSidecar,
     metadata: undefined,
-    require,
-
-    __filename: file,
-    __dirname: path.dirname(require.resolve(file)),
-  } as {
+  }) as {
     metadata?: string,
   }
 
-  const source = [
-    `const { ${name} } = require('${file}')`,
+  const code = [
+    `const { ${name} } = await import('${file}')`,
     `metadata = JSON.stringify(getMetadataSidecar(${name}), null, 2)`,
   ].join('\n')
-  log.silly('sidecar-dump <metadata>', source)
+  log.silly('sidecar-dump <metadata>', code)
 
-  vm.createContext(context) // Contextify the object
-  vm.runInContext(source, context)
+  const importModuleDynamically = (
+    identifier: string
+  ) => import(identifier)
+
+  const module = new vm.SourceTextModule(code, {
+    context,
+    importModuleDynamically,
+  })
+
+  await module.link(() => {})
+  await module.evaluate()
 
   if (!context.metadata) {
     throw new Error('no context.metadata found')

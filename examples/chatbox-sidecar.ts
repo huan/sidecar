@@ -24,7 +24,7 @@ import {
   ParamType,
   RetType,
   Ret,
-}                   from '../src/mod'
+}                   from '../src/mod.js'
 
 @Sidecar(['examples/chatbox/chatbox-linux'])
 class ChatboxSidecar extends SidecarBody {

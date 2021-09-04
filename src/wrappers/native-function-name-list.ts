@@ -1,4 +1,4 @@
-import { SidecarMetadata } from '../decorators/sidecar/mod'
+import type { SidecarMetadata } from '../decorators/sidecar/mod.js'
 
 function nativeFunctionNameList (this: SidecarMetadata) {
   return this.nativeFunctionList

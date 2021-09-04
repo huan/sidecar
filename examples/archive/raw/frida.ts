@@ -1,5 +1,5 @@
 export * from 'frida'
-export {
+export type {
   ScriptMessageHandler,
   ScriptDestroyedHandler,
 }                           from 'frida/dist/script'

@@ -1,15 +1,15 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
 
 import {
   ParamType,
-}                         from './param-type'
+}                         from './param-type.js'
 import {
   getMetadataParamType,
-}                         from './metadata-param-type'
+}                         from './metadata-param-type.js'
 import {
   PARAM_TYPE_SYMBOL,
-}                         from './constants'
+}                         from './constants.js'
 
 test('ParamType with metadata', async t => {
   const NATIVE_TYPE       = 'pointer'
@@ -42,7 +42,7 @@ test('ParamType with metadata', async t => {
     NATIVE_TYPE,
     ...POINTER_TYPE_LIST,
   ]]
-  t.deepEqual(data, EXPECTED_DATA, 'should get the parameter type data')
+  t.same(data, EXPECTED_DATA, 'should get the parameter type data')
 })
 
 test('getParamType', async t => {
@@ -74,7 +74,7 @@ test('getParamType', async t => {
     NATIVE_TYPE,
     ...POINTER_TYPE_LIST,
   ]]
-  t.deepEqual(typeList, EXPECTED_NAME_LIST, 'should get decorated parameter type list')
+  t.same(typeList, EXPECTED_NAME_LIST, 'should get decorated parameter type list')
 })
 
 test('guard parameter native types', async t => {

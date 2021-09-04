@@ -4,9 +4,13 @@
 import fs from 'fs'
 import path from 'path'
 
+import { codeRoot } from '../cjs.js'
+
 function partialLookup (partial: string) {
   const file = path.join(
-    __dirname,
+    codeRoot,
+    'src',
+    'agent',
     'templates',
     partial,
   )
