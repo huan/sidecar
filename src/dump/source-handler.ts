@@ -1,5 +1,4 @@
 /* eslint-disable sort-keys */
-import slash      from 'slash'
 import { pathToFileURL } from 'url'
 
 import { log }    from '../config.js'
@@ -17,21 +16,21 @@ const sourceHandler = async ({
   file: string,
   name?: string,
 }): Promise<string> => {
-  console.info('slash:', slash(file))
-  console.info('pathToFileURL:', pathToFileURL(file).href)
-  file = slash(file)
-  // file = pathToFileURL(file).href
+  const fileUrl = pathToFileURL(file)
+  file = fileUrl.href
 
   log.verbose('sidecar-dump <source>',
-    'file<%s>, name<%s>',
+    'file<%s>%s',
     file,
-    name || '',
+    name
+      ? `, name<${name}>`
+      : '',
   )
   /**
    * Check the class name parameter
    */
   if (!name) {
-    const classNameList = await extractClassNameList(file)
+    const classNameList = await extractClassNameList(fileUrl)
     if (classNameList.length === 0) {
       throw new Error(`There's no @Sidecar decorated class name found in file ${file}`)
     } else if (classNameList.length > 1) {

@@ -1,10 +1,11 @@
-import fs from 'fs'
+import fs from 'fs/promises'
+import type { URL } from 'url'
 
 async function extractClassNameList (
-  file: string,
+  url: URL,
 ): Promise<string[]> {
-  const buf = await fs.promises.readFile(file)
-  return extractClassNameListFromSource(buf.toString())
+  const content = await fs.readFile(url, 'utf-8')
+  return extractClassNameListFromSource(content)
 }
 
 async function extractClassNameListFromSource (
