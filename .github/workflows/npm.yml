@@ -57,12 +57,7 @@ jobs:
         run: ./scripts/generate-version.sh
 
       - name: Pack Testing
-        run: |
-          npm ls typescript
-          ./node_modules/.bin/tsc --version
-          ls -l node_modules/.bin/tsc
-          cat node_modules/typescript/package.json
-          ./scripts/npm-pack-testing.sh
+        run: bash -x ./scripts/npm-pack-testing.sh
 
   publish:
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/v'))
