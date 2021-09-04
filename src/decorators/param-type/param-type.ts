@@ -28,7 +28,7 @@ function ParamType (
       : '',
   )
 
-  return function paramTpyeDecorator (
+  return function paramTypeDecorator (
     target         : Object,
     propertyKey    : string,
     parameterIndex : number,

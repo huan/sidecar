@@ -38,6 +38,7 @@ cp tests/fixtures/* "$TMPDIR"
 cd $TMPDIR
 npm init -y
 npm install *-*.*.*.tgz \
+  pkg-jq \
   @chatie/tsconfig \
   typescript@next
 
@@ -45,14 +46,12 @@ npm install *-*.*.*.tgz \
 # CommonJS
 #
 ./node_modules/.bin/tsc \
-  --esModuleInterop \
-  --lib esnext \
-  --noEmitOnError \
-  --noImplicitAny \
-  --skipLibCheck \
   --target es5 \
   --module CommonJS \
-  --moduleResolution node \
+  --skipLibCheck \
+  --strict \
+  --experimentalDecorators \
+  --emitDecoratorMetadata \
   smoke-testing.ts
 
 echo
@@ -65,16 +64,16 @@ sidecar_dump_test
 #
 
 # https://stackoverflow.com/a/59203952/1123955
-echo "`jq '.type="module"' package.json`" > package.json
+# echo "`jq '.type="module"' package.json`" > package.json
+npx pkg-jq -i '.type="module"'
 
 ./node_modules/.bin/tsc \
-  --esModuleInterop \
-  --lib esnext \
-  --noEmitOnError \
-  --noImplicitAny \
-  --skipLibCheck \
   --target es2020 \
   --module es2020 \
+  --skipLibCheck \
+  --strict \
+  --experimentalDecorators \
+  --emitDecoratorMetadata \
   --moduleResolution node \
   smoke-testing.ts
 
