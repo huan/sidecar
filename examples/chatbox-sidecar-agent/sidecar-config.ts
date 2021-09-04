@@ -18,9 +18,8 @@
  */
 import fs   from 'fs'
 import path from 'path'
-import { fileURLToPath } from 'url'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+import { codeRoot } from '../../src/cjs.js'
 
 /**
  * See: https://github.com/frida/frida-node/blob/master/test/data/index.ts
@@ -37,15 +36,15 @@ function targetProgram () {
   }
 
   return path.resolve(
-    __dirname,
-    '..',
+    codeRoot,
+    'examples',
     'chatbox',
     chatboxNameList.join(''),
   )
 }
 
 function loadAgentScript () {
-  const file = path.resolve(__dirname, 'init-agent-script.js')
+  const file = path.resolve(codeRoot, 'examples/chatbox-sidecar-agent/init-agent-script.js')
   return fs.readFileSync(file, 'utf8')
 }
 

@@ -19,9 +19,8 @@
 import path from 'path'
 
 import type { FunctionTarget } from '../../src/function-target.js'
-import { fileURLToPath } from 'url'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+import { codeRoot } from '../../src/cjs.js'
 
 /**
  * See: https://github.com/frida/frida-node/blob/master/test/data/index.ts
@@ -38,8 +37,8 @@ function targetProgram () {
   }
 
   return path.resolve(
-    __dirname,
-    '..',
+    codeRoot,
+    'examples',
     'chatbox',
     chatboxNameList.join(''),
   )
