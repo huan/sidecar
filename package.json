@@ -20,7 +20,7 @@
     "clean": "shx rm -fr dist/*",
     "dist": "npm-run-all clean build dist:commonjs dist:copy",
     "build": "tsc && tsc -p tsconfig.cjs.json",
-    "dist:commonjs": "echo '{\"type\": \"commonjs\"}' > dist/cjs/package.json",
+    "dist:commonjs": "jq -n '{ type: \"commonjs\" }' > dist/cjs/package.json",
     "dist:copy": "npm-run-all copy:esm copy:cjs",
     "copy:esm": "shx cp -R commonjs/ dist/esm/ && shx cp -R src/agent/templates/{libs,*.mustache} dist/esm/src/agent/templates/",
     "copy:cjs": "shx cp -R commonjs/ dist/cjs/ && shx cp -R src/agent/templates/{libs,*.mustache} dist/cjs/src/agent/templates/",
