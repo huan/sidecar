@@ -26,7 +26,7 @@ import { VERSION }  from '../src/version.js'
 import {
   metadata,
   source,
-}               from '../src/dump/mod.js'
+}               from '../src/cli/mod.js'
 
 /**
  * Check ts-node loaded or not

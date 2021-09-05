@@ -9,7 +9,7 @@ import stringSimilarity from 'string-similarity'
 import {
   sourceHandler,
 }                     from './source-handler.js'
-import { codeRoot }   from '../../src/cjs.js'
+import { codeRoot }   from '../cjs.js'
 
 test('sourceHandler()', async t => {
   const CLASS_FILE = path.join(

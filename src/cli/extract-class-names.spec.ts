@@ -7,7 +7,7 @@ import path from 'path'
 import {
   extractClassNameListFromSource,
 }                                   from './extract-class-names.js'
-import { codeRoot } from '../../src/cjs.js'
+import { codeRoot } from '../cjs.js'
 
 test('extractClassNameListFromSource()', async t => {
   const TS = `

@@ -1,26 +1,27 @@
 /* eslint-disable sort-keys */
-// import slash      from 'slash'
 import { pathToFileURL } from 'url'
 
-import { log }    from '../config.js'
+import { log }  from '../config.js'
 
 import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar.js'
-import { extractClassNameList } from './extract-class-names.js'
-import {
-  executeWithContext,
-}                       from './vm.js'
+import { buildAgentSource }     from '../agent/build-agent-source.js'
 
-const metadataHandler = async ({
+import { extractClassNameList } from './extract-class-names.js'
+import { executeWithContext }   from './vm.js'
+
+const sourceHandler = async ({
   file,
   name,
 }: {
   file: string,
   name?: string,
 }): Promise<string> => {
-  log.verbose('sidecar-dump <metadata>',
-    'file<%s>, name<%s>',
+  log.verbose('sidecar-dump <source>',
+    'file<%s>%s',
     file,
-    name || '',
+    name
+      ? `, name<${name}>`
+      : '',
   )
 
   const fileUrl = pathToFileURL(file)
@@ -42,29 +43,36 @@ const metadataHandler = async ({
       return ''
     }
     name = classNameList[0]
+    log.silly('sidecar-dump <source>',
+      'detected class name: "%s"',
+      name,
+    )
   }
 
   const runFuncCode = [
     '(async () => {',
     [
       `const { ${name} } = await import('${file}')`,
-      `const metadata = JSON.stringify(getMetadataSidecar(${name}), null, 2)`,
-      'return metadata',
+      `const metadata = getMetadataSidecar(${name})`,
+      'const agentSource = await buildAgentSource(metadata)',
+      'return agentSource',
     ].join('\n'),
     '})()',
   ].join('\n')
 
-  log.silly('sidecar-dump <metadata>', runFuncCode)
+  log.silly('sidecar-dump <source>', runFuncCode)
 
-  const metadata = await executeWithContext<string>(runFuncCode, {
+  const agentSource = await executeWithContext<string>(runFuncCode, {
+    buildAgentSource,
     getMetadataSidecar,
+    url: fileUrl.href,
   })
 
-  if (!metadata) {
-    throw new Error('no metadata found')
+  if (!agentSource) {
+    throw new Error('no agentSource found')
   }
 
-  return metadata
+  return agentSource
 }
 
-export { metadataHandler }
+export { sourceHandler }

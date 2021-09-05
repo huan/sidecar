@@ -1,27 +1,26 @@
 /* eslint-disable sort-keys */
+// import slash      from 'slash'
 import { pathToFileURL } from 'url'
 
-import { log }  from '../config.js'
+import { log }    from '../config.js'
 
 import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar.js'
-import { buildAgentSource }     from '../agent/build-agent-source.js'
-
 import { extractClassNameList } from './extract-class-names.js'
-import { executeWithContext }   from './vm.js'
+import {
+  executeWithContext,
+}                       from './vm.js'
 
-const sourceHandler = async ({
+const metadataHandler = async ({
   file,
   name,
 }: {
   file: string,
   name?: string,
 }): Promise<string> => {
-  log.verbose('sidecar-dump <source>',
-    'file<%s>%s',
+  log.verbose('sidecar-dump <metadata>',
+    'file<%s>, name<%s>',
     file,
-    name
-      ? `, name<${name}>`
-      : '',
+    name || '',
   )
 
   const fileUrl = pathToFileURL(file)
@@ -43,35 +42,30 @@ const sourceHandler = async ({
       return ''
     }
     name = classNameList[0]
-    log.silly('sidecar-dump <source>',
-      'detected class name: "%s"',
-      name,
-    )
   }
 
   const runFuncCode = [
     '(async () => {',
     [
       `const { ${name} } = await import('${file}')`,
-      `const metadata = getMetadataSidecar(${name})`,
-      'const agentSource = await buildAgentSource(metadata)',
-      'return agentSource',
+      `const metadata = JSON.stringify(getMetadataSidecar(${name}), null, 2)`,
+      'return metadata',
     ].join('\n'),
     '})()',
   ].join('\n')
 
-  log.silly('sidecar-dump <source>', runFuncCode)
+  log.silly('sidecar-dump <metadata>', runFuncCode)
 
-  const agentSource = await executeWithContext<string>(runFuncCode, {
-    buildAgentSource,
+  const metadata = await executeWithContext<string>(runFuncCode, {
     getMetadataSidecar,
+    url: fileUrl.href,
   })
 
-  if (!agentSource) {
-    throw new Error('no agentSource found')
+  if (!metadata) {
+    throw new Error('no metadata found')
   }
 
-  return agentSource
+  return metadata
 }
 
-export { sourceHandler }
+export { metadataHandler }

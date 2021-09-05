@@ -11,22 +11,6 @@ function diff_lines () {
     | wc -l
 }
 
-function sidecar_dump_test () {
-  npx sidecar-dump metadata smoke-testing.ts > smoke-testing.metadata.json
-  if [[ $(diff_lines smoke-testing.metadata.json sidecar-dump.metadata.smoke-testing.json.fixture) -gt 10 ]]; then
-    >&2 echo "FAILED: sidecar-dump metadata smoke-testing.ts"
-    exit 1
-  fi
-  echo "PASSED: sidecar-dump metadata smoke-testing.ts"
-
-  npx sidecar-dump source smoke-testing.ts > smoke-testing.source.js
-  if [[ $(diff_lines smoke-testing.source.js sidecar-dump.source.smoke-testing.js.fixture) -gt 10 ]]; then
-    >&2 echo "FAILED: sidecar-dump source smoke-testing.ts"
-    exit 1
-  fi
-  echo "PASSED: sidecar-dump source smoke-testing.ts"
-}
-
 npm run dist
 npm pack
 
@@ -56,7 +40,7 @@ npm install ./*-*.*.*.tgz \
 echo
 echo "CommonJS: pack testing..."
 node smoke-testing.js
-sidecar_dump_test
+echo "No dump testing with CJS. (Only support ESM for now)"
 
 #
 # ES Modules
@@ -79,4 +63,20 @@ npx pkg-jq -i '.type="module"'
 echo
 echo "ES Module: pack testing..."
 node smoke-testing.js
-sidecar_dump_test
+
+#
+# Dump testing (ESM only)
+#
+npx sidecar-dump metadata smoke-testing.ts > smoke-testing.metadata.json
+if [[ $(diff_lines smoke-testing.metadata.json sidecar-dump.metadata.smoke-testing.json.fixture) -gt 10 ]]; then
+  >&2 echo "FAILED: sidecar-dump metadata smoke-testing.ts"
+  exit 1
+fi
+echo "PASSED: sidecar-dump metadata smoke-testing.ts"
+
+npx sidecar-dump source smoke-testing.ts > smoke-testing.source.js
+if [[ $(diff_lines smoke-testing.source.js sidecar-dump.source.smoke-testing.js.fixture) -gt 10 ]]; then
+  >&2 echo "FAILED: sidecar-dump source smoke-testing.ts"
+  exit 1
+fi
+echo "PASSED: sidecar-dump source smoke-testing.ts (ESM only)"
