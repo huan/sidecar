@@ -1,13 +1,13 @@
 /* eslint-disable sort-keys */
 import { pathToFileURL } from 'url'
 
-import { log }    from '../config.js'
-import vm         from './vm.js'
+import { log }  from '../config.js'
 
 import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar.js'
 import { buildAgentSource }     from '../agent/build-agent-source.js'
 
 import { extractClassNameList } from './extract-class-names.js'
+import { executeWithContext }   from './vm.js'
 
 const sourceHandler = async ({
   file,
@@ -49,40 +49,29 @@ const sourceHandler = async ({
     )
   }
 
-  const context = vm.createContext({
-    buildAgentSource,
-    console,
-    generated: undefined,
-    getMetadataSidecar,
-  }) as {
-    generated?: string,
-  }
-
-  const code = [
-    `const { ${name} } = await import('${file}')`,
-    `const metadata = getMetadataSidecar(${name})`,
-    'generated = await buildAgentSource(metadata)',
+  const runFuncCode = [
+    '(async () => {',
+    [
+      `const { ${name} } = await import('${file}')`,
+      `const metadata = getMetadataSidecar(${name})`,
+      'const agentSource = await buildAgentSource(metadata)',
+      'return agentSource',
+    ].join('\n'),
+    '})()',
   ].join('\n')
 
-  log.silly('sidecar-dump <source>', code)
+  log.silly('sidecar-dump <source>', runFuncCode)
 
-  const importModuleDynamically = (
-    identifier: string
-  ) => import(identifier)
-
-  const module = new vm.SourceTextModule(code, {
-    context,
-    importModuleDynamically,
+  const agentSource = await executeWithContext<string>(runFuncCode, {
+    buildAgentSource,
+    getMetadataSidecar,
   })
 
-  await module.link(() => {})
-  await module.evaluate()
-
-  if (!context.generated) {
-    throw new Error('no context.generated found')
+  if (!agentSource) {
+    throw new Error('no agentSource found')
   }
 
-  return context.generated
+  return agentSource
 }
 
 export { sourceHandler }

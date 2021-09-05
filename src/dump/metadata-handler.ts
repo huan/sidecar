@@ -6,7 +6,9 @@ import { log }    from '../config.js'
 
 import { getMetadataSidecar }   from '../decorators/sidecar/metadata-sidecar.js'
 import { extractClassNameList } from './extract-class-names.js'
-import vm from './vm.js'
+import {
+  executeWithContext,
+}                       from './vm.js'
 
 const metadataHandler = async ({
   file,
@@ -42,37 +44,27 @@ const metadataHandler = async ({
     name = classNameList[0]
   }
 
-  const context = vm.createContext({
-    console,
-    getMetadataSidecar,
-    metadata: undefined,
-  }) as {
-    metadata?: string,
-  }
-
-  const code = [
-    `const { ${name} } = await import('${file}')`,
-    `metadata = JSON.stringify(getMetadataSidecar(${name}), null, 2)`,
+  const runFuncCode = [
+    '(async () => {',
+    [
+      `const { ${name} } = await import('${file}')`,
+      `const metadata = JSON.stringify(getMetadataSidecar(${name}), null, 2)`,
+      'return metadata',
+    ].join('\n'),
+    '})()',
   ].join('\n')
-  log.silly('sidecar-dump <metadata>', code)
 
-  const importModuleDynamically = (
-    identifier: string
-  ) => import(identifier)
+  log.silly('sidecar-dump <metadata>', runFuncCode)
 
-  const module = new vm.SourceTextModule(code, {
-    context,
-    importModuleDynamically,
+  const metadata = await executeWithContext<string>(runFuncCode, {
+    getMetadataSidecar,
   })
 
-  await module.link(() => {})
-  await module.evaluate()
-
-  if (!context.metadata) {
-    throw new Error('no context.metadata found')
+  if (!metadata) {
+    throw new Error('no metadata found')
   }
 
-  return context.metadata
+  return metadata
 }
 
 export { metadataHandler }
