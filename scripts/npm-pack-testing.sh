@@ -39,9 +39,7 @@ cd $TMPDIR
 npm init -y
 npm install ./*-*.*.*.tgz \
   pkg-jq \
-  ts-node \
-  @chatie/tsconfig \
-  typescript@next
+  @chatie/tsconfig
 
 #
 # CommonJS
