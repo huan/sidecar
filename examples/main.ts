@@ -44,8 +44,8 @@ async function main () {
   /**
    * 1. @Hook sidecar.mt(...)
    */
-  sidecar.on('hook', async payload => {
-    console.log(`sidecar @Hook() ${payload.method}() received message: "${payload.args[0]}"`)
+  sidecar.on('hook', async ({ method, args }) => {
+    console.log(`sidecar @Hook() ${method}() received message: "${args[0]}"`)
 
     /**
      * 2. @Call sidecar.mo(...)

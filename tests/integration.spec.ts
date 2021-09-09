@@ -60,7 +60,7 @@ test('smoke testing', async (t) => {
   const sidecar = new MessagingSidecar()
 
   sidecar.on('hook', payload => {
-    console.log('args:', payload.args)
+    console.log('payload:', payload)
   })
 
   const EXPECTED_RET_VALUE = 42
@@ -80,7 +80,7 @@ test('ChatboxSidecar testing', async (t) => {
   const sidecar = new MessagingSidecar()
 
   sidecar.on('hook', payload => {
-    console.log('args:', payload.args)
+    console.log('payload:', payload)
   })
 
   const EXPECTED_RET_VALUE = 42
