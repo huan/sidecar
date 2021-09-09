@@ -582,7 +582,7 @@ You can visit them at [Sidecar Demos](https://github.com/wechaty/sidecar-demos) 
 
 ## History
 
-### Master v0.15
+### Master v0.17
 
 1. ES Modules support ([#17](https://github.com/huan/sidecar/issues/17))
 1. TypeScript version 4.4
