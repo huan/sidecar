@@ -89,8 +89,9 @@ async function main () {
   const sidecar = new ChatboxSidecar()
   await attach(sidecar)
 
-  sidecar.on('mt', args => {
-    console.log('mt:', args)
+  sidecar.on('hook', payload => {
+    console.log('method:', payload.method)
+    console.log('args:', payload.args)
     sidecar.mo('Hello from Sidecar'),
   })
 
@@ -585,6 +586,7 @@ You can visit them at [Sidecar Demos](https://github.com/wechaty/sidecar-demos) 
 
 1. ES Modules support ([#17](https://github.com/huan/sidecar/issues/17))
 1. TypeScript version 4.4
+1. Add `hook` event for all hooked methods.
 
 ### v0.14
 
