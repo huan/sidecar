@@ -398,13 +398,22 @@ class SidecarBody extends SidecarEmitter {
         )
         {
           const e = new Error(message.description)
-          e.stack = e.stack + '\n\n' + message.stack
+          e.stack = [
+            e.stack,
+            '----- Agent Script Internal -----',
+            message.stack,
+          ].join('\n')
           this.emit('error', e)
         }
         break
 
       default:
-        throw new Error('MessagingSidecar: [SCRIPT_MESSAGRE_HANDLER_SYMBOL]() Error: unknown message type: ' + message)
+        this.emit('error', new Error([
+          'MessagingSidecar: [SCRIPT_MESSAGRE_HANDLER_SYMBOL]() Error: unknown message type:',
+          (message as any)?.type,
+          'message:',
+          message,
+        ].join(' ')))
     }
 
     if (data) {
