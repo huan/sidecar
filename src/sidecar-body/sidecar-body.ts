@@ -447,10 +447,7 @@ class SidecarBody extends SidecarEmitter {
       JSON.stringify(payload),
     )
 
-    this.emit(
-      payload.method,
-      payload.args,
-    )
+    this.emit('hook', payload)
   }
 
 }
