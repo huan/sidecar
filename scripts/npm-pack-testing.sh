@@ -5,6 +5,7 @@ set -e
 function diff_lines () {
   diff \
     -y \
+    --strip-trailing-cr \
     --suppress-common-lines \
     $1 \
     $2 \
