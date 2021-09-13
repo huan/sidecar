@@ -199,7 +199,7 @@ const __sidecar__moduleBaseAddress = Module.getBaseAddress('test')
      *
      * Native Function: mo
      *  - address: 0x1234
-     *  - Parameters: 'pointer'
+     *  - Parameters: [ 'pointer' ]
      *  - Ret: void
      ******************************************************************/
 
@@ -211,7 +211,7 @@ const __sidecar__moduleBaseAddress = Module.getBaseAddress('test')
       const nativeFunction = new NativeFunction(
         nativeFunctionAddress,
         'void',
-        ['pointer'],
+        [ 'pointer' ],
       )
 
       return function (...args) {
@@ -225,8 +225,8 @@ const __sidecar__moduleBaseAddress = Module.getBaseAddress('test')
 const mo_NativeArg_0 = Memory.alloc(1024 /*Process.pointerSize*/)
 mo_NativeArg_0.writeUtf8String(args[0])
 
-        const ret = nativeFunction(...[mo_NativeArg_0])
-        return ret
+        const ret = nativeFunction(...[ mo_NativeArg_0 ])
+        return undefined /* void */
       }
 
     })()
@@ -254,7 +254,7 @@ mo_NativeArg_0.writeUtf8String(args[0])
      * Interceptor Target: mt
      *  - type: address
      *  - address: 0x5678
-     *  - Parameters: 'pointer'
+     *  - Parameters: [ 'pointer' ]
      ******************************************************************/
 
     ;(() => {

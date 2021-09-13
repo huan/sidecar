@@ -32,7 +32,7 @@ log.level('{{ logLevel }}')
 
 /****************************************************
  * File: "templates/agent.mustache"
- *  > Get base address for target "{{{ targetProcess }}}"
+ *  > Get base address for target "{{{ sidecarTarget.target }}}"
  ****************************************************/
 const __sidecar__moduleBaseAddress = Module.getBaseAddress('{{{ moduleName }}}')
 
