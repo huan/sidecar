@@ -1,37 +1,32 @@
 import { EventEmitter } from 'events'
 import type TypedEventEmitter  from 'typed-emitter'
 
-import type { SidecarPayloadHook } from './payload-schemas.js'
+import type {
+  ATTACH_SYMBOL,
+  DETACH_SYMBOL,
+  INIT_SYMBOL,
+}                       from './constants.js'
+import type {
+  SidecarPayloadHook,
+  SidecarPayloadLog,
+}                       from './payload-schemas.js'
 
-// import {
-//   SidecarPayloadLog,
-//   SidecarPayloadHook,
-// }                               from './payload-schemas.js'
+type AttachedEventListener = () => void
+type DetachedEventListener = () => void
+type InitedEventListener   = () => void
 
-// export type AttachedEventListener = () => void
-// export type DetachedEventListener = () => void
-// export type InitedEventListener   = () => void
-
-// export type HookEventListener = (payload: SidecarPayloadHook['payload']) => void
-// export type LogEventListener  = (payload: SidecarPayloadLog['payload'])  => void
-
-// interface SidecarEvents {
-//   attached : AttachedEventListener
-//   detached : DetachedEventListener
-//   error    : Error
-//   hook     : HookEventListener
-//   inited   : InitedEventListener
-//   log      : LogEventListener
-// }
-
-export type SymbolEventListener = () => void
-export type HookEventListener   = (payload: SidecarPayloadHook['payload']) => void
-export type ErrorEventListener  = (e: Error) => void
+type ErrorEventListener  = (e: Error) => void
+type HookEventListener   = (payload: SidecarPayloadHook['payload']) => void
+type LogEventListener    = (payload: SidecarPayloadLog['payload'])  => void
 
 interface SidecarEvents {
-  [symbol: symbol] : SymbolEventListener
-  error            : ErrorEventListener
-  hook             : HookEventListener
+  [ATTACH_SYMBOL] : AttachedEventListener
+  [DETACH_SYMBOL] : DetachedEventListener
+  [INIT_SYMBOL]   : InitedEventListener
+
+  error : ErrorEventListener
+  hook  : HookEventListener
+  log   : LogEventListener
 }
 
 type SidecarEmitterType = new () => TypedEventEmitter<
