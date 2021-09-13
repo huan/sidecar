@@ -586,7 +586,7 @@ You can visit them at [Sidecar Demos](https://github.com/wechaty/sidecar-demos) 
 
 1. ES Modules support ([#17](https://github.com/huan/sidecar/issues/17))
 1. TypeScript version 4.4
-1. Add `hook` event for all hooked methods.
+1. Breaking change: Add `hook` event for all hooked methods
 
 ### v0.14
 

@@ -21,34 +21,12 @@ cp tests/fixtures/* "$TMPDIR"
 
 cd $TMPDIR
 npm init -y
+# ES Modules
+npx pkg-jq -i '.type="module"'
 npm install ./*-*.*.*.tgz \
+  es-main \
   pkg-jq \
   @chatie/tsconfig
-
-#
-# CommonJS
-#
-./node_modules/.bin/tsc \
-  --target es6 \
-  --module CommonJS \
-  --skipLibCheck \
-  --strict \
-  --experimentalDecorators \
-  --emitDecoratorMetadata \
-  smoke-testing.ts
-
-echo
-echo "CommonJS: pack testing..."
-node smoke-testing.js
-echo "No dump testing with CJS. (Only support ESM for now)"
-
-#
-# ES Modules
-#
-
-# https://stackoverflow.com/a/59203952/1123955
-# echo "`jq '.type="module"' package.json`" > package.json
-npx pkg-jq -i '.type="module"'
 
 ./node_modules/.bin/tsc \
   --target es2020 \

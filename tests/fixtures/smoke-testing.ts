@@ -18,6 +18,15 @@
  *   limitations under the License.
  *
  */
+
+/**
+ * <reference path="..." /> MUST before all import statements
+ */
+/// <reference path="./typings.d.ts" />
+
+// https://stackoverflow.com/questions/64180480/how-do-i-detect-if-an-es-module-is-the-main-module
+import esMain from 'es-main'
+
 import {
   Sidecar,
   SidecarBody,
@@ -61,9 +70,11 @@ async function main () {
   return 0
 }
 
-main()
-  .catch(e => {
-    console.error(e)
-    process.exit(1)
-  })
+if (esMain(import.meta)) {
+  main()
+    .catch(e => {
+      console.error(e)
+      process.exit(1)
+    })
+}
 
