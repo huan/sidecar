@@ -1,3 +1,8 @@
+const jsArgName = (
+  method: string,
+  argIdx: number,
+) => `${method}_JsArg_${argIdx}`
+
 const nativeArgName = (
   method: string,
   argIdx: number,
@@ -19,5 +24,6 @@ const bufName = (
 export {
   argName,
   bufName,
+  jsArgName,
   nativeArgName,
 }

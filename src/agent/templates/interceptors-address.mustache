@@ -27,9 +27,11 @@
           Number({{ target.address }}).toString(16),
         )
 
+        {{{ declareJsArgs }}}
+
         send(__sidecar__payloadHook(
           '{{ name }}',
-          {{ jsArgs }}
+          {{{ jsArgs }}}
         ), null)
 
       },

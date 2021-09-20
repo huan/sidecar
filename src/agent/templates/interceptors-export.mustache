@@ -34,9 +34,11 @@
           {{ target.exportName }},
         )
 
+        {{{ declareJsArgs }}}
+
         send(__sidecar__payloadHook(
           '{{ name }}',
-          {{ jsArgs }}
+          {{{ jsArgs }}}
         ), null)
 
       },
