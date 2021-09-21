@@ -7,6 +7,8 @@ function diff_lines () {
     -y \
     --strip-trailing-cr \
     --suppress-common-lines \
+    --ignore-space-change \
+    --ignore-blank-lines \
     $1 \
     $2 \
     | wc -l
