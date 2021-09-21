@@ -1,7 +1,19 @@
 #!/usr/bin/env bash
 set -e
 
-# Huan(202107) Credit: https://stackoverflow.com/a/48287203/1123955
+#
+# Huan(202107)
+#   We have generated the fixtures for the output of `sidecar-dump` utility.
+#   We will use the fixtures to test the `sidecar-dump` utility.
+#   However, the output is different when we are running it on different operation systems,
+#   suck like Linux / Windows.
+#   So we have to ignore the following characters:
+#     - \r: --strip-trailing-cr
+#     - spaces: --ignore-space-change
+#     - blank-lines: --ignore-blank-lines
+#
+#   Credit: https://stackoverflow.com/a/48287203/1123955
+#
 function diff_lines () {
   diff \
     -y \
