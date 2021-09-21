@@ -272,9 +272,11 @@ mo_NativeArg_0.writeUtf8String(args[0])
               Number(0x5678).toString(16),
             )
 
+            const mt_JsArg_0 = args[0].readUtf8String()
+
             send(__sidecar__payloadHook(
               'mt',
-              [ args[0].readUtf8String() ]
+              [ mt_JsArg_0 ]
             ), null)
 
           },
