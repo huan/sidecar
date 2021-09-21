@@ -26,12 +26,13 @@ cp tests/fixtures/* "$TMPDIR"
 
 cd $TMPDIR
 npm init -y
-# ES Modules
-npx pkg-jq -i '.type="module"'
 npm install ./*-*.*.*.tgz \
   es-main \
   pkg-jq \
   @chatie/tsconfig
+
+# ES Modules
+npx pkg-jq -i '.type="module"'
 
 npx tsc \
   --target es2020 \
