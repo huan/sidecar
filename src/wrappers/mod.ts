@@ -1,5 +1,6 @@
 import type { SidecarMetadata } from '../decorators/sidecar/metadata-sidecar.js'
 
+import { declareJsArgs }          from './declare-js-args.js'
 import { declareNativeArgs }      from './declare-native-args.js'
 import { jsArgs }                 from './js-args.js'
 import { jsRet }                  from './js-ret.js'
@@ -12,6 +13,7 @@ import { nativeRetType }          from './native-ret-type.js'
 
 const wrapView = (metadata: SidecarMetadata) => ({
   ...metadata,
+  declareJsArgs,
   declareNativeArgs,
   jsArgs,
   jsRet,

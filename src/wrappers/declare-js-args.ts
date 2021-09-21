@@ -1,116 +1,43 @@
 import type { SidecarMetadataFunctionDescription } from '../decorators/mod.js'
-import type { PointerType } from '../frida.js'
 
 import {
   argName,
-  bufName,
   jsArgName,
 }                 from './name-helpers.js'
 
 function declareJsArgs (
   this: SidecarMetadataFunctionDescription
 ): string {
-  const name          = this.name
-  const paramTypeList = this.paramTypeList
-
-  /**
-   * There's no any parameters needed
-   */
-  if (!Array.isArray(paramTypeList) || paramTypeList.length === 0) {
-    return ''
+  const typeList = this.paramTypeList
+  if (!typeList) {
+    throw new Error('no .paramTypeList found in SidecarMetadataFunctionDescription!')
   }
 
-  const declareStatementList = []
-  for (const [argIdx, paramTypeChain] of paramTypeList.entries()) {
+  const argDeclarationList = []
+  for (const [idx, typeChain] of typeList.entries()) {
+    const [nativeType, ...pointerTypeList] = typeChain
+    // console.log(nativeType, pointerTypeList)
+
+    const readChain = [
+      argName(idx),
+    ]
+
     /**
-     * 0. Loop for all parameter args...
+     * 1. native pointer
      */
-    const [nativeType, ...pointerTypeList] = paramTypeChain
-    // console.log(argIdx, nativeType, pointerTypeList)
-
-    const statementChain = []
-
-    /**
-     * 1. arg is non-pointer
-     */
-    if (nativeType !== 'pointer') {
-      statementChain.push(
-        `// non-pointer type for arg[${argIdx}]: ${nativeType}`,
-        `const ${jsArgName(name, argIdx)} = ${argName(argIdx)}`,
-      )
-      declareStatementList.push(statementChain.join('\n'))
-      continue
-    }
-
-    if (pointerTypeList.length === 0) {
-      /**
-       * 2. arg is a pointer
-       */
-      statementChain.push(
-        `// pointer type for arg[${argIdx}] -> ${pointerTypeList.join(' -> ')}`,
-        // Number() is to convert the `null` to number
-        `const ${jsArgName(name, argIdx)} = ptr(Number(${argName(argIdx)}))`,
-      )
-    } else { // pointerTypeList.length > 0
-      /**
-       * 3. arg is a pointer to pointer...
-       */
-      statementChain.push(
-        ...generatePointerTypeStatementChain(
-          name,
-          argIdx,
-          pointerTypeList,
+    if (nativeType === 'pointer') {
+      for (const pointerType of pointerTypeList) {
+        readChain.push(
+          `.read${pointerType}()`
         )
-      )
+      }
     }
 
-    declareStatementList.push(statementChain.join('\n'))
+    const declaration = 'const ' + jsArgName(this.name, idx) + ' = ' + readChain.join('')
+    argDeclarationList.push(declaration)
   }
 
-  return declareStatementList.join('\n\n')
-}
-
-function generatePointerTypeStatementChain (
-  name            : string,
-  argIdx          : number,
-  pointerTypeList : PointerType[],
-): string[] {
-  const statementChain = [] as string[]
-  /**
-   * Current arg is a native pointer
-   */
-  statementChain.push(
-    `// pointer type for arg[${argIdx}] -> ${pointerTypeList.join(' -> ')}`,
-    // FIXME: Huan(202106) how to get the size? (1024)
-    `const ${nativeArgName(name, argIdx)} = Memory.alloc(1024 /*Process.pointerSize*/)`,
-  )
-  let lastVarName: string = nativeArgName(name, argIdx)
-
-  for (const [typeIdx, pointerType] of pointerTypeList.entries()) {
-    if (pointerType === 'Pointer') {
-
-      statementChain.push(
-        `const ${bufName(name, argIdx, typeIdx)} = Memory.alloc(Process.pointerSize)`,
-        `${lastVarName}.writePointer(${bufName(name, argIdx, typeIdx)})`
-      )
-
-      lastVarName = bufName(name, argIdx, typeIdx)
-    } else {
-
-      /**
-       * Best Practices: String allocation (UTF-8/UTF-16/ANSI)
-       *  https://frida.re/docs/best-practices/
-       *
-       * Huan(202106) FIXME: alloc memory for string before assign to native argumenments
-       */
-      statementChain.push(
-        `${lastVarName}.write${pointerType}(${argName(argIdx)})`,
-      )
-
-    }
-  }
-
-  return statementChain
+  return argDeclarationList.join('\n')
 }
 
 export { declareJsArgs }
