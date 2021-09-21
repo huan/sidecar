@@ -1,27 +1,17 @@
 #!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
-import type { SidecarMetadataFunctionDescription } from '../decorators/mod'
 
 // import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture.js'
+import type { SidecarMetadataFunctionDescription } from '../decorators/mod.js'
+import { declareJsArgs } from './declare-js-args.js'
 
-import {
-  declareNativeArgs,
-}                       from './declare-native-args.js'
+test('declareJsArgs()', async t => {
+  // const SIDECAR_METADATA = getSidecarMetadataFixture()
 
-test('declareNativeArgs()', async t => {
+  // const nativeFunctionList      = SIDECAR_METADATA.nativeFunctionList
+  // const interceptorFunctionList = SIDECAR_METADATA.interceptorList
 
-  // const fixture = getSidecarMetadataFixture()
-
-  // // console.log(fixture.nativeFunctionList.length)
-  // const result = fixture.nativeFunctionList
-  //   .map(x => Object.values(x))
-  //   .flat()
-  //   .map(x => declareNativeArgs.call(x))
-
-  // // get the fixture
-  // // console.log(JSON.stringify(result, null, 2))
-
-  const FIXTURE: [SidecarMetadataFunctionDescription, string][] = [
+  const FIXTURES: [SidecarMetadataFunctionDescription, string][] = [
     [
       {
         name: 'anotherCall',
@@ -47,15 +37,8 @@ test('declareNativeArgs()', async t => {
         },
       },
       [
-        '// pointer type for arg[0] -> Int',
-        'const anotherCall_NativeArg_0 = Memory.alloc(1024 /*Process.pointerSize*/)',
-        'anotherCall_NativeArg_0.writeInt(args[0])',
-        '',
-        '// pointer type for arg[1] -> Pointer -> Utf8String',
-        'const anotherCall_NativeArg_1 = Memory.alloc(1024 /*Process.pointerSize*/)',
-        'const anotherCall_Memory_1_0 = Memory.alloc(Process.pointerSize)',
-        'anotherCall_NativeArg_1.writePointer(anotherCall_Memory_1_0)',
-        'anotherCall_Memory_1_0.writeUtf8String(args[1])',
+        'const anotherCall_JsArg_0 = args[0].readInt()',
+        'const anotherCall_JsArg_1 = args[1].readPointer().readUtf8String()',
       ].join('\n'),
     ],
     [
@@ -81,12 +64,8 @@ test('declareNativeArgs()', async t => {
         },
       },
       [
-        '// pointer type for arg[0] -> Utf8String',
-        'const testMethod_NativeArg_0 = Memory.alloc(1024 /*Process.pointerSize*/)',
-        'testMethod_NativeArg_0.writeUtf8String(args[0])',
-        '',
-        '// non-pointer type for arg[1]: int',
-        'const testMethod_NativeArg_1 = args[1]',
+        'const testMethod_JsArg_0 = args[0].readUtf8String()',
+        'const testMethod_JsArg_1 = args[1]',
       ].join('\n'),
     ],
     [
@@ -107,8 +86,7 @@ test('declareNativeArgs()', async t => {
         },
       },
       [
-        '// pointer type for arg[0] -> ',
-        'const pointerMethod_NativeArg_0 = ptr(Number(args[0]))',
+        'const pointerMethod_JsArg_0 = args[0]',
       ].join('\n'),
     ],
     [
@@ -137,10 +115,44 @@ test('declareNativeArgs()', async t => {
       },
       '',
     ],
+    [
+      {
+        name: 'hookMethod',
+        paramTypeList: [
+          [
+            'int',
+          ],
+          [
+            'pointer',
+            'Utf8String',
+          ],
+        ],
+        target: {
+          address: '0x17',
+          moduleName: null,
+          type: 'address',
+        },
+      },
+      [
+        'const hookMethod_JsArg_0 = args[0]',
+        'const hookMethod_JsArg_1 = args[1].readUtf8String()',
+      ].join('\n'),
+    ],
   ]
 
-  for (const [fixture, expected] of FIXTURE) {
-    const result = declareNativeArgs.call(fixture)
-    t.equal(result, expected, `"${fixture.name}" should declare the native args correctly`)
+  // const result = [
+  //   ...nativeFunctionList,
+  //   ...interceptorFunctionList,
+  // ].map(x => Object.values(x))
+  //   .flat()
+  //   .map(x => jsArgs.call(x))
+  // void jsArgs
+
+  // console.log(JSON.stringify(result, null, 2))
+
+  for (const [fixture, expected] of FIXTURES) {
+    const result = declareJsArgs.call(fixture)
+    t.equal(result, expected, `"${fixture.name}" args declared correct`)
   }
+  // t.same(result, EXPECTED_ARGS_LIST, 'should wrap the args correct')
 })

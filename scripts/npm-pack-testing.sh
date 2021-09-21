@@ -17,6 +17,8 @@ npm pack
 
 TMPDIR="/tmp/npm-pack-testing.$$"
 mkdir "$TMPDIR"
+trap "rm -fr '$TMPDIR'" EXIT
+
 mv ./*-*.*.*.tgz "$TMPDIR"
 cp tests/fixtures/* "$TMPDIR"
 
@@ -29,7 +31,7 @@ npm install ./*-*.*.*.tgz \
   pkg-jq \
   @chatie/tsconfig
 
-./node_modules/.bin/tsc \
+npx tsc \
   --target es2020 \
   --module es2020 \
   --skipLibCheck \
