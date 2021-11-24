@@ -24,11 +24,11 @@ export type SidecarPayload = SidecarPayloadHook
 export type SidecarPayloadType = SidecarPayload['type']
 
 const isSidecarPayloadLog = (
-  payload: SidecarPayload
+  payload: SidecarPayload,
 ): payload is SidecarPayloadLog => payload.type === 'log'
 
 const isSidecarPayloadHook = (
-  payload: SidecarPayload
+  payload: SidecarPayload,
 ): payload is SidecarPayloadHook => payload.type === 'hook'
 
 export {

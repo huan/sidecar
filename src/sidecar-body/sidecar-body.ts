@@ -9,6 +9,7 @@ import { getMetadataSidecar } from '../decorators/sidecar/metadata-sidecar.js'
 
 import {
   log,
+  wrapAsync,
 }                     from '../config.js'
 import * as frida     from '../frida.js'
 
@@ -214,11 +215,11 @@ class SidecarBody extends SidecarEmitter {
     const script = await session.createScript(this.agentSource)
 
     script.message.connect(this[SCRIPT_MESSAGRE_HANDLER_SYMBOL].bind(this))
-    script.destroyed.connect(this[SCRIPT_DESTROYED_HANDLER_SYMBOL].bind(this))
+    script.destroyed.connect(wrapAsync(this[SCRIPT_DESTROYED_HANDLER_SYMBOL].bind(this)))
 
     await script.load()
 
-    if (script.exports && script.exports['init']) {
+    if (script.exports['init']) {
       // Huan(202106)
       // FIXME: do we need to call init() here?
       // It seems that frida will call init() automatically in CLI
@@ -279,20 +280,18 @@ class SidecarBody extends SidecarEmitter {
       return
     }
 
-    if (script) {
-      /**
-       * Only call `unload()` if script is not destroyed
-       */
-      try {
-        await script.unload()
-      } catch (e) {
-        log.error('SidecarBody',
-          '[DETACH_SYMBOL]() script.unload() rejection: %s\n%s',
-          e && (e as Error).message,
-          e && (e as Error).stack,
-        )
-        this.emit('error', e as Error)
-      }
+    /**
+     * Only call `unload()` if script is not destroyed
+     */
+    try {
+      await script.unload()
+    } catch (e) {
+      log.error('SidecarBody',
+        '[DETACH_SYMBOL]() script.unload() rejection: %s\n%s',
+        e && (e as Error).message,
+        e && (e as Error).stack,
+      )
+      this.emit('error', e as Error)
     }
 
     if (session) {
@@ -378,14 +377,14 @@ class SidecarBody extends SidecarEmitter {
           log.warn('SidecarBody',
             '[SCRIPT_MESSAGRE_HANDLER_SYMBOL](): unknown payload type %s: %s',
             message.payload.type,
-            JSON.stringify(message.payload)
+            JSON.stringify(message.payload),
           )
           this.emit('error',
             new Error([
               'SidecarBody got unknown message from Frida Agent:',
               'Payload:',
               JSON.stringify(message.payload, null, 2),
-            ].join('\n'))
+            ].join('\n')),
           )
         }
 

@@ -8,7 +8,7 @@ import {
 }                 from './name-helpers.js'
 
 function declareNativeArgs (
-  this: SidecarMetadataFunctionDescription
+  this: SidecarMetadataFunctionDescription,
 ): string {
   const name          = this.name
   const paramTypeList = this.paramTypeList
@@ -60,7 +60,7 @@ function declareNativeArgs (
           name,
           argIdx,
           pointerTypeList,
-        )
+        ),
       )
     }
 
@@ -91,7 +91,7 @@ function generatePointerTypeStatementChain (
 
       statementChain.push(
         `const ${bufName(name, argIdx, typeIdx)} = Memory.alloc(Process.pointerSize)`,
-        `${lastVarName}.writePointer(${bufName(name, argIdx, typeIdx)})`
+        `${lastVarName}.writePointer(${bufName(name, argIdx, typeIdx)})`,
       )
 
       lastVarName = bufName(name, argIdx, typeIdx)

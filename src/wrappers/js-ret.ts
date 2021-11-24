@@ -26,11 +26,11 @@ function jsRet (
      */
     if (pointerTypeList.length > 0) {
       resultChain.push(
-        'ret.readPointer()'
+        'ret.readPointer()',
       )
       for (const pointerType of pointerTypeList) {
         resultChain.push(
-          `.read${pointerType}()`
+          `.read${pointerType}()`,
         )
       }
     } else {

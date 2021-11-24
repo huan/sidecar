@@ -582,13 +582,13 @@ You can visit them at [Sidecar Demos](https://github.com/wechaty/sidecar-demos) 
 
 ## History
 
-### Master v0.17
+### master v1.0 (Nov 24, 2021)
 
 1. ES Modules support ([#17](https://github.com/huan/sidecar/issues/17))
-1. TypeScript version 4.4
+1. TypeScript version 4.5
 1. Breaking change: Add `hook` event for all hooked methods
 
-### v0.14
+### v0.14 (Aug 13, 2021)
 
 Publish to NPM as **sidecar** package name!
 

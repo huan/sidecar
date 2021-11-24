@@ -15,9 +15,9 @@ type AttachedEventListener = () => void
 type DetachedEventListener = () => void
 type InitedEventListener   = () => void
 
-type ErrorEventListener  = (e: Error) => void
-type HookEventListener   = (payload: SidecarPayloadHook['payload']) => void
-type LogEventListener    = (payload: SidecarPayloadLog['payload'])  => void
+type ErrorEventListener  = (e: Error) => void | Promise<void>
+type HookEventListener   = (payload: SidecarPayloadHook['payload']) => void | Promise<void>
+type LogEventListener    = (payload: SidecarPayloadLog['payload'])  => void | Promise<void>
 
 interface SidecarEvents {
   [ATTACH_SYMBOL] : AttachedEventListener
@@ -33,6 +33,6 @@ type SidecarEmitterType = new () => TypedEventEmitter<
   SidecarEvents
 >
 
-const SidecarEmitter = EventEmitter as SidecarEmitterType
+const SidecarEmitter = EventEmitter as any as SidecarEmitterType
 
 export { SidecarEmitter }

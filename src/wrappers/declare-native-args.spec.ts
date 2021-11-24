@@ -1,6 +1,6 @@
 #!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 import { test }  from 'tstest'
-import type { SidecarMetadataFunctionDescription } from '../decorators/mod'
+import type { SidecarMetadataFunctionDescription } from '../decorators/mod.js'
 
 // import { getSidecarMetadataFixture } from '../../tests/fixtures/sidecar-metadata.fixture.js'
 

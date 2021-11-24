@@ -6,7 +6,7 @@ function nativeParamTypes (
   /**
    * There's no any parameters
    */
-  if (!this.paramTypeList || this.paramTypeList.length === 0) {
+  if (/* !this.paramTypeList || */ this.paramTypeList.length === 0) {
     return '[]'
   }
   return '[ '

@@ -15,7 +15,7 @@ function Call (
   log.verbose('Sidecar', '@Call(%s)',
     typeof functionTarget === 'string' ? functionTarget
       : typeof functionTarget === 'number' ? `0x${functionTarget.toString(16)}`
-        : JSON.stringify(functionTarget)
+        : JSON.stringify(functionTarget),
   )
 
   return function callMethodDecorator (

@@ -1,12 +1,12 @@
 import type { SidecarMetadataFunctionDescription } from '../decorators/mod.js'
 
 function jsArgs (
-  this: SidecarMetadataFunctionDescription
+  this: SidecarMetadataFunctionDescription,
 ): string {
   const typeList = this.paramTypeList
-  if (!typeList) {
-    throw new Error('no .paramTypeList found in SidecarMetadataFunctionDescription!')
-  }
+  // if (!typeList) {
+  //   throw new Error('no .paramTypeList found in SidecarMetadataFunctionDescription!')
+  // }
 
   const wrappedArgNameList = typeList
     .map((_, i) => i)

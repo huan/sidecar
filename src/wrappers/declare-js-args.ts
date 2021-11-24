@@ -6,12 +6,12 @@ import {
 }                 from './name-helpers.js'
 
 function declareJsArgs (
-  this: SidecarMetadataFunctionDescription
+  this: SidecarMetadataFunctionDescription,
 ): string {
   const typeList = this.paramTypeList
-  if (!typeList) {
-    throw new Error('no .paramTypeList found in SidecarMetadataFunctionDescription!')
-  }
+  // if (!typeList) {
+  //   throw new Error('no .paramTypeList found in SidecarMetadataFunctionDescription!')
+  // }
 
   const argDeclarationList = []
   for (const [idx, typeChain] of typeList.entries()) {
@@ -28,7 +28,7 @@ function declareJsArgs (
     if (nativeType === 'pointer') {
       for (const pointerType of pointerTypeList) {
         readChain.push(
-          `.read${pointerType}()`
+          `.read${pointerType}()`,
         )
       }
     }

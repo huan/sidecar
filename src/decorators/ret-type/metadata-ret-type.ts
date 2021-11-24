@@ -15,7 +15,7 @@ function updateMetadataRetType (
   log.verbose('Sidecar', 'updateMetadataRetType(%s, %s, %s)',
     target.name,
     propertyKey,
-    JSON.stringify(typeChain)
+    JSON.stringify(typeChain),
   )
   // Update the parameter names
   Reflect.defineMetadata(

@@ -18,7 +18,7 @@ function nativeArgs (
 
   for (let i = 0; i < paramTypeList.length; i++) {
     nativeArgNameList.push(
-      nativeArgName(name, i)
+      nativeArgName(name, i),
     )
   }
 

@@ -35,7 +35,7 @@ declare module 'vm' {
 }
 
 const importModuleDynamically = (
-  identifier: string
+  identifier: string,
 ) => import(identifier)
 
 async function executeWithContext<T> (

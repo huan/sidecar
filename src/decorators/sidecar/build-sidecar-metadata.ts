@@ -32,8 +32,8 @@ function buildSidecarMetadata <T extends {
 ): SidecarMetadata {
   log.verbose('Sidecar', 'buildSidecarMetadata(%s%s)',
     klass.name,
-    options
-      ? `, "${JSON.stringify(options).substr(0, 20)}..."`
+    Object.keys(options).length > 0
+      ? `, "${JSON.stringify(options).substring(0, 20)}..."`
       : '',
   )
 
