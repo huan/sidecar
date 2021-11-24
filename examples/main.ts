@@ -16,6 +16,8 @@
  *   limitations under the License.
  *
  */
+import { wrapAsyncError } from 'gerror'
+
 import {
   attach,
   detach,
@@ -55,7 +57,7 @@ async function main () {
     console.log(`replied with: "${reply}", ret: ${ret}\n`)
   })
 
-  const clean = () => detach(sidecar)
+  const clean = wrapAsyncError(console.error)(() => detach(sidecar))
   process.on('SIGINT',  clean)
   process.on('SIGTERM', clean)
 }

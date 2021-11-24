@@ -33,7 +33,7 @@ import { codeRoot } from '../../src/cjs.js'
  * Inspired by https://github.com/iddoeldor/frida-snippets#socket-activity
  */
 const libFileConfig: {
-  [k in NodeJS.Platform]?: string
+  [k in typeof process.platform]?: string
 } = {
   darwin : 'libfactorial.dylib',
   linux  : 'libfactorial-x64.so',
@@ -41,7 +41,7 @@ const libFileConfig: {
 }
 
 const spawnTargetConfig: {
-  [k in NodeJS.Platform]?: SidecarTargetRawSpawn
+  [k in typeof process.platform]?: SidecarTargetRawSpawn
 } = {
   darwin : ['/bin/sleep', ['10']],
   linux  : ['/bin/sleep', ['10']],
