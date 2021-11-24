@@ -16,8 +16,10 @@
  *   limitations under the License.
  */
 import path from 'path'
-import type { SidecarTargetRawSpawn } from '../../src/decorators/sidecar/target.js'
 
+import type {
+  SidecarTargetRawSpawn,
+}                           from '../../src/decorators/sidecar/target.js'
 import {
   Call,
   Ret,
@@ -26,8 +28,8 @@ import {
   RetType,
   ParamType,
   exportTarget,
-}                   from '../../src/mod.js'
-import { codeRoot } from '../../src/cjs.js'
+}                           from '../../src/mod.js'
+import { codeRoot }         from '../../src/cjs.js'
 
 /**
  * Inspired by https://github.com/iddoeldor/frida-snippets#socket-activity
