@@ -425,6 +425,18 @@ class SidecarBody extends SidecarEmitter {
   ) {
     const prefix = `SidecarBody<${payload.prefix}>`
     switch (payload.level) {
+      case 'error':
+        log.error(prefix, payload.message)
+        break
+
+      case 'warn':
+        log.warn(prefix, payload.message)
+        break
+
+      case 'info':
+        log.info(prefix, payload.message)
+        break
+
       case 'verbose':
         log.verbose(prefix, payload.message)
         break

@@ -8,6 +8,24 @@ declare module './log.cjs' {
 
   export declare namespace log {
 
+    export function error (
+      prefix: string,
+      message: string,
+      ...args: any[],
+    )
+
+    export function warn (
+      prefix: string,
+      message: string,
+      ...args: any[],
+    )
+
+    export function info (
+      prefix: string,
+      message: string,
+      ...args: any[],
+    )
+
     export function verbose (
       prefix: string,
       message: string,
@@ -21,7 +39,7 @@ declare module './log.cjs' {
     )
 
     export function level (
-      newLevel: number | 'verbose' | 'silly'
+      newLevel: number | 'error'  | 'warn'  | 'info'  | 'verbose' | 'silly'
     )
   }
 

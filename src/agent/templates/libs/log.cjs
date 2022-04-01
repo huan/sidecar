@@ -3,11 +3,44 @@
  *******************************/
 const log = (() => {
   const levelTable = {
-    info    : 0,
-    verbose : 1,
-    silly   : 2,
+    silent  : 0,
+    error   : 1,
+    warn    : 2,
+    info    : 3,
+    verbose : 4,
+    silly   : 5,
   }
   let logLevel = levelTable.info
+
+  function error (prefix, message, ...args) {
+    if (logLevel <= levelTable.error) {
+      send(__sidecar__payloadLog(
+        'error',
+        prefix,
+        sprintf(message, ...args)
+      ))
+    }
+  }
+
+  function warn (prefix, message, ...args) {
+    if (logLevel <= levelTable.warn) {
+      send(__sidecar__payloadLog(
+        'warn',
+        prefix,
+        sprintf(message, ...args)
+      ))
+    }
+  }
+
+  function info (prefix, message, ...args) {
+    if (logLevel <= levelTable.info) {
+      send(__sidecar__payloadLog(
+        'info',
+        prefix,
+        sprintf(message, ...args)
+      ))
+    }
+  }
 
   function verbose (prefix, message, ...args) {
     if (logLevel <= levelTable.verbose) {
@@ -42,6 +75,9 @@ const log = (() => {
 
   return {
     level,
+    error,
+    warn,
+    info,
     verbose,
     silly,
   }
