@@ -39,7 +39,7 @@ declare module './log.cjs' {
     )
 
     export function level (
-      newLevel: number | 'error'  | 'warn'  | 'info'  | 'verbose' | 'silly'
+      newLevel: number | 'silent' | 'error'  | 'warn'  | 'info'  | 'verbose' | 'silly'
     )
   }
 
