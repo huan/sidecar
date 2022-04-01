@@ -91,7 +91,7 @@ const log = (() => {
     const args = arguments
     const text = args[0]
     let i = 1
-    return text.replace(/%((%)|s|d)/g, function (m) {
+    return text.replace(/%((%)|s|d|o)/g, function (m) {
       // m is the matched format, e.g. %s, %d
       let val = null
       if (m[2]) {
@@ -105,6 +105,9 @@ const log = (() => {
             if (isNaN(val)) {
               val = 0
             }
+            break
+          case '%o':
+            val = JSON.stringify(val)
             break
         }
         i++
