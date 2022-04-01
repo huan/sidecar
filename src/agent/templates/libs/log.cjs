@@ -13,7 +13,7 @@ const log = (() => {
   let logLevel = levelTable.info
 
   function error (prefix, message, ...args) {
-    if (logLevel <= levelTable.error) {
+    if (logLevel >= levelTable.error) {
       send(__sidecar__payloadLog(
         'error',
         prefix,
@@ -23,7 +23,7 @@ const log = (() => {
   }
 
   function warn (prefix, message, ...args) {
-    if (logLevel <= levelTable.warn) {
+    if (logLevel >= levelTable.warn) {
       send(__sidecar__payloadLog(
         'warn',
         prefix,
@@ -33,7 +33,7 @@ const log = (() => {
   }
 
   function info (prefix, message, ...args) {
-    if (logLevel <= levelTable.info) {
+    if (logLevel >= levelTable.info) {
       send(__sidecar__payloadLog(
         'info',
         prefix,
