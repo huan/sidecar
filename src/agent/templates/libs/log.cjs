@@ -10,7 +10,7 @@ const log = (() => {
   let logLevel = levelTable.info
 
   function verbose (prefix, message, ...args) {
-    if (logLevel >= levelTable.verbose) {
+    if (logLevel <= levelTable.verbose) {
       send(__sidecar__payloadLog(
         'verbose',
         prefix,
@@ -20,7 +20,7 @@ const log = (() => {
   }
 
   function silly (prefix, message, ...args) {
-    if (logLevel >= levelTable.silly) {
+    if (logLevel <= levelTable.silly) {
       send(__sidecar__payloadLog(
         'silly',
         prefix,
