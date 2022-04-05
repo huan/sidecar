@@ -21,8 +21,9 @@ test('log()', async t => {
    */
   global['send'] = spy
 
-  log.level(2)
+  log.level('verbose')
   log.verbose('Test', 'message: %s', 'hello')
+  log.silly('Test', 'message: %s', 'should not be seen')
 
   const EXPECTED = {
     payload: {
@@ -32,6 +33,6 @@ test('log()', async t => {
     },
     type: 'log',
   }
-  t.equal(spy.callCount, 1, 'should call spy')
+  t.equal(spy.callCount, 1, 'should call spy only one')
   t.same(spy.args[0]![0], EXPECTED, 'should get correct payload event')
 })
