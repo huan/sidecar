@@ -28,7 +28,7 @@ const __sidecar__payloadHook = (
  * SidecarPayloadLog
  */
 const __sidecar__payloadLog = (
-  level,    // verbose, silly
+  level,    // error, warn, info, verbose, silly
   prefix,   // module name
   message,  // string
 ) => ({

@@ -12,7 +12,7 @@ declare module './payload.cjs' {
   ): SidecarPayloadHook
 
   export declare function __sidecar__payloadLog (
-    level: 'verbose' | 'silly',
+    level: 'error'  | 'warn'  | 'info'  | 'verbose' | 'silly',
     prefix: string,
     message: string,
   ): SidecarPayloadLog
