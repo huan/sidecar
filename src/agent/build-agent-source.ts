@@ -16,6 +16,8 @@ async function buildAgentSource (metadata: SidecarMetadata) {
 
   const agentMustache = partialLookup(AGENT_MUSTACHE)
   const view = wrapView(metadata)
+  // FIX namespace
+  view.namespace = view.namespace ? `${view.namespace}.` : ''
 
   const source = await Mustache.render(
     agentMustache,
