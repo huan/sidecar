@@ -14,13 +14,17 @@ import type {
 function Sidecar (
   sidecarTarget    : SidecarTarget,
   initAgentScript? : string,
+  namespace?       : string,
 ) {
-  log.verbose('Sidecar', '@Sidecar(%s%s)',
+  log.verbose('Sidecar', '@Sidecar(%s%s%s)',
     Array.isArray(sidecarTarget)
       ? JSON.stringify(sidecarTarget)
       : sidecarTarget,
     initAgentScript
       ? `, "${initAgentScript.substr(0, 20)}..."`
+      : '',
+    namespace
+      ? `, "${namespace}"`
       : '',
   )
 
@@ -37,11 +41,12 @@ function Sidecar (
     Klass: T,
   ) {
     log.verbose('Sidecar',
-      '@Sidecar(%s%s) classDecorator(%s)',
+      '@Sidecar(%s%s%s) classDecorator(%s)',
       Array.isArray(sidecarTarget)
         ? JSON.stringify(sidecarTarget)
         : (sidecarTarget || ''),
       `"${initAgentScript?.substr(0, 20)}..."` || '',
+      namespace ? `, "${namespace}"` : '',
       Klass.name,
     )
 
@@ -52,6 +57,7 @@ function Sidecar (
 
     const meta = buildSidecarMetadata(Klass, {
       initAgentScript,
+      namespace,
       sidecarTarget,
     })
 

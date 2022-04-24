@@ -13,5 +13,5 @@ const __sidecar__{{ name }}_Function_wrapper = function (...args) {
     '{{ name }}(%s)',
     args.join(', '),
   )
-  return {{ target.funcName }}(...args)
+  return {{ namespace }}{{ target.funcName }}(...args)
 }
