@@ -10,7 +10,8 @@ import { getMetadataHook }        from '../hook/hook.js'
 import { getMetadataParamType }   from '../param-type/metadata-param-type.js'
 import { getMetadataRetType }     from '../ret-type/metadata-ret-type.js'
 
-import type {
+import {
+  getMetadataSidecar,
   SidecarMetadata,
   SidecarMetadataFunctionTypeDescription,
 }                                           from './metadata-sidecar.js'
@@ -37,8 +38,10 @@ function buildSidecarMetadata <T extends {
       : '',
   )
 
-  const interceptorList    : SidecarMetadataFunctionTypeDescription[] = []
-  const nativeFunctionList : SidecarMetadataFunctionTypeDescription[] = []
+  const metadata = getMetadataSidecar(klass)
+
+  const interceptorList    : SidecarMetadataFunctionTypeDescription[] = metadata?.interceptorList ?? []
+  const nativeFunctionList : SidecarMetadataFunctionTypeDescription[] = metadata?.nativeFunctionList ?? []
 
   const propertyList = Object.getOwnPropertyNames(klass.prototype)
   for (const property of propertyList) {
