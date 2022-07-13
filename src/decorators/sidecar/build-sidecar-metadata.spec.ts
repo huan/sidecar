@@ -34,6 +34,11 @@ const getFixture = () => {
       @ParamType('int') n: number,
     ) { return Ret(n) }
 
+  }
+
+  @Sidecar('chatbox')
+  class Test2 extends Test {
+
     @Call(exportTarget('exportNameTest', 'moduleNameTest'))
     @RetType('pointer', 'Int')
     anotherCall (
@@ -42,12 +47,12 @@ const getFixture = () => {
 
   }
 
-  return Test
+  return { Test, Test2 }
 }
 
 test('@Sidecar() buildSidecarMetadata()', async t => {
 
-  const Test = getFixture()
+  const { Test } = getFixture()
 
   const meta = buildSidecarMetadata(Test, {
     sidecarTarget: 'chatbox',
@@ -68,6 +73,60 @@ test('@Sidecar() buildSidecarMetadata()', async t => {
         },
       },
     ],
+    nativeFunctionList: [
+      {
+        address: {
+          name: 'testMethod',
+          paramTypeList: [
+            [
+              'pointer',
+              'Utf8String',
+            ],
+            [
+              'int',
+            ],
+          ],
+          retType: [
+            'pointer',
+            'Utf8String',
+          ],
+          target: { address: '0x42', moduleName: null, type: 'address' },
+        },
+      },
+    ],
+    sidecarTarget: {
+      target: 'chatbox',
+      type: 'process',
+    },
+  }
+
+  t.same(meta, EXPECTED_DATA, 'should get metadata correct')
+})
+
+test('@Sidecar() buildSidecarMetadata() child class', async t => {
+
+  const {  Test2 : Test  } = getFixture()
+
+  const meta = buildSidecarMetadata(Test, {
+    sidecarTarget: 'chatbox',
+  })
+  const EXPECTED_DATA = {
+    initAgentScript: undefined,
+    interceptorList: [
+      {
+        agent: {
+          name: 'hookMethod',
+          paramTypeList: [
+            [
+              'int',
+            ],
+          ],
+          retType: undefined,
+          target: { funcName: 'agentVar', type: 'agent' },
+        },
+      },
+    ],
+    namespace: undefined,
     nativeFunctionList: [
       {
         address: {

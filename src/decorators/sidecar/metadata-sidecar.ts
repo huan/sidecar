@@ -27,6 +27,8 @@ export interface SidecarMetadata {
   nativeFunctionList : SidecarMetadataFunctionTypeDescription[],
   interceptorList    : SidecarMetadataFunctionTypeDescription[],
   initAgentScript?   : string,
+
+  namespace?         : string,
   sidecarTarget?     : SidecarTargetObj,
 }
 

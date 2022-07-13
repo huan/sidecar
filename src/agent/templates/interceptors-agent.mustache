@@ -46,7 +46,7 @@
   *    which means it should not contains any logic code, it should just be a stub.
   */
   Interceptor.replace(
-    {{ target.funcName }},
+    {{ namespace }}{{ target.funcName }},
     nativeCallback,
   )
 
