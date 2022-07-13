@@ -68,6 +68,7 @@ test('@Sidecar() buildSidecarMetadata()', async t => {
         },
       },
     ],
+    namespace: undefined,
     nativeFunctionList: [
       {
         address: {
