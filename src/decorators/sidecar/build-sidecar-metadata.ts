@@ -22,6 +22,7 @@ import {
 
 interface BuildSidecarMetadataOptions {
   initAgentScript? : string,
+  namespace?       : string,
   sidecarTarget?   : SidecarTarget,
 }
 
@@ -127,6 +128,7 @@ function buildSidecarMetadata <T extends {
 
   const {
     initAgentScript,
+    namespace,
     sidecarTarget,
   }                   = options
 
@@ -135,6 +137,7 @@ function buildSidecarMetadata <T extends {
   return {
     initAgentScript,
     interceptorList,
+    namespace,
     nativeFunctionList,
     sidecarTarget: normalizedTarget,
   }

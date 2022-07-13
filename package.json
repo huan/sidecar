@@ -1,6 +1,6 @@
 {
   "name": "sidecar",
-  "version": "1.0.23",
+  "version": "1.2.0",
   "description": "Sidecar is for easy hook/call in-process functions with TypeScript annotations.",
   "type": "module",
   "exports": {
@@ -53,7 +53,7 @@
   "homepage": "https://github.com/huan/sidecar#readme",
   "devDependencies": {
     "@chatie/eslint-config": "^1.0.4",
-    "@chatie/git-scripts": "^0.6.2",
+    "@chatie/git-scripts": "^0.7.7",
     "@chatie/semver": "^0.4.7",
     "@chatie/tsconfig": "^4.5.3",
     "@types/mustache": "^4.1.2",
